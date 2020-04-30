@@ -1,0 +1,59 @@
+body {
+	background-color: rgb(221, 237, 221);
+	margin: 0;
+	text-align: center;
+	font-size: 25px;
+}
+h1 {
+	font-family: 'Baloo Bhaina 2', cursive;
+	font-weight: bold;
+	font-size: 75px;
+	margin: 0;
+}
+nav {
+	background-color: rgb(39, 168, 32);
+	color: white;
+	padding: 20px 0px 20px 0px;
+}
+ul {
+	margin: 0;
+	padding-left: 0;
+	margin-left: 37%;
+	text-align: left;
+	font-family: arial;
+}
+li {
+	display: inline;
+	padding-right: 5%;
+}
+a {
+	color: white;
+	text-decoration: none;
+}
+.buchungen{
+	font-size: 70px;
+	text-align: left;
+	margin-left: 37%;
+	font-family: arial;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+table {
+	text-align: left;
+	margin-left: 37%;
+	font-size: 20px;
+}
+td, th {
+	padding: 0px 15px 0px 15px;
+}
+th {
+	background-color: rgb(39, 168, 32);
+	color: white;
+	font-weight: bold;
+}
+tr:nth-child(even) {
+	background-color: white;
+}
+li:hover, td:hover, th:hover, a:hover{
+	color: rgb(152, 235, 147);
+}
