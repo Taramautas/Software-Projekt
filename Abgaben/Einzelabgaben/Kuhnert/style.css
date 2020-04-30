@@ -1,0 +1,77 @@
+nav{
+    text-align: center;
+    padding-top: 0px;
+    margin: 0;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0px;
+}
+
+nav li{
+    display:inline;
+    margin-right:10px;
+    font-size: 40px;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+    font-size: 40px;
+}
+
+.toolbar{
+    background:blueviolet;
+}
+
+#header1{
+    text-align: center;
+    font-size: 200;
+}
+.textandpicture{
+    text-align: center;
+    font-weight: bold;
+}
+
+.textandtable{
+    margin-left: 40%;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.table, td ,tr{
+    text-align: center;
+    border:1px;
+    border-style: solid;
+    border-collapse: collapse;
+    align: center;
+}
+
+.table1{
+    background-color: chartreuse;
+    border:1px;
+    border-style: solid;
+    border-collapse: collapse;
+}
+
+.table2{
+    background-color: blueviolet;
+    border:1px;
+    border-style: solid;
+    border-collapse: collapse;
+}
+
+#Kopf{
+    background-color: crimson;
+    border:1px;
+    border-style: solid;
+    border-collapse: collapse;
+}
+
+td:hover, tr:hover, a:hover, .table{
+    background-color: rgb(68, 15, 167);
+}
