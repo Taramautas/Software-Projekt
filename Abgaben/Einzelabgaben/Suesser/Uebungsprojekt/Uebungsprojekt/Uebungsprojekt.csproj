@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
@@ -10,3 +11,17 @@
     <Folder Include="Views\Booking\" />
   </ItemGroup>
 </Project>
+=======
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <Folder Include="Views\Booking\" />
+  </ItemGroup>
+</Project>
+>>>>>>> 5cfd3905d39c9e8f1ec8a8cebba99fa970bcfb95

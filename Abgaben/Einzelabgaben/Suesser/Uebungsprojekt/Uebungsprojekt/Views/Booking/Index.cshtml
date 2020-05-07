@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
@@ -25,3 +26,32 @@
 
     </table>
 
+=======
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <table style="width:100%" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Charge</th>
+                <th>Needed Distance</th>
+                <th>Start_Time</th>
+                <th>End_Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Booking in (IEnumerable<Booking>)ViewData["BookingData"])
+            {
+                <tr>
+                    <td>@Booking.charge</td>
+                    <td>@Booking.needed_distance</td>
+                    <td>@Booking.start_time</td>
+                    <td>@Booking.end_time</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+>>>>>>> 5cfd3905d39c9e8f1ec8a8cebba99fa970bcfb95
