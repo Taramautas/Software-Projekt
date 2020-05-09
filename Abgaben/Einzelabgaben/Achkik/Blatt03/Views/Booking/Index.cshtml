@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table table-striped table-borderless" id="bookingsTable">
+    <thead>
+        <tr>
+            <th scope="col">State of Charge</th>
+            <th scope="col">Needed Distance</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Booking b in ViewData["bookings"] as List<Booking>)
+        {
+        <tr>
+            <td>@b.SoC</td>
+            <td>@b.NeededDistance</td>
+            <td>@b.Start</td>
+            <td>@b.End</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    #bookingsTable tr:hover, #bookingsTable tr:focus {
+        text-decoration: underline;
+    }
+</style>
