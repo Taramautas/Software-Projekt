@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zONllNpLsmhgfmWSSHzCzFnE27bSYrUsd7O2rkItN2HEgEePfQPM8sU89e4xYxHdQ7Y5sZtw45oD0NDKgEjOVQ==",
+  "dgSpecHash": "sUq8b+26nh9uR3RVUxRSAEK3VHUH5C3ywzTFwPGlhQASeLpdnMPmDKbUkwOuL/n86o20SppCFvopE9AgafZsyw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Softwareprojekt\\Softwareprojekt.csproj",
+  "projectFilePath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\tutorium-c-team-11\\Abgaben\\Einzelabgaben\\Achkik\\Blatt03\\Softwareprojekt.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Radi\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Radi\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

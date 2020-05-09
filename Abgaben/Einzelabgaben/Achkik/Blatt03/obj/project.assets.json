@@ -6076,11 +6076,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Softwareprojekt\\Softwareprojekt.csproj",
+      "projectUniqueName": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\tutorium-c-team-11\\Abgaben\\Einzelabgaben\\Achkik\\Blatt03\\Softwareprojekt.csproj",
       "projectName": "Softwareprojekt",
-      "projectPath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Softwareprojekt\\Softwareprojekt.csproj",
+      "projectPath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\tutorium-c-team-11\\Abgaben\\Einzelabgaben\\Achkik\\Blatt03\\Softwareprojekt.csproj",
       "packagesPath": "C:\\Users\\Radi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Softwareprojekt\\obj\\",
+      "outputPath": "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\tutorium-c-team-11\\Abgaben\\Einzelabgaben\\Achkik\\Blatt03\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Radi\\AppData\\Roaming\\NuGet\\NuGet.Config",
