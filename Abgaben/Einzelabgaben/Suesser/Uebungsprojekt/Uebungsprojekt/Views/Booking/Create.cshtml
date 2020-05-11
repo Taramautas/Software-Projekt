@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+    <p>Buchung erfassen:</p>
+
+    <form class="align-items-center" method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Create">
+        <div class="form-row col-auto">
+            <div class="col-sm-2">
+                <input type="number" id="charge" name="charge" min="1" max="100" class="form-control" placeholder="Charge">
+            </div>
+            <div class="col-sm-2">
+                <input type="number" id="needed_distance" name="needed_distance" min="1" max="1000" class="form-control" placeholder="Needed Distance">
+            </div>
+            
+        </div>
+        <div class="form-row col-auto">
+            <div class="col-sm-2">
+                <input type="datetime" id="Start_Time" name="Start_Time" class="form-control" placeholder="Start_Time">
+            </div>
+            <div class="col-sm-2">
+                <input type="datetime" id="End_Time" name="End_Time" class="form-control" placeholder="End_Time">
+            </div>
+        </div>
+
+        <div class="form-row col-auto">
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <p>@ViewBag.charge</p>
+
+
+        <p>
+
+            • Was ist Cross-site request forgery und wie lässt es sich in ASP.Net Core unterbinden? <br /><br />
+            • Was ist der wesentliche Unterschied zwischen GET und POST Anfragen? Gibt es weitere Anfragetypen?
+
+        </p>
