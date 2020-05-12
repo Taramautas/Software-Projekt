@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-
+﻿using System.Collections.Generic;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Uebungsprojekt.Controllers
