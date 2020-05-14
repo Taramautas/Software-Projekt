@@ -5,6 +5,9 @@ namespace Uebungsprojekt.Models
 {
     public class Booking
     {
+        /*Referenz zu den Validate-Attributen:
+        https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.1
+        */
         [Required]
         [Range(0, 100)]
         public int charge { get; set; }
