@@ -1,0 +1,36 @@
+Was ist Cross-site request forgery?
+Website übergreifende Anforderungs Fälschung (auch als XSRF oder CSRF bezeichnet) ist ein Angriff auf im Web gehostete Apps,
+bei dem eine böswillige Web-App die Interaktion zwischen einem Client Browser und einer Web-App beeinflussen kann,
+die diesem Browser vertraut. Diese Angriffe sind möglich, da Webbrowser einige Arten von Authentifizierungs Token automatisch
+mit jeder Anforderung an eine Website senden. Diese Art von Exploit wird auch als One-Click-Angriff oder Sitzungsart bezeichnet,
+da der Angriff die zuvor authentifizierte Sitzung des Benutzers nutzt.
+
+Verhinderung durch ASP.net Core durch Automatisches:
+ASP.net Core implementiert Antifälschung mithilfe ASP.net Core Datenschutzes. Der Stapel für den Datenschutz muss so konfiguriert sein,
+dass er in einer Serverfarm funktioniert. Weitere Informationen finden Sie unter Konfigurieren des Schutzes von Daten.
+
+
+GET: Mit der GET-Methode können Sie eine Ressource (zum Beispiel eine Datei) vom Server anfordern. Dabei wird ein 
+Parameter (z. B. übertragene Formulardaten), getrennt durch ein Fragezeichen, zum URI hinzugefügt.
+
+POST:Mit der POST-Methode können Sie große Datenmengen (wie Bilder oder HTML-Formular-Daten) zur weiteren Verarbeitung zum Server senden.
+
+Weitere:
+HEAD
+PUT
+DELETE
+TRACE
+OPTIONS
+CONNECT
+
+Bis Session geschlossen wird.
+
+Datenbank ist persistent wobei Chache temporär
+
+Applikationweit. hab ich nicht gefunden
+
+Als Dependency Injection (englisch dependency ‚Abhängigkeit‘ und injection ‚Injektion‘; Abkürzung DI, übersetzt: Einbringen
+ von Abhängigkeiten) wird in der objektorientierten Programmierung ein Entwurfsmuster bezeichnet, welches die Abhängigkeiten
+ eines Objekts zur Laufzeit reglementiert: Benötigt ein Objekt beispielsweise bei seiner Initialisierung ein anderes Objekt,
+ ist diese Abhängigkeit an einem zentralen Ort hinterlegt – es wird also nicht vom initialisierten Objekt selbst erzeugt.
+
