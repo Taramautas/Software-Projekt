@@ -57,5 +57,26 @@ namespace Softwareprojekt.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            List<Booking> bookings = new List<Booking>();
+            bookings.Add(new Booking());
+            ViewData["bookings"] = bookings;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Create")]
+        public IActionResult CreatePost(Booking booking)
+        {
+            var _bookingCache = new Cache();
+            var myAvatar = _bookingCache.GetOrCreate(booking, () => booking);
+
+
+            return View();
+        }
     }
 }

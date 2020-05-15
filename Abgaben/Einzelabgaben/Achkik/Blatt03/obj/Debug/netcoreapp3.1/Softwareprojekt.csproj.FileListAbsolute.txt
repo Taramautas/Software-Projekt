@@ -231,8 +231,6 @@ C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einz
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.csprojAssemblyReference.cache
-C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.csproj.CoreCompileInputs.cache
-C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.RazorAssemblyInfo.cache
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.RazorAssemblyInfo.cs
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.AssemblyInfoInputs.cache
@@ -257,3 +255,12 @@ C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einz
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.dll
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.pdb
 C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.genruntimeconfig.cache
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Razor\Views\Booking\Create.cshtml.g.cs
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.csproj.CoreCompileInputs.cache
+C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt03\obj\Debug\netcoreapp3.1\Softwareprojekt.MvcApplicationPartsAssemblyInfo.cache
