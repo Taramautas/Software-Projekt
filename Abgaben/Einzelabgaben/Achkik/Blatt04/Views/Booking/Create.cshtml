@@ -5,30 +5,31 @@
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
+<!-- Form Tag Helper in order to prevent cross-site request forgery -->
 <form asp-controller="Booking" asp-action="Create" method="post">
     <div class="form-group row">
-        <label for="charge" class="col-2 col-form-label">Ladung:</label>
-        <input class="col-10 form-control" asp-for="charge"><br />
+        <label for="Charge" class="col-2 col-form-label">Ladung:</label>
+        <input class="col-10 form-control" asp-for="Charge"><br />
     </div>
     <div class="form-group row">
-        <label for="needed_distance" class="col-2 col-form-label">Benötigte Distanz:</label>
-        <input class="col-10 form-control" asp-for="needed_distance"><br />
+        <label for="Needed_distance" class="col-2 col-form-label">Benötigte Distanz:</label>
+        <input class="col-10 form-control" asp-for="Needed_distance"><br />
     </div>
     <div class="form-group row">
-        <label for="start_time" class="col-2 col-form-label">Startzeit:</label>
-        <input class="col-10 form-control" asp-for="start_time"><br />
+        <label for="Start_time" class="col-2 col-form-label">Startzeit:</label>
+        <input class="col-10 form-control" asp-for="Start_time"><br />
     </div>
     <div class="form-group row">
-        <label for="end_time" class="col-2 col-form-label">Endzeit:</label>
-        <input class="col-10 form-control" asp-for="end_time"><br />
+        <label for="End_time" class="col-2 col-form-label">Endzeit:</label>
+        <input class="col-10 form-control" asp-for="End_time"><br />
     </div>
     <div class="row">
         <button class="btn btn-success col-12" type="submit">Erstellen</button>
     </div>
 </form>
 
-
-<div id="QA" style="margin-top: 2em;">
+<!-- Questions and answers of the assignment -->
+<div class="QA" style="margin-top: 2em;">
     <p>
         <b>Was ist Cross-site request forgery und wie lässt es sich in ASP.Net Core unterbinden?</b> <br />
         Eine Cross-site-Request-Forgery ist ein Computerangriff, bei dem man das einem bekannte Format eines Post Requests auf eine fremde Seite ausnutzt, 
