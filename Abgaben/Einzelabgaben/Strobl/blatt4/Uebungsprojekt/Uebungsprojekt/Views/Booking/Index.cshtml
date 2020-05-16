@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Uebungsprojekt.Models.Booking>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*Überschrift + Button zum Anlegen neuer Buchungen*@
+<div>
+    <p class="float-left h2">Übersicht aller Buchungen:</p>
+    <form method="get" enctype="multipart/form-data" asp-controller="Booking" asp-action="Create">
+        <button type="submit" class="btn btn-primary float-right">Neue Buchung Anlegen</button>
+    </form>
+
+</div>
+
+@*Überprüfung ob bereits Buchungen vorhanden sind*@
+@if (Model.Count() != 0)
+{
+    @*Falls ja, generiere Tabelle*@
+    <table style="width:100%" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Charge</th>
+                <th>Needed Distance</th>
+                <th>Start_Time</th>
+                <th>End_Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Booking in Model)
+            {
+                <tr>
+                    <td>@Booking.charge %</td>
+                    <td>@Booking.needed_distance km</td>
+                    <td>@Booking.start_time</td>
+                    <td>@Booking.end_time</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    @*Falls nicht, zeigen Meldung an*@
+    <br>
+    <br>
+    <br>
+    <p>Noch keine Buchungen vorhanden!</p>
+}
+
+
+
