@@ -1,0 +1,74 @@
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csprojAssemblyReference.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csproj.CoreCompileInputs.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.MvcApplicationPartsAssemblyInfo.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorAssemblyInfo.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorAssemblyInfo.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.AssemblyInfoInputs.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.AssemblyInfo.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/appsettings.Development.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/appsettings.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Properties/launchSettings.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.deps.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.runtimeconfig.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.runtimeconfig.dev.json
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.dll
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.pdb
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.Views.dll
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.Views.pdb
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.TagHelpers.input.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.TagHelpers.output.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorCoreGenerate.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Home/Index.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Home/Privacy.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/Error.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_Layout.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/_ViewImports.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/_ViewStart.cshtml.g.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorTargetAssemblyInfo.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorTargetAssemblyInfo.cs
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.Views.pdb
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/staticwebassets/Uebungsprojekt.StaticWebAssets.Manifest.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/staticwebassets/Uebungsprojekt.StaticWebAssets.xml
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.dll
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.pdb
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.genruntimeconfig.cache
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csproj.CopyComplete
+/Users/dominiksusser/Library/Mobile Documents/com~apple~CloudDocs/Uni/4. Semester/Softwareprojekt/Projekt/MHP_Projekt/Abgaben/Einzelabgaben/Suesser/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Booking/Index.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/appsettings.Development.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/appsettings.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Properties/launchSettings.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.deps.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.runtimeconfig.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.runtimeconfig.dev.json
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.dll
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.pdb
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.Views.dll
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/bin/Debug/netcoreapp3.1/Uebungsprojekt.Views.pdb
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csprojAssemblyReference.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csproj.CoreCompileInputs.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.MvcApplicationPartsAssemblyInfo.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorAssemblyInfo.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorAssemblyInfo.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.AssemblyInfoInputs.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.AssemblyInfo.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.TagHelpers.input.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.TagHelpers.output.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorCoreGenerate.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Booking/Index.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Home/Index.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Home/Privacy.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/Error.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_Layout.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/_ViewImports.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Razor/Views/_ViewStart.cshtml.g.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorTargetAssemblyInfo.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.RazorTargetAssemblyInfo.cs
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.Views.pdb
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/staticwebassets/Uebungsprojekt.StaticWebAssets.Manifest.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/staticwebassets/Uebungsprojekt.StaticWebAssets.xml
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.dll
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.pdb
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.genruntimeconfig.cache
+/Users/dominiksusser/Desktop/Uebungsprojekt/Uebungsprojekt/obj/Debug/netcoreapp3.1/Uebungsprojekt.csproj.CopyComplete
