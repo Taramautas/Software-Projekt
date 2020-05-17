@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Views\Booking\" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="Views\Evaluation\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Moment.js" Version="2.25.2" />

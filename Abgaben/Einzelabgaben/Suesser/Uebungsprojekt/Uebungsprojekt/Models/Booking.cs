@@ -24,6 +24,19 @@ namespace Uebungsprojekt.Models
         [DataType(DataType.Date)]
         public DateTime end_time { get; set; }
 
+        public Steckertyp s_type { get; set; }
+
+        public enum Steckertyp 
+        {
+            Schuko_Socket,
+            Type_1_Plug,
+            Type_2_Plug,
+            CHAdeMO_Plug,
+            Tesla_Supercharger,
+            CCS_Combo_2_Plug
+        }
+
+
         public Booking()
         { 
 

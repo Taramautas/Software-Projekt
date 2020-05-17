@@ -2,6 +2,8 @@
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Linq;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -37,7 +39,7 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(Enum.GetValues(typeof(Booking.Steckertyp)).Cast<Booking.Steckertyp>());
         }
 
         //Identifiziert eine Methode die HTTP Post unterstützt

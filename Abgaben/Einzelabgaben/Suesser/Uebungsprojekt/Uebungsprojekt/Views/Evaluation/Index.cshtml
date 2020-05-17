@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<table style="width:100%" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Evaluation in Model)
+        {
+            <tr>
+                <td>@Evaluation.type</td>
+                <td>@Evaluation.percentage</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br /><br />
+<h3>Q&A</h3>
+
+<p>• Welchen Vorteil bietet die Einführung von ViewModels?</p>
+<p>ViewModels enthalten genau die benötigten Daten für die View.
+    Kombination verschiedener Models ist leicht umzusetzten. Schrumpfen eines
+    komplexten Models für die view ebenfalls umsetzbar</p><br />
+
+<p>• Hätte dies auch ohne ViewModel gelöst werden können?</p>
+<p> Ja. Man müsste verschiedene schleifen erstellen, welche die Buchungen durchiterieren und in Listen festhalten wie of welcher Steckertyp benutzt wurde.</p>
