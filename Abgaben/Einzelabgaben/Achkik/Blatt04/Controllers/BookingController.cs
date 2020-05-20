@@ -68,10 +68,9 @@ namespace Uebungsprojekt.Controllers
         /// </returns>
         public IActionResult Index()
         {
-            Booking created_booking;
-            if (_cache.TryGetValue("CreateBooking", out created_booking))
+            if (_cache.TryGetValue("CreateBooking", out List<Booking> created_bookings))
             {
-                bookingList.Add(created_booking);
+                bookingList.AddRange(created_bookings);
             }
             return View(bookingList);
         }
@@ -102,9 +101,17 @@ namespace Uebungsprojekt.Controllers
             // Server side validation
             if (ModelState.IsValid)
             {
-                _cache.Set("CreateBooking", booking);
+                if (_cache.TryGetValue("CreateBooking", out List<Booking> created_bookings))
+                {
+                    created_bookings.Add(booking);
+                } 
+                else
+                {
+                    created_bookings = new List<Booking>();
+                    created_bookings.Add(booking);
+                    _cache.Set("CreateBooking", created_bookings);
+                }
                 return RedirectToAction("Index");
-
             }
             return View();
         }

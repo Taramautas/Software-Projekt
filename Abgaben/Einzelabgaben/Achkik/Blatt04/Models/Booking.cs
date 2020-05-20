@@ -10,21 +10,21 @@ namespace Uebungsprojekt.Models
     public class Booking
     {
         /// <summary>Current State of Charge</summary>
-        [Required(ErrorMessage = "Bitte geben sie den Ladezustand ihres Autos an.")]
+        [Required(ErrorMessage = "Please specify the current state of charge.")]
         [Range(0, 100)]
         public int Charge { get; set; }
 
         /// <summary>Distance needed before next charging</summary>
-        [Required(ErrorMessage = "Bitte geben sie die benötigte Fahrtstrecke an.")]
+        [Required(ErrorMessage = "Please specify the distance needed.")]
         [Range(1, 1000)]
         public int Needed_distance { get; set; }
 
         /// <summary>Preferred start datetime</summary>
-        [Required(ErrorMessage = "Bitte geben sie die Startzeit des Ladens an.")]
+        [Required(ErrorMessage = "Please specify the wanted start time.")]
         public DateTime Start_time { get; set; }
 
         /// <summary>Preferred end datetime</summary>
-        [Required(ErrorMessage = "Bitte geben sie die Endzeit des Ladens an.")]
+        [Required(ErrorMessage = "Please specify the wanted end time.")]
         public DateTime End_time { get; set; }
 
         /// <summary>
