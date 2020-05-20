@@ -72,7 +72,7 @@ namespace Uebungsprojekt.Controllers
                 //erstellte Booking Objekt hinzufügen
                 bookingList.Add(booking);
                 //Zurück in den Cache speichern
-                _cache.Set("booking", bookingList);
+            //    _cache.Set("booking", bookingList);
                 //Öffnet die Buchungswebsite
                 return RedirectToAction(nameof(Index));
             }
