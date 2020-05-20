@@ -10,34 +10,42 @@
     <div class="form-group row">
         <label for="Charge" class="col-2 col-form-label">Ladung:</label>
         <input class="col-10 form-control" asp-for="Charge"><br />
+        <span asp-validation-for="Charge" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Needed_distance" class="col-2 col-form-label">Benötigte Distanz:</label>
         <input class="col-10 form-control" asp-for="Needed_distance"><br />
+        <span asp-validation-for="Needed_distance" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Start_time" class="col-2 col-form-label">Startzeit:</label>
         <input class="col-10 form-control" asp-for="Start_time"><br />
+        <span asp-validation-for="Start_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="End_time" class="col-2 col-form-label">Endzeit:</label>
         <input class="col-10 form-control" asp-for="End_time"><br />
+        <span asp-validation-for="End_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="row">
         <button class="btn btn-success col-12" type="submit">Erstellen</button>
     </div>
 </form>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
 <!-- Questions and answers of the assignment -->
 <div class="QA" style="margin-top: 2em;">
     <p>
         <b>Was ist Cross-site request forgery und wie lässt es sich in ASP.Net Core unterbinden?</b> <br />
-        Eine Cross-site-Request-Forgery ist ein Computerangriff, bei dem man das einem bekannte Format eines Post Requests auf eine fremde Seite ausnutzt, 
+        Eine Cross-site-Request-Forgery ist ein Computerangriff, bei dem man das einem bekannte Format eines Post Requests auf eine fremde Seite ausnutzt,
         indem man z.B. während jemand in einem Tab bei seinem Online Banking Account angemeldet ist, in einem anderen Tab eben genau den Post Request zu der Bank sendet,
         der auch gesendet werden würde, wenn man das eigentliche Formular auf der originalen Seite verwendet. Da der Nutzer bereits dort angemeldet ist, könnte man so theoretisch
         unbemerkt Geld an sich selbst senden.<br />
-        Indem man in ASP.Net Core den Form Tag Helper anstatt eines normalen Form Tags verwendet und bei der entsprechenden Post Action die Token Validierung aktiviert, 
-        kann man dieses Problem umgehen. Dadurch wird jedes Mal, wenn die Seite bei einem Client geladen wird, ein eindeutiger Schlüssen erstellt, welcher dann beim Server gespeichert, 
+        Indem man in ASP.Net Core den Form Tag Helper anstatt eines normalen Form Tags verwendet und bei der entsprechenden Post Action die Token Validierung aktiviert,
+        kann man dieses Problem umgehen. Dadurch wird jedes Mal, wenn die Seite bei einem Client geladen wird, ein eindeutiger Schlüssen erstellt, welcher dann beim Server gespeichert,
         im besten Fall mit einem Account assoziiertund der Form beigefügt wird. Post Requests müssen dann einen gültigen Schlüssel aufweisen, da diese sonst ignoriert werden.
     </p>
     <p>
