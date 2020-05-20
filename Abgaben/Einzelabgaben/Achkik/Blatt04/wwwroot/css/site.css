@@ -107,3 +107,8 @@ header a.navbar-brand {
 #bookingTableHeadline p {
     margin: auto 0;
 }
+
+/* Booking Form */
+.form-danger-span {
+    margin: 0 1em;
+}
