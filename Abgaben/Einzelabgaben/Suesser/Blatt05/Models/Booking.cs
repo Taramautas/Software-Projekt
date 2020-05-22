@@ -35,8 +35,12 @@ namespace Uebungsprojekt.Models
 
         }
 
+        /// <summary> Connector Type</summary>
+        [Required(ErrorMessage = "Bitte geben sie einen Steckertyp an.")]
         public Steckertyp s_type { get; set; }
 
+
+        /// <summary> Enumeration of all available Connector Types</summary>
         public enum Steckertyp
         {
             Schuko_Socket,

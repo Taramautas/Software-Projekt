@@ -9,7 +9,9 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Uebungsprojekt.Controllers
 {
-
+    /// <summary>
+    /// Controller for Evaluation ViewModel
+    /// </summary>
     public class EvaluationController : Controller
     {
 
@@ -17,18 +19,31 @@ namespace Uebungsprojekt.Controllers
         List<Booking> bookingList = new List<Booking>();
         private IMemoryCache _cache;
 
-
+        /// <summary>
+        /// Constructor of controller. Initialize the memory cache
+        /// </summary>
+        /// <param name="memoryCache">IMemoryCache object for intializing the memory cache</param>
         public EvaluationController(IMemoryCache memoryCache)
         {
             _cache = memoryCache;
         }
 
+
+        /// <summary>
+        /// Displays the Evaluation View and passes the evaluation list initialized in the constructor. 
+        /// </summary>
+        /// <returns>
+        /// The Evaluation View displaying the list of connector-types and percentages
+        /// </returns>
         public IActionResult Index()
         {
             updateEvaluationList();
             return View(evaluationList);
         }
 
+        /// <summary>
+        /// Updates the EvaluationList with correct percentages
+        /// </summary>
         private void updateEvaluationList()
         {
             evaluationList = new List<ConnectorTypeEvaluationViewModel>();

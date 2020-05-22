@@ -1,0 +1,9 @@
+Q&A
+• Welchen Vorteil bietet die Einführung von ViewModels?
+
+ViewModels enthalten genau die benötigten Daten für die View. Kombination verschiedener Models ist leicht umzusetzten. Schrumpfen eines komplexten Models für die view ebenfalls umsetzbar
+
+
+• Hätte dies auch ohne ViewModel gelöst werden können?
+
+Ja. Man müsste verschiedene schleifen erstellen, welche die Buchungen durchiterieren und in Listen festhalten wie of welcher Steckertyp benutzt wurde.
