@@ -20,6 +20,7 @@
                     <tr>
                         <th>Charge</th>
                         <th>Needed Distance</th>
+                        <th>ConnectorTyüe</th>
                         <th>Start_Time</th>
                         <th>End_Time</th>
                     </tr>
@@ -27,12 +28,13 @@
                 <tbody>
                     @foreach (var Booking in Model)
                     {
-                        <tr>
-                            <td>@Booking.charge</td>
-                            <td>@Booking.needed_distance</td>
-                            <td>@Booking.start_time</td>
-                            <td>@Booking.end_time</td>
-                        </tr>
+                    <tr>
+                        <td>@Booking.charge</td>
+                        <td>@Booking.needed_distance</td>
+                        <td>@Booking.connectorType</td>
+                        <td>@Booking.start_time</td>
+                        <td>@Booking.end_time</td>
+                    </tr>
                     }
                 </tbody>
 
