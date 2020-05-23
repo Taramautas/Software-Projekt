@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel>
+@{
+    ViewData["Title"] = "Auswertungen";
+}
+
+@*Table with all connector types and their percentage occurrence throughout all bookings*@
+<table style="width:100%" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Connector Type:</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ConnectorTypeEvaluation in Model)
+        {
+            <tr>
+                <td>@ConnectorTypeEvaluation.ConType</td>
+                <td>@ConnectorTypeEvaluation.Percentage</td>
+            </tr>
+        }
+    </tbody>
+</table>
