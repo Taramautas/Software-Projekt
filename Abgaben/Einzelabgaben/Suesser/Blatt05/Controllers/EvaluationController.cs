@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.ViewModel;
 using Uebungsprojekt.Models;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -73,6 +74,15 @@ namespace Uebungsprojekt.Controllers
             {
                 eval.percentage = Math.Round((eval.percentage / bookingList.Count) * 100, 2);
             }
+        }
+
+        public IActionResult Export()
+        {
+            updateEvaluationList();
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evaluationList));
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "Evaluation.json";
+            return output;
         }
     }
 }

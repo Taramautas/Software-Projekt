@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+
 namespace Uebungsprojekt.Models
 {
     /// <summary>
@@ -41,14 +45,23 @@ namespace Uebungsprojekt.Models
 
 
         /// <summary> Enumeration of all available Connector Types</summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Steckertyp
         {
+            [Display(Name = "Schuko Socket")]
             Schuko_Socket,
+            [Display(Name = "Type_1_Plug")]
             Type_1_Plug,
+            [Display(Name = "Type_2_Plug")]
             Type_2_Plug,
+            [Display(Name = "CHAdeMO_Plug")]
             CHAdeMO_Plug,
+            [Display(Name = "Tesla_Supercharger")]
             Tesla_Supercharger,
+            [Display(Name = "CCS_Combo_2_Plug")]
             CCS_Combo_2_Plug
         }
     }
+
+    
 }

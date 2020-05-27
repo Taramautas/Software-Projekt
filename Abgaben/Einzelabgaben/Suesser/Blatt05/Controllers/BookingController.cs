@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -15,6 +23,7 @@ namespace Uebungsprojekt.Controllers
 
         List<Booking> bookingList;
 
+        
         /// <summary>
         /// Constructor of controller. Staticly initialize some booking instances and memory cache
         /// </summary>
@@ -36,6 +45,7 @@ namespace Uebungsprojekt.Controllers
         /// <returns>
         /// The booking View displaying the list of bookings
         /// </returns>
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_cache.Get("booking"));
@@ -78,5 +88,40 @@ namespace Uebungsprojekt.Controllers
             }
             return View();
         }
+
+        public IActionResult Export()
+        {
+            bookingList = (List<Booking>)_cache.Get("booking");
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(bookingList));
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "exportedBookings.json";
+            return output;
+        }
+
+        [HttpPost("FileUpload")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Import(List<IFormFile> files)
+        {
+            bookingList = (List<Booking>)_cache.Get("booking");
+            bookingList.Clear();
+            if (ModelState.IsValid)
+            {
+                foreach (var file in files)
+                {
+                    if (file.ContentType == "application/json" && file.Length <= 1048576)
+                    {
+                        StreamReader stream = new StreamReader(file.OpenReadStream());
+                        JsonSerializer serializer = new JsonSerializer();
+                        string text = stream.ReadToEnd();
+                        bookingList = JsonConvert.DeserializeObject<List<Booking>>(text);
+                        _cache.Set("booking", bookingList);
+                    }
+                }
+            }
+           
+            return RedirectToAction(nameof(Index));
+
+        }
+
     }
 }
