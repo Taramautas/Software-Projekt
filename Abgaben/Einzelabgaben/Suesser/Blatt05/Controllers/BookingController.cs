@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.IO;
-using System.Net.Http;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Linq;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -98,7 +92,7 @@ namespace Uebungsprojekt.Controllers
             return output;
         }
 
-        [HttpPost("FileUpload")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import(List<IFormFile> files)
         {

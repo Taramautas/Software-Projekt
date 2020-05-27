@@ -24,20 +24,11 @@
     <div>
         <a class="btn btn-primary" asp-area="" asp-controller="Booking" asp-action="Create">Neue Buchung anlegen</a>
         <a class="btn btn-primary" asp-area="" asp-controller="Booking" asp-action="Export">Export</a>
-        <form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Import">
-
-
+        <form id="importform" name="importform" method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Import">
             <label class="btn btn-secondary">
-                Select File<span><input id="file" type="file" name="files" single /></span>
+                Upload<span><input id="file" type="file" name="files" onchange="import_json()"/></span>
             </label>
-            <input class="btn btn-secondary" type="submit" value="Upload" />
-
-            <asp:Input ID="blaa" runat="server"/>
-            <asp:RequiredFieldValidator ID="file"
-                                        runat="server" ControlToValidate="file"
-                                        ErrorMessage="Please choose a candidate"
-                                        InitialValue="Please choose a candidate">
-            </asp:RequiredFieldValidator>
+            <a id="error_panel" name=""tst"></a>            
         </form>
     </div>
 
@@ -78,4 +69,24 @@ else
 {
     <p>Noch keine Buchungen vorhanden!</p>
 }
+
+<script>
+    function import_json()
+    {
+        let importForm = $('#importform');
+        let json_file = document.getElementById('file');
+
+        if (!json_file.files[0].name.endsWith('.json')) {
+            print_err("Only .json files are Valid!");
+        } else if (json_file.files[0].size > 1048576) {
+            print_err("Size above 1MB!");
+        }else{
+            importForm.submit();
+        }
+    }
+    function print_err(Error_Message) {
+        let importFormSpawn = $('#error_panel');
+        importFormSpawn.text(Error_Message);
+    }
+</script>
 
