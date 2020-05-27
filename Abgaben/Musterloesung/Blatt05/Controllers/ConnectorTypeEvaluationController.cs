@@ -28,40 +28,42 @@ namespace Uebungsprojekt.Controllers
         /// Retuns a list, displaying the proportion of each connector type in respect of the total amount of bookings
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        public ConnectorTypeEvaluationController(IMemoryCache memoryCache)
         {
-            // List for passing to the view
-            List<ConnectorTypeEvaluationViewModel> connector_types = new List<ConnectorTypeEvaluationViewModel>();
+            _cache = memoryCache;
+
             // Dict for counting the proportions of the different connector types
             Dictionary<Booking.ConnectorType, int> proportions = new Dictionary<Booking.ConnectorType, int>();
-            // Counting the total amount of bookings
-            int total_count = 0;
-            
-            // Count occurrences of connector types in all bookings
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> bookings))
+            List<Booking> bookings = new List<Booking>();
+            _evaluation = new List<ConnectorTypeEvaluationViewModel>();
+
+            foreach (Booking.ConnectorType connectorType in Enum.GetValues(typeof(Booking.ConnectorType)))
             {
+                proportions[connectorType] = 0;
+            }
+
+            // Count occurrences of connector types in all bookings
+            if (_cache.TryGetValue("CreateBooking", out List<Booking> cache_bookings))
+            {
+                bookings = cache_bookings;
                 foreach (Booking b in bookings)
                 {
-                    if (!proportions.ContainsKey(b.Connector_Type))
-                    {
-                        proportions[b.Connector_Type] = 1;
-                    }
-                    else
-                    {
-                        proportions[b.Connector_Type] += 1;
-                    }
-                    total_count += 1;
-                }
-                // Calculate the percentages and add ConnectorTypeEvaluation objects to view accordingly
-                foreach (KeyValuePair<Booking.ConnectorType, int> entry in proportions)
-                {
-                    double proportion = entry.Value / (double)total_count * 100;
-                    connector_types.Add(
-                        new ConnectorTypeEvaluationViewModel(entry.Key, proportion)
-                        );
+                    proportions[b.Connector_Type] += 1;
                 }
             }
-            return View(connector_types);
+
+            // Calculate the percentages and add ConnectorTypeEvaluation objects to view accordingly
+            foreach (KeyValuePair<Booking.ConnectorType, int> entry in proportions)
+            {
+                double proportion = entry.Value / (double)bookings.Count * 100;
+                if (Double.IsNaN(proportion))
+                {
+                    proportion = 0.0;
+                }
+                _evaluation.Add(
+                    new ConnectorTypeEvaluationViewModel(entry.Key, Double.IsNaN(proportion) ? 0.0 : proportion)
+                );
+            }
         }
     }
 }
