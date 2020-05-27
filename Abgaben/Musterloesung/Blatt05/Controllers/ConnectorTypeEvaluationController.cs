@@ -13,21 +13,15 @@ namespace Uebungsprojekt.Controllers
 {
     public class ConnectorTypeEvaluationController : Controller
     {
+        /// <summary> Memory Cache </summary>
         private IMemoryCache _cache;
+        /// <summary> List for passing to the view </summary>
+        private List<ConnectorTypeEvaluationViewModel> _evaluation;
 
         /// <summary>
         /// Constructor of controller.
         /// </summary>
         /// <param name="memoryCache">IMemoryCache object for initializing the memory cache</param>
-        public ConnectorTypeEvaluationController(IMemoryCache memoryCache)
-        {
-            _cache = memoryCache;
-        }
-
-        /// <summary>
-        /// Retuns a list, displaying the proportion of each connector type in respect of the total amount of bookings
-        /// </summary>
-        /// <returns></returns>
         public ConnectorTypeEvaluationController(IMemoryCache memoryCache)
         {
             _cache = memoryCache;
@@ -64,6 +58,15 @@ namespace Uebungsprojekt.Controllers
                     new ConnectorTypeEvaluationViewModel(entry.Key, Double.IsNaN(proportion) ? 0.0 : proportion)
                 );
             }
+        }
+
+        /// <summary>
+        /// Retuns a list, displaying the proportion of each connector type in respect of the total amount of bookings
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Index()
+        {
+            return View(_evaluation);
         }
     }
 }
