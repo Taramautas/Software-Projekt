@@ -12,7 +12,7 @@ namespace Uebungsprojekt.Models
     public class Booking
     {
         /// <summary>All possible connector types</summary>
-        public enum ConnectorType
+        public enum ConnectorTypeEnum
         {
             [Display(Name = "Schuko Socket")]
             Schuko_Socket,
@@ -31,25 +31,25 @@ namespace Uebungsprojekt.Models
         /// <summary>Current State of Charge</summary>
         [Required(ErrorMessage = "Please specify the current state of charge.")]
         [Range(0, 100)]
-        public int Charge { get; set; }
+        public int StateOfCharge { get; set; }
 
         /// <summary>Distance needed before next charging</summary>
         [Required(ErrorMessage = "Please specify the distance needed.")]
         [Range(1, 1000)]
-        public int Needed_distance { get; set; }
+        public int NeededDistance { get; set; }
 
         /// <summary>Preferred start datetime</summary>
         [Required(ErrorMessage = "Please specify the wanted start time.")]
-        public DateTime Start_time { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>Preferred end datetime</summary>
         [Required(ErrorMessage = "Please specify the wanted end time.")]
-        public DateTime End_time { get; set; }
+        public DateTime EndTime { get; set; }
 
         /// <summary>Connector type for charging</summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ConnectorType Connector_Type { get; set; }
+        public ConnectorTypeEnum ConnectorType { get; set; }
 
         /// <summary>
         /// Empty constructor of booking model

@@ -39,11 +39,11 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Index()
         {
             // Dict for counting the proportions of the different connector types
-            Dictionary<Booking.ConnectorType, int> proportions = new Dictionary<Booking.ConnectorType, int>();
+            Dictionary<Booking.ConnectorTypeEnum, int> proportions = new Dictionary<Booking.ConnectorTypeEnum, int>();
             List<Booking> bookings = new List<Booking>();
             _evaluation = new List<ConnectorTypeEvaluationViewModel>();
 
-            foreach (Booking.ConnectorType connectorType in Enum.GetValues(typeof(Booking.ConnectorType)))
+            foreach (Booking.ConnectorTypeEnum connectorType in Enum.GetValues(typeof(Booking.ConnectorTypeEnum)))
             {
                 proportions[connectorType] = 0;
             }
@@ -54,12 +54,12 @@ namespace Uebungsprojekt.Controllers
                 bookings = cache_bookings;
                 foreach (Booking b in bookings)
                 {
-                    proportions[b.Connector_Type] += 1;
+                    proportions[b.ConnectorType] += 1;
                 }
             }
 
             // Calculate the percentages and add ConnectorTypeEvaluation objects to view accordingly
-            foreach (KeyValuePair<Booking.ConnectorType, int> entry in proportions)
+            foreach (KeyValuePair<Booking.ConnectorTypeEnum, int> entry in proportions)
             {
                 double proportion = entry.Value / (double)bookings.Count * 100;
                 if (Double.IsNaN(proportion))

@@ -15,7 +15,7 @@ namespace Uebungsprojekt.ViewModel
         /// <summary> Connector type </summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public Booking.ConnectorType ConnectorType { get; set; }
+        public Booking.ConnectorTypeEnum ConnectorType { get; set; }
 
         /// <summary> Proportion of bookings using this connector type </summary>
         [Required(ErrorMessage = "Please specify the proportion of bookings using this connector type.")]
@@ -24,9 +24,9 @@ namespace Uebungsprojekt.ViewModel
         /// <summary>
         /// Empty constructor of ConnectorTypeEvaluation ViewModel
         /// </summary>
-        /// <param name="connectorType">One of the possible connector types specified in the Booking.ConnectorType enum</param>
+        /// <param name="connectorTypeEnume of the possible connector types specified in the Booking.ConnectorType enum</param>
         /// <param name="proportion">The proportion of the total amount of bookings and used connector types</param>
-        public ConnectorTypeEvaluationViewModel(Booking.ConnectorType connectorType, double proportion)
+        public ConnectorTypeEvaluationViewModel(Booking.ConnectorTypeEnum connectorType, double proportion)
         {
             ConnectorType = connectorType;
             Proportion = proportion;

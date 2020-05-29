@@ -136,6 +136,7 @@ namespace Uebungsprojekt.Controllers
                     // If success, add to cached booking list
                     if (success)
                     {
+
                         if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
                         {
                             createdBookings.AddRange(importedBookings);

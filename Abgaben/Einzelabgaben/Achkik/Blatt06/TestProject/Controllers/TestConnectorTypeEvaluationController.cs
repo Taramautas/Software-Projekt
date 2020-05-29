@@ -37,29 +37,29 @@ namespace UnitTest.Controller
             // Create new bookings
             bc.Create(new Booking
             {
-                Connector_Type = Booking.ConnectorType.Schuko_Socket
+                ConnectorType = Booking.ConnectorTypeEnum.Schuko_Socket
             });
             bc.Create(new Booking
             {
-                Connector_Type = Booking.ConnectorType.Schuko_Socket
+                ConnectorType = Booking.ConnectorTypeEnum.Schuko_Socket
             });
             bc.Create(new Booking
             {
-                Connector_Type = Booking.ConnectorType.CHAdeMO_Plug
+                ConnectorType = Booking.ConnectorTypeEnum.CHAdeMO_Plug
             });
             bc.Create(new Booking
             {
-                Connector_Type = Booking.ConnectorType.Type_1_Plug
+                ConnectorType = Booking.ConnectorTypeEnum.Type_1_Plug
             });
 
             // Check if there is a ConnectorTypeEvaluation instance for all connector types
             var result = ctec.Index() as ViewResult;
             var model = (List<ConnectorTypeEvaluationViewModel>)result.Model;
-            Assert.AreEqual(Enum.GetValues(typeof(Booking.ConnectorType)).Length, model.Count);
+            Assert.AreEqual(Enum.GetValues(typeof(Booking.ConnectorTypeEnum)).Length, model.Count);
             // Validate the calculated proportions
-            Assert.AreEqual(50, model.Find(x => x.ConnectorType == Booking.ConnectorType.Schuko_Socket).Proportion);
-            Assert.AreEqual(25, model.Find(x => x.ConnectorType == Booking.ConnectorType.CHAdeMO_Plug).Proportion);
-            Assert.AreEqual(25, model.Find(x => x.ConnectorType == Booking.ConnectorType.Type_1_Plug).Proportion);
+            Assert.AreEqual(50, model.Find(x => x.ConnectorType == Booking.ConnectorTypeEnum.Schuko_Socket).Proportion);
+            Assert.AreEqual(25, model.Find(x => x.ConnectorType == Booking.ConnectorTypeEnum.CHAdeMO_Plug).Proportion);
+            Assert.AreEqual(25, model.Find(x => x.ConnectorType == Booking.ConnectorTypeEnum.Type_1_Plug).Proportion);
         }
 
         /// <summary>
