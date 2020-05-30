@@ -1,0 +1,14 @@
+--------------------------------------------------
+
+Welchen Vorteil bietet die Einführung von ViewModels?
+
+1. Die stärkere Trennung von UI-Logik und Views sorgt dafür, dass mehr Unittests und weniger UI-Tests nötig sind.
+2. Falls weitere Views später dieselben Daten verwenden, ist bereits eine Grundlage geschaffen, auf die zurückgegriffen werden kann.
+
+-------------------------------------------------
+
+Hätte dies auch ohne ViewModel gelöst werden können?
+
+Ja, denn man hätte auch einfach eine neue View and dazu passende Action im Booking Controller anlegen können, die dann eben nur die relevanten Informationen anzeigt.
+
+--------------------------------------------------
