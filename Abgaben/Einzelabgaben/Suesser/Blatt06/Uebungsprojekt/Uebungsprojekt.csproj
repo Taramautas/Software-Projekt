@@ -9,15 +9,21 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.2" />
+<<<<<<< HEAD
+=======
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="Moq" Version="4.14.1" />
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\" />
     <Folder Include="Views\Evaluation\" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
   <ItemGroup>
     <Content Remove="nUnitBookingTest\packages.config" />
   </ItemGroup>
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
 </Project>

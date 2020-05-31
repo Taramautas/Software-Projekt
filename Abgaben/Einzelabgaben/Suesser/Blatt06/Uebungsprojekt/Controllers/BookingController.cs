@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+﻿using System;
+using System.Collections.Generic;
+using Uebungsprojekt.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+=======
 ﻿using System.Collections.Generic;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
 
 namespace Uebungsprojekt.Controllers
 {
@@ -17,7 +25,10 @@ namespace Uebungsprojekt.Controllers
 
         List<Booking> bookingList;
 
+<<<<<<< HEAD
+=======
         
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
         /// <summary>
         /// Constructor of controller. Staticly initialize some booking instances and memory cache
         /// </summary>
@@ -32,17 +43,24 @@ namespace Uebungsprojekt.Controllers
                 _cache.Set("booking", bookingList);
             }
 
+<<<<<<< HEAD
+        }       
+=======
         }
 
       
 
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
         /// <summary>
         /// Displays the booking View and passes the booking list initialized in the constructor as well as the booking in the cache, if one exists
         /// </summary>
         /// <returns>
         /// The booking View displaying the list of bookings
         /// </returns>
+<<<<<<< HEAD
+=======
         [HttpGet]
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
         public IActionResult Index()
         {
             return View(_cache.Get("booking"));
@@ -85,6 +103,8 @@ namespace Uebungsprojekt.Controllers
             }
             return View();
         }
+<<<<<<< HEAD
+=======
 
         public IActionResult Export()
         {
@@ -120,5 +140,6 @@ namespace Uebungsprojekt.Controllers
 
         }
 
+>>>>>>> ef14370eec46d7e75c2d68be9936f6f5d4f87c1f
     }
 }
