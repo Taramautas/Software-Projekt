@@ -1,12 +1,9 @@
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Support.UI;
+using Microsoft.Edge.SeleniumTools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace UITest.Scenarios
@@ -16,13 +13,19 @@ namespace UITest.Scenarios
         IWebDriver chromeDriver;
         IWebDriver edgeDriver;
 
+        /// <summary>
+        /// Setup function to initiate chrome and edge driver
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             chromeDriver = new ChromeDriver();
             chromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-            edgeDriver = new EdgeDriver();
+            // Launch Microsoft Edge (Chromium)
+            var options = new EdgeOptions();
+            options.UseChromium = true;
+            edgeDriver = new EdgeDriver(@"C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt06\UITest", options);
             edgeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
@@ -33,45 +36,95 @@ namespace UITest.Scenarios
             edgeDriver.Quit();
         }
 
+        /// <summary>
+        /// Test if the scenario of creating a booking with valid inputs is working as expected
+        /// </summary>
         [Test]
-        public void TestCreateBooking()
+        public void TestCreateBookingValidInput()
         {
-            // Check two times to be sure
-            foreach (int i in Enumerable.Range(1, 2))
+            bool success = CreateBooking("10", "10", "01062020 1100", "01062020 1300");
+            Assert.IsTrue(success);
+        }
+        
+        /// <summary>
+        /// Test if the scenario of creating a booking with invalid input is working
+        /// </summary>
+        [Test]
+        public void TestCreateBookingInvalidInput()
+        {
+            bool success = CreateBooking("105", "10", "01062020 1100", "01062020 1300");
+            Assert.IsFalse(success);
+        }
+
+        /// <summary>
+        /// Test if the scenario of creating a booking with empty input is working
+        /// </summary>
+        [Test]
+        public void TestCreateBookingEmptyInput()
+        {
+            bool success = CreateBooking("10", "10", "", "01062020 1300");
+            Assert.IsFalse(success);
+        }
+
+        /// <summary>
+        /// Try to create a booking via the Booking/Create View
+        /// </summary>
+        /// <param name="state_of_charge">State of charge as string</param>
+        /// <param name="needed_distance">Needed distance as string</param>
+        /// <param name="start_time">Start time in format (ddmmyyyy HHMM)</param>
+        /// <param name="end_time">End time in format (ddmmyyyy HHMM)</param>
+        /// <returns>Whether the booking could have been created</returns>
+        private bool CreateBooking(string state_of_charge, string needed_distance, string start_time, string end_time)
+        {
+            // Open website
+            GoToUrl("https://localhost:5001/Booking");
+            // Check how many bookings are displayed on Index View
+            Tuple<IReadOnlyCollection<IWebElement>, IReadOnlyCollection<IWebElement>> list_items = FindElementsByCSSSelector("#booking-table tbody tr");
+            Assert.AreEqual(list_items.Item1.Count, list_items.Item2.Count, "Both drivers should get the same amount of bookings");
+            int num_start = list_items.Item1.Count;
+            // Navigate to Create View
+            Click(FindElementByCSSSelector(".TableHeadline a[href='/Booking/Create']"));
+
+            // Enter Input and submit form
+            Write(FindElementByCSSSelector("#StateOfCharge"), state_of_charge);
+            Write(FindElementByCSSSelector("#NeededDistance"), needed_distance);
+            start_time = start_time.Replace(" ", Keys.Right);
+            Write(FindElementByCSSSelector("#StartTime"), start_time);
+            end_time = end_time.Replace(" ", Keys.Right);
+            Write(FindElementByCSSSelector("#EndTime"), end_time);
+            Click(FindElementByCSSSelector("#create-booking-btn"));
+
+            // Redirect to Index View and count bookings on success
+            try
             {
-                // Open website
-                GoToUrl("https://localhost:5001/Booking");
-                // Check how many bookings are displayed on Index View
-                Tuple<IReadOnlyCollection<IWebElement>, IReadOnlyCollection<IWebElement>> list_items = FindElementsByCSSSelector("#booking-table tbody tr");
-                Assert.AreEqual(list_items.Item1.Count, list_items.Item2.Count, "Both drivers should get the same amount of bookings");
-                int num_start = list_items.Item1.Count;
-                // Navigate to Create View
-                Tuple<IWebElement, IWebElement> createButton = FindElementByCSSSelector(".TableHeadline a[href='/Booking/Create']");
-                Click(createButton);
-
-                // Enter Valid Input and submit form
-                Tuple<IWebElement, IWebElement> stateOfChargeInput = FindElementByCSSSelector("#StateOfCharge");
-                SendKeys(stateOfChargeInput, "2");
-                Tuple<IWebElement, IWebElement> NeededDistanceInput = FindElementByCSSSelector("#NeededDistance");
-                SendKeys(NeededDistanceInput, "5");
-                Tuple<IWebElement, IWebElement> createBookingButton = FindElementByCSSSelector("#create-booking-btn");
-                Click(createBookingButton);
-
-                // Return to Index View and count number of bookings in table
                 FindElementByCSSSelector("#booking-table");
+                Refresh();
                 list_items = FindElementsByCSSSelector("#booking-table tbody tr");
-                Assert.AreEqual(list_items.Item1.Count, list_items.Item2.Count, "Both drivers should get the same amount of bookings");
-                Assert.AreEqual(num_start + 1, list_items.Item1.Count, "There should be excactly one more booking in the table after creating one");
+                return num_start + 2 == list_items.Item1.Count;
+            }
+            // Else return false
+            catch
+            {
+                return false;
             }
         }
 
-        public void GoToUrl(string url)
+        /// <summary>
+        /// Visit url with chrome and edge
+        /// </summary>
+        /// <param name="url"></param>
+        private void GoToUrl(string url)
         {
             chromeDriver.Navigate().GoToUrl(url);
             edgeDriver.Navigate().GoToUrl(url);
         }
 
-        public Tuple<IWebElement, IWebElement> FindElementByCSSSelector(string selector)
+        /// <summary>
+        /// Find elements by css selector with both drivers
+        /// </summary>
+        /// <param name="selector">CSS selector</param>
+        /// <returns>Tuple<chromeElement, edgeElement></returns>
+        private Tuple<IWebElement, IWebElement> FindElementByCSSSelector(string selector)
         {
             IWebElement chromeElement = chromeDriver.FindElement(By.CssSelector(selector));
             IWebElement edgeElement = edgeDriver.FindElement(By.CssSelector(selector));
@@ -79,28 +132,55 @@ namespace UITest.Scenarios
             return Tuple.Create(chromeElement, edgeElement);
         }
 
-        public Tuple<IReadOnlyCollection<IWebElement>, IReadOnlyCollection<IWebElement>> FindElementsByCSSSelector(string selector)
+        /// <summary>
+        /// Find elements by css selector with both drivers
+        /// </summary>
+        /// <param name="selector">CSS selector</param>
+        /// <returns>Tuple of two lists (chromeElements, edgeElements)</returns>
+        private Tuple<IReadOnlyCollection<IWebElement>, IReadOnlyCollection<IWebElement>> FindElementsByCSSSelector(string selector)
         {
             IReadOnlyCollection<IWebElement> chromeElements = chromeDriver.FindElements(By.CssSelector(selector));
-            IReadOnlyCollection<IWebElement> EdgeElements = chromeDriver.FindElements(By.CssSelector(selector));
+            IReadOnlyCollection<IWebElement> edgeElements = chromeDriver.FindElements(By.CssSelector(selector));
 
-            return Tuple.Create(chromeElements, EdgeElements);
+            Assert.AreEqual(chromeElements.Count, edgeElements.Count, "Both drivers should get the same number of elements");
+
+            return Tuple.Create(chromeElements, edgeElements);
         }
 
-        public void SendKeys(Tuple<IWebElement, IWebElement> elements, string key)
+        /// <summary>
+        /// Send keys to element with both drivers
+        /// </summary>
+        /// <param name="elements">Tuple of chrome and edge element (f.e. text input)</param>
+        /// <param name="key">The value to send</param>
+        private void Write(Tuple<IWebElement, IWebElement> elements, string key)
         {
             IWebElement chromeElement = elements.Item1;
             IWebElement edgeElement = elements.Item2;
-            edgeElement.SendKeys(key);
+            chromeElement.Clear();
+            edgeElement.Clear();
+            chromeElement.SendKeys(key);
             edgeElement.SendKeys(key);
         }
 
-        public void Click(Tuple<IWebElement, IWebElement> elements)
+        /// <summary>
+        /// Click on element with both drivers
+        /// </summary>
+        /// <param name="elements">Tuple of chrome and edge element (f.e. button)</param>
+        private void Click(Tuple<IWebElement, IWebElement> elements)
         {
             IWebElement chromeElement = elements.Item1;
             IWebElement edgeElement = elements.Item2;
+            chromeElement.Click();
             edgeElement.Click();
-            edgeElement.Click();
+        }
+
+        /// <summary>
+        /// Refresh both drivers
+        /// </summary>
+        private void Refresh()
+        {
+            chromeDriver.Navigate().Refresh();
+            edgeDriver.Navigate().Refresh();
         }
     }
 }
