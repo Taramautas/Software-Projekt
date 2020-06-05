@@ -19,12 +19,15 @@ namespace UITest.Scenarios
         [SetUp]
         public void Setup()
         {
+            // Launch Chrome
             chromeDriver = new ChromeDriver();
             chromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
             // Launch Microsoft Edge (Chromium)
-            var options = new EdgeOptions();
-            options.UseChromium = true;
+            var options = new EdgeOptions
+            {
+                UseChromium = true
+            };
             edgeDriver = new EdgeDriver(@"C:\Users\Radi\Documents\Projekte\Softwareprojekt\tutorium-c-team-11\Abgaben\Einzelabgaben\Achkik\Blatt06\UITest", options);
             edgeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
