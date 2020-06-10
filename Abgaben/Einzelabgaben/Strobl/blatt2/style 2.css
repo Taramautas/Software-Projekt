@@ -1,0 +1,47 @@
+
+
+#header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #25D422;
+}
+
+#header li {
+  float: left;
+}
+
+#header li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#header li a:hover {
+  background-color: #111;
+}
+
+
+#buchungstabelle td, th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#buchungstabelle tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#buchungstabelle tr:hover {
+	background-color: #ddd;
+}
+
+#buchungstabelle th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}

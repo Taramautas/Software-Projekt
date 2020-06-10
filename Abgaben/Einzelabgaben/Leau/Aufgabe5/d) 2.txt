@@ -1,0 +1,7 @@
+Vorteile des ViewModels:
+- Es können unterschiedliche Views erstellt werden, die alle an dasselbe ViewModel gebunden werden.
+- Die Testbarkeit verbessert sich, da die ViewModel die UI-Logiken enthalten und unabhängig von der View instanziiert werden können.
+- Die Geschäftslogik kann unabhängig von der Darstellung bearbeitet werden. MVVM „erbt“ die leichtere Austauschbarkeit der View vom MVC-Muster.
+
+Hätte dies auch ohne ViewModel gelöst werden können?
+- ich glaube schon, aber bin nicht mehr sicher :D

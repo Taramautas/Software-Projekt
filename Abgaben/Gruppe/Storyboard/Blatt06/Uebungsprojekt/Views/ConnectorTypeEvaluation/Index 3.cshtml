@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel>
+
+@{
+    ViewData["Title"] = "Evaluation";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-sm-3">
+        <p>Overview: </p>
+    </div>
+    <div class="col-sm-9">
+        <a class="btn btn-secondary submit" asp-area="" asp-controller="ConnectorTypeEvaluation" asp-action="Export">Export</a>
+    </div>
+</div>
+
+<!-- Only show connector type evaluation table if there are any entries to display-->
+@if (Model.Any())
+{
+    <table style="width:100%" class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Connector Type</th>
+            <th>Proportion</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var connectorTypeEvaluation in Model)
+        {
+            <tr>
+                <td>@connectorTypeEvaluation.ConnectorType</td>
+                <td>@String.Format("{0:0.0#}", connectorTypeEvaluation.Proportion)%</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <!-- Show alternative text if not -->
+} else
+{
+    <p>There are no bookings to evaluate!</p>
+}

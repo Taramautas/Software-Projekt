@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebApplication1.Models.Booking>
+@{
+    ViewData["Title"] = "Booking";
+
+}
+
+<h1>Booking</h1>
+
+<table class="table table-hover table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>SoC</th>
+            <th>Route</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SoC</td>
+                <td>@item.Route</td>
+                <td>@item.StartOfCharge</td>
+                <td>@item.EndOfCharge</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

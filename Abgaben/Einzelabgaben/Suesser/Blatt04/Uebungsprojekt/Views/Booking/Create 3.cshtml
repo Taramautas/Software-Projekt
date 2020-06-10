@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<h4>Buchung erfassen:</h4>
+
+<form class="align-items-center" method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Create">
+    <div class="form-row col-auto">
+        <div class="col-sm-3">
+            <input type="number" id="charge" name="charge" min="0" max="100" required class="form-control" placeholder="Charge">
+        </div>
+        <div class="col-sm-3">
+            <input type="number" id="needed_distance" name="needed_distance" min="1" max="1000" required class="form-control" placeholder="Needed Distance">
+        </div>
+
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-sm-3">
+            <input type="datetime" id="Start_Time" name="Start_Time" required class="form-control" placeholder="Start (DD.MM.YYYY HH:MM)">
+        </div>
+        <div class="col-sm-3">
+            <input type="datetime" id="End_Time" name="End_Time" required class="form-control" placeholder="End (DD.MM.YYYY HH:MM)">
+        </div>
+    </div>
+
+    <div class="form-row col-auto">
+        <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+
+<br />
+<br />
+
+<h3>Q&A</h3>
+
+<p>
+
+    • Was ist Cross-site request forgery und wie lässt es sich in ASP.Net Core unterbinden? <br />
+<p>
+    Cross-Site Request Forgery (CSRF) is an attack where a malicious site sends a request to a vulnerable
+    site where the user is currently logged in<br />
+    To help prevent CSRF attacks, ASP.NET MVC uses anti-forgery tokens, also called request verification tokens.<br />
+    1. The client requests an HTML page that contains a form.<br />
+    2. The server includes two tokens in the response. One token is sent as a cookie. The other is placed in a hidden form field. The tokens are generated randomly so that an adversary cannot guess the values. <br />
+    3. When the client submits the form, it must send both tokens back to the server. The client sends the cookie token as a cookie, and it sends the form token inside the form data. (A browser client automatically does this when the user submits the form.)<br />
+    4. If a request does not include both tokens, the server disallows the request.<br />
+</p>
+      
+<br />
+
+    • Was ist der wesentliche Unterschied zwischen GET und POST Anfragen? Gibt es weitere Anfragetypen?
+<br />
+<p>
+    Mit GET werden Daten von einer Resource angefordert
+    Mit POST werden Daten zu einem Server gesendet um eine Resource zu erstellen/updaten.
+    Andere Methoden sind z.B. DELETE, PUT, HEAD ..
+</p>
+
+<br />
+    • Wie lange ist ein Objekt im Cache verfügbar? <br />
+<p>
+    Bis Session geschlossen wird.
+</p>
+
+<br />
+    • Was ist der wesentliche Unterschied zwischen dem Cache und einer Datenbank? <br />
+<p>
+    Cache ist temporär. Datenbank ist eine persistente Datenform.
+</p>
+<br />
+    • Ist der Cache Nutzerspezifisch oder Applikationsweit? Falls letzeres zutrifft: Worauf sollte geachtet werden? <br />
+<p>
+    Applikationsweit. Apps running on a server farm (multiple servers) should ensure sessions are sticky when using the
+    in-memory cache. Sticky sessions ensure that subsequent requests from a client all go to the same server.
+</p>
+<br />
+    • Was ist Dependency Injection? <br />
+<p>
+    Als Dependency Injection wird in der objektorientierten Programmierung ein Entwurfsmuster bezeichnet, welches die
+    Abhängigkeiten eines Objekts zur Laufzeit reglementiert: Benötigt ein Objekt beispielsweise bei seiner Initialisierung
+    ein anderes Objekt, ist diese Abhängigkeit an einem zentralen Ort hinterlegt – es wird also nicht vom initialisierten
+    Objekt selbst erzeugt.
+</p>
+<br />
+    • Warum ist eine beidseitige Validierung eine gute Idee?<br />
+<p>
+    Um unnötige Anfragen an den Server zu minimieren
+</p>
