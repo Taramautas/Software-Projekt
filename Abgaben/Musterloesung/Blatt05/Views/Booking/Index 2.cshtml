@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Uebungsprojekt.Models.Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+    
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<div class="row" id="bookingTableHeadline">
+    <p>Overview: </p>
+    <a class="btn btn-primary" asp-area="" asp-controller="Booking" asp-action="Create">Create new Booking</a>
+</div>
+
+<!-- Only show booking table if there are any bookings to display-->
+@if (Model.Any())
+{
+<table style="width:100%" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Charge</th>
+            <th>Needed Distance</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Connector Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Charge</td>
+                <td>@booking.Needed_distance</td>
+                <td>@booking.Start_time</td>
+                <td>@booking.End_time</td>
+                <td>@booking.Connector_Type</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Show alternative text if not -->
+} else
+{
+    <p>There are no bookings to display!</p>
+}
+

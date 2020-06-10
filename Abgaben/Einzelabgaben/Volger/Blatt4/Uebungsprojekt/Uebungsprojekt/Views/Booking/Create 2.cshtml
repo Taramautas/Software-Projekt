@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Bitte Buchungsdetails eingeben</h1>
+
+<form class="align-items-center" method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Create">
+    <table style="width:100%" class="table-borderless table-striped table-light table-hover">
+        <thead>
+            <tr>
+                <th>Ladestand</th>
+                <th>Nötige Distanz</th>
+                <th>Beginn</th>
+                <th>Ende</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="number" id="charge" name="charge" required class="form-control" placeholder="Ladestand"></td>
+                <td><input type="number" id="needed_distance" name="needed_distance" required class="form-control" placeholder="Nötige Distanz"></td>
+                <td><input type="datetime" id="Start_Time" name="Start_Time" required class="form-control" placeholder="Start (DD.MM.YYYY HH:MM)"></td>
+                <td><input type="datetime" id="End_Time" name="End_Time" required class="form-control" placeholder="Ende (DD.MM.YYYY HH:MM)"></td>
+            </tr>
+        </tbody>
+
+    </table>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
