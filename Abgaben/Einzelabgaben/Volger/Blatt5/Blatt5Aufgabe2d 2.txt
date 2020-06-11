@@ -1,4 +1,0 @@
-ViewModel ermöglicht das Benutzen von verschiedenen Models. Hier der Evaluation und der Bookings.
-
-Man könnte sich denken, dass man es als zusätliche View in Booking unter Benutzung des BookingControllers löst und der BookingController macht das, was der ConnectorTypeEvaluationController macht.
-Dies funktioniert aber nicht, da man irgendwo den Datentyp definieren muss, der einem Steckertyp einen Prozentanteil zuordnet.
