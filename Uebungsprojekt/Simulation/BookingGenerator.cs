@@ -33,21 +33,21 @@ namespace Uebungsprojekt.Simulation
         /// <param name="stochastic_spread">Spread</param>
         /// <param name="vehicles_list">List of vehicle objects to randomly select from</param>
         /// <param name="weeks_to_simulate">How many weeks to simualate</param>
-        public BookingGenerator(TimeSpan tick_minutes, List<Tuple<DayOfWeek, TimeSpan>> rush_hours, int min_bookings, int max_bookings, double stochastic_spread, List<Object> vehicles_list, int weeks_to_simulate)
+        public BookingGenerator(SimulationConfig config)
         {
             start_time = new TimeSpan(6, 0, 0);
             end_time = new TimeSpan(18, 0, 0);
 
-            tick = tick_minutes;
+            tick = new TimeSpan(0, config.tick_minutes, 0);
             ticks_per_day = (int)((end_time - start_time) / tick);
-            foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in rush_hours)
+            foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in config.rush_hours)
             {
                 int rush_hour_tick = (int)(rush_hour.Item1) * ticks_per_day + (int)((rush_hour.Item2 - start_time) / tick);
             }
-            min = min_bookings;
-            max = max_bookings;
-            spread = stochastic_spread;
-            vehicles = vehicles_list;
+            min = config.min;
+            max = config.max;
+            spread = config.spread;
+            vehicles = config.vehicles;
 
             step = 0;
         }

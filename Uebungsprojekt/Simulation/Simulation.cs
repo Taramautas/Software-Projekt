@@ -13,19 +13,18 @@ namespace Uebungsprojekt.Simulation
         private int tick;
         private BookingGenerator booking_generator;
         private OccupancyPlan.OccupancyPlan occupancy_plan;
-        private int weeks;
 
         /// <summary>
         /// Constructor of Simulation
         /// </summary>
-        /// <param name="tick_minutes">Length of one tick</param>
-        /// <param name="weeks_to_simulate">How many weeks to simulate</param>
-        public Simulation(int tick_minutes, List<Tuple<DayOfWeek, TimeSpan>> rush_hours, int min, int max, double spread, int weeks_to_simulate)
+        /// <param name="config">Simulation parameters</param>
+        /// <param name="locations">List of Location objects</param>
+        public Simulation(SimulationConfig config, List<Object> locations)
         {
             history_metrics = new List<Object>();
-            tick = tick_minutes;
-            booking_generator = new BookingGenerator(new TimeSpan(0, tick_minutes, 0), rush_hours, min, max, spread, new List<Object>(), weeks_to_simulate);
-            occupancy_plan = OccupancyPlan.OccupancyPlan.GetNewOccupancyPlan();
+            tick = config.tick_minutes;
+            booking_generator = new BookingGenerator(config);
+            occupancy_plan = OccupancyPlan.OccupancyPlan.GetNewOccupancyPlan(locations);
         }
 
         /// <summary>

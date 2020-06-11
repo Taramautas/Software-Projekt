@@ -9,21 +9,23 @@ namespace Uebungsprojekt.OccupancyPlan
     public class OccupancyPlan
     {
         private static OccupancyPlan occupancy_plan;
-        private OccupancyPlan()
-        {
 
+        public List<Object> locations; // TODO: Change to Location type
+        private OccupancyPlan(List<Object> location_list)
+        {
+            locations = location_list;
         }
 
-        public static OccupancyPlan GetOccupancyPlan()
+        public static OccupancyPlan GetOccupancyPlan(List<Object> locations)
         {
             if (occupancy_plan == null)
-                occupancy_plan = new OccupancyPlan();
+                occupancy_plan = new OccupancyPlan(locations);
             return occupancy_plan;
         }
 
-        public static OccupancyPlan GetNewOccupancyPlan()
+        public static OccupancyPlan GetNewOccupancyPlan(List<Object> locations)
         {
-            return new OccupancyPlan();
+            return new OccupancyPlan(locations);
         }
         public bool AcceptBooking(Booking booking)
         {

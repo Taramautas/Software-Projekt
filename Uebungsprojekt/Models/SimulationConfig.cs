@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Uebungsprojekt.Models
+{
+    public class SimulationConfig
+    {
+        public int tick_minutes { get; set; }
+        public List<Tuple<DayOfWeek, TimeSpan>> rush_hours { get; set; }
+        public int min { get; set; }
+        public int max { get; set; }
+        public double spread { get; set; }
+        public int weeks { get; set; }
+        public List<Object> vehicles { get; set; } // TODO: Change to List<Vehicle>
+    }
+}
