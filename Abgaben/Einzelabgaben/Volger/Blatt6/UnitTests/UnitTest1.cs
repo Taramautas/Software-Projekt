@@ -1,6 +1,4 @@
 using NUnit.Framework;
-using System.Collections.Generic;
-using Uebungsprojekt.Models;
 
 namespace NUnitTestProject1
 {
@@ -17,7 +15,8 @@ namespace NUnitTestProject1
         {
             Assert.Pass();
         }
-
+       
+        /*
         [Test]
         public void testGeneriereBenutzer()
         {
@@ -34,5 +33,6 @@ namespace NUnitTestProject1
             Assert.AreEqual(pw, benutzer.getPW(id), "Password is wrong");
             Assert.AreEqual(role, benutzer.getRole(id), "Role is wrong");
         }
+        */
     }
 }
