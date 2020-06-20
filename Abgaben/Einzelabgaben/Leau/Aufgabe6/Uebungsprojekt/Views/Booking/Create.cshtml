@@ -9,22 +9,22 @@
 <form asp-controller="Booking" asp-action="Create" method="post">
     <div class="form-group row">
         <label for="Charge" class="col-2 col-form-label">Current state of charge:</label>
-        <input class="col-10 form-control" asp-for="Charge"><br />
+        <input id="StateOfCharge" class="col-10 form-control" asp-for="Charge"><br />
         <span asp-validation-for="Charge" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Needed_distance" class="col-2 col-form-label">Needed Distance:</label>
-        <input class="col-10 form-control" asp-for="Needed_distance"><br />
+        <input id="NeededDistance" class="col-10 form-control" asp-for="Needed_distance"><br />
         <span asp-validation-for="Needed_distance" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Start_time" class="col-2 col-form-label">Start time:</label>
-        <input class="col-10 form-control" asp-for="Start_time"><br />
+        <input id="StartTime" class="col-10 form-control" asp-for="Start_time"><br />
         <span asp-validation-for="Start_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="End_time" class="col-2 col-form-label">End time:</label>
-        <input class="col-10 form-control" asp-for="End_time"><br />
+        <input id="EndTime" class="col-10 form-control" asp-for="End_time"><br />
         <span asp-validation-for="End_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
@@ -33,7 +33,7 @@
         <span asp-validation-for="Connector_Type" class="text-danger form-danger-span"></span>
     </div>
     <div class="row">
-        <button class="btn btn-success col-12" type="submit">Erstellen</button>
+        <button id="create-booking-btn" class="btn btn-success col-12" type="submit">Erstellen</button>
     </div>
 </form>
 
