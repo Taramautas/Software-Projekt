@@ -7,13 +7,26 @@ using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.OccupancyPlans;
 using Uebungsprojekt.Simulations;
 using Uebungsprojekt.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Uebungsprojekt.Controllers
 {
+
+
     public class AdministrationController : Controller
     {
+<<<<<<< HEAD
         private OccupancyPlan occupancy_plan;
         private Simulation simulation;
+=======
+
+        private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
+        private Object occupancy_plan; // FIXME: Adjust type when class is defined
+        private Simulation.Simulation simulation; // FIXME: Adjust type when class is defined
+        private IMemoryCache _cache; // TODO: Evaluation
+
+>>>>>>> 9e81de96a5100ff3222b2cdb67b06a378e51672e
 
         /// <summary>
         /// Constructor for AdministrationController
@@ -77,6 +90,48 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Infrastructure()
         {
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Converts the given files to Dataobjects and refreshes the view to display these importchanges
+        /// </summary>
+        /// <param name="files">Given files</param>
+        /// <returns>Redirection to index</returns>
+        [HttpPost]
+        public IActionResult Import(List<IFormFile> files)
+        {
+            if(ModelState.IsValid)
+            {
+                foreach(var file in files)
+                {
+                    if(file.ContentType == "application/json" && file.Length <= max_allowed_filesize)
+                    {
+                        //TODO: Import given file and store it
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Exports the Simulation Data as .json file
+        /// </summary>
+        /// <returns>A File which is Downloaded</returns>
+        public IActionResult Export()
+        {
+            //TODO: Implement correct ListObjects/Data to export
+            /*
+            LIST = (List<>)_cache.Get("");
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(//FIXME: DATAOBJECT));
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "AdminSimulationData.json";
+            return output;
+            */
+
+            //Placeholder
+            return null;
+
         }
     }
 }
