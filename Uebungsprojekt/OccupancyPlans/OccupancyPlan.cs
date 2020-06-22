@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Uebungsprojekt.Models;
 
-namespace Uebungsprojekt.OccupancyPlan
+namespace Uebungsprojekt.OccupancyPlans
 {
     public class OccupancyPlan
     {

@@ -9,7 +9,7 @@ using Uebungsprojekt.Models;
 using System.Linq;
 using Uebungsprojekt.ViewModel;
 
-namespace UnitTest.Controller
+namespace UnitTest.Controllers
 {
     /// <summary>Test Class for ConnectorTypeEvaluation Controller</summary>
     public class TestConnectorTypeEvaluationController

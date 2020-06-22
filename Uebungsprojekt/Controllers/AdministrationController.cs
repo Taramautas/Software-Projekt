@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Uebungsprojekt.OccupancyPlan;
-using Uebungsprojekt.Simulation;
+using Uebungsprojekt.OccupancyPlans;
+using Uebungsprojekt.Simulations;
 using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Controllers
 {
     public class AdministrationController : Controller
     {
-        private Object occupancy_plan; // FIXME: Adjust type when class is defined
-        private Simulation.Simulation simulation; // FIXME: Adjust type when class is defined
+        private OccupancyPlan occupancy_plan;
+        private Simulation simulation;
 
         /// <summary>
         /// Constructor for AdministrationController
@@ -60,7 +60,7 @@ namespace Uebungsprojekt.Controllers
 
             List<Object> locations = new List<Object>(); // TODO: Change to Location type
 
-            simulation = new Simulation.Simulation(
+            simulation = new Simulation(
                 new SimulationConfig
                 {
                     tick_minutes = 15,

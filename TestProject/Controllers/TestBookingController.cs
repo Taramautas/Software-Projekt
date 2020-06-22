@@ -8,7 +8,7 @@ using Uebungsprojekt.Controllers;
 using Uebungsprojekt.Models;
 using System.Linq;
 
-namespace UnitTest.Controller
+namespace UnitTest.Controllers
 {
     /// <summary>Test Class for Booking Controller</summary>
     public class TestBookingController
