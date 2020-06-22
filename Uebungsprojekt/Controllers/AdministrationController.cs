@@ -16,17 +16,12 @@ namespace Uebungsprojekt.Controllers
 
     public class AdministrationController : Controller
     {
-<<<<<<< HEAD
         private OccupancyPlan occupancy_plan;
         private Simulation simulation;
-=======
 
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
-        private Object occupancy_plan; // FIXME: Adjust type when class is defined
-        private Simulation.Simulation simulation; // FIXME: Adjust type when class is defined
         private IMemoryCache _cache; // TODO: Evaluation
 
->>>>>>> 9e81de96a5100ff3222b2cdb67b06a378e51672e
 
         /// <summary>
         /// Constructor for AdministrationController
