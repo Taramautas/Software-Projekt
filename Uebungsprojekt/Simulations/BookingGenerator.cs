@@ -64,8 +64,21 @@ namespace Uebungsprojekt.Simulations
                         foreach (int booking in Enumerable.Range(0, GetNumberOfBookings(tick)))
                         {
                             int index = random.Next(config.vehicles.Count);
-                            Object vehicle = config.vehicles[index];
-                            newest_bookings.Add(new Booking());
+                            Vehicle vehicle = config.vehicles[index];
+                            int state_of_charge = random.Next(50);
+                            newest_bookings.Add(new Booking
+                            {
+                                // Start state of charge is between 0 and 50
+                                start_state_of_charge = state_of_charge,
+                                // Target state of charge is between 25 and 50 more then start state of charge
+                                target_state_of_charge = state_of_charge + 25 + random.Next(25),
+                                // TODO: Which start time to choose
+                                start_time = new DateTime(),
+                                // TODO: Which end time to choose
+                                end_time = new DateTime(),
+                                // Take a random vehicle from the given list
+                                vehicle = vehicle
+                            });
                             // TODO: Set booking parameters randomly and accordingly to the chosen vehicle
                         }
                         // Return new bookings

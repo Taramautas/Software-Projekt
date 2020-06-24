@@ -9,52 +9,55 @@ namespace Uebungsprojekt.Simulations
 {
     public class Simulation
     {
-        private List<Object> history_metrics;
-        private int tick;
+        private SimulationResult simulation_result;
         private BookingGenerator booking_generator;
         private OccupancyPlan occupancy_plan;
-
+        
         /// <summary>
-        /// Constructor of Simulation
+        /// Setup
         /// </summary>
-        /// <param name="config">Simulation parameters</param>
-        /// <param name="locations">List of Location objects; TODO: Change type</param>
-        public Simulation(SimulationConfig config, List<Object> locations)
+        /// <param name="config">Simulation Configuration</param>
+        /// <param name="infrastructure">Simulation Infrastructure</param>
+        public Simulation(SimulationConfig config, SimulationInfrastructure infrastructure)
         {
-            history_metrics = new List<Object>();
-            tick = config.tick_minutes;
+            simulation_result = new SimulationResult(config, infrastructure); // TODO: Has to be created by SimulationResultDaoImpl
             booking_generator = new BookingGenerator(config);
-            occupancy_plan = OccupancyPlan.GetNewOccupancyPlan(locations);
+            occupancy_plan = OccupancyPlan.GetSimulationOccupancyPlan(infrastructure);
         }
 
         /// <summary>
-        /// Start simulation
+        /// Run the simulation and fill results
         /// </summary>
-        public void RunSimulation()
+        /// <returns>Boolean indicating whether the simulation ran the first time or not</returns>
+        public bool RunSimulation()
         {
+            // Don't run simulation twice
+            if (simulation_result.done)
+                return false;
+            
             var random = new Random();
+            // Iterate through each tick (list of bookings) returned by booking generator
             foreach (IEnumerable<Booking> bookings in booking_generator.Generate())
             {
+                // Try to accept all generated bookings
                 foreach (Booking booking in bookings)
                 {
+                    // If the booking could not be accepted, get possible alternatives and log to results
                     if (!occupancy_plan.AcceptBooking(booking))
                     {
                         IEnumerable<Booking> suggested_bookings = occupancy_plan.GenerateBookingSuggestions(booking);
                         int index = random.Next(suggested_bookings.Count());
                         occupancy_plan.AcceptBooking(suggested_bookings.ElementAt(index));
+                        simulation_result.unsatisfiable_bookings_with_suggestion.Add(new Tuple<Booking, Booking>(booking, suggested_bookings.ElementAt(index)));
                     }
                 }
-                history_metrics.Add(GetCurrentWorkload());
+                // Update results after each tick
+                simulation_result.num_generated_bookings.Add(bookings.Count());
+                // TODO: simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload());
             }
-        }
-
-        /// <summary>
-        /// Get the current workload of each of the assigned charging zones
-        /// </summary>
-        /// <returns></returns>
-        public double GetCurrentWorkload()
-        {
-            return 0.5;
+            // Set simulation result to done
+            simulation_result.done = true;
+            return true;
         }
     }
 }

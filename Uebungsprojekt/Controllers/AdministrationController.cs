@@ -28,7 +28,6 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         public AdministrationController()
         {
-            // occupancy_plan = OccupancyPlan.OccupancyPlan.GetOccupancyPlan(LocationDaoImpl.GetAllLocations());            
         }
 
         /// <summary>
@@ -45,46 +44,31 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <returns>View</returns>
         [HttpGet]
-        public IActionResult Simulation()
+        public IActionResult SimulationConfig()
         {
-            return RedirectToAction("Index");
+            // FIXME: Return View()
+            return View("Index");
         }
-
+        
+        /// <summary>
+        /// Passes both the simulation infrastructure and configuration to the simulation
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
-        public void Simululation()
+        public IActionResult SimulationInfrastructure(SimulationConfig config)
         {
-            // TODO: Extract information from form and create simulation
-            List<Tuple<DayOfWeek, TimeSpan>> rush_hours = new List<Tuple<DayOfWeek, TimeSpan>>();
-            rush_hours.Add(Tuple.Create(DayOfWeek.Monday, new TimeSpan(8, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Tuesday, new TimeSpan(8, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Wednesday, new TimeSpan(8, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Thursday, new TimeSpan(8, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Friday, new TimeSpan(8, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Monday, new TimeSpan(16, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Tuesday, new TimeSpan(16, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Wednesday, new TimeSpan(16, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Thursday, new TimeSpan(16, 0, 0)));
-            rush_hours.Add(Tuple.Create(DayOfWeek.Friday, new TimeSpan(12, 30, 0)));
-
-            List<Object> locations = new List<Object>(); // TODO: Change to Location type
-
-            simulation = new Simulation(
-                new SimulationConfig
-                {
-                    tick_minutes = 15,
-                    rush_hours = rush_hours,
-                    min = 5,
-                    max = 10,
-                    spread = 0.5,
-                    weeks = 3,
-                    vehicles = new List<object>()
-                },
-                locations); // FIXME: Set parameters for config
+            
+            return View("Index");
         }
 
-        public IActionResult Infrastructure()
+        /// <summary>
+        /// Start and visualize the actual simulation
+        /// </summary>
+        /// <param name="infrastructure"></param>
+        [HttpPost]
+        public IActionResult Simulation(SimulationInfrastructure infrastructure)
         {
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         /// <summary>

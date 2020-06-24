@@ -13,6 +13,6 @@ namespace Uebungsprojekt.Models
         public int max { get; set; }
         public double spread { get; set; }
         public int weeks { get; set; }
-        public List<Object> vehicles { get; set; } // TODO: Change to List<Vehicle>
+        public List<Vehicle> vehicles { get; set; }
     }
 }
