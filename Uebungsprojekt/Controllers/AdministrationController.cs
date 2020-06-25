@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.OccupancyPlans;
 using Uebungsprojekt.Simulations;
@@ -13,12 +14,9 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Uebungsprojekt.Controllers
 {
 
-
+    [Authorize]
     public class AdministrationController : Controller
     {
-        private OccupancyPlan occupancy_plan;
-        private Simulation simulation;
-
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
         private IMemoryCache _cache; // TODO: Evaluation
 
@@ -67,6 +65,11 @@ namespace Uebungsprojekt.Controllers
         /// <param name="infrastructure"></param>
         [HttpPost]
         public IActionResult Simulation(SimulationInfrastructure infrastructure)
+        {
+            return View("Index");
+        }
+
+        public IActionResult Evaluate(SimulationResult result)
         {
             return View("Index");
         }

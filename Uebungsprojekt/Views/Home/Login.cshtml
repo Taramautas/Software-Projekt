@@ -1,0 +1,28 @@
+﻿@model Uebungsprojekt.ViewModel.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<!-- Form Tag Helper in order to prevent cross-site request forgery -->
+<form asp-controller="Home" asp-action="Login" method="post">
+    <div class="form-group row">
+        <label for="email" class="col-2 col-form-label">Email:</label>
+        <input id="email" class="col-10 form-control" asp-for="email"><br />
+        <span asp-validation-for="email" class="text-danger form-danger-span"></span>
+    </div>
+    <div class="form-group row">
+        <label for="password" class="col-2 col-form-label">Password:</label>
+        <input id="password" class="col-10 form-control" asp-for="password"><br />
+        <span asp-validation-for="password" class="text-danger form-danger-span"></span>
+    </div>
+    <div class="row">
+        <button id="login-btn" class="btn btn-success col-12" type="submit">Login</button>
+    </div>
+</form>
+
+<!-- Enable client side validation -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

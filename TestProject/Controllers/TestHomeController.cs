@@ -21,8 +21,8 @@ namespace UnitTest.Controllers
         [SetUp]
         public void Setup()
         {
-            var logger = new Mock<ILogger<HomeController>>();
-            hc = new HomeController(logger.Object);
+            var user_manager = new Mock<UserManager>();
+            hc = new HomeController(user_manager.Object);
         }
     }
 }

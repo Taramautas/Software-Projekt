@@ -34,6 +34,7 @@ namespace Uebungsprojekt.Simulations
             config = configuration;
             tick_minutes = new TimeSpan(0, config.tick_minutes, 0);
             ticks_per_day = (int)((end_time - start_time) / tick_minutes);
+            rush_hour_ticks = new List<int>();
             // Convert rush hours to ticks (for calculations)
             foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in config.rush_hours)
             {
@@ -79,7 +80,6 @@ namespace Uebungsprojekt.Simulations
                                 // Take a random vehicle from the given list
                                 vehicle = vehicle
                             });
-                            // TODO: Set booking parameters randomly and accordingly to the chosen vehicle
                         }
                         // Return new bookings
                         yield return newest_bookings;

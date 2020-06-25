@@ -53,7 +53,7 @@ namespace Uebungsprojekt.Simulations
                 }
                 // Update results after each tick
                 simulation_result.num_generated_bookings.Add(bookings.Count());
-                // TODO: simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload());
+                simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload());
             }
             // Set simulation result to done
             simulation_result.done = true;
