@@ -9,7 +9,7 @@ namespace Uebungsprojekt.Simulations
 {
     public class Simulation
     {
-        private SimulationResult simulation_result;
+        public SimulationResult simulation_result;
         private BookingGenerator booking_generator;
         private OccupancyPlan occupancy_plan;
         
@@ -39,12 +39,14 @@ namespace Uebungsprojekt.Simulations
             // Iterate through each tick (list of bookings) returned by booking generator
             foreach (IEnumerable<Booking> bookings in booking_generator.Generate())
             {
+                int num_unsatisfiable_bookings = 0;
                 // Try to accept all generated bookings
                 foreach (Booking booking in bookings)
                 {
                     // If the booking could not be accepted, get possible alternatives and log to results
                     if (!occupancy_plan.AcceptBooking(booking))
                     {
+                        num_unsatisfiable_bookings++;
                         IEnumerable<Booking> suggested_bookings = occupancy_plan.GenerateBookingSuggestions(booking);
                         int index = random.Next(suggested_bookings.Count());
                         occupancy_plan.AcceptBooking(suggested_bookings.ElementAt(index));
@@ -53,10 +55,9 @@ namespace Uebungsprojekt.Simulations
                 }
                 // Update results after each tick
                 simulation_result.num_generated_bookings.Add(bookings.Count());
+                simulation_result.num_unsatisfiable_bookings.Add(num_unsatisfiable_bookings);
                 simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload());
             }
-            // Set simulation result to done
-            simulation_result.done = true;
             return true;
         }
     }

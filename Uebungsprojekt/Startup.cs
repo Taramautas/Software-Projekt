@@ -61,6 +61,8 @@ namespace Uebungsprojekt
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseWebSockets();
+
             app.UseRouting();
 
             // Add 
