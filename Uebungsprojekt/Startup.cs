@@ -7,6 +7,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace Uebungsprojekt
 {
+    /// <summary>
+    /// Configure Services running in the background
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -16,11 +19,16 @@ namespace Uebungsprojekt
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Services object to activate custom services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add MVC functionality
             services.AddControllersWithViews();
             
+            // Add cookie authentication
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config => {
                     config.LoginPath = "/Home/Login/";
@@ -28,10 +36,16 @@ namespace Uebungsprojekt
                     config.AccessDeniedPath = "/Home/Error/";
                 });
             
+            // Deliver UserManger for each Controller contructor
             services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// Here you specify the pipeline each request has to go through before being directed to a controller.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -49,6 +63,7 @@ namespace Uebungsprojekt
 
             app.UseRouting();
 
+            // Add 
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -9,18 +9,32 @@ namespace Uebungsprojekt.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>Responsible for identifying and authenticating the users</summary>
         private readonly UserManager user_manger;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userManager">UserManager</param>
         public HomeController(UserManager userManager)
         {
             user_manger = userManager;
         }
 
+        /// <summary>
+        /// Index View with overall information
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Every action requiring authentication is calling this method
+        /// </summary>
+        /// <param name="ReturnUrl">The URL to redirect after successfull login</param>
+        /// <returns>LoginViewModel</returns>
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
         {
@@ -31,6 +45,12 @@ namespace Uebungsprojekt.Controllers
             return View(login_try);
         }
 
+        /// <summary>
+        /// Try to login the user and redirect to given URL if successfull
+        /// TODO: Password should not be transmitted without enryption
+        /// </summary>
+        /// <param name="form">Form containing user email and password</param>
+        /// <returns>Requested Page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel form)
@@ -58,12 +78,17 @@ namespace Uebungsprojekt.Controllers
             }
         }
 
+        /// <summary>
+        /// Logout the user
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Logout()
         {
             user_manger.SignOut(HttpContext);
             return RedirectToAction("Index");
         }
         
+        /*
         [HttpGet]
         public IActionResult Register()
         {
@@ -71,18 +96,11 @@ namespace Uebungsprojekt.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string username, string email, string password, Role role)
+        public IActionResult Register()
         {
-            /* // Try to create new user
-             * bool success = UserDaoImpl.GetDao().CreateUser(username, email, password, role);
-             * if (success)
-             * {
-             *    Http
-             * }
-             */
             return View();
         }
-        
+        */
 
         public IActionResult Privacy()
         {

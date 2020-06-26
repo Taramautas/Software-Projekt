@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Uebungsprojekt.ViewModel;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -38,7 +39,11 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationConfig()
         {
-            // FIXME: Return View()
+            /* TODO: Add when View exists
+             * SimulationViewModel view_model = new SimulationViewModel();
+             * view_model.all_simulation_configs = SimulationConfigDao.GetAllSimulationConfigs();
+             * return View(view_model);
+             */
             return RedirectToAction("Index");
         }
         
@@ -47,9 +52,12 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult SimulationInfrastructure(SimulationConfig config)
+        public IActionResult SimulationInfrastructure(SimulationViewModel view_model)
         {
-            
+            /* TODO: Add when View exists
+             * view_model.all_simulation_infrastructures = SimulationInfrastructureDao.GetAllSimulationInfrastructures();
+             * return View(view_model)
+             */
             return RedirectToAction("Index");
         }
 
@@ -58,7 +66,7 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="infrastructure"></param>
         [HttpPost]
-        public IActionResult Simulation(SimulationInfrastructure infrastructure)
+        public IActionResult Simulation(SimulationViewModel view_model)
         {
             return RedirectToAction("Index");
         }
