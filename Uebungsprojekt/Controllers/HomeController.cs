@@ -7,7 +7,6 @@ using Uebungsprojekt.ViewModel;
 
 namespace Uebungsprojekt.Controllers
 {
-    [Authorize(Roles = "Employee")]
     public class HomeController : Controller
     {
         private readonly UserManager user_manger;
