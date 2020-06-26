@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,9 +25,10 @@ namespace Uebungsprojekt
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config => {
                     config.LoginPath = "/Home/Login/";
                     config.LogoutPath = "/Home/Logout/";
+                    config.AccessDeniedPath = "/Home/Error/";
                 });
-
-            services.AddTransient(m => new UserManager());
+            
+            services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

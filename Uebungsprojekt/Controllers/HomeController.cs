@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.ViewModel;
 
 namespace Uebungsprojekt.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class HomeController : Controller
     {
         private readonly UserManager user_manger;
@@ -29,9 +23,13 @@ namespace Uebungsprojekt.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
-            return View();
+            LoginViewModel login_try = new LoginViewModel()
+            {
+                redirect_url = ReturnUrl,
+            };
+            return View(login_try);
         }
 
         [HttpPost]
@@ -51,10 +49,11 @@ namespace Uebungsprojekt.Controllers
                 };
                 
                 user_manger.SignIn(HttpContext, user);
-                return RedirectToPage("Index");
+                return Redirect(form.redirect_url);
             }
             catch (Exception e)
             {
+                Console.Out.WriteLine("Error");
                 ModelState.AddModelError("summary", e.Message);
                 return View(form);
             }

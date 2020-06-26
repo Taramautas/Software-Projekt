@@ -17,6 +17,7 @@
         <input id="password" class="col-10 form-control" asp-for="password"><br />
         <span asp-validation-for="password" class="text-danger form-danger-span"></span>
     </div>
+    <input id="redirect" type="hidden" asp-for="redirect_url" value="@Model.redirect_url"/>
     <div class="row">
         <button id="login-btn" class="btn btn-success col-12" type="submit">Login</button>
     </div>

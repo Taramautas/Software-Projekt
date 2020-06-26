@@ -12,6 +12,8 @@ namespace Uebungsprojekt.ViewModel
         [PasswordPropertyText]
         [Required(ErrorMessage = "Please enter your password.")]
         public string password { get; set; }
+        
+        public string redirect_url { get; set; }
             
     }
 }

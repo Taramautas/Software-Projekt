@@ -7,15 +7,16 @@ using Uebungsprojekt.Models;
 
 public class UserManager
 {
-
-    public UserManager()
+    private object user_dao_impl;
+    public UserManager(object user_dao_impl)
     {
+        this.user_dao_impl = user_dao_impl;
     }
 
     public async void SignIn(HttpContext httpContext, User user)
     {
         
-        // User matching_user = UserDaoImpl.GetDao().GetUserByID(user.Id); TODO: Replace line when UserDaoImpl is implemented
+        // User matching_user = user_dao_impl.GetDao().GetUserByEmail(user.email); // TODO: 1. Replace line when UserDaoImpl is implemented; 2. Add GetUserByEmail to diagramm
         User matching_user = new User()
         {
             email = "radi.achkik@gmail.com",

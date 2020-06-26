@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Uebungsprojekt.OccupancyPlans;
-using Uebungsprojekt.Simulations;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
@@ -14,7 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Uebungsprojekt.Controllers
 {
 
-    [Authorize]
+    [Authorize(Roles = "Employee")]
     public class AdministrationController : Controller
     {
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
@@ -45,7 +39,7 @@ namespace Uebungsprojekt.Controllers
         public IActionResult SimulationConfig()
         {
             // FIXME: Return View()
-            return View("Index");
+            return RedirectToAction("Index");
         }
         
         /// <summary>
@@ -56,7 +50,7 @@ namespace Uebungsprojekt.Controllers
         public IActionResult SimulationInfrastructure(SimulationConfig config)
         {
             
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -66,12 +60,12 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult Simulation(SimulationInfrastructure infrastructure)
         {
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Evaluate(SimulationResult result)
         {
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
