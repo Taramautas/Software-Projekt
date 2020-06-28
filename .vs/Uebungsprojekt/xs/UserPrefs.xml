@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{8CA6C2C8-6AF0-495E-8AB9-DCF82AB50A53}|Default">
+  <MonoDevelop.Ide.ItemProperties.Uebungsprojekt PreferredExecutionTarget="/Applications/Brave Browser.app" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Uebungsprojekt" expanded="True">
+            <Node name="Uebungsprojekt" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="HomeController.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="ViewModel" expanded="True" />
+            </Node>
+            <Node name="UITest" expanded="True" />
+            <Node name="UnitTest" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.UnitTest PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
