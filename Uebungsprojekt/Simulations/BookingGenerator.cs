@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Threading.Tasks;
 using Uebungsprojekt.Models;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.Random;
 
 namespace Uebungsprojekt.Simulations
 {

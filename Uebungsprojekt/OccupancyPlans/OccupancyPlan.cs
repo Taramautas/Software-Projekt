@@ -12,7 +12,7 @@ namespace Uebungsprojekt.OccupancyPlans
         private object charging_zone_dao;
         private object charging_column_dao;
         private object booking_dao;
-        private OccupancyPlan(Object location_dao, Object charging_zone_dao, Object charging_column_dao, Object booking_dao)
+        private OccupancyPlan(object location_dao, object charging_zone_dao, object charging_column_dao, object booking_dao)
         {
             // TODO: This pattern is just one possible solution to deal with different contexts in terms of simulation and user infrastructure 
             this.location_dao = location_dao;

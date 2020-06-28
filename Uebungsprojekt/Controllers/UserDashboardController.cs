@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -9,9 +11,12 @@ namespace Uebungsprojekt.Controllers
 
     public class UserDashboardController : Controller
     {
-        public UserDashboardController()
+        private readonly UserManager user_manager;
+        private string user_id;
+        public UserDashboardController(UserManager user_manager, IHttpContextAccessor http_context_accessor)
         {
-            //TODO
+            this.user_manager = user_manager;
+            user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
 
         //TODO Evaluate if this Class is the right place for the notifyUserOnChargingWindow() method declared in issue #22 

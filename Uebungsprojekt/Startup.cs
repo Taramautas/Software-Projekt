@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt
 {
@@ -36,8 +37,11 @@ namespace Uebungsprojekt
                     config.AccessDeniedPath = "/Home/Error/";
                 });
             
-            // Deliver UserManger for each Controller contructor
+            // Deliver UserManger for each controller constructor
             services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
+            
+            // Add HTTPContext Accessor to each controller constructor
+            services.AddHttpContextAccessor();
         }
 
         /// <summary>

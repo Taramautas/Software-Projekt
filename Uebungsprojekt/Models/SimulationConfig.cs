@@ -7,6 +7,13 @@ namespace Uebungsprojekt.Models
 {
     public class SimulationConfig
     {
+        public SimulationConfig()
+        {
+            rush_hours = new List<Tuple<DayOfWeek, TimeSpan>>();
+            vehicles = new List<Vehicle>();
+        }
+
+        public int id { get; set; }
         public int tick_minutes { get; set; }
         public List<Tuple<DayOfWeek, TimeSpan>> rush_hours { get; set; }
         public int min { get; set; }

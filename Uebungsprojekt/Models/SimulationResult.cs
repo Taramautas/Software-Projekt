@@ -5,6 +5,7 @@ namespace Uebungsprojekt.Models
 {
     public class SimulationResult
     {
+        public int id { get; set; }
         public SimulationConfig config { get; set; }
         public SimulationInfrastructure infrastructure { get; set; }
         public List<double> total_workload { get; set; }
@@ -20,6 +21,7 @@ namespace Uebungsprojekt.Models
 
             total_workload = new List<double>();
             num_generated_bookings = new List<int>();
+            num_unsatisfiable_bookings = new List<int>();
             
             unsatisfiable_bookings_with_suggestion = new List<Tuple<Booking, Booking>>();
         }

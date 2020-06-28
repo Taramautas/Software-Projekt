@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Uebungsprojekt.Controllers;
+using Uebungsprojekt.Models;
 
 namespace UnitTest.Controllers
 {

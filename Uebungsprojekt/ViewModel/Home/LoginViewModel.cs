@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Uebungsprojekt.ViewModel
+namespace Uebungsprojekt.ViewModel.Home
 {
     public class LoginViewModel
     {

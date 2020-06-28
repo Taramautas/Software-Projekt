@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.ViewModel;
+using Uebungsprojekt.ViewModel.Home;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -16,9 +17,9 @@ namespace Uebungsprojekt.Controllers
         /// Constructor
         /// </summary>
         /// <param name="userManager">UserManager</param>
-        public HomeController(UserManager userManager)
+        public HomeController(UserManager user_manager)
         {
-            user_manger = userManager;
+            this.user_manger = user_manager;
         }
 
         /// <summary>

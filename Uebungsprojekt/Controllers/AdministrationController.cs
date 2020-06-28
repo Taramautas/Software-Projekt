@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.Simulations;
-using Uebungsprojekt.ViewModel;
+using Uebungsprojekt.ViewModel.Administration;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -18,6 +20,9 @@ namespace Uebungsprojekt.Controllers
     [Authorize(Roles = "Employee")]
     public class AdministrationController : Controller
     {
+        private readonly UserManager user_manager;
+        private string user_id;
+        
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
         private IMemoryCache _cache; // TODO: Evaluation
 
@@ -25,8 +30,10 @@ namespace Uebungsprojekt.Controllers
         /// <summary>
         /// Constructor for AdministrationController
         /// </summary>
-        public AdministrationController()
+        public AdministrationController(UserManager user_manager, IHttpContextAccessor http_context_accessor)
         {
+            this.user_manager = user_manager;
+            user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
 
         /// <summary>
@@ -45,41 +52,39 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationConfig()
         {
-            /* TODO: Add when View exists
-             * SimulationViewModel view_model = new SimulationViewModel();
-             * view_model.all_simulation_configs = SimulationConfigDao.GetAllSimulationConfigs();
-             * return View(view_model);
-             */
-            return RedirectToAction("Index");
+            SimulationConfigViewModel view_model = new SimulationConfigViewModel();
+            // view_model.all_simulation_configs = SimulationConfigDao.GetDao().GetAllSimulationConfigs();
+            return View(view_model);
         }
-        
+
         /// <summary>
         /// Passes both the simulation infrastructure and configuration to the simulation
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult SimulationInfrastructure(SimulationViewModel view_model)
+        public IActionResult SimulationInfrastructure(SimulationInfrastructureViewModel view_model)
         {
-            /* TODO: Add when View exists
-             * view_model.all_simulation_infrastructures = SimulationInfrastructureDao.GetAllSimulationInfrastructures();
-             * return View(view_model)
-             */
-            return RedirectToAction("Index");
+            // TODO: view_model.all_simulation_infrastructures = SimulationInfrastructureDao.GetAllSimulationInfrastructures();
+            return View(view_model);
         }
 
         /// <summary>
         /// Start and visualize the actual simulation
         /// </summary>
-        /// <param name="infrastructure"></param>
+        /// <param name="view_model"></param>
         [HttpPost]
         public IActionResult Simulation(SimulationViewModel view_model)
         {
             Simulation simulation = new Simulation(view_model.simulation_config, view_model.simulation_infrastructure);
-            GetSimulationResults(simulation);
-            return RedirectToAction("Index"); // TODO: return View();
+            if (!simulation.RunSimulation())
+            {
+                return RedirectToPage("/Home/Error/");
+            }
+            
+            return View(simulation.simulation_result.id);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task GetSimulationResults(Simulation simulation)
         {
             var context = ControllerContext.HttpContext;
@@ -88,7 +93,6 @@ namespace Uebungsprojekt.Controllers
             if (is_socket_request)
             {
                 WebSocket web_socket = await context.WebSockets.AcceptWebSocketAsync();
-                SimulationResult result;
                 if (!simulation.RunSimulation())
                     await SendSimulationUpdates(context, web_socket, null);
                 else
@@ -138,9 +142,10 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
+        [HttpPost]
         public IActionResult Evaluate(SimulationResult result)
         {
-            return RedirectToAction("Index"); // TODO: return View(result);
+            return View(result);
         }
 
         /// <summary>
