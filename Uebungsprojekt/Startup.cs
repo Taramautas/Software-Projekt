@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Uebungsprojekt.Models;
+using Uebungsprojekt.OccupancyPlans;
+using Uebungsprojekt.Service;
 
 namespace Uebungsprojekt
 {
@@ -42,6 +45,13 @@ namespace Uebungsprojekt
             
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
+            
+            // Added Cronjob - which runs every 15th minute
+            services.AddCronJob<CronTest>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"*/15 * * * *";
+            });
         }
 
         /// <summary>
