@@ -7,6 +7,7 @@ namespace Uebungsprojekt.DAO
     public class BookingDaoImpl : BookingDao
     {
         private IMemoryCache _cache;
+        public static int id = 0;
 
         public BookingDaoImpl(IMemoryCache memoryCache)
         {
@@ -14,13 +15,24 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+        /// Creates new DaoId and returns it.
+        /// </summary>
+        /// <returns>the created DaoId</returns>
+        public static int CreateNewId()
+        {
+            id++;
+            return id;
+        }
+
+        /// <summary>
         /// Adds a booking to the Bookinglist if there is one, else it creates a new List and adds the booking
         /// </summary>
         /// <param name="booking">Booking that is to be added</param>
+        /// <param name="DaoId">Id of List that's to be used. If DaoId = 0 a new Id will be created</param>
         /// <returns>the added Booking</returns>
-        public Booking Create(Booking booking)
+        public Booking Create(Booking booking, int DaoId)
         {
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
             {
                 createdBookings.Add(booking);
                 return booking;
@@ -28,25 +40,26 @@ namespace Uebungsprojekt.DAO
             else
             {
                 createdBookings = new List<Booking> { booking };
-                _cache.Set("CreateBooking", createdBookings);
+                _cache.Set(DaoId + "CreateBooking", createdBookings);
                 return booking;
             }
-        }
+        } // Frage: Soll Create überhaupt in der Lage sein eine neue DaoListe anzulegen falls die id nicht vorhanden ist?
 
         /// <summary>
         /// Delets the Booking with specified Id
         /// </summary>
         /// <param name="_Id">Booking Id</param>
+        /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>true if found and deleted, false else</returns>
-        public bool Delete(int _Id)
+        public bool Delete(int _Id, int DaoId)
         {
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
             {
-                if(GetById(_Id) == null)
+                if(GetById(_Id, DaoId) == null)
                 {
                     return false;
                 }
-                createdBookings.Remove(GetById(_Id));
+                createdBookings.Remove(GetById(_Id, DaoId));
                 return true;
             }
             else
@@ -58,17 +71,18 @@ namespace Uebungsprojekt.DAO
         /// <summary>
         /// Returns the List of Bookings in Cache if there is one, else it creates a new List and returns it
         /// </summary>
+        /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>List of Bookings</returns>
-        public List<Booking> GetAll()
+        public List<Booking> GetAll(int DaoId)
         {
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
             {
                 return createdBookings;
             }
             else
             {
                 createdBookings = new List<Booking>();
-                _cache.Set("CreateBooking", createdBookings);
+                _cache.Set(DaoId + "CreateBooking", createdBookings);
                 return createdBookings;
             }
         }
@@ -77,10 +91,11 @@ namespace Uebungsprojekt.DAO
         /// Finds a Booking with specified ID and returns it
         /// </summary>
         /// <param name="_Id">Booking Id</param>
+        /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>Booking with specified Id on success and null on failure</returns>
-        public Booking GetById(int _Id)
+        public Booking GetById(int _Id, int DaoId)
         {
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
             {
 
                 return createdBookings.Find(x => x.Id == _Id);

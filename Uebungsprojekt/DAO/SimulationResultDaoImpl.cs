@@ -86,7 +86,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults))
             {
 
-                return createdSimulationResults.Find(x => x.Id == _Id);
+                return createdSimulationResults.Find(x => x.id == _Id);
             }
             else
             {

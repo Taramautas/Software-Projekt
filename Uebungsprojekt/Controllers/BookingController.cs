@@ -20,13 +20,13 @@ namespace Uebungsprojekt.Controllers
     /// </summary>
     public class BookingController : Controller
     {
-        private readonly BookingDao _bookingDao;
+        private readonly BookingDaoImpl _bookingDao;
 
         /// <summary>
         /// Constructor of controller.
         /// </summary>
         /// <param name="memoryCache">IMemoryCache object for initializing the memory cache</param>
-        public BookingController(BookingDao bookingDao)
+        public BookingController(BookingDaoImpl bookingDao)
         {
             _bookingDao = bookingDao;
         }       
@@ -45,9 +45,9 @@ namespace Uebungsprojekt.Controllers
             }
             return View(new List<Booking>());
             */
-            if (_bookingDao.GetAll().Count() != 0)
+            if (_bookingDao.GetAll(0).Count() != 0)
             {
-                return View(_bookingDao.GetAll());
+                return View(_bookingDao.GetAll(0));
             }
             return View(new List<Booking>());
         }
@@ -90,7 +90,7 @@ namespace Uebungsprojekt.Controllers
             }
             */
 
-            _bookingDao.Create(booking);
+            _bookingDao.Create(booking, 0);
             return RedirectToAction("Index");
         }
 
@@ -102,7 +102,7 @@ namespace Uebungsprojekt.Controllers
         {
             List<Booking> bookings;
             // Try to read the cache
-            bookings = _bookingDao.GetAll();
+            bookings = _bookingDao.GetAll(0);
             if (bookings.Count() != 0)
             {
                 // Serialize booking list
@@ -152,7 +152,7 @@ namespace Uebungsprojekt.Controllers
                     {
                         foreach(Booking b in importedBookings)
                         {
-                            _bookingDao.Create(b);
+                            _bookingDao.Create(b, 0);
                         }
                         /*
                         if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
