@@ -11,7 +11,11 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+<<<<<<< HEAD
 using Uebungsprojekt.Impl;
+=======
+using Uebungsprojekt.DAO;
+>>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
 
 namespace Uebungsprojekt.Controllers
 {
@@ -20,15 +24,15 @@ namespace Uebungsprojekt.Controllers
     /// </summary>
     public class BookingController : Controller
     {
-        private IMemoryCache _cache;
+        private readonly BookingDaoImpl _bookingDao;
 
         /// <summary>
         /// Constructor of controller.
         /// </summary>
         /// <param name="memoryCache">IMemoryCache object for initializing the memory cache</param>
-        public BookingController(IMemoryCache memoryCache)
+        public BookingController(BookingDaoImpl bookingDao)
         {
-            _cache = memoryCache;
+            _bookingDao = bookingDao;
         }       
         /// <summary>
         /// Displays the booking View and passes the booking list initialized in the constructor as well as the booking in the cache, if one exists
@@ -38,9 +42,16 @@ namespace Uebungsprojekt.Controllers
         /// </returns>
         public IActionResult Index()
         {
+            /*
             if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
             {
                 return View(createdBookings);
+            }
+            return View(new List<Booking>());
+            */
+            if (_bookingDao.GetAll(0).Count() != 0)
+            {
+                return View(_bookingDao.GetAll(0));
             }
             return View(new List<Booking>());
         }
@@ -70,7 +81,8 @@ namespace Uebungsprojekt.Controllers
         {
             // Server side validation
             if (!ModelState.IsValid) return View();
-            
+
+            /*
             if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
             {
                 createdBookings.Add(booking);
@@ -80,6 +92,9 @@ namespace Uebungsprojekt.Controllers
                 createdBookings = new List<Booking> {booking};
                 _cache.Set("CreateBooking", createdBookings);
             }
+            */
+
+            _bookingDao.Create(booking, 0);
             return RedirectToAction("Index");
         }
 
@@ -89,10 +104,15 @@ namespace Uebungsprojekt.Controllers
         /// <returns>List of Booking as .json-file</returns>
         public IActionResult Export()
         {
+<<<<<<< HEAD
 
             
+=======
+            List<Booking> bookings;
+>>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
             // Try to read the cache
-            if (_cache.TryGetValue("CreateBooking", out List<Booking> bookings))
+            bookings = _bookingDao.GetAll(0);
+            if (bookings.Count() != 0)
             {
                 var output = Impl.Export.BookingExport(_cache, bookings);
                 return output;
@@ -113,7 +133,42 @@ namespace Uebungsprojekt.Controllers
             // Check if exactly one file was uploaded
             if (json_files.Count == 1)
             {
+<<<<<<< HEAD
                 Impl.Import.BookingImport(_cache, json_files);
+=======
+                // Server side validation: Check the file for .json extension and for max. size 1MB
+                if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
+                {
+                    // Deserialize list of bookings
+                    StreamReader reader = new StreamReader(json_files[0].OpenReadStream());
+                    string json = reader.ReadToEnd();
+                    bool success = true;
+                    var settings = new JsonSerializerSettings
+                    {
+                        Error = (sender, args) => { success = false; args.ErrorContext.Handled = true; },
+                        MissingMemberHandling = MissingMemberHandling.Error
+                    };
+                    List<Booking> importedBookings = JsonConvert.DeserializeObject<List<Booking>>(json, settings);
+                    // If success, add to cached booking list
+                    if (success)
+                    {
+                        foreach(Booking b in importedBookings)
+                        {
+                            _bookingDao.Create(b, 0);
+                        }
+                        /*
+                        if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
+                        {
+                            createdBookings.AddRange(importedBookings);
+                        }
+                        else
+                        {
+                            _cache.Set("CreateBooking", importedBookings);
+                        }
+                        */
+                    }
+                }
+>>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
             }
             // Return Index View (will update accordingly)
             return RedirectToAction("Index");
