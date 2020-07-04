@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Uebungsprojekt.Impl;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -88,25 +89,17 @@ namespace Uebungsprojekt.Controllers
         /// <returns>List of Booking as .json-file</returns>
         public IActionResult Export()
         {
+
+            
             // Try to read the cache
             if (_cache.TryGetValue("CreateBooking", out List<Booking> bookings))
             {
-                // Serialize booking list
-                string json = JsonConvert.SerializeObject(bookings, Formatting.Indented);
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
-                //Create downloadable file
-                var output = new FileContentResult(bytes, "application/octet-stream");
-                string filename = "Bookings_" + DateTime.Now.ToString(new CultureInfo("de-DE"))
-                    .Replace(":", "_")
-                    .Replace(".", "_") 
-                    .Replace(" ", "_")
-                                              + ".json";
-                output.FileDownloadName = filename;
-                // Return .json file for download
+                var output = Impl.Export.BookingExport(_cache, bookings);
                 return output;
             }
             // Return to Index if there are no bookings to export
             return RedirectToAction("Index");
+
         }
 
         /// <summary>
@@ -120,33 +113,7 @@ namespace Uebungsprojekt.Controllers
             // Check if exactly one file was uploaded
             if (json_files.Count == 1)
             {
-                // Server side validation: Check the file for .json extension and for max. size 1MB
-                if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
-                {
-                    // Deserialize list of bookings
-                    StreamReader reader = new StreamReader(json_files[0].OpenReadStream());
-                    string json = reader.ReadToEnd();
-                    bool success = true;
-                    var settings = new JsonSerializerSettings
-                    {
-                        Error = (sender, args) => { success = false; args.ErrorContext.Handled = true; },
-                        MissingMemberHandling = MissingMemberHandling.Error
-                    };
-                    List<Booking> importedBookings = JsonConvert.DeserializeObject<List<Booking>>(json, settings);
-                    // If success, add to cached booking list
-                    if (success)
-                    {
-
-                        if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
-                        {
-                            createdBookings.AddRange(importedBookings);
-                        }
-                        else
-                        {
-                            _cache.Set("CreateBooking", importedBookings);
-                        }
-                    }
-                }
+                Impl.Import.BookingImport(_cache, json_files);
             }
             // Return Index View (will update accordingly)
             return RedirectToAction("Index");
