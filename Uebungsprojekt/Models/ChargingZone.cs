@@ -7,7 +7,7 @@ namespace Uebungsprojekt.Models
 {
     public class ChargingZone
     {
-        public int Chargingzone_Id { get; set; }
+        public int Id { get; set; }
 
         public int Overall_performance { get; set; }
 

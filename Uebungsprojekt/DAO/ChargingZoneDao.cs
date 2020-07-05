@@ -10,9 +10,10 @@ namespace Uebungsprojekt.DAO
     {
         // All usable Methods of ChargingZoneDao
         // Implemented in ChargingZoneDaoImpl
-        ChargingZone GetById(int Id);
-        List<ChargingZone> GetAll();
-        ChargingZone Create(ChargingZone chargingZone);
-        bool Delete(int Id);
+        ChargingZone GetById(int Id, int DaoId);
+        List<ChargingZone> GetAll(int DaoId);
+        public int Create(int _Overall_performance, int DaoId);
+        ChargingZone Create(ChargingZone chargingZone, int DaoId);
+        bool Delete(int Id, int DaoId);
     }
 }

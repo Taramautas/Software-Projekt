@@ -17,6 +17,50 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+        /// Creates and adds a SimulationResult with new Id to the SimulationResultlist if there is one, else it creates a new List and adds the SimulationResult
+        /// </summary>
+        /// <returns>the id of the added SimulationResult</returns>
+        public int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion)
+        {
+            if (_cache.TryGetValue("CreateSimulationResultIds", out int ids))
+            {
+                ++ids;
+                _cache.Set("CreateSimulationResultIds", ids);
+                _cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults);
+                SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
+                {
+                    Id = ids,
+                    total_workload = _total_workload,
+                    num_generated_bookings = _num_generated_bookings,
+                    num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
+                    done = _done,
+                    unsatisfiable_bookings_with_suggestion = _unsatisfiable_bookings_with_suggestion,
+                };
+                createdSimulationResults.Add(newSimulationResult);
+                return ids;
+            }
+
+            else
+            {
+                List<SimulationResult> createdSimulationResults = new List<SimulationResult>();
+                ids = 0;
+                SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
+                {
+                    Id = ++ids,
+                    total_workload = _total_workload,
+                    num_generated_bookings = _num_generated_bookings,
+                    num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
+                    done = _done,
+                    unsatisfiable_bookings_with_suggestion = _unsatisfiable_bookings_with_suggestion,
+                };
+                createdSimulationResults.Add(newSimulationResult);
+                _cache.Set("CreateSimulationResult", createdSimulationResults);
+                _cache.Set("CreateSimulationResultIds", ids);
+                return ids;
+            }
+        }
+
+        /// <summary>
         /// Adds a simulationResult to the SimulationResultlist if there is one, else it creates a new List and adds the simulationResult
         /// </summary>
         /// <param name="simulationResult">SimulationResult that is to be added</param>
@@ -86,7 +130,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults))
             {
 
-                return createdSimulationResults.Find(x => x.id == _Id);
+                return createdSimulationResults.Find(x => x.Id == _Id);
             }
             else
             {

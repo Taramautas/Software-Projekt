@@ -12,6 +12,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in VehicleDaoImpl
         Vehicle GetById(int Id);
         List<Vehicle> GetAll();
+        int Create(string _model_name, double _capacity, List<ConnectorType> _connector_types);
         Vehicle Create(Vehicle vehicle);
         bool Delete(int Id);
     }

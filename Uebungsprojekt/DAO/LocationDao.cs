@@ -10,9 +10,10 @@ namespace Uebungsprojekt.DAO
     {
         // All usable Methods of LocationDao
         // Implemented in LocationDaoImpl
-        Location GetById(int Id);
-        List<Location> GetAll();
-        Location Create(Location location);
-        bool Delete(int Id);
+        Location GetById(int Id, int DaoId);
+        List<Location> GetAll(int DaoId);
+        public int Create(string _City, string _Post_code, string _Adress, int DaoId);
+        Location Create(Location location, int DaoId);
+        bool Delete(int Id, int DaoId);
     }
 }

@@ -17,6 +17,46 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+        /// Creates and adds a Vehicle with new Id to the Vehiclelist if there is one, else it creates a new List and adds the Vehicle
+        /// </summary>
+        /// <returns>the id of the added Vehicle</returns>
+        public int Create(string _model_name, double _capacity, List<ConnectorType> _connector_types)
+        {
+            if (_cache.TryGetValue("CreateVehicleIds", out int ids))
+            {
+                ++ids;
+                _cache.Set("CreateVehicleIds", ids);
+                _cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles);
+                Vehicle newVehicle = new Vehicle
+                {
+                    Id = ids,
+                    model_name = _model_name,
+                    capacity = _capacity,
+                    connector_types = _connector_types,
+                };
+                createdVehicles.Add(newVehicle);
+                return ids;
+            }
+
+            else
+            {
+                List<Vehicle> createdVehicles = new List<Vehicle>();
+                ids = 0;
+                Vehicle newVehicle = new Vehicle
+                {
+                    Id = ++ids,
+                    model_name = _model_name,
+                    capacity = _capacity,
+                    connector_types = _connector_types,
+                };
+                createdVehicles.Add(newVehicle);
+                _cache.Set("CreateVehicle", createdVehicles);
+                _cache.Set("CreateVehicleIds", ids);
+                return ids;
+            }
+        }
+
+        /// <summary>
         /// Adds a vehicle to the Vehiclelist if there is one, else it creates a new List and adds the vehicle
         /// </summary>
         /// <param name="vehicle">Vehicle that is to be added</param>
@@ -86,7 +126,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles))
             {
 
-                return createdVehicles.Find(x => x.id == _Id);
+                return createdVehicles.Find(x => x.Id == _Id);
             }
             else
             {

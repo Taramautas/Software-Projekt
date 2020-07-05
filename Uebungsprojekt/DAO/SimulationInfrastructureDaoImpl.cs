@@ -17,6 +17,48 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+        /// Creates and adds a SimulationInfrastructure with new Id to the SimulationInfrastructurelist if there is one, else it creates a new List and adds the SimulationInfrastructure
+        /// </summary>
+        /// <returns>the id of the added SimulationInfrastructure</returns>
+        public int Create(LocationDaoImpl _location_dao, ChargingZoneDaoImpl _charging_zone_dao, ChargingColumnDaoImpl _charging_column_dao, BookingDaoImpl _booking_dao)
+        {
+            if (_cache.TryGetValue("CreateSimulationInfrastructureIds", out int ids))
+            {
+                ++ids;
+                _cache.Set("CreateSimulationInfrastructureIds", ids);
+                _cache.TryGetValue("CreateSimulationInfrastructure", out List<SimulationInfrastructure> createdSimulationInfrastructures);
+                SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
+                {
+                    Id = ids,
+                    location_dao = _location_dao,
+                    charging_zone_dao = _charging_zone_dao,
+                    charging_column_dao = _charging_column_dao,
+                    booking_dao = _booking_dao,
+                };
+                createdSimulationInfrastructures.Add(newSimulationInfrastructure);
+                return ids;
+            }
+
+            else
+            {
+                List<SimulationInfrastructure> createdSimulationInfrastructures = new List<SimulationInfrastructure>();
+                ids = 0;
+                SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
+                {
+                    Id = ++ids,
+                    location_dao = _location_dao,
+                    charging_zone_dao = _charging_zone_dao,
+                    charging_column_dao = _charging_column_dao,
+                    booking_dao = _booking_dao,
+                };
+                createdSimulationInfrastructures.Add(newSimulationInfrastructure);
+                _cache.Set("CreateSimulationInfrastructure", createdSimulationInfrastructures);
+                _cache.Set("CreateSimulationInfrastructureIds", ids);
+                return ids;
+            }
+        }
+
+        /// <summary>
         /// Adds a simulationInfrastructure to the SimulationInfrastructurelist if there is one, else it creates a new List and adds the simulationInfrastructure
         /// </summary>
         /// <param name="simulationInfrastructure">SimulationInfrastructure that is to be added</param>
@@ -86,7 +128,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationInfrastructure", out List<SimulationInfrastructure> createdSimulationInfrastructures))
             {
 
-                return createdSimulationInfrastructures.Find(x => x.id == _Id);
+                return createdSimulationInfrastructures.Find(x => x.Id == _Id);
             }
             else
             {

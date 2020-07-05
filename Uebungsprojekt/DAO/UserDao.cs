@@ -13,6 +13,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in UserDaoImpl
         User GetById(int Id);
         List<User> GetAll();
+        int Create(string _name, string _email, string _password, Role _role);
         User Create(User user);
         bool Delete(int Id);
     }

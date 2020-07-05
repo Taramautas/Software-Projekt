@@ -17,6 +17,54 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+        /// Creates and adds a SimulationConfig with new Id to the SimulationConfiglist if there is one, else it creates a new List and adds the SimulationConfig
+        /// </summary>
+        /// <returns>the id of the added SimulationConfig</returns>
+        public int Create(int _tick_minutes, List<Tuple<DayOfWeek, TimeSpan>> _rush_hours, int _min, int _max, double _spread, int _weeks, List<Vehicle> _vehicles)
+        {
+            if (_cache.TryGetValue("CreateSimulationConfigIds", out int ids))
+            {
+                ++ids;
+                _cache.Set("CreateSimulationConfigIds", ids);
+                _cache.TryGetValue("CreateSimulationConfig", out List<SimulationConfig> createdSimulationConfigs);
+                SimulationConfig newSimulationConfig = new SimulationConfig
+                {
+                    Id = ids,
+                    tick_minutes = _tick_minutes,
+                    rush_hours = _rush_hours,
+                    min = _min,
+                    max = _max,
+                    spread = _spread,
+                    weeks = _weeks,
+                    vehicles = _vehicles,
+                };
+                createdSimulationConfigs.Add(newSimulationConfig);
+                return ids;
+            }
+
+            else
+            {
+                List<SimulationConfig> createdSimulationConfigs = new List<SimulationConfig>();
+                ids = 0;
+                SimulationConfig newSimulationConfig = new SimulationConfig
+                {
+                    Id = ++ids,
+                    tick_minutes = _tick_minutes,
+                    rush_hours = _rush_hours,
+                    min = _min,
+                    max = _max,
+                    spread = _spread,
+                    weeks = _weeks,
+                    vehicles = _vehicles,
+                };
+                createdSimulationConfigs.Add(newSimulationConfig);
+                _cache.Set("CreateSimulationConfig", createdSimulationConfigs);
+                _cache.Set("CreateSimulationConfigIds", ids);
+                return ids;
+            }
+        }
+
+        /// <summary>
         /// Adds a simulationConfig to the SimulationConfiglist if there is one, else it creates a new List and adds the simulationConfig
         /// </summary>
         /// <param name="simulationConfig">SimulationConfig that is to be added</param>
@@ -86,7 +134,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationConfig", out List<SimulationConfig> createdSimulationConfigs))
             {
 
-                return createdSimulationConfigs.Find(x => x.id == _Id);
+                return createdSimulationConfigs.Find(x => x.Id == _Id);
             }
             else
             {
