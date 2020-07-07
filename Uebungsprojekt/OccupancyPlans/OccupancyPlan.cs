@@ -8,48 +8,18 @@ namespace Uebungsprojekt.OccupancyPlans
     {
         private static OccupancyPlan main_occupancy_plan;
 
-        private object location_dao;
-        private object charging_zone_dao;
-        private object charging_column_dao;
-        private object booking_dao;
-        private OccupancyPlan(object location_dao, object charging_zone_dao, object charging_column_dao, object booking_dao)
+        private int location_dao_id;
+        private int charging_zone_dao_id;
+        private int charging_column_dao_id;
+        private int booking_dao_id;
+        public OccupancyPlan(int location_dao_id, int charging_zone_dao_id, int charging_column_dao_id, int booking_dao_id)
         {
-            // TODO: This pattern is just one possible solution to deal with different contexts in terms of simulation and user infrastructure 
-            this.location_dao = location_dao;
-            this.charging_zone_dao = charging_zone_dao;
-            this.charging_column_dao = charging_column_dao;
-            this.booking_dao = booking_dao;
+            this.location_dao_id = location_dao_id;
+            this.charging_zone_dao_id = charging_zone_dao_id;
+            this.charging_column_dao_id = charging_column_dao_id;
+            this.booking_dao_id = booking_dao_id;
         }
-
-        public static OccupancyPlan GetOccupancyPlan()
-        {
-            if (main_occupancy_plan == null)
-            {
-                object location_dao = new object();
-                object charging_zone_dao = new object();
-                object charging_column_dao = new object();
-                object booking_dao = new object();
-                object vehicle_dao = new object();
-                main_occupancy_plan = new OccupancyPlan(
-                    location_dao, 
-                    charging_zone_dao, 
-                    charging_column_dao, 
-                    booking_dao
-                    );
-
-            }
-            return main_occupancy_plan;
-        }
-
-        public static OccupancyPlan GetSimulationOccupancyPlan(SimulationInfrastructure infrastructure)
-        {
-            return new OccupancyPlan(
-                infrastructure.location_dao, 
-                infrastructure.charging_zone_dao, 
-                infrastructure.charging_column_dao, 
-                infrastructure.booking_dao
-                );
-        }
+        
         public bool AcceptBooking(Booking booking)
         {
             return true;
