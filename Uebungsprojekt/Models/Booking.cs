@@ -11,7 +11,8 @@ namespace Uebungsprojekt.Models
     /// </summary>
     public class Booking
     {
-        /// <summary>All possible connector types</summary>
+        public int Id { get; set; }
+
         public enum ConnectorTypeEnum
         {
             [Display(Name = "Schuko Socket")]
@@ -31,24 +32,25 @@ namespace Uebungsprojekt.Models
         /// <summary>Current State of Charge</summary>
         [Required(ErrorMessage = "Please specify the current state of charge.")]
         [Range(0, 100)]
-        public int StateOfCharge { get; set; }
+        public int start_state_of_charge { get; set; }
 
         /// <summary>Distance needed before next charging</summary>
         [Required(ErrorMessage = "Please specify the distance needed.")]
-        [Range(1, 1000)]
-        public int NeededDistance { get; set; }
+        [Range(1, 100)]
+        public int target_state_of_charge { get; set; }
 
         /// <summary>Preferred start datetime</summary>
         [Required(ErrorMessage = "Please specify the wanted start time.")]
-        public DateTime StartTime { get; set; }
+        public DateTime start_time { get; set; }
 
         /// <summary>Preferred end datetime</summary>
         [Required(ErrorMessage = "Please specify the wanted end time.")]
-        public DateTime EndTime { get; set; }
+        public DateTime end_time { get; set; }
 
+        // TODO: Need custom JSONConverter for Vehicle etc.
         /// <summary>Connector type for charging</summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        public Vehicle vehicle { get; set; }
         public ConnectorTypeEnum ConnectorType { get; set; }
 
         /// <summary>
