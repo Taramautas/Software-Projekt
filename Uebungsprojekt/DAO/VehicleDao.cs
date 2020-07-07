@@ -10,10 +10,10 @@ namespace Uebungsprojekt.DAO
     {
         // All usable Methods of VehicleDao
         // Implemented in VehicleDaoImpl
-        Vehicle GetById(int Id);
+        Vehicle GetById(int id);
         List<Vehicle> GetAll();
-        int Create(string _model_name, double _capacity, List<ConnectorType> _connector_types);
+        int Create(string model_name, double capacity, List<ConnectorType> connector_types);
         Vehicle Create(Vehicle vehicle);
-        bool Delete(int Id);
+        bool Delete(int id);
     }
 }

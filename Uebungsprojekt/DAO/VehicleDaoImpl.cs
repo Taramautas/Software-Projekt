@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles);
                 Vehicle newVehicle = new Vehicle
                 {
-                    Id = ids,
+                    id = ids,
                     model_name = _model_name,
                     capacity = _capacity,
                     connector_types = _connector_types,
@@ -44,7 +44,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 Vehicle newVehicle = new Vehicle
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     model_name = _model_name,
                     capacity = _capacity,
                     connector_types = _connector_types,
@@ -126,7 +126,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles))
             {
 
-                return createdVehicles.Find(x => x.Id == _Id);
+                return createdVehicles.Find(x => x.id == _Id);
             }
             else
             {

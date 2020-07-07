@@ -11,11 +11,8 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-<<<<<<< HEAD
 using Uebungsprojekt.Impl;
-=======
 using Uebungsprojekt.DAO;
->>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
 
 namespace Uebungsprojekt.Controllers
 {
@@ -25,14 +22,16 @@ namespace Uebungsprojekt.Controllers
     public class BookingController : Controller
     {
         private readonly BookingDaoImpl _bookingDao;
+        private IMemoryCache _cache;
 
         /// <summary>
         /// Constructor of controller.
         /// </summary>
         /// <param name="memoryCache">IMemoryCache object for initializing the memory cache</param>
-        public BookingController(BookingDaoImpl bookingDao)
+        public BookingController(IMemoryCache cache)
         {
-            _bookingDao = bookingDao;
+            _bookingDao = new BookingDaoImpl(cache);
+            _cache = cache;
         }       
         /// <summary>
         /// Displays the booking View and passes the booking list initialized in the constructor as well as the booking in the cache, if one exists
@@ -104,12 +103,7 @@ namespace Uebungsprojekt.Controllers
         /// <returns>List of Booking as .json-file</returns>
         public IActionResult Export()
         {
-<<<<<<< HEAD
-
-            
-=======
             List<Booking> bookings;
->>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
             // Try to read the cache
             bookings = _bookingDao.GetAll(0);
             if (bookings.Count() != 0)
@@ -133,9 +127,7 @@ namespace Uebungsprojekt.Controllers
             // Check if exactly one file was uploaded
             if (json_files.Count == 1)
             {
-<<<<<<< HEAD
                 Impl.Import.BookingImport(_cache, json_files);
-=======
                 // Server side validation: Check the file for .json extension and for max. size 1MB
                 if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
                 {
@@ -168,7 +160,6 @@ namespace Uebungsprojekt.Controllers
                         */
                     }
                 }
->>>>>>> 36075c1ebf085e9b229c5148926e4efabc2d0acd
             }
             // Return Index View (will update accordingly)
             return RedirectToAction("Index");

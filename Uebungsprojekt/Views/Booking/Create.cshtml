@@ -36,7 +36,7 @@
         -->
     <div class="form-group row">
         <label for="ConnectorType" class="col-2 col-form-label">Connector Type:</label>
-        <select id="ConnectorType" class="col-10 form-control" asp-for="ConnectorType" asp-items="Html.GetEnumSelectList<Booking.ConnectorTypeEnum>()"></select><br />
+        <select id="ConnectorType" class="col-10 form-control" asp-for="ConnectorType" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
         <span asp-validation-for="ConnectorType" class="text-danger form-danger-span"></span>
     </div>
     <div class="row">

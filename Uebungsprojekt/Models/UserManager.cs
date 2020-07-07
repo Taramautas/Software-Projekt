@@ -22,7 +22,7 @@ namespace Uebungsprojekt.Models
             User matching_user = new User()
             {
                 email = "radi.achkik@gmail.com",
-                Id = 2,
+                id = 2,
                 name = "Radi Achkik",
                 password = "asdf",
                 role = Role.Employee
@@ -56,7 +56,7 @@ namespace Uebungsprojekt.Models
         {
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.id.ToString()));
             claims.Add(new Claim(ClaimTypes.Email, user.email));
             claims.AddRange(GetUserRoleClaims(user));
             return claims;
@@ -66,7 +66,7 @@ namespace Uebungsprojekt.Models
         {
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.id.ToString()));
             claims.Add(new Claim(ClaimTypes.Role, user.role.ToString()));
             return claims;
         }

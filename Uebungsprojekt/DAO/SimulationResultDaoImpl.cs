@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults);
                 SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
                 {
-                    Id = ids,
+                    id = ids,
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
@@ -46,7 +46,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
@@ -130,7 +130,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults))
             {
 
-                return createdSimulationResults.Find(x => x.Id == _Id);
+                return createdSimulationResults.Find(x => x.id == _Id);
             }
             else
             {

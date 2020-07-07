@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue("CreateUser", out List<User> createdUsers);
                 User newUser = new User
                 {
-                    Id = ids,
+                    id = ids,
                     name = _name,
                     email = _email,
                     password = _password,
@@ -45,7 +45,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 User newUser = new User
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     name = _name,
                     email = _email,
                     password = _password,
@@ -128,7 +128,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateUser", out List<User> createdUsers))
             {
 
-                return createdUsers.Find(x => x.Id == _Id);
+                return createdUsers.Find(x => x.id == _Id);
             }
             else
             {

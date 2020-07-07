@@ -7,17 +7,17 @@ namespace Uebungsprojekt.Models
 {
     public class ChargingColumn
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public Boolean Busy { get; set; }
+        public Boolean busy { get; set; }
 
-        public string Manaufacturer_name { get; set; }
+        public string manufacturer_name { get; set; }
 
-        public Dictionary<ConnectorType, ConnectorType> Connectors { get; set; }
+        public List<ConnectorType> connectors { get; set; }
 
-        public Boolean Emergency_reserve { get; set; }
+        public Boolean emergency_reserve { get; set; }
 
-        public int Max_concurrent_charging { get; set; }
+        public int max_concurrent_charging { get; set; }
 
         public ChargingColumn()
         {

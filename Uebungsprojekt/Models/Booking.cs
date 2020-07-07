@@ -11,23 +11,7 @@ namespace Uebungsprojekt.Models
     /// </summary>
     public class Booking
     {
-        public int Id { get; set; }
-
-        public enum ConnectorTypeEnum
-        {
-            [Display(Name = "Schuko Socket")]
-            Schuko_Socket,
-            [Display(Name = "Type 1 Plug")]
-            Type_1_Plug,
-            [Display(Name = "Type 2 Plug")]
-            Type_2_Plug,
-            [Display(Name = "CHAdeMO Plug")]
-            CHAdeMO_Plug,
-            [Display(Name = "Tesla Supercharger")]
-            Tesla_Supercharger,
-            [Display(Name = "CCS Combo 2 Plug")]
-            CCS_Combo_2_Plug
-        };
+        public int id { get; set; }
 
         /// <summary>Current State of Charge</summary>
         [Required(ErrorMessage = "Please specify the current state of charge.")]
@@ -51,7 +35,7 @@ namespace Uebungsprojekt.Models
         /// <summary>Connector type for charging</summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
         public Vehicle vehicle { get; set; }
-        public ConnectorTypeEnum ConnectorType { get; set; }
+        public ConnectorType ConnectorType { get; set; }
 
         /// <summary>
         /// Empty constructor of booking model

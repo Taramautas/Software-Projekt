@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue("CreateSimulationInfrastructure", out List<SimulationInfrastructure> createdSimulationInfrastructures);
                 SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
                 {
-                    Id = ids,
+                    id = ids,
                     location_dao = _location_dao,
                     charging_zone_dao = _charging_zone_dao,
                     charging_column_dao = _charging_column_dao,
@@ -45,7 +45,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     location_dao = _location_dao,
                     charging_zone_dao = _charging_zone_dao,
                     charging_column_dao = _charging_column_dao,
@@ -128,7 +128,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationInfrastructure", out List<SimulationInfrastructure> createdSimulationInfrastructures))
             {
 
-                return createdSimulationInfrastructures.Find(x => x.Id == _Id);
+                return createdSimulationInfrastructures.Find(x => x.id == _Id);
             }
             else
             {

@@ -32,7 +32,7 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>the id of the added Booking</returns>
-        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Vehicle _vehicle, ConnectorTypeEnum _connectorType, int DaoId)
+        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Vehicle _vehicle, ConnectorType _connectorType, int DaoId)
         {
             if (_cache.TryGetValue(DaoId + "CreateBookingIds", out int ids))
             {
@@ -41,7 +41,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings);
                 Booking newBooking = new Booking
                 {
-                    Id = ids,
+                    id = ids,
                     start_state_of_charge = _start_state_of_charge,
                     target_state_of_charge = _target_state_of_charge,
                     start_time = _start_time,
@@ -59,7 +59,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 Booking newBooking = new Booking
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     start_state_of_charge = _start_state_of_charge,
                     target_state_of_charge = _target_state_of_charge,
                     start_time = _start_time,
@@ -151,7 +151,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
             {
 
-                return createdBookings.Find(x => x.Id == _Id);
+                return createdBookings.Find(x => x.id == _Id);
             }
             else
             {

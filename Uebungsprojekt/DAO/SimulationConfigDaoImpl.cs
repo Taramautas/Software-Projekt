@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue("CreateSimulationConfig", out List<SimulationConfig> createdSimulationConfigs);
                 SimulationConfig newSimulationConfig = new SimulationConfig
                 {
-                    Id = ids,
+                    id = ids,
                     tick_minutes = _tick_minutes,
                     rush_hours = _rush_hours,
                     min = _min,
@@ -48,7 +48,7 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 SimulationConfig newSimulationConfig = new SimulationConfig
                 {
-                    Id = ++ids,
+                    id = ++ids,
                     tick_minutes = _tick_minutes,
                     rush_hours = _rush_hours,
                     min = _min,
@@ -134,7 +134,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue("CreateSimulationConfig", out List<SimulationConfig> createdSimulationConfigs))
             {
 
-                return createdSimulationConfigs.Find(x => x.Id == _Id);
+                return createdSimulationConfigs.Find(x => x.id == _Id);
             }
             else
             {

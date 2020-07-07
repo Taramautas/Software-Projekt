@@ -41,10 +41,10 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue(DaoId + "CreateLocation", out List<Location> createdLocations);
                 Location newLocation = new Location
                 {
-                    Id = ids,
-                    City = _City,
-                    Post_code = _Post_code,
-                    Adress = _Adress,
+                    id = ids,
+                    city = _City,
+                    post_code = _Post_code,
+                    address = _Adress,
                 };
                 createdLocations.Add(newLocation);
                 return ids;
@@ -56,10 +56,10 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 Location newLocation = new Location
                 {
-                    Id = ++ids,
-                    City = _City,
-                    Post_code = _Post_code,
-                    Adress = _Adress,
+                    id = ids,
+                    city = _City,
+                    post_code = _Post_code,
+                    address = _Adress,
                 };
                 createdLocations.Add(newLocation);
                 _cache.Set(DaoId + "CreateLocation", createdLocations);
@@ -145,7 +145,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue(DaoId + "CreateLocation", out List<Location> createdLocations))
             {
 
-                return createdLocations.Find(x => x.Id == _Id);
+                return createdLocations.Find(x => x.id == _Id);
             }
             else
             {

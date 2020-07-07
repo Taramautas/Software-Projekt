@@ -7,13 +7,13 @@ namespace Uebungsprojekt.Models
 {
     public class Location
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string City { get; set; }
+        public string city { get; set; }
 
-        public string Post_code { get; set; }
+        public string post_code { get; set; }
 
-        public string Adress { get; set; }
+        public string address { get; set; }
 
         public Location()
         {

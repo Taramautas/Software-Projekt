@@ -41,8 +41,8 @@ namespace Uebungsprojekt.DAO
                 _cache.TryGetValue(DaoId + "CreateChargingZone", out List<ChargingZone> createdChargingZones);
                 ChargingZone newChargingZone = new ChargingZone
                 {
-                    Id = ids,
-                    Overall_performance = _Overall_performance,
+                    id = ids,
+                    overall_performance = _Overall_performance,
                 };
                 createdChargingZones.Add(newChargingZone);
                 return ids;
@@ -54,8 +54,8 @@ namespace Uebungsprojekt.DAO
                 ids = 0;
                 ChargingZone newChargingZone = new ChargingZone
                 {
-                    Id = ++ids,
-                    Overall_performance = _Overall_performance,
+                    id = ++ids,
+                    overall_performance = _Overall_performance,
                 };
                 createdChargingZones.Add(newChargingZone);
                 _cache.Set(DaoId + "CreateChargingZone", createdChargingZones);
@@ -141,7 +141,7 @@ namespace Uebungsprojekt.DAO
             if (_cache.TryGetValue(DaoId + "CreateChargingZone", out List<ChargingZone> createdChargingZones))
             {
 
-                return createdChargingZones.Find(x => x.Id == _Id);
+                return createdChargingZones.Find(x => x.id == _Id);
             }
             else
             {

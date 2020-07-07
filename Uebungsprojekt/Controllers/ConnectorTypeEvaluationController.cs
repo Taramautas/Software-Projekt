@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.ViewModel;
@@ -39,11 +38,11 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Index()
         {
             // Dict for counting the proportions of the different connector types
-            Dictionary<Booking.ConnectorTypeEnum, int> proportions = new Dictionary<Booking.ConnectorTypeEnum, int>();
+            Dictionary<ConnectorType, int> proportions = new Dictionary<ConnectorType, int>();
             List<Booking> bookings = new List<Booking>();
             _evaluation = new List<ConnectorTypeEvaluationViewModel>();
 
-            foreach (Booking.ConnectorTypeEnum connectorType in Enum.GetValues(typeof(Booking.ConnectorTypeEnum)))
+            foreach (ConnectorType connectorType in Enum.GetValues(typeof(ConnectorType)))
             {
                 proportions[connectorType] = 0;
             }
@@ -59,7 +58,7 @@ namespace Uebungsprojekt.Controllers
             }
 
             // Calculate the percentages and add ConnectorTypeEvaluation objects to view accordingly
-            foreach (KeyValuePair<Booking.ConnectorTypeEnum, int> entry in proportions)
+            foreach (KeyValuePair<ConnectorType, int> entry in proportions)
             {
                 double proportion = entry.Value / (double)bookings.Count * 100;
                 if (Double.IsNaN(proportion))

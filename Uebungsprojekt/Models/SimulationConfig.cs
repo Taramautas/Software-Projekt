@@ -13,7 +13,7 @@ namespace Uebungsprojekt.Models
             vehicles = new List<Vehicle>();
         }
 
-        public int Id { get; set; }
+        public int id { get; set; }
         public int tick_minutes { get; set; }
         public List<Tuple<DayOfWeek, TimeSpan>> rush_hours { get; set; }
         public int min { get; set; }

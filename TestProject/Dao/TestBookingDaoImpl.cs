@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 
-namespace Dao_Unit_Tests
+namespace UnitTest.Dao
 {
     public class Tests
     {
@@ -34,21 +34,21 @@ namespace Dao_Unit_Tests
             // Create new bookings in List1 and add it with Create
             Booking booking11 = new Booking
             {
-                Id = 1,
+                id = 1,
                 start_state_of_charge = 30,
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 4, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 4, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             };
             Booking booking21 = new Booking
             {
-                Id = 2,
+                id = 2,
                 start_state_of_charge = 40,
                 target_state_of_charge = 90,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.Tesla_Supercharger,
+                ConnectorType = ConnectorType.Tesla_Supercharger,
             };
             _bookingDao.Create(booking11, id1);
             _bookingDao.Create(booking21, id1);
@@ -56,21 +56,21 @@ namespace Dao_Unit_Tests
             // Create new bookings in List2 and add it with Create
             Booking booking12 = new Booking
             {
-                Id = 1,
+                id = 1,
                 start_state_of_charge = 25,
                 target_state_of_charge = 70,
                 start_time = new System.DateTime(2020, 7, 4, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 4, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             };
             Booking booking22 = new Booking
             {
-                Id = 2,
+                id = 2,
                 start_state_of_charge = 10,
                 target_state_of_charge = 85,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.Tesla_Supercharger,
+                ConnectorType = ConnectorType.Tesla_Supercharger,
             };
             _bookingDao.Create(booking12, id2);
             _bookingDao.Create(booking22, id2);
@@ -109,7 +109,7 @@ namespace Dao_Unit_Tests
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 4, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 4, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             }, id1);
 
             // Check if there is 1 Booking in bookingList1 and still 0 in bookingList2
@@ -132,7 +132,7 @@ namespace Dao_Unit_Tests
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             }, id1);
 
             // Create new booking in List2 and add it with Create
@@ -142,7 +142,7 @@ namespace Dao_Unit_Tests
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             }, id2);
 
             // Check if there is 2 bookings in bookingList1 and 1 in bookingList2
@@ -170,7 +170,7 @@ namespace Dao_Unit_Tests
 
             // Create new booking in List1 and add it with Create
             Vehicle vehicle = new Vehicle { model_name = "Tesla" };
-            int bookingId11 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 4, 12, 0, 0), new System.DateTime(2020, 7, 4, 15, 0, 0), vehicle, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug, id1);
+            int bookingId11 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 4, 12, 0, 0), new System.DateTime(2020, 7, 4, 15, 0, 0), vehicle, ConnectorType.CCS_Combo_2_Plug, id1);
 
             // Check if there is 1 Booking in bookingList1 and still 0 in bookingList2
             bookingList1 = _bookingDao.GetAll(id1);
@@ -179,13 +179,13 @@ namespace Dao_Unit_Tests
             Assert.AreEqual(0, bookingList2.Count);
 
             // Check if we find the correct booking with the returned id
-            Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).Id, bookingId11);
+            Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).id, bookingId11);
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).start_state_of_charge, 30);
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).target_state_of_charge, 100);
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).start_time, new System.DateTime(2020, 7, 4, 12, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).end_time, new System.DateTime(2020, 7, 4, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).vehicle, vehicle);
-            Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).ConnectorType, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug);
+            Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).ConnectorType, ConnectorType.CCS_Combo_2_Plug);
 
             /*
             Assert.AreEqual(new Booking
@@ -201,11 +201,11 @@ namespace Dao_Unit_Tests
             */
 
             // Create new booking in List1 and add it with Create
-            int bookingId21 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug, id1);
+            int bookingId21 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, ConnectorType.CCS_Combo_2_Plug, id1);
             Console.WriteLine("bookingId21: " + bookingId21);
 
             // Create new booking in List2 and add it with Create
-            int bookingId12 = _bookingDao.Create(30, 80, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug, id2);
+            int bookingId12 = _bookingDao.Create(30, 80, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, ConnectorType.CCS_Combo_2_Plug, id2);
 
             // Check if there is 2 bookings in bookingList1 and 1 in bookingList2
             bookingList1 = _bookingDao.GetAll(id1);
@@ -214,13 +214,13 @@ namespace Dao_Unit_Tests
             Assert.AreEqual(1, bookingList2.Count);
 
             // Check again if we find the correct booking with the returned id
-            Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).Id, bookingId21);
+            Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).id, bookingId21);
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).start_state_of_charge, 30);
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).target_state_of_charge, 100);
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).start_time, new System.DateTime(2020, 7, 5, 12, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).end_time, new System.DateTime(2020, 7, 5, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).vehicle, vehicle);
-            Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).ConnectorType, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug);
+            Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).ConnectorType, ConnectorType.CCS_Combo_2_Plug);
 
             /*
             Assert.AreEqual(new Booking
@@ -235,13 +235,13 @@ namespace Dao_Unit_Tests
             }, _bookingDao.GetById(bookingId21, id1));
             */
 
-            Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).Id, bookingId12);
+            Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).id, bookingId12);
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).start_state_of_charge, 30);
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).target_state_of_charge, 80);
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).start_time, new System.DateTime(2020, 7, 5, 12, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).end_time, new System.DateTime(2020, 7, 5, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).vehicle, vehicle);
-            Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).ConnectorType, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug);
+            Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).ConnectorType, ConnectorType.CCS_Combo_2_Plug);
 
             /*
             Assert.AreEqual(new Booking
@@ -258,20 +258,20 @@ namespace Dao_Unit_Tests
 
             // Test Create with new DaoId
             int id3 = BookingDaoImpl.CreateNewDaoId();
-            int bookingId13 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug, id3);
+            int bookingId13 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, ConnectorType.CCS_Combo_2_Plug, id3);
 
             // Check if there is 1 bookings in bookingList3
             List<Booking> bookingList3 = _bookingDao.GetAll(id3);
             Assert.AreEqual(1, bookingList3.Count);
 
             // Check again if we find the correct booking with the returned id
-            Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).Id, bookingId13);
+            Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).id, bookingId13);
             Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).start_state_of_charge, 30);
             Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).target_state_of_charge, 100);
             Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).start_time, new System.DateTime(2020, 7, 5, 12, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).end_time, new System.DateTime(2020, 7, 5, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).vehicle, vehicle);
-            Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).ConnectorType, Booking.ConnectorTypeEnum.CCS_Combo_2_Plug);
+            Assert.AreEqual(_bookingDao.GetById(bookingId13, id3).ConnectorType, ConnectorType.CCS_Combo_2_Plug);
 
         }
 
@@ -294,35 +294,35 @@ namespace Dao_Unit_Tests
             // Create new booking in List1 and add it with Create
             _bookingDao.Create(new Booking
             {
-                Id = 1,
+                id = 1,
                 start_state_of_charge = 30,
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 4, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 4, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             }, id1);
 
             // Create new booking in List1 and add it with Create
             Booking booking = new Booking
             {
-                Id = 2,
+                id = 2,
                 start_state_of_charge = 30,
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             };
             _bookingDao.Create(booking, id1);
 
             // Create new booking in List2 and add it with Create
             _bookingDao.Create(new Booking
             {
-                Id = 1,
+                id = 1,
                 start_state_of_charge = 30,
                 target_state_of_charge = 100,
                 start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
                 end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
+                ConnectorType = ConnectorType.CCS_Combo_2_Plug,
             }, id2);
 
             // Check if there is 2 bookings in bookingList1 and 1 in bookingList2

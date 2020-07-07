@@ -4,7 +4,7 @@ namespace Uebungsprojekt.Models
 {
     public class User 
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         
         public string name { get; set; }
         
