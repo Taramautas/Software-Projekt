@@ -47,7 +47,6 @@ namespace Uebungsprojekt.DAO
                     start_time = _start_time,
                     end_time = _end_time,
                     vehicle = _vehicle,
-                    ConnectorType = _connectorType,
                 };
                 createdBookings.Add(newBooking);
                 return ids;
@@ -65,7 +64,6 @@ namespace Uebungsprojekt.DAO
                     start_time = _start_time,
                     end_time = _end_time,
                     vehicle = _vehicle,
-                    ConnectorType = _connectorType,
                 };
                 createdBookings.Add(newBooking);
                 _cache.Set(DaoId + "CreateBooking", createdBookings);

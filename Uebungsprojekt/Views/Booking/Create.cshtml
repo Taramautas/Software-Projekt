@@ -34,11 +34,6 @@
         <span asp-validation-for="vehicle" class="text-danger form-danger-span"></span>
     </div>
         -->
-    <div class="form-group row">
-        <label for="ConnectorType" class="col-2 col-form-label">Connector Type:</label>
-        <select id="ConnectorType" class="col-10 form-control" asp-for="ConnectorType" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
-        <span asp-validation-for="ConnectorType" class="text-danger form-danger-span"></span>
-    </div>
     <div class="row">
         <button id="create-booking-btn" class="btn btn-success col-12" type="submit">Create</button>
     </div>

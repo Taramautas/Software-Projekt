@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a SimulationInfrastructure with new Id to the SimulationInfrastructurelist if there is one, else it creates a new List and adds the SimulationInfrastructure
         /// </summary>
         /// <returns>the id of the added SimulationInfrastructure</returns>
-        public int Create(LocationDaoImpl _location_dao, ChargingZoneDaoImpl _charging_zone_dao, ChargingColumnDaoImpl _charging_column_dao, BookingDaoImpl _booking_dao)
+        public int Create(int _location_dao_id, int _charging_zone_dao_id, int _charging_column_dao_id)
         {
             if (_cache.TryGetValue("CreateSimulationInfrastructureIds", out int ids))
             {
@@ -30,10 +30,9 @@ namespace Uebungsprojekt.DAO
                 SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
                 {
                     id = ids,
-                    location_dao = _location_dao,
-                    charging_zone_dao = _charging_zone_dao,
-                    charging_column_dao = _charging_column_dao,
-                    booking_dao = _booking_dao,
+                    location_dao_id = _location_dao_id,
+                    charging_zone_dao_id = _charging_zone_dao_id,
+                    charging_column_dao_id = _charging_column_dao_id,
                 };
                 createdSimulationInfrastructures.Add(newSimulationInfrastructure);
                 return ids;
@@ -46,10 +45,9 @@ namespace Uebungsprojekt.DAO
                 SimulationInfrastructure newSimulationInfrastructure = new SimulationInfrastructure
                 {
                     id = ++ids,
-                    location_dao = _location_dao,
-                    charging_zone_dao = _charging_zone_dao,
-                    charging_column_dao = _charging_column_dao,
-                    booking_dao = _booking_dao,
+                    location_dao_id = _location_dao_id,
+                    charging_zone_dao_id = _charging_zone_dao_id,
+                    charging_column_dao_id = _charging_column_dao_id,
                 };
                 createdSimulationInfrastructures.Add(newSimulationInfrastructure);
                 _cache.Set("CreateSimulationInfrastructure", createdSimulationInfrastructures);
