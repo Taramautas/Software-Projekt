@@ -12,11 +12,5 @@ namespace Uebungsprojekt.Models
         
         public string password { get; set; }
         public Role role { get; set; }
-        
-        public User()
-        {
-            
-        }
-        
     }
 }

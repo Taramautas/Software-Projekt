@@ -18,11 +18,19 @@ namespace Uebungsprojekt.Simulations
         /// </summary>
         /// <param name="config">Simulation Configuration</param>
         /// <param name="infrastructure">Simulation Infrastructure</param>
-        public Simulation(SimulationConfig config, SimulationInfrastructure infrastructure)
+        public Simulation(SimulationConfig config, SimulationInfrastructure infrastructure, SimulationResult simulation_result)
         {
-            simulation_result = new SimulationResult(config, infrastructure); // TODO: Has to be created by SimulationResultDaoImpl
+            // int booking_dao_id = BookingDaoImpl.GetNewId();
+            int booking_dao_id = 0; 
+            // simulation_result 
+            this.simulation_result = simulation_result;
             booking_generator = new BookingGenerator(config);
-            occupancy_plan = OccupancyPlan.GetSimulationOccupancyPlan(infrastructure);
+            occupancy_plan = new OccupancyPlan(
+                location_dao_id: infrastructure.location_dao_id, 
+                charging_zone_dao_id: infrastructure.charging_zone_dao_id, 
+                charging_column_dao_id: infrastructure.charging_column_dao_id, 
+                booking_dao_id: booking_dao_id
+                );
         }
 
         /// <summary>

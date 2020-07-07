@@ -12,7 +12,6 @@ namespace Uebungsprojekt.Models
             rush_hours = new List<Tuple<DayOfWeek, TimeSpan>>();
             vehicles = new List<Vehicle>();
         }
-
         public int id { get; set; }
         public int tick_minutes { get; set; }
         public List<Tuple<DayOfWeek, TimeSpan>> rush_hours { get; set; }

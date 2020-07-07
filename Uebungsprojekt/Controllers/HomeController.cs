@@ -88,20 +88,6 @@ namespace Uebungsprojekt.Controllers
             user_manger.SignOut(HttpContext);
             return RedirectToAction("Index");
         }
-        
-        /*
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        */
 
         public IActionResult Privacy()
         {
