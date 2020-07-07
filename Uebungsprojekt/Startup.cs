@@ -1,11 +1,13 @@
+using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
+using Uebungsprojekt.OccupancyPlans;
+using Uebungsprojekt.Service;
 
 namespace Uebungsprojekt
 {
@@ -37,13 +39,19 @@ namespace Uebungsprojekt
                     config.LogoutPath = "/Home/Logout/";
                     config.AccessDeniedPath = "/Home/Error/";
                 });
-
+            
             // Deliver UserManger for each controller constructor
             services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
-            services.AddTransient<BookingDao, BookingDaoImpl>();
-
+            
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
+            
+            // Added Cronjob - which runs every 15th minute
+            services.AddCronJob<CronTest>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"*/15 * * * *";
+            });
         }
 
         /// <summary>

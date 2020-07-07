@@ -35,7 +35,6 @@ namespace Uebungsprojekt.Models
         /// <summary>Connector type for charging</summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
         public Vehicle vehicle { get; set; }
-        public ConnectorType ConnectorType { get; set; }
 
         /// <summary>
         /// Empty constructor of booking model
