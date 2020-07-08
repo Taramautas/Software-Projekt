@@ -1,17 +1,23 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Service
 {
     public class CronTest : CronJobService
     {
         private readonly ILogger<CronTest> _logger;
-        
-        public CronTest(IScheduleConfig<CronTest> config, ILogger<CronTest> logger)
+        private IMemoryCache _cache;
+        private List<int> notifcationList;
+
+        public CronTest(IScheduleConfig<CronTest> config, ILogger<CronTest> logger, IMemoryCache cache)
             : base(config.CronExpression, config.TimeZoneInfo)
         {
+             _cache = cache;
             _logger = logger;
         }
         /// <summary>
@@ -22,6 +28,8 @@ namespace Uebungsprojekt.Service
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("CronJob starts.");
+            //TODO: Necessary??
+            notifcationList = new List<int>();
             return base.StartAsync(cancellationToken);
         }
 
@@ -33,14 +41,31 @@ namespace Uebungsprojekt.Service
         public override Task DoWork(CancellationToken cancellationToken)
         {
             _logger.LogInformation($"{DateTime.Now:hh:mm:ss} CronJob is working.");
-            
-            //E-mail Notification Tes
-            //is working but don't activate it.. mail flooding ;)
+            //TODO: 0 or 1 as productive BookingDao?
+            if(_cache.TryGetValue("0" + "CreateBooking", out List<Booking> createdBookings))
+            {
+                DateTime tmp = new DateTime();
+                NotificationService mail_notification = new NotificationService();
+                foreach (Booking book in createdBookings)
+                {
+                    tmp = book.start_time.Subtract(new TimeSpan(0,15,0));
+                    if (tmp == DateTime.Now)
+                    {
+                        //mail_notification.SendEmail(book.user.email, book.user.name);
+                    }
+                }
+                //E-mail Notification Tes
+                //is working but don't activate it.. mail flooding ;)
                 //NotificationService mail_noti = new NotificationService();
                 //mail_noti.SendEmail();
+               
             
+                //DO WHATEVERY YOU WANT HERE
+            }
             
-            //DO WHATEVERY YOU WANT HERE
+            NotificationService mail_noti = new NotificationService();
+           // mail_noti.SendEmail("crapspams@icloud.com", "Dominik");
+           // mail_noti.SendEmail("sebastian.rossi@student.uni-augsburg.de", "Rossi");
 
             return Task.CompletedTask;
         }
