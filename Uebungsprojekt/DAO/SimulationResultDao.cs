@@ -13,7 +13,6 @@ namespace Uebungsprojekt.DAO
         SimulationResult GetById(int Id);
         List<SimulationResult> GetAll();
         int Create(int _config_id, int _infrastructure_id, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion);
-        SimulationResult Create(SimulationResult simulationResult);
         bool Delete(int Id);
     }
 }

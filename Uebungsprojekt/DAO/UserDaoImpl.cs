@@ -58,26 +58,7 @@ namespace Uebungsprojekt.DAO
             }
         }
 
-        /// <summary>
-        /// Adds a user to the Userlist if there is one, else it creates a new List and adds the user
-        /// </summary>
-        /// <param name="user">User that is to be added</param>
-        /// <returns>the added User</returns>
-        public User Create(User user)
-        {
-            if (_cache.TryGetValue("CreateUser", out List<User> createdUsers))
-            {
-                createdUsers.Add(user);
-                return user;
-            }
-            else
-            {
-                createdUsers = new List<User> { user };
-                _cache.Set("CreateUser", createdUsers);
-                return user;
-            }
-        }
-
+        
         /// <summary>
         /// Delets the User with specified Id
         /// </summary>

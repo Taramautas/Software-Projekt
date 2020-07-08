@@ -64,26 +64,7 @@ namespace Uebungsprojekt.DAO
             }
         }
 
-        /// <summary>
-        /// Adds a simulationConfig to the SimulationConfiglist if there is one, else it creates a new List and adds the simulationConfig
-        /// </summary>
-        /// <param name="simulationConfig">SimulationConfig that is to be added</param>
-        /// <returns>the added SimulationConfig</returns>
-        public SimulationConfig Create(SimulationConfig simulationConfig)
-        {
-            if (_cache.TryGetValue("CreateSimulationConfig", out List<SimulationConfig> createdSimulationConfigs))
-            {
-                createdSimulationConfigs.Add(simulationConfig);
-                return simulationConfig;
-            }
-            else
-            {
-                createdSimulationConfigs = new List<SimulationConfig> { simulationConfig };
-                _cache.Set("CreateSimulationConfig", createdSimulationConfigs);
-                return simulationConfig;
-            }
-        }
-
+        
         /// <summary>
         /// Delets the SimulationConfig with specified Id
         /// </summary>

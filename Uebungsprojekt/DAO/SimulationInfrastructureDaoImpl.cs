@@ -56,25 +56,6 @@ namespace Uebungsprojekt.DAO
             }
         }
 
-        /// <summary>
-        /// Adds a simulationInfrastructure to the SimulationInfrastructurelist if there is one, else it creates a new List and adds the simulationInfrastructure
-        /// </summary>
-        /// <param name="simulationInfrastructure">SimulationInfrastructure that is to be added</param>
-        /// <returns>the added SimulationInfrastructure</returns>
-        public SimulationInfrastructure Create(SimulationInfrastructure simulationInfrastructure)
-        {
-            if (_cache.TryGetValue("CreateSimulationInfrastructure", out List<SimulationInfrastructure> createdSimulationInfrastructures))
-            {
-                createdSimulationInfrastructures.Add(simulationInfrastructure);
-                return simulationInfrastructure;
-            }
-            else
-            {
-                createdSimulationInfrastructures = new List<SimulationInfrastructure> { simulationInfrastructure };
-                _cache.Set("CreateSimulationInfrastructure", createdSimulationInfrastructures);
-                return simulationInfrastructure;
-            }
-        }
 
         /// <summary>
         /// Delets the SimulationInfrastructure with specified Id

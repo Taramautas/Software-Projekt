@@ -66,28 +66,7 @@ namespace Uebungsprojekt.DAO
                 _cache.Set(DaoId + "CreateLocationIds", ids);
                 return ids;
             }
-        } // Frage: Soll Create überhaupt in der Lage sein eine neue DaoListe anzulegen falls die id nicht vorhanden ist?
-
-        /// <summary>
-        /// Adds a location to the Locationlist if there is one, else it creates a new List and adds the location
-        /// </summary>
-        /// <param name="location">Location that is to be added</param>
-        /// <param name="DaoId">Id of List that's to be used.</param>
-        /// <returns>the added Location</returns>
-        public Location Create(Location location, int DaoId)
-        {
-            if (_cache.TryGetValue(DaoId + "CreateLocation", out List<Location> createdLocations))
-            {
-                createdLocations.Add(location);
-                return location;
-            }
-            else
-            {
-                createdLocations = new List<Location> { location };
-                _cache.Set(DaoId + "CreateLocation", createdLocations);
-                return location;
-            }
-        } // Frage: Soll das so überhaupt bestehen bleiben?
+        } 
 
         /// <summary>
         /// Delets the Location with specified Id

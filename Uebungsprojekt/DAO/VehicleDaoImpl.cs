@@ -56,26 +56,7 @@ namespace Uebungsprojekt.DAO
             }
         }
 
-        /// <summary>
-        /// Adds a vehicle to the Vehiclelist if there is one, else it creates a new List and adds the vehicle
-        /// </summary>
-        /// <param name="vehicle">Vehicle that is to be added</param>
-        /// <returns>the added Vehicle</returns>
-        public Vehicle Create(Vehicle vehicle)
-        {
-            if (_cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles))
-            {
-                createdVehicles.Add(vehicle);
-                return vehicle;
-            }
-            else
-            {
-                createdVehicles = new List<Vehicle> { vehicle };
-                _cache.Set("CreateVehicle", createdVehicles);
-                return vehicle;
-            }
-        }
-
+        
         /// <summary>
         /// Delets the Vehicle with specified Id
         /// </summary>

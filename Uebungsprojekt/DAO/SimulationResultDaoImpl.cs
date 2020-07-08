@@ -65,26 +65,6 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
-        /// Adds a simulationResult to the SimulationResultlist if there is one, else it creates a new List and adds the simulationResult
-        /// </summary>
-        /// <param name="simulationResult">SimulationResult that is to be added</param>
-        /// <returns>the added SimulationResult</returns>
-        public SimulationResult Create(SimulationResult simulationResult)
-        {
-            if (_cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults))
-            {
-                createdSimulationResults.Add(simulationResult);
-                return simulationResult;
-            }
-            else
-            {
-                createdSimulationResults = new List<SimulationResult> { simulationResult };
-                _cache.Set("CreateSimulationResult", createdSimulationResults);
-                return simulationResult;
-            }
-        }
-
-        /// <summary>
         /// Delets the SimulationResult with specified Id
         /// </summary>
         /// <param name="_Id">SimulationResult Id</param>

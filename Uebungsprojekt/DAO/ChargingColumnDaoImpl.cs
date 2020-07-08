@@ -71,29 +71,9 @@ namespace Uebungsprojekt.DAO
                 _cache.Set(DaoId + "CreateChargingColumnIds", ids);
                 return ids;
             }
-        } // Frage: Soll Create überhaupt in der Lage sein eine neue DaoListe anzulegen falls die id nicht vorhanden ist?
+        } 
 
-        /// <summary>
-        /// Adds a chargingColumn to the ChargingColumnlist if there is one, else it creates a new List and adds the chargingColumn
-        /// </summary>
-        /// <param name="chargingColumn">ChargingColumn that is to be added</param>
-        /// <param name="DaoId">Id of List that's to be used.</param>
-        /// <returns>the added ChargingColumn</returns>
-        public ChargingColumn Create(ChargingColumn chargingColumn, int DaoId)
-        {
-            if (_cache.TryGetValue(DaoId + "CreateChargingColumn", out List<ChargingColumn> createdChargingColumns))
-            {
-                createdChargingColumns.Add(chargingColumn);
-                return chargingColumn;
-            }
-            else
-            {
-                createdChargingColumns = new List<ChargingColumn> { chargingColumn };
-                _cache.Set(DaoId + "CreateChargingColumn", createdChargingColumns);
-                return chargingColumn;
-            }
-        } // Frage: Soll das so überhaupt bestehen bleiben?
-
+        
         /// <summary>
         /// Delets the ChargingColumn with specified Id
         /// </summary>

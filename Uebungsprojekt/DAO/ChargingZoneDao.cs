@@ -13,7 +13,6 @@ namespace Uebungsprojekt.DAO
         ChargingZone GetById(int Id, int DaoId);
         List<ChargingZone> GetAll(int DaoId);
         public int Create(int _Overall_performance, int DaoId);
-        ChargingZone Create(ChargingZone chargingZone, int DaoId);
         bool Delete(int Id, int DaoId);
     }
 }

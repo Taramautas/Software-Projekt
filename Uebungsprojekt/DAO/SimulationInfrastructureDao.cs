@@ -13,7 +13,6 @@ namespace Uebungsprojekt.DAO
         SimulationInfrastructure GetById(int Id);
         List<SimulationInfrastructure> GetAll();
         int Create(int _location_dao_id, int _charging_zone_dao_id, int _charging_column_dao_id);
-        SimulationInfrastructure Create(SimulationInfrastructure simulationInfrastructure);
         bool Delete(int Id);
     }
 }

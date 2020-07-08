@@ -70,28 +70,8 @@ namespace Uebungsprojekt.DAO
                 _cache.Set(DaoId + "CreateBookingIds", ids);
                 return ids;
             }
-        } // Frage: Soll Create überhaupt in der Lage sein eine neue DaoListe anzulegen falls die id nicht vorhanden ist?
+        } 
 
-        /// <summary>
-        /// Adds a booking to the Bookinglist if there is one, else it creates a new List and adds the booking
-        /// </summary>
-        /// <param name="booking">Booking that is to be added</param>
-        /// <param name="DaoId">Id of List that's to be used.</param>
-        /// <returns>the added Booking</returns>
-        public Booking Create(Booking booking, int DaoId)
-        {
-            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
-            {
-                createdBookings.Add(booking);
-                return booking;
-            }
-            else
-            {
-                createdBookings = new List<Booking> { booking };
-                _cache.Set(DaoId + "CreateBooking", createdBookings);
-                return booking;
-            }
-        } // Frage: Soll das so überhaupt bestehen bleiben?
 
         /// <summary>
         /// Delets the Booking with specified Id

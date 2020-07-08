@@ -13,7 +13,6 @@ namespace Uebungsprojekt.DAO
         Vehicle GetById(int id);
         List<Vehicle> GetAll();
         int Create(string model_name, double capacity, List<ConnectorType> connector_types);
-        Vehicle Create(Vehicle vehicle);
         bool Delete(int id);
     }
 }
