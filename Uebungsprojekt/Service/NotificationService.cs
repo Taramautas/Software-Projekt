@@ -10,21 +10,21 @@ namespace Uebungsprojekt.Service
     public class NotificationService
     {
         private static string sender_mail = "emailcheckaspnet@gmail.com";
-        private static string reciever_mail = "emailcheckaspnet@gmail.com";
-        private static string mail_password = "";    
-        
-        
+        //     private static string reciever_mail = "emailcheckaspnet@gmail.com";
+        private static string mail_password = "HelloWorld!12";
+
+
         /// <summary>
         /// Creates a MailMessage and fills it with the given information. Finally sends it via a smtp Connection
         /// </summary>
         /// TODO: fill Method with variable sender_mail, reciever_mail, pwd
-        public void SendEmail()
+        public void SendEmail(String reciever_mail, String Name)
         {
             using (MailMessage mm = new MailMessage(sender_mail, reciever_mail))
             {
                 mm.Subject = "Sent from ASP.NET Server";
-                mm.Body = "Hallo Radi,\nWollte dir nur mitteilen das E-mail notifications nun möglich sind." +
-                          "\nViele Grüße\n\nDomi";
+                mm.Body = "Hallo "+Name+",\nDer Ladeslot beginnt in 15 minuten" +
+                          "\nViele Grüße\n\nihr Team 11";
                 mm.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
