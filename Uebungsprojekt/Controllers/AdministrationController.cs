@@ -18,7 +18,7 @@ using Uebungsprojekt.ViewModel.Administration;
 namespace Uebungsprojekt.Controllers
 {
 
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Planner")]
     public class AdministrationController : Controller
     {
         private readonly UserManager user_manager;
@@ -31,8 +31,9 @@ namespace Uebungsprojekt.Controllers
         /// <summary>
         /// Constructor for AdministrationController
         /// </summary>
-        public AdministrationController(UserManager user_manager, IHttpContextAccessor http_context_accessor)
+        public AdministrationController(UserManager user_manager, IHttpContextAccessor http_context_accessor, IMemoryCache cache)
         {
+            this.cache = cache;
             this.user_manager = user_manager;
             user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }

@@ -12,8 +12,9 @@ namespace Uebungsprojekt.DAO
         // All usable Methods of UserDao
         // Implemented in UserDaoImpl
         User GetById(int Id);
+        User GetByEmail(string email);
         List<User> GetAll();
-        int Create(string _name, string _email, string _password, Role _role, List<Vehicle> _vehicles);
+        int Create(string _name, string _email, string _password, Role _role);
         bool Delete(int Id);
     }
 }

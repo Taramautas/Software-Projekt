@@ -10,6 +10,10 @@ namespace Uebungsprojekt.Models
         [Display(Name = "Employee")]
         Employee,
         [Display(Name = "Guest")]
-        Guest
+        Guest,
+        [Display(Name = "Planner")]
+        Planner,
+        [Display(Name = "Assistant")]
+        Assistant
     }
 }

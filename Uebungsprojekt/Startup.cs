@@ -43,7 +43,7 @@ namespace Uebungsprojekt
                 });
             
             // Deliver UserManger for each controller constructor
-            services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
+            services.AddTransient<UserManager>();
             
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
@@ -70,6 +70,7 @@ namespace Uebungsprojekt
             vehicle_dao.GetAll();
             UserDao user_dao = new UserDaoImpl(cache);
             user_dao.GetAll();
+            user_dao.Create("Admin", "admin@admin.de", "admin", Role.Planner);
             
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             config_dao.GetAll();

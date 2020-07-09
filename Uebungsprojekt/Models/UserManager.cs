@@ -4,40 +4,29 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using Uebungsprojekt.DAO;
 
 namespace Uebungsprojekt.Models
 {
     public class UserManager
     {
-        private object user_dao_impl;
-        public UserManager(object user_dao_impl)
+        private UserDao user_dao;
+        public UserManager(IMemoryCache cache)
         {
-            this.user_dao_impl = user_dao_impl;
+            user_dao = new UserDaoImpl(cache);
         }
 
         public async void SignIn(HttpContext httpContext, User user)
         {
-        
-            // User matching_user = user_dao_impl.GetDao().GetUserByEmail(user.email); // TODO: 1. Replace line when UserDaoImpl is implemented; 2. Add GetUserByEmail to diagramm
-            User matching_user = new User()
+            User matching_user = user_dao.GetByEmail(user.email);
+
+            if (matching_user != null && matching_user.password == user.password)
             {
-                email = "radi.achkik@gmail.com",
-                id = 2,
-                name = "Radi Achkik",
-                password = "asdf",
-                role = Role.Employee
-            };
-        
-            if (matching_user.email != user.email || matching_user.password != user.password)
-            {
-                return;
+                ClaimsIdentity identity = new ClaimsIdentity(GetUserClaims(matching_user), CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             }
-        
-            ClaimsIdentity identity = new ClaimsIdentity(GetUserClaims(matching_user), CookieAuthenticationDefaults.AuthenticationScheme);
-            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-        
-            await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-        
         }
 
         public async void SignOut(HttpContext httpContext)

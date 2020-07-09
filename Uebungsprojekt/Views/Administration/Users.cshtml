@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Uebungsprojekt.Models.User>
+@{
     ViewData["Title"] = "Users";
 }
 
@@ -20,12 +21,23 @@
     <thead class="thead-light">
         <tr>
             <th>ID</th>
-            <th>First Name</th>
             <th>Name</th>
             <th>E-Mail</th>
             <th>Role</th>
         </tr>
     </thead>
     <tbody>
+    @if (Model.Any())
+    {
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.id</td>
+                <td>@user.name</td>
+                <td>@user.email</td>
+                <td>@user.role</td>
+            </tr>
+        }
+    }
     </tbody>
 </table>

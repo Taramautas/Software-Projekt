@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a User with new Id to the Userlist if there is one, else it creates a new List and adds the User
         /// </summary>
         /// <returns>the id of the added User</returns>
-        public int Create(string _name, string _email, string _password, Role _role, List<Vehicle> _vehicles)
+        public int Create(string _name, string _email, string _password, Role _role)
         {
             if (_cache.TryGetValue("CreateUserIds", out int ids))
             {
@@ -96,6 +96,19 @@ namespace Uebungsprojekt.DAO
                 createdUsers = new List<User>();
                 _cache.Set("CreateUser", createdUsers);
                 return createdUsers;
+            }
+        }
+
+        public User GetByEmail(string email)
+        {
+            if (_cache.TryGetValue("CreateUser", out List<User> createdUsers))
+            {
+
+                return createdUsers.Find(x => x.email == email);
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -10,8 +10,7 @@ using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Controllers
 {
-    [Authorize(Roles = "Employee")]
-
+    [Authorize]
     public class UserDashboardController : Controller
     {
         private readonly UserManager user_manager;
