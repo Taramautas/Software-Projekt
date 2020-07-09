@@ -296,10 +296,6 @@ namespace Uebungsprojekt.Controllers
         {
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
             List<Vehicle> vehicles = vehicle_dao.GetAll();
-            if (vehicles.Count > 0)
-            {
-                Console.WriteLine(vehicles[0].model_name);
-            }
             return View(vehicles);
         }
         
