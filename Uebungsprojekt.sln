@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "TestProject\Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uebungsprojekt", "Uebungsprojekt\Uebungsprojekt.csproj", "{526FCD22-B43C-4D64-8BA5-1FA87DCEF491}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITest", "UITest\UITest.csproj", "{2F9F1E7B-9674-4A9F-86F7-DB96D44D217C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMP_EMAIL_CHECK", "TMP_EMAIL_CHECK\TMP_EMAIL_CHECK.csproj", "{DB3D8005-9FD8-4CDB-83A0-89F668F0C71E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITest", "UITest\UITest.csproj", "{2F9F1E7B-9674-4A9F-86F7-DB96D44D217C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{2F9F1E7B-9674-4A9F-86F7-DB96D44D217C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9F1E7B-9674-4A9F-86F7-DB96D44D217C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9F1E7B-9674-4A9F-86F7-DB96D44D217C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB3D8005-9FD8-4CDB-83A0-89F668F0C71E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB3D8005-9FD8-4CDB-83A0-89F668F0C71E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB3D8005-9FD8-4CDB-83A0-89F668F0C71E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB3D8005-9FD8-4CDB-83A0-89F668F0C71E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

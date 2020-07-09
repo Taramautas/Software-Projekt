@@ -29,22 +29,22 @@
 <table id="booking-table"style="width:100%" class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>Start State of Charge</th>
-            <th>Target State of Charge</th>
+            <th>Charge</th>
+            <th>Needed Distance</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Vehicle</th>
+            <th>Connector Type</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var booking in Model)
         {
             <tr>
-                <td>@booking.start_state_of_charge</td>
-                <td>@booking.target_state_of_charge</td>
-                <td>@booking.start_time</td>
-                <td>@booking.end_time</td>
-                <td>@booking.vehicle</td>
+                <td>@booking.StateOfCharge</td>
+                <td>@booking.NeededDistance</td>
+                <td>@booking.StartTime</td>
+                <td>@booking.EndTime</td>
+                <td>@booking.ConnectorType</td>
             </tr>
         }
     </tbody>

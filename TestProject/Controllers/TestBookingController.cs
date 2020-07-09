@@ -8,7 +8,7 @@ using Uebungsprojekt.Controllers;
 using Uebungsprojekt.Models;
 using System.Linq;
 
-namespace UnitTest.Controllers
+namespace UnitTest.Controller
 {
     /// <summary>Test Class for Booking Controller</summary>
     public class TestBookingController
@@ -40,7 +40,7 @@ namespace UnitTest.Controllers
             // Create new booking and check if list of bookings objects returned to Index View has saved that booking
             bc.Create(new Booking 
             { 
-                start_time = new DateTime(2020, 5, 28),
+                StartTime = new DateTime(2020, 5, 28),
             });
 
             result = bc.Index() as ViewResult;
@@ -50,7 +50,7 @@ namespace UnitTest.Controllers
             // Check it twice
             bc.Create(new Booking
             {
-                start_time = new DateTime(2020, 5, 28),
+                StartTime = new DateTime(2020, 5, 28),
             });
 
             result = bc.Index() as ViewResult;
@@ -60,7 +60,7 @@ namespace UnitTest.Controllers
             // Validate all saved booking objects match the data used for creating them
             foreach (Booking booking in model)
             {
-                Assert.AreEqual(new DateTime(2020, 5, 28), booking.start_time);
+                Assert.AreEqual(new DateTime(2020, 5, 28), booking.StartTime);
             }
         }
 
