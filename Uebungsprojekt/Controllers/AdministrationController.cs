@@ -296,23 +296,25 @@ namespace Uebungsprojekt.Controllers
         {
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
             List<Vehicle> vehicles = vehicle_dao.GetAll();
+            if (vehicles.Count > 0)
+            {
+                Console.WriteLine(vehicles[0].model_name);
+            }
             return View(vehicles);
         }
         
         [HttpGet]
         public IActionResult CreateVehicle()
         {
-             return View(new Vehicle());
+            return View(new Vehicle());
         }
         
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle)
         {
-            /* TODO:
-             * VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-             * vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, vehicle.role, 1);
-             */
-            return RedirectToAction("Index");
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
+            return RedirectToAction("CreateVehicle");
         }
         
         

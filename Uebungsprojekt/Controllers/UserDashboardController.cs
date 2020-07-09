@@ -41,9 +41,20 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            Console.WriteLine(user_id);
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
             return View(new Booking());
         }
 
+        [HttpPost]
+        public IActionResult Create(Booking book)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            UserDaoImpl user_dao = new UserDaoImpl(cache);
+            //TODO: finish this shit
+            return RedirectToAction("Index");
+        }
+        
         [HttpGet]
         public IActionResult Infrastructure()
         {
