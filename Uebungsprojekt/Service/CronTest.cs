@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Service
@@ -42,6 +43,9 @@ namespace Uebungsprojekt.Service
         {
             _logger.LogInformation($"{DateTime.Now:hh:mm:ss} CronJob is working.");
             //TODO: 0 or 1 as productive BookingDao?
+            // TODO: daoImpl
+            BookingDaoImpl tmp1 = new BookingDaoImpl(_cache);
+            tmp1.GetAll(0);
             if(_cache.TryGetValue("0" + "CreateBooking", out List<Booking> createdBookings))
             {
                 DateTime tmp = new DateTime();
