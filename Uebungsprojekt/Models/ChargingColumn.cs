@@ -19,6 +19,8 @@ namespace Uebungsprojekt.Models
 
         public int max_concurrent_charging { get; set; }
 
+        public ChargingZone charging_zone { get; set; }
+
         public ChargingColumn()
         {
 

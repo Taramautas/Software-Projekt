@@ -11,6 +11,8 @@ namespace Uebungsprojekt.Models
 
         public int overall_performance { get; set; }
 
+        public Location location { get; set; }
+
         public ChargingZone()
         {
 

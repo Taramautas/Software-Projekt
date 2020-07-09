@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a User with new Id to the Userlist if there is one, else it creates a new List and adds the User
         /// </summary>
         /// <returns>the id of the added User</returns>
-        public int Create(string _name, string _email, string _password, Role _role)
+        public int Create(string _name, string _email, string _password, Role _role, List<Vehicle> _vehicles)
         {
             if (_cache.TryGetValue("CreateUserIds", out int ids))
             {
@@ -34,6 +34,7 @@ namespace Uebungsprojekt.DAO
                     email = _email,
                     password = _password,
                     role = _role,
+                    vehicles = _vehicles,
                 };
                 createdUsers.Add(newUser);
                 return ids;

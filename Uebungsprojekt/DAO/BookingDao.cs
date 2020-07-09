@@ -11,8 +11,9 @@ namespace Uebungsprojekt.DAO
         // Implemented in BookingDaoImpl
         Booking GetById(int Id, int DaoId);
         List<Booking> GetAll(int DaoId);
-        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Vehicle _vehicle, ConnectorType _connectorType, int DaoId);
+        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Boolean _accepted, Vehicle _vehicle, User _user, ChargingColumn _chargingColumn, int DaoId);
         bool Delete(int Id, int DaoId);
-
+        public List<Booking> GetOpenBookingsByUserId(int user_id, int DaoId);
+        public List<Booking> GetAcceptedBookingsByUserId(int user_id, int DaoId);
     }
 }

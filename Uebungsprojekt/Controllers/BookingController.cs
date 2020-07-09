@@ -93,7 +93,7 @@ namespace Uebungsprojekt.Controllers
             }
             */
 
-            _bookingDao.Create(booking, 0);
+            _bookingDao.Create(booking.start_state_of_charge, booking.target_state_of_charge, booking.start_time, booking.end_time, booking.accepted, booking.vehicle, booking.user, booking.charging_column, 0);
             return RedirectToAction("Index");
         }
 
@@ -146,7 +146,7 @@ namespace Uebungsprojekt.Controllers
                     {
                         foreach(Booking b in importedBookings)
                         {
-                            _bookingDao.Create(b, 0);
+                            _bookingDao.Create(b.start_state_of_charge, b.target_state_of_charge, b.start_time, b. end_time, b.accepted, b.vehicle, b.user, b.charging_column, 0);
                         }
                         /*
                         if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))

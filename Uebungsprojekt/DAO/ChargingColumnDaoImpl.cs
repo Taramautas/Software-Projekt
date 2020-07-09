@@ -33,7 +33,7 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>the id of the added ChargingColumn</returns>
-        public int Create(Boolean _Busy, string _Manufacturer_name, List<ConnectorType> _Connectors, Boolean _Emergency_reserve, int _Max_concurrent_charging, int DaoId)
+        public int Create(Boolean _Busy, string _Manufacturer_name, List<ConnectorType> _Connectors, Boolean _Emergency_reserve, int _Max_concurrent_charging, ChargingZone _charging_zone,int DaoId)
         {
             if (_cache.TryGetValue(DaoId + "CreateChargingColumnIds", out int ids))
             {
@@ -48,6 +48,7 @@ namespace Uebungsprojekt.DAO
                     connectors = _Connectors,
                     emergency_reserve = _Emergency_reserve,
                     max_concurrent_charging = _Max_concurrent_charging,
+                    charging_zone = _charging_zone,
                 };
                 createdChargingColumns.Add(newChargingColumn);
                 return ids;
