@@ -1,16 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Uebungsprojekt.Models;
+using Uebungsprojekt.OccupancyPlans;
+using Uebungsprojekt.Service;
 
 namespace Uebungsprojekt
 {
+    /// <summary>
+    /// Configure Services running in the background
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -20,13 +23,43 @@ namespace Uebungsprojekt
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Services object to activate custom services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add MVC functionality
             services.AddControllersWithViews();
+            
+            // Add cookie authentication
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config => {
+                    config.LoginPath = "/Home/Login/";
+                    config.LogoutPath = "/Home/Logout/";
+                    config.AccessDeniedPath = "/Home/Error/";
+                });
+            
+            // Deliver UserManger for each controller constructor
+            services.AddTransient(m => new UserManager(new object())); // TODO: Change to UserDaoImpl
+            
+            // Add HTTPContext Accessor to each controller constructor
+            services.AddHttpContextAccessor();
+            
+            // Added Cronjob - which runs every 15th minute
+            services.AddCronJob<CronTest>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"*/1 * * * *";
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// Here you specify the pipeline each request has to go through before being directed to a controller.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -42,8 +75,12 @@ namespace Uebungsprojekt
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseWebSockets();
+
             app.UseRouting();
 
+            // Add 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

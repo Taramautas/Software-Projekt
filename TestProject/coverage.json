@@ -1,0 +1,1742 @@
+{
+  "Uebungsprojekt.dll": {
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Program.cs": {
+      "Uebungsprojekt.Program": {
+        "System.Void Uebungsprojekt.Program::Main(System.String[])": {
+          "Lines": {
+            "15": 0,
+            "16": 0,
+            "17": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.Extensions.Hosting.IHostBuilder Uebungsprojekt.Program::CreateHostBuilder(System.String[])": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Startup.cs": {
+      "Uebungsprojekt.Startup": {
+        "Microsoft.Extensions.Configuration.IConfiguration Uebungsprojekt.Startup::get_Configuration()": {
+          "Lines": {
+            "21": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)": {
+          "Lines": {
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "37": 0,
+            "38": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "45": 0,
+            "47": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0
+          },
+          "Branches": [
+            {
+              "Line": 32,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 9,
+              "EndOffset": 22,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void Uebungsprojekt.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\ViewModel\\ConnectorTypeEvaluationViewModel.cs": {
+      "Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel": {
+        "Uebungsprojekt.Models.Booking/ConnectorTypeEnum Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel::get_ConnectorType()": {
+          "Lines": {
+            "18": 13
+          },
+          "Branches": []
+        },
+        "System.Double Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel::get_Proportion()": {
+          "Lines": {
+            "22": 9
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.ViewModel.ConnectorTypeEvaluationViewModel::.ctor(Uebungsprojekt.Models.Booking/ConnectorTypeEnum,System.Double)": {
+          "Lines": {
+            "29": 6,
+            "30": 6,
+            "31": 6,
+            "32": 6,
+            "33": 6
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Simulations\\BookingGenerator.cs": {
+      "Uebungsprojekt.Simulations.BookingGenerator": {
+        "System.Single Uebungsprojekt.Simulations.BookingGenerator::getPropabilityScore()": {
+          "Lines": {
+            "95": 0,
+            "96": 0,
+            "97": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Simulations.BookingGenerator::.ctor(Uebungsprojekt.Models.SimulationConfig)": {
+          "Lines": {
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "52": 0,
+            "53": 0
+          },
+          "Branches": [
+            {
+              "Line": 43,
+              "Offset": 167,
+              "EndOffset": 106,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 167,
+              "EndOffset": 169,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Uebungsprojekt.Simulations.BookingGenerator/<Generate>d__12": {
+        "System.Boolean Uebungsprojekt.Simulations.BookingGenerator/<Generate>d__12::MoveNext()": {
+          "Lines": {
+            "60": 0,
+            "61": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "70": 0,
+            "71": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0
+          },
+          "Branches": [
+            {
+              "Line": 63,
+              "Offset": 611,
+              "EndOffset": 93,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 65,
+              "Offset": 568,
+              "EndOffset": 143,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 67,
+              "Offset": 537,
+              "EndOffset": 203,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 428,
+              "EndOffset": 313,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 428,
+              "EndOffset": 430,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 67,
+              "Offset": 537,
+              "EndOffset": 542,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 65,
+              "Offset": 568,
+              "EndOffset": 573,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 611,
+              "EndOffset": 616,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Simulations\\Simulation.cs": {
+      "Uebungsprojekt.Simulations.Simulation": {
+        "System.Void Uebungsprojekt.Simulations.Simulation::RunSimulation()": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0
+          },
+          "Branches": [
+            {
+              "Line": 36,
+              "Offset": 184,
+              "EndOffset": 30,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 38,
+              "Offset": 139,
+              "EndOffset": 48,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 77,
+              "EndOffset": 79,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 77,
+              "EndOffset": 132,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 38,
+              "Offset": 139,
+              "EndOffset": 141,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 36,
+              "Offset": 184,
+              "EndOffset": 189,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Double Uebungsprojekt.Simulations.Simulation::GetCurrentWorkload()": {
+          "Lines": {
+            "56": 0,
+            "57": 0,
+            "58": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Simulations.Simulation::.ctor(Uebungsprojekt.Models.SimulationConfig,System.Collections.Generic.List`1<System.Object>)": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\OccupancyPlans\\OccupancyPlan.cs": {
+      "Uebungsprojekt.OccupancyPlans.OccupancyPlan": {
+        "Uebungsprojekt.OccupancyPlans.OccupancyPlan Uebungsprojekt.OccupancyPlans.OccupancyPlan::GetOccupancyPlan(System.Collections.Generic.List`1<System.Object>)": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": [
+            {
+              "Line": 21,
+              "Offset": 11,
+              "EndOffset": 13,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 21,
+              "Offset": 11,
+              "EndOffset": 24,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "Uebungsprojekt.OccupancyPlans.OccupancyPlan Uebungsprojekt.OccupancyPlans.OccupancyPlan::GetNewOccupancyPlan(System.Collections.Generic.List`1<System.Object>)": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean Uebungsprojekt.OccupancyPlans.OccupancyPlan::AcceptBooking(Uebungsprojekt.Models.Booking)": {
+          "Lines": {
+            "31": 0,
+            "32": 0,
+            "33": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<Uebungsprojekt.Models.Booking> Uebungsprojekt.OccupancyPlans.OccupancyPlan::GenerateBookingSuggestions(Uebungsprojekt.Models.Booking)": {
+          "Lines": {
+            "36": 0,
+            "37": 0,
+            "38": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.OccupancyPlans.OccupancyPlan::.ctor(System.Collections.Generic.List`1<System.Object>)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Models\\Booking.cs": {
+      "Uebungsprojekt.Models.Booking": {
+        "System.Int32 Uebungsprojekt.Models.Booking::get_StateOfCharge()": {
+          "Lines": {
+            "34": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 Uebungsprojekt.Models.Booking::get_NeededDistance()": {
+          "Lines": {
+            "39": 0
+          },
+          "Branches": []
+        },
+        "System.DateTime Uebungsprojekt.Models.Booking::get_StartTime()": {
+          "Lines": {
+            "43": 4
+          },
+          "Branches": []
+        },
+        "System.DateTime Uebungsprojekt.Models.Booking::get_EndTime()": {
+          "Lines": {
+            "47": 0
+          },
+          "Branches": []
+        },
+        "Uebungsprojekt.Models.Booking/ConnectorTypeEnum Uebungsprojekt.Models.Booking::get_ConnectorType()": {
+          "Lines": {
+            "52": 8
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Models.Booking::.ctor()": {
+          "Lines": {
+            "57": 6,
+            "58": 6,
+            "60": 6
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Models\\ErrorViewModel.cs": {
+      "Uebungsprojekt.Models.ErrorViewModel": {
+        "System.String Uebungsprojekt.Models.ErrorViewModel::get_RequestId()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean Uebungsprojekt.Models.ErrorViewModel::get_ShowRequestId()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Models\\SimulationConfig.cs": {
+      "Uebungsprojekt.Models.SimulationConfig": {
+        "System.Int32 Uebungsprojekt.Models.SimulationConfig::get_tick_minutes()": {
+          "Lines": {
+            "10": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.Tuple`2<System.DayOfWeek,System.TimeSpan>> Uebungsprojekt.Models.SimulationConfig::get_rush_hours()": {
+          "Lines": {
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 Uebungsprojekt.Models.SimulationConfig::get_min()": {
+          "Lines": {
+            "12": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 Uebungsprojekt.Models.SimulationConfig::get_max()": {
+          "Lines": {
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.Double Uebungsprojekt.Models.SimulationConfig::get_spread()": {
+          "Lines": {
+            "14": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 Uebungsprojekt.Models.SimulationConfig::get_weeks()": {
+          "Lines": {
+            "15": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.Object> Uebungsprojekt.Models.SimulationConfig::get_vehicles()": {
+          "Lines": {
+            "16": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Controllers\\AdministrationController.cs": {
+      "Uebungsprojekt.Controllers.AdministrationController": {
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.AdministrationController::Index()": {
+          "Lines": {
+            "31": 0,
+            "32": 0,
+            "33": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.AdministrationController::Simulation()": {
+          "Lines": {
+            "41": 0,
+            "42": 0,
+            "43": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Controllers.AdministrationController::Simululation()": {
+          "Lines": {
+            "47": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "61": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.AdministrationController::Infrastructure()": {
+          "Lines": {
+            "78": 0,
+            "79": 0,
+            "80": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Controllers.AdministrationController::.ctor()": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Controllers\\BookingController.cs": {
+      "Uebungsprojekt.Controllers.BookingController": {
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.BookingController::Index()": {
+          "Lines": {
+            "39": 3,
+            "40": 3,
+            "41": 2,
+            "42": 2,
+            "44": 1,
+            "45": 3
+          },
+          "Branches": [
+            {
+              "Line": 40,
+              "Offset": 21,
+              "EndOffset": 23,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 40,
+              "Offset": 21,
+              "EndOffset": 34,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.BookingController::Create()": {
+          "Lines": {
+            "55": 0,
+            "56": 0,
+            "57": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.BookingController::Create(Uebungsprojekt.Models.Booking)": {
+          "Lines": {
+            "69": 6,
+            "71": 0,
+            "73": 6,
+            "74": 4,
+            "75": 4,
+            "76": 4,
+            "78": 2,
+            "79": 2,
+            "80": 2,
+            "81": 2,
+            "82": 6,
+            "83": 6
+          },
+          "Branches": [
+            {
+              "Line": 71,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 71,
+              "Offset": 17,
+              "EndOffset": 28,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 73,
+              "Offset": 48,
+              "EndOffset": 50,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 4
+            },
+            {
+              "Line": 73,
+              "Offset": 48,
+              "EndOffset": 62,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 2
+            }
+          ]
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.BookingController::Export()": {
+          "Lines": {
+            "90": 0,
+            "92": 0,
+            "93": 0,
+            "95": 0,
+            "96": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "106": 0,
+            "109": 0,
+            "110": 0
+          },
+          "Branches": [
+            {
+              "Line": 92,
+              "Offset": 21,
+              "EndOffset": 26,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 92,
+              "Offset": 21,
+              "EndOffset": 162,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.BookingController::Import(System.Collections.Generic.List`1<Microsoft.AspNetCore.Http.IFormFile>)": {
+          "Lines": {
+            "119": 0,
+            "121": 0,
+            "122": 0,
+            "124": 0,
+            "125": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "137": 0,
+            "138": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "152": 0,
+            "153": 0
+          },
+          "Branches": [
+            {
+              "Line": 121,
+              "Offset": 12,
+              "EndOffset": 17,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 40,
+              "EndOffset": 64,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 67,
+              "EndOffset": 72,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 137,
+              "Offset": 167,
+              "EndOffset": 169,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 140,
+              "Offset": 192,
+              "EndOffset": 194,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 140,
+              "Offset": 192,
+              "EndOffset": 208,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 137,
+              "Offset": 167,
+              "EndOffset": 230,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 67,
+              "EndOffset": 231,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 121,
+              "Offset": 12,
+              "EndOffset": 232,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void Uebungsprojekt.Controllers.BookingController::.ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache)": {
+          "Lines": {
+            "28": 4,
+            "29": 4,
+            "30": 4,
+            "31": 4
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Controllers\\ConnectorTypeEvaluationController.cs": {
+      "Uebungsprojekt.Controllers.ConnectorTypeEvaluationController": {
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.ConnectorTypeEvaluationController::Index()": {
+          "Lines": {
+            "40": 1,
+            "42": 1,
+            "43": 1,
+            "44": 1,
+            "46": 15,
+            "47": 6,
+            "48": 6,
+            "49": 6,
+            "52": 1,
+            "53": 1,
+            "54": 1,
+            "55": 11,
+            "56": 4,
+            "57": 4,
+            "58": 4,
+            "59": 1,
+            "62": 15,
+            "63": 6,
+            "64": 6,
+            "65": 6,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 6,
+            "70": 6,
+            "71": 6,
+            "72": 6,
+            "73": 1,
+            "74": 1
+          },
+          "Branches": [
+            {
+              "Line": 46,
+              "Offset": 79,
+              "EndOffset": 48,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 46,
+              "Offset": 79,
+              "EndOffset": 81,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 52,
+              "Offset": 126,
+              "EndOffset": 128,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 55,
+              "Offset": 193,
+              "EndOffset": 142,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            },
+            {
+              "Line": 55,
+              "Offset": 193,
+              "EndOffset": 195,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 52,
+              "Offset": 126,
+              "EndOffset": 213,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 62,
+              "Offset": 342,
+              "EndOffset": 224,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 6
+            },
+            {
+              "Line": 65,
+              "Offset": 273,
+              "EndOffset": 275,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 65,
+              "Offset": 273,
+              "EndOffset": 288,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 6
+            },
+            {
+              "Line": 69,
+              "Offset": 308,
+              "EndOffset": 310,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 6
+            },
+            {
+              "Line": 69,
+              "Offset": 308,
+              "EndOffset": 314,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 62,
+              "Offset": 342,
+              "EndOffset": 344,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 1
+            }
+          ]
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.ConnectorTypeEvaluationController::Export()": {
+          "Lines": {
+            "81": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "93": 0,
+            "94": 0
+          },
+          "Branches": []
+        },
+        "System.Void Uebungsprojekt.Controllers.ConnectorTypeEvaluationController::.ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache)": {
+          "Lines": {
+            "30": 2,
+            "31": 2,
+            "32": 2,
+            "33": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Controllers\\HomeController.cs": {
+      "Uebungsprojekt.Controllers.HomeController": {
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.HomeController::Index()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.HomeController::Privacy()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Mvc.IActionResult Uebungsprojekt.Controllers.HomeController::Error()": {
+          "Lines": {
+            "33": 0,
+            "34": 0,
+            "35": 0
+          },
+          "Branches": [
+            {
+              "Line": 34,
+              "Offset": 14,
+              "EndOffset": 16,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 34,
+              "Offset": 14,
+              "EndOffset": 20,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 34,
+              "Offset": 26,
+              "EndOffset": 28,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 34,
+              "Offset": 26,
+              "EndOffset": 40,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void Uebungsprojekt.Controllers.HomeController::.ctor(Microsoft.Extensions.Logging.ILogger`1<Uebungsprojekt.Controllers.HomeController>)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "Uebungsprojekt.Views.dll": {
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Administration\\Index.cshtml": {
+      "AspNetCore.Views_Administration_Index/<ExecuteAsync>d__0": {
+        "System.Void AspNetCore.Views_Administration_Index/<ExecuteAsync>d__0::MoveNext()": {
+          "Lines": {
+            "3": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Booking\\Create.cshtml": {
+      "AspNetCore.Views_Booking_Create/<ExecuteAsync>d__21": {
+        "System.Void AspNetCore.Views_Booking_Create/<ExecuteAsync>d__21::MoveNext()": {
+          "Lines": {
+            "3": 0,
+            "6": 0
+          },
+          "Branches": [
+            {
+              "Line": 6,
+              "Offset": 583,
+              "EndOffset": 585,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 6,
+              "Offset": 583,
+              "EndOffset": 696,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "AspNetCore.Views_Booking_Create/<<ExecuteAsync>b__21_0>d": {
+        "System.Void AspNetCore.Views_Booking_Create/<<ExecuteAsync>b__21_0>d::MoveNext()": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "17": 0,
+            "18": 0,
+            "22": 0,
+            "23": 0,
+            "27": 0,
+            "28": 0,
+            "32": 0,
+            "33": 0
+          },
+          "Branches": [
+            {
+              "Line": 12,
+              "Offset": 661,
+              "EndOffset": 663,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 12,
+              "Offset": 661,
+              "EndOffset": 774,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 13,
+              "Offset": 1275,
+              "EndOffset": 1277,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 13,
+              "Offset": 1275,
+              "EndOffset": 1388,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 17,
+              "Offset": 1911,
+              "EndOffset": 1913,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 17,
+              "Offset": 1911,
+              "EndOffset": 2024,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 18,
+              "Offset": 2525,
+              "EndOffset": 2527,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 18,
+              "Offset": 2525,
+              "EndOffset": 2638,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 3161,
+              "EndOffset": 3163,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 3161,
+              "EndOffset": 3275,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 23,
+              "Offset": 3777,
+              "EndOffset": 3779,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 23,
+              "Offset": 3777,
+              "EndOffset": 3891,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 4415,
+              "EndOffset": 4417,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 4415,
+              "EndOffset": 4529,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 5031,
+              "EndOffset": 5033,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 5031,
+              "EndOffset": 5145,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 5741,
+              "EndOffset": 5743,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 5741,
+              "EndOffset": 5855,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 33,
+              "Offset": 6357,
+              "EndOffset": 6359,
+              "Path": 0,
+              "Ordinal": 18,
+              "Hits": 0
+            },
+            {
+              "Line": 33,
+              "Offset": 6357,
+              "EndOffset": 6471,
+              "Path": 1,
+              "Ordinal": 19,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "AspNetCore.Views_Booking_Create/<<ExecuteAsync>b__21_1>d": {
+        "System.Void AspNetCore.Views_Booking_Create/<<ExecuteAsync>b__21_1>d::MoveNext()": {
+          "Lines": {
+            "42": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Booking\\Index.cshtml": {
+      "AspNetCore.Views_Booking_Index/<ExecuteAsync>d__19": {
+        "System.Void AspNetCore.Views_Booking_Index/<ExecuteAsync>d__19::MoveNext()": {
+          "Lines": {
+            "4": 0,
+            "7": 0,
+            "27": 0,
+            "28": 0,
+            "40": 0,
+            "41": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "49": 0,
+            "53": 0,
+            "54": 0,
+            "56": 0
+          },
+          "Branches": [
+            {
+              "Line": 7,
+              "Offset": 685,
+              "EndOffset": 687,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 685,
+              "EndOffset": 798,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 1307,
+              "EndOffset": 1309,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 1307,
+              "EndOffset": 1420,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 1929,
+              "EndOffset": 1931,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 1929,
+              "EndOffset": 2042,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 2134,
+              "EndOffset": 2139,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 2464,
+              "EndOffset": 2185,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 2464,
+              "EndOffset": 2469,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 2134,
+              "EndOffset": 2523,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\ConnectorTypeEvaluation\\Index.cshtml": {
+      "AspNetCore.Views_ConnectorTypeEvaluation_Index/<ExecuteAsync>d__11": {
+        "System.Void AspNetCore.Views_ConnectorTypeEvaluation_Index/<ExecuteAsync>d__11::MoveNext()": {
+          "Lines": {
+            "4": 0,
+            "7": 0,
+            "15": 0,
+            "16": 0,
+            "25": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "31": 0,
+            "35": 0,
+            "36": 0,
+            "38": 0
+          },
+          "Branches": [
+            {
+              "Line": 7,
+              "Offset": 572,
+              "EndOffset": 574,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 7,
+              "Offset": 572,
+              "EndOffset": 685,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 15,
+              "Offset": 777,
+              "EndOffset": 782,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 982,
+              "EndOffset": 828,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 982,
+              "EndOffset": 987,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 15,
+              "Offset": 777,
+              "EndOffset": 1041,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Home\\Index.cshtml": {
+      "AspNetCore.Views_Home_Index/<ExecuteAsync>d__0": {
+        "System.Void AspNetCore.Views_Home_Index/<ExecuteAsync>d__0::MoveNext()": {
+          "Lines": {
+            "2": 0,
+            "5": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Home\\Privacy.cshtml": {
+      "AspNetCore.Views_Home_Privacy/<ExecuteAsync>d__0": {
+        "System.Void AspNetCore.Views_Home_Privacy/<ExecuteAsync>d__0::MoveNext()": {
+          "Lines": {
+            "2": 0,
+            "5": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Shared\\Error.cshtml": {
+      "AspNetCore.Views_Shared_Error/<ExecuteAsync>d__0": {
+        "System.Void AspNetCore.Views_Shared_Error/<ExecuteAsync>d__0::MoveNext()": {
+          "Lines": {
+            "3": 0,
+            "6": 0,
+            "9": 0,
+            "10": 0,
+            "12": 0,
+            "14": 0
+          },
+          "Branches": [
+            {
+              "Line": 9,
+              "Offset": 120,
+              "EndOffset": 122,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 9,
+              "Offset": 120,
+              "EndOffset": 186,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\Shared\\_Layout.cshtml": {
+      "AspNetCore.Views_Shared__Layout/<<ExecuteAsync>b__25_0>d": {
+        "System.Void AspNetCore.Views_Shared__Layout/<<ExecuteAsync>b__25_0>d::MoveNext()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": [
+            {
+              "Line": 6,
+              "Offset": 425,
+              "EndOffset": 427,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 6,
+              "Offset": 425,
+              "EndOffset": 538,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 6,
+              "Offset": 921,
+              "EndOffset": 923,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 6,
+              "Offset": 921,
+              "EndOffset": 1034,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "AspNetCore.Views_Shared__Layout/<<ExecuteAsync>b__25_1>d": {
+        "System.Void AspNetCore.Views_Shared__Layout/<<ExecuteAsync>b__25_1>d::MoveNext()": {
+          "Lines": {
+            "40": 0,
+            "51": 0,
+            "52": 0
+          },
+          "Branches": [
+            {
+              "Line": 40,
+              "Offset": 627,
+              "EndOffset": 629,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 627,
+              "EndOffset": 740,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 1249,
+              "EndOffset": 1251,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 1249,
+              "EndOffset": 1362,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 1871,
+              "EndOffset": 1873,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 1871,
+              "EndOffset": 1984,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 2493,
+              "EndOffset": 2495,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 2493,
+              "EndOffset": 2606,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 3115,
+              "EndOffset": 3117,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 3115,
+              "EndOffset": 3229,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 3757,
+              "EndOffset": 3759,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 3757,
+              "EndOffset": 3871,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 4233,
+              "EndOffset": 4235,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 4233,
+              "EndOffset": 4347,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 4709,
+              "EndOffset": 4711,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 40,
+              "Offset": 4709,
+              "EndOffset": 4823,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 51,
+              "Offset": 5334,
+              "EndOffset": 5336,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 51,
+              "Offset": 5334,
+              "EndOffset": 5448,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\Users\\Radi\\Documents\\Projekte\\Softwareprojekt\\Projekt\\Uebungsprojekt\\Views\\_ViewStart.cshtml": {
+      "AspNetCore.Views__ViewStart/<ExecuteAsync>d__0": {
+        "System.Void AspNetCore.Views__ViewStart/<ExecuteAsync>d__0::MoveNext()": {
+          "Lines": {
+            "2": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}

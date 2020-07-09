@@ -20,16 +20,28 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a SimulationResult with new Id to the SimulationResultlist if there is one, else it creates a new List and adds the SimulationResult
         /// </summary>
         /// <returns>the id of the added SimulationResult</returns>
+<<<<<<< HEAD
         public int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion)
+=======
+        public int Create(int _config_id, int _infrastructure_id, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion)
+>>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
         {
             if (_cache.TryGetValue("CreateSimulationResultIds", out int ids))
             {
                 ++ids;
                 _cache.Set("CreateSimulationResultIds", ids);
                 _cache.TryGetValue("CreateSimulationResult", out List<SimulationResult> createdSimulationResults);
+<<<<<<< HEAD
                 SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
                 {
                     id = ids,
+=======
+                SimulationResult newSimulationResult = new SimulationResult()
+                {
+                    id = ids,
+                    config_id = _config_id,
+                    infrastructure_id = _infrastructure_id,
+>>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
@@ -44,9 +56,17 @@ namespace Uebungsprojekt.DAO
             {
                 List<SimulationResult> createdSimulationResults = new List<SimulationResult>();
                 ids = 0;
+<<<<<<< HEAD
                 SimulationResult newSimulationResult = new SimulationResult(_config, _infrastructure)
                 {
                     id = ++ids,
+=======
+                SimulationResult newSimulationResult = new SimulationResult()
+                {
+                    id = ++ids,
+                    config_id = _config_id,
+                    infrastructure_id = _infrastructure_id,
+>>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
@@ -61,6 +81,7 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Adds a simulationResult to the SimulationResultlist if there is one, else it creates a new List and adds the simulationResult
         /// </summary>
         /// <param name="simulationResult">SimulationResult that is to be added</param>
@@ -81,6 +102,8 @@ namespace Uebungsprojekt.DAO
         }
 
         /// <summary>
+=======
+>>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
         /// Delets the SimulationResult with specified Id
         /// </summary>
         /// <param name="_Id">SimulationResult Id</param>
