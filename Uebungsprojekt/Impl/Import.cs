@@ -14,9 +14,7 @@ namespace Uebungsprojekt.Impl
 {
     public class Import
     {
-
-        public static int BookingImport(BookingDaoImpl _cache, List<IFormFile> json_files)
-        public static void BookingImport(IMemoryCache _cache ,List<IFormFile> json_files)
+        public static int BookingImport(IMemoryCache _cache ,List<IFormFile> json_files)
         {
             // Server side validation: Check the file for .json extension and for max. size 1MB
             if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
@@ -35,10 +33,11 @@ namespace Uebungsprojekt.Impl
                 if (success)
                 {
                     int id = BookingDaoImpl.CreateNewDaoId();
+                    /*
                     foreach (Booking b in importedBookings)
 
                         _cache.Create(b, id);
-
+                    */
                     return id;
                 }
             }
@@ -64,9 +63,9 @@ namespace Uebungsprojekt.Impl
                 if (success)
                 {
                     int id = ChargingColumnDaoImpl.CreateNewDaoId();
-                    foreach (ChargingColumn b in importedChargingColumn)
+                    foreach (ChargingColumn b in importedChargingColumn) {}
 
-                        _cache.Create(b, id);
+                        //_cache.Create(b, id);
 
 
                 }
@@ -94,10 +93,11 @@ namespace Uebungsprojekt.Impl
                 if (success)
                 {
                     int id = LocationDaoImpl.CreateNewDaoId();
+                    /*
                     foreach (Location b in importedLocation)
 
                         _cache.Create(b, id);
-
+                    */
 
                 }
             }
@@ -121,12 +121,12 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
+                    /*
                     int id = SimulationConfigDaoImpl.CreateNewDaoId();
-                    foreach (SimulationConfig b in importedSimulationConfig)
+                    foreach (SimulationConfig b in importedSimulationConfig) {}
 
-                        _cache.Create(b, id);
-
-
+                        //_cache.Create(b, id);
+                        */
                 }
             }
         }
@@ -149,12 +149,13 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
+                    /*
                     int id = SimulationInfrastructureDaoImpl.CreateNewDaoId();
                     foreach (SimulationInfrastructure b in importedSimulationInfrastructure)
 
                         _cache.Create(b, id);
 
-
+                    */
                 }
             }
         }
@@ -177,12 +178,13 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
+                    /*
                     int id = SimulationResultDaoImpl.CreateNewDaoId();
                     foreach (SimulationResult b in importedSimulationResult)
 
                         _cache.Create(b, id);
 
-
+                    */
                 }
             }
         }
@@ -205,10 +207,11 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
+                    /*
                     foreach (User b in importedUser)
 
                         _cache.Create(b, id);
-
+                    */
 
                 }
             }
@@ -232,18 +235,17 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
+                    /*
                     int id = VehicleDaoImpl.CreateNewDaoId();
                     foreach (Vehicle b in importedVehicle)
 
                         _cache.Create(b, id);
-
+                    */
 
                 }
             }
         }
-        
-        public static void Import(){}
-        
+
     }
     
 }
