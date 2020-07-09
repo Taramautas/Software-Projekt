@@ -9,31 +9,33 @@
 <form asp-controller="Booking" asp-action="Create" method="post">
     <div class="form-group row">
         <label for="StateOfCharge" class="col-2 col-form-label">Current state of charge:</label>
-        <input id="StateOfCharge" class="col-10 form-control" asp-for="StateOfCharge"><br />
-        <span asp-validation-for="StateOfCharge" class="text-danger form-danger-span"></span>
+        <input id="StateOfCharge" class="col-10 form-control" asp-for="start_state_of_charge"><br />
+        <span asp-validation-for="start_state_of_charge" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for="NeededDistance" class="col-2 col-form-label">Needed Distance:</label>
-        <input id="NeededDistance" class="col-10 form-control" asp-for="NeededDistance"><br />
-        <span asp-validation-for="NeededDistance" class="text-danger form-danger-span"></span>
+        <label for="NeededDistance" class="col-2 col-form-label">Target state of charge:</label>
+        <input id="NeededDistance" class="col-10 form-control" asp-for="target_state_of_charge"><br />
+        <span asp-validation-for="target_state_of_charge" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="StartTime" class="col-2 col-form-label">Start time:</label>
-        <input id="StartTime" class="col-10 form-control" asp-for="StartTime"><br />
-        <span asp-validation-for="StartTime" class="text-danger form-danger-span"></span>
+        <input id="StartTime" class="col-10 form-control" asp-for="start_time"><br />
+        <span asp-validation-for="start_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="EndTime" class="col-2 col-form-label">End time:</label>
-        <input id="EndTime" class="col-10 form-control" asp-for="EndTime"><br />
-        <span asp-validation-for="EndTime" class="text-danger form-danger-span"></span>
+        <input id="EndTime" class="col-10 form-control" asp-for="end_time"><br />
+        <span asp-validation-for="end_time" class="text-danger form-danger-span"></span>
     </div>
+    <!--
     <div class="form-group row">
-        <label for="ConnectorType" class="col-2 col-form-label">Connector Type:</label>
-        <select id="ConnectorType" class="col-10 form-control" asp-for="ConnectorType" asp-items="Html.GetEnumSelectList<Booking.ConnectorTypeEnum>()"></select><br />
-        <span asp-validation-for="ConnectorType" class="text-danger form-danger-span"></span>
+        <label for="ConnectorType" class="col-2 col-form-label">Vehicle:</label>
+        <select id="ConnectorType" class="col-10 form-control" asp-for="vehicle" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
+        <span asp-validation-for="vehicle" class="text-danger form-danger-span"></span>
     </div>
+        -->
     <div class="row">
-        <button id="create-booking-btn"class="btn btn-success col-12" type="submit">Erstellen</button>
+        <button id="create-booking-btn" class="btn btn-success col-12" type="submit">Create</button>
     </div>
 </form>
 
