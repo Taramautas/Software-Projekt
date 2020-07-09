@@ -34,7 +34,6 @@ namespace Uebungsprojekt.DAO
                     email = _email,
                     password = _password,
                     role = _role,
-                    vehicles = _vehicles,
                 };
                 createdUsers.Add(newUser);
                 return ids;

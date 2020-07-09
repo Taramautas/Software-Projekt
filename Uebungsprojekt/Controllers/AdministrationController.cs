@@ -208,7 +208,7 @@ namespace Uebungsprojekt.Controllers
         /// <param name="result"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Evaluate(int simulation_result_id)
+        public IActionResult SimulationEvaluation(int simulation_result_id)
         {
             /* TODO:
              * SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
@@ -216,6 +216,12 @@ namespace Uebungsprojekt.Controllers
              */
             SimulationResult result = new SimulationResult();
             return View(result);
+        }
+        
+        [HttpGet]
+        public IActionResult Infrastructure()
+        {
+            return View();
         }
         
         [HttpGet]

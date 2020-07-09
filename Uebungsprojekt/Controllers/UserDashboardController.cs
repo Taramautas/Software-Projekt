@@ -19,6 +19,12 @@ namespace Uebungsprojekt.Controllers
             user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
         
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+        
         /// <summary>
         /// Displays the Create Booking View only on GET request
         /// </summary>
