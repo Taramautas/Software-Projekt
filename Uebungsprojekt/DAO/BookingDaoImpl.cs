@@ -146,9 +146,9 @@ namespace Uebungsprojekt.DAO
         /// <param name="user_id">the id of the user whose bookings we are looking for</param>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>List of Booking with specified parameters on success and null on failure</returns>
-        public List<Booking> GetOpenBookingsByUserId(int user_id, int DaoId)
+        public List<Booking> GetOpenBookingsByUserId(int user_id)
         {
-            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(0 + "CreateBooking", out List<Booking> createdBookings))
             {
                 List<Booking> open_bookings_by_user = new List<Booking>();
                 foreach(Booking b in createdBookings)
@@ -172,9 +172,9 @@ namespace Uebungsprojekt.DAO
         /// <param name="user_id">the id of the user whose bookings we are looking for</param>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>List of Booking with specified parameters on success and null on failure</returns>
-        public List<Booking> GetAcceptedBookingsByUserId(int user_id, int DaoId)
+        public List<Booking> GetAcceptedBookingsByUserId(int user_id)
         {
-            if (_cache.TryGetValue(DaoId + "CreateBooking", out List<Booking> createdBookings))
+            if (_cache.TryGetValue(0 + "CreateBooking", out List<Booking> createdBookings))
             {
                 List<Booking> open_bookings_by_user = new List<Booking>();
                 foreach (Booking b in createdBookings)

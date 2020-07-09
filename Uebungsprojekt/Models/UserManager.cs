@@ -45,11 +45,11 @@ namespace Uebungsprojekt.Models
             await httpContext.SignOutAsync();
         }
 
-        public string GetUserIdByHttpContext(HttpContext httpContext)
+        public int GetUserIdByHttpContext(HttpContext httpContext)
         {
             var user_id = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             
-            return user_id != null ? user_id.Value : "";
+            return user_id != null ? Int16.Parse(user_id.Value) : 0;
         }
 
         private IEnumerable<Claim> GetUserClaims(User user)

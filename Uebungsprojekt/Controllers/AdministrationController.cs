@@ -22,7 +22,7 @@ namespace Uebungsprojekt.Controllers
     public class AdministrationController : Controller
     {
         private readonly UserManager user_manager;
-        private string user_id;
+        private int user_id;
         
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
         private IMemoryCache cache; // TODO: Evaluation

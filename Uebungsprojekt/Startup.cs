@@ -2,9 +2,11 @@ using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.OccupancyPlans;
 using Uebungsprojekt.Service;
@@ -60,8 +62,29 @@ namespace Uebungsprojekt
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCache cache)
         {
+            BookingDao booking_dao = new BookingDaoImpl(cache);
+            booking_dao.GetAll(0);
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            vehicle_dao.GetAll();
+            UserDao user_dao = new UserDaoImpl(cache);
+            user_dao.GetAll();
+            
+            SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
+            config_dao.GetAll();
+            SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
+            infrastructure_dao.GetAll();
+            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+            result_dao.GetAll();
+            
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            location_dao.GetAll(0);
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            charging_zone_dao.GetAll(0);
+            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
+            charging_column_dao.GetAll(0);
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
