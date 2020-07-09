@@ -11,6 +11,7 @@ using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
+using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
 using Uebungsprojekt.ViewModel.Administration;
 
@@ -52,7 +53,7 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationConfig()
         {
-            return View(new SimulationConfig());
+            return View("Index");
         }
         
         /// <summary>
@@ -218,12 +219,17 @@ namespace Uebungsprojekt.Controllers
         }
         
         [HttpGet]
+        public IActionResult Users()
+        {
+            UserDao user_dao = new UserDaoImpl(cache);
+            List<User> users = user_dao.GetAll();
+            return View(users);
+        }
+        
+        [HttpGet]
         public IActionResult CreateUser()
         {
-            /* TODO:
-             * return View(new User());
-             */
-            return RedirectToAction("Index");
+            return View(new User());
         }
         
         [HttpPost]
@@ -277,13 +283,19 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Index");
         }
         
+        
+        [HttpGet]
+        public IActionResult Vehicles()
+        {
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            List<Vehicle> vehicles = vehicle_dao.GetAll();
+            return View(vehicles);
+        }
+        
         [HttpGet]
         public IActionResult CreateVehicle()
         {
-            /* TODO:
-             * return View(new Vehicle());
-             */
-            return RedirectToAction("Index");
+             return View(new Vehicle());
         }
         
         [HttpPost]
@@ -295,6 +307,8 @@ namespace Uebungsprojekt.Controllers
              */
             return RedirectToAction("Index");
         }
+        
+        
 
         /// <summary>
         /// Converts the given files to Dataobjects and refreshes the view to display these importchanges

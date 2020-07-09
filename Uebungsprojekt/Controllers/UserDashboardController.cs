@@ -18,6 +18,18 @@ namespace Uebungsprojekt.Controllers
             this.user_manager = user_manager;
             user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
+        
+        /// <summary>
+        /// Displays the Create Booking View only on GET request
+        /// </summary>
+        /// <returns>
+        /// Booking View
+        /// </returns>
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new Booking());
+        }
 
         //TODO Evaluate if this Class is the right place for the notifyUserOnChargingWindow() method declared in issue #22 
     }
