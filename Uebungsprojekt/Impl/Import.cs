@@ -7,22 +7,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Uebungsprojekt.Models;
-<<<<<<< HEAD
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
-=======
->>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
 
 namespace Uebungsprojekt.Impl
 {
     public class Import
     {
 
-<<<<<<< HEAD
         public static int BookingImport(BookingDaoImpl _cache, List<IFormFile> json_files)
-=======
         public static void BookingImport(IMemoryCache _cache ,List<IFormFile> json_files)
->>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
         {
             // Server side validation: Check the file for .json extension and for max. size 1MB
             if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
@@ -40,7 +34,6 @@ namespace Uebungsprojekt.Impl
                 // If success, add to cached booking list
                 if (success)
                 {
-<<<<<<< HEAD
                     int id = BookingDaoImpl.CreateNewDaoId();
                     foreach (Booking b in importedBookings)
 
@@ -248,28 +241,9 @@ namespace Uebungsprojekt.Impl
                 }
             }
         }
-
-
-        public static void Import(){}
-
-
-    }
-            
         
-    
-=======
-
-                    if (_cache.TryGetValue("CreateBooking", out List<Booking> createdBookings))
-                    {
-                        createdBookings.AddRange(importedBookings);
-                    }
-                    else
-                    {
-                        _cache.Set("CreateBooking", importedBookings);
-                    }
-                }
-            }
-        }
+        public static void Import(){}
+        
     }
->>>>>>> e213ca796f337ad62f1a805509f4fcc72d197655
+    
 }
