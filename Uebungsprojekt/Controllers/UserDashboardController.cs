@@ -41,8 +41,6 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            Console.WriteLine(user_id);
-            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
             return View(new Booking());
         }
 
@@ -51,6 +49,18 @@ namespace Uebungsprojekt.Controllers
         {
             BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
             UserDaoImpl user_dao = new UserDaoImpl(cache);
+/*            booking_dao.Create(
+                book.start_state_of_charge,
+                book.target_state_of_charge,
+                book.start_time,
+                book.end_time,
+                false,
+                _vehicle,
+                user_dao.GetById(user_id),
+                book.charging_column,
+                0
+                );
+*/  
             //TODO: finish this shit
             return RedirectToAction("Index");
         }
