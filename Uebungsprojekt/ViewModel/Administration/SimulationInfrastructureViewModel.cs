@@ -8,7 +8,11 @@ namespace Uebungsprojekt.ViewModel.Administration
         /// <summary>List for displaying a list of all existing simulation infrastructures on infrastructure View</summary>
         public IEnumerable<SimulationInfrastructure> all_simulation_infrastructures { get; set; }
         
-        public int simulation_infrastructure{ get; set; }
+        public List<ChargingColumnType> charging_column_types { get; set; }
+        
+        public List<ChargingColumn> charging_columns { get; set; }
+        public List<ChargingZone> charging_zones { get; set; }
+        public List<Location> locations { get; set; }
 
         /// <summary>Simulation configuration chosen for the current simulation</summary>
         public int simulation_config_id { get; set; }
