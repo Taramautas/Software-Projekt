@@ -306,15 +306,14 @@ namespace Uebungsprojekt.Controllers
         {
             return View(new Vehicle());
         }
-        
+
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle)
         {
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
             vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
-            return RedirectToAction("CreateVehicle");
+            return RedirectToAction("Index");
         }
-        
         
 
         /// <summary>
