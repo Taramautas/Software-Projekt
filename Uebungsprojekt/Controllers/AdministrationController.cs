@@ -304,17 +304,15 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult CreateVehicle()
         {
-             return View(new Vehicle());
+            return View(new Vehicle());
         }
         
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle)
         {
-            /* TODO:
-             * VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-             * vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, vehicle.role, 1);
-             */
-            return RedirectToAction("Index");
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
+            return RedirectToAction("CreateVehicle");
         }
         
         

@@ -52,7 +52,7 @@ namespace Uebungsprojekt
             services.AddCronJob<CronTest>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
-                c.CronExpression = @"*/1 * * * *";
+                c.CronExpression = @"*/15 * * * *";
             });
         }
 

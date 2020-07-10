@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Uebungsprojekt.Models.Vehicle>
+
+@{
     ViewData["Title"] = "Vehicles";
     Layout = "_PlanerLayout";
 }
@@ -35,5 +37,15 @@
         </tr>
     </thead>
     <tbody>
+    @foreach (var vehicle in Model)
+            {
+                <tr>
+                    <td>@vehicle.id</td>
+                    <td>@vehicle.model_name</td>
+                    <td>@vehicle.capacity</td>
+                    <td>@vehicle.connector_types</td>
+                </tr>
+            }
+
     </tbody>
 </table>
