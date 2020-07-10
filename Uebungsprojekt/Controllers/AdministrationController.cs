@@ -310,9 +310,13 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle)
         {
-            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-            vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid && vehicle.connector_types != null)
+            {
+                VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+                vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
+                return RedirectToAction("Vehicles");
+            }
+            return RedirectToAction("CreateVehicle");
         }
         
 
