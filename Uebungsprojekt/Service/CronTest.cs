@@ -46,6 +46,7 @@ namespace Uebungsprojekt.Service
             // TODO: daoImpl
             BookingDaoImpl tmp1 = new BookingDaoImpl(_cache);
             tmp1.GetAll(0);
+            
             if(_cache.TryGetValue("0" + "CreateBooking", out List<Booking> createdBookings))
             {
                 DateTime tmp = new DateTime();

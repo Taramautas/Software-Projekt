@@ -1,18 +1,19 @@
-﻿@{
+﻿@model Vehicle
+@{
     ViewData["Title"] = "Create Vehicle";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<form asp-controller="" asp-action="" method="post">
+<form asp-controller="Administration" asp-action="CreateVehicle" method="post">
     <div class="form-group row">
-        <label for="model" class="col-2 col-form-label">Model:</label>
-        <input class="col-10 form-control"><br />
+        <label for="model_name" class="col-2 col-form-label">Model:</label>
+        <input asp-for="model_name" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
         <label for="capacity" class="col-2 col-form-label">Capacity:</label>
-        <input class="col-10 form-control"><br />
+        <input asp-for="capacity" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
         <label for="connectortypes" class="col-2 col-form-label">Connector Types (Select multiple by holding CTRL + Left Click):</label>
