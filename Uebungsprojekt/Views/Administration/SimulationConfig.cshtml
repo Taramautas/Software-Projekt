@@ -1,48 +1,27 @@
-﻿﻿@{
+﻿@model Uebungsprojekt.Models.SimulationConfig
+﻿@{
     ViewData["Title"] = "Simulation";
     Layout = "_PlanerLayout";
 }
 <h1 class="page-title">@ViewData["Title"]</h1>
 <br />
-<form>
+<form asp-controller="Administration" asp-action="SimulationConfig">
     <div><h3><u>Booking Distribution</u></h3></div>
     <br />
     <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Peak Time</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter a valid time">
-        </div>
+        <label for="StateOfCharge" class="col-2 col-form-label">Tick minutes:</label>
+        <input id="StateOfCharge" class="col-10 form-control" asp-for="tick_minutes"><br />
+        <span asp-validation-for="tick_minutes" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Min</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter the minimum number of Bookings">
-        </div>
+        <label for="NeededDistance" class="col-2 col-form-label">Min:</label>
+        <input id="NeededDistance" class="col-10 form-control" asp-for="min"><br />
+        <span asp-validation-for="min" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Max</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter the maximum number of Bookings">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Spread</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter the amount of peanut butter you want on your toast <3">
-        </div>
-    </div>
-    <div><h3><u>Tick Rate</u></h3></div>
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter how many minutes a Tick should equal">
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter how many Ticks the simulation should run">
-        </div>
+        <label for="StartTime" class="col-2 col-form-label">Max:</label>
+        <input id="StartTime" class="col-10 form-control" asp-for="max"><br />
+        <span asp-validation-for="max" class="text-danger form-danger-span"></span>
     </div>
     <!-- Tickrate -->
     <br />
@@ -51,7 +30,7 @@
         </div>
         <div class="col-sm-1">
             <abbr title="Next">
-                <a class="btn btn-outline-primary ml-1 submit" asp-area="" asp-controller="Administration" asp-action="SimulationInfrastructure"><span class="material-icons">arrow_right</span></a>
+                <button class="btn btn-outline-primary ml-1 submit" type="submit"><span class="material-icons">arrow_right</span></button>
             </abbr>
         </div>
     </div>

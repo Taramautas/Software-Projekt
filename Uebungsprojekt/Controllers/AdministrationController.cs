@@ -54,7 +54,7 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationConfig()
         {
-            return View("Index");
+            return View(new SimulationConfig());
         }
         
         /// <summary>
@@ -64,13 +64,9 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult SimulationConfig(SimulationConfig config)
         {
-            /* TODO: 
-             * SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
-             * int config_id = config_dao.Create(config.tick_minutes, config.rush_hours, config.min, config.max, config.spread, config.weeks, config.vehicles);
-             */
-            int config_id = 0;
-            
-            return SimulationInfrastructure(config.id);
+            SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
+            int config_id = config_dao.Create(config.tick_minutes, config.rush_hours, config.min, config.max, config.spread, config.weeks, config.vehicles);
+            return RedirectToAction("SimulationInfrastructure", config.id);
         }
         
         /// <summary>
@@ -80,15 +76,13 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationInfrastructure(int simulation_config_id)
         {
-            /* TODO: 
-             * SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-             * view_model.all_simulation_infrastructures = infrastructure_dao.GetAll();
-             */
-            SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel()
-            {
-                simulation_config_id = simulation_config_id,
-            };
-            return View(view_model);
+             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
+             SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel();
+             // ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache) TODO: 
+             view_model.all_simulation_infrastructures = infrastructure_dao.GetAll();
+             view_model.simulation_config_id = simulation_config_id;
+             //view_model.charging_column_types = type_dao.GetAll();
+             return View(view_model);
         }
         
         
@@ -113,6 +107,13 @@ namespace Uebungsprojekt.Controllers
             };
             return Simulation(simulation_view_model);
         }
+        
+        [HttpGet]
+        public IActionResult Simulation()
+        {
+            return RedirectToAction("SimulationConfig");
+        }
+
 
         /// <summary>
         /// Start and visualize the actual simulation
@@ -142,6 +143,7 @@ namespace Uebungsprojekt.Controllers
             Simulation simulation = new Simulation(config, infrastructure, result);
             if (!simulation.RunSimulation())
             {
+                Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
             }
             return View(simulation.simulation_result.id);
