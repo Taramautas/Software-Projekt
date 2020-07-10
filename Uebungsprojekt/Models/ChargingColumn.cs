@@ -8,17 +8,13 @@ namespace Uebungsprojekt.Models
     public class ChargingColumn
     {
         public int id { get; set; }
+        
+        public int charging_column_type_id { get; set; }
 
         public Boolean busy { get; set; }
 
-        public string manufacturer_name { get; set; }
-
-        public List<ConnectorType> connectors { get; set; }
-
         public Boolean emergency_reserve { get; set; }
-
-        public int max_concurrent_charging { get; set; }
-
+        
         public ChargingZone charging_zone { get; set; }
 
         public ChargingColumn()
