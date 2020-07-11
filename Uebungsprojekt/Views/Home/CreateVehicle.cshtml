@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Create Vehicle";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<form asp-controller="" asp-action="" method="post">
+    <div class="form-group row">
+        <label for="model" class="col-2 col-form-label">Model:</label>
+        <input class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="capacity" class="col-2 col-form-label">Capacity:</label>
+        <input class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="connectortypes" class="col-2 col-form-label">Connector Types (Select multiple by holding CTRL + Right Click):</label>
+        <select multiple id="ConnectorType" class="col-10 form-control" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
+    </div>
+    <div class="row">
+        <button class="btn btn-outline-primary col-12" type="submit">Create</button>
+    </div>
+</form>
