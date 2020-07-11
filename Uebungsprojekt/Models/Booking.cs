@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.ComponentModel;
@@ -44,12 +45,18 @@ namespace Uebungsprojekt.Models
         // Frage: muss hier noch eine Variable für ChargingColumn rein?
         public ChargingColumn charging_column { get; set; }
 
+        public Location location { get; set; }
+
         /// <summary>
         /// Empty constructor of booking model
         /// </summary>
         public Booking()
         { 
 
+        }
+        public void Accept()
+        {
+            accepted = true;
         }
     }
 }
