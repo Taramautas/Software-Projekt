@@ -119,55 +119,217 @@ namespace Uebungsprojekt
                         DateTime bookingStartTime = b.start_time;
                         DateTime bookingEndTime = b.end_time + new TimeSpan(0, 15, 0);
 
+                        TimeSpan pufferhigh = new TimeSpan(0, 45, 0);
+                        TimeSpan pufferlow = new TimeSpan(1, 45, 0);
+                        TimeSpan pufferbetween = new TimeSpan(0, 15, 0);
                         TimeSpan bookingRealTimeSpan = ChargingTime.RealChargingTime(cc.charging_column_type_id, b);
-
-                        if (currentEndTime <= bookingStartTime && bookingEndTime < nextStartTime)
+                        // Charging column with more than 50kWh chargingpower
+                        if (cc.charging_column_type_id.max_concurrent_charging >= 50)
                         {
-                            if(bookingStartTime - currentEndTime >= new TimeSpan(1,0,0) && cc.charging_column_type_id.max_concurrent_charging > 50) 
+
+
+                            // Booking is between the last booking and the next booking without conflicts
+                            if (currentEndTime <= bookingStartTime && bookingEndTime <= nextStartTime) 
                             {
-                                if (nextStartTime - bookingEndTime >= new TimeSpan(1, 0, 0))
+                                if (bookingStartTime - currentEndTime>= pufferhigh)
                                 {
-                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + new TimeSpan(0, 15, 0)));
+                                    if(nextStartTime - bookingEndTime >= pufferhigh)
+                                    {
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                        b.Accept();
+                                        goto Exit;
+                                    }
+
+                                    if (nextStartTime - bookingEndTime <= pufferhigh)
+                                    {
+                                        bookingEndTime = nextStartTime;
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                        b.Accept();
+                                        goto Exit;
+                                    }
+
+                                }
+                                else if(bookingStartTime - currentEndTime < pufferhigh)
+                                {
+                                    if(nextStartTime - bookingEndTime >= pufferhigh)
+                                    {
+                                        bookingStartTime = currentEndTime;
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                        b.Accept();
+                                        goto Exit;
+
+                                    }
+                                    else if(nextStartTime - bookingEndTime < pufferhigh)
+                                    {
+                                        if(nextStartTime - bookingEndTime > bookingStartTime - currentEndTime)
+                                        {
+                                            bookingStartTime = currentEndTime;
+                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            b.Accept();
+                                            goto Exit;
+                                        }
+                                        else
+                                        {
+                                            bookingEndTime = nextStartTime;
+                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                            b.Accept();
+                                            goto Exit;
+                                        }
+                                    }
+
+                                }
+                                
+                                
+                            }
+                            else if(currentEndTime > bookingStartTime && bookingEndTime <= nextStartTime)
+                            {
+                                if (bookingEndTime - currentEndTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
+                                {
+                                    bookingStartTime = currentEndTime;
+                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                     b.Accept();
                                     goto Exit;
                                 }
-                                else if(nextStartTime - bookingEndTime < new TimeSpan(1, 0, 0))
+
+                            }
+                            else if(currentEndTime <= bookingStartTime && bookingEndTime > nextStartTime)
+                            {
+                                if(nextStartTime - bookingStartTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
+                                {
+                                    bookingEndTime = nextStartTime;
+                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime ));
+                                    b.Accept();
+                                    goto Exit;
+                                }
+                            }
+                            else if(currentEndTime > bookingStartTime && bookingEndTime > nextStartTime)
+                            {
+                                if(nextStartTime - currentEndTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
+                                {
+                                    bookingStartTime = currentEndTime;
+                                    bookingEndTime = nextStartTime;
+                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                    b.Accept();
+                                    goto Exit;
+                                }
+                            }
+
+                           
+                            
+                        }
+                        else if (cc.charging_column_type_id.max_concurrent_charging < 50)
+                        {
+                            // Booking is between the last booking and the next booking without conflicts
+                            if (currentEndTime <= bookingStartTime && bookingEndTime <= nextStartTime)
+                            {
+                                if (bookingStartTime - currentEndTime >= pufferlow)
+                                {
+                                    if (nextStartTime - bookingEndTime >= pufferlow)
+                                    {
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                        b.Accept();
+                                        goto Exit;
+                                    }
+
+                                    if (nextStartTime - bookingEndTime <= pufferlow)
+                                    {
+                                        bookingEndTime = nextStartTime;
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                        b.Accept();
+                                        goto Exit;
+                                    }
+
+                                }
+                                else if (bookingStartTime - currentEndTime < pufferlow)
+                                {
+                                    if (nextStartTime - bookingEndTime >= pufferlow)
+                                    {
+                                        bookingStartTime = currentEndTime;
+                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                        b.Accept();
+                                        goto Exit;
+
+                                    }
+                                    else if (nextStartTime - bookingEndTime < pufferlow)
+                                    {
+                                        if (nextStartTime - bookingEndTime > bookingStartTime - currentEndTime)
+                                        {
+                                            bookingStartTime = currentEndTime;
+                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            b.Accept();
+                                            goto Exit;
+                                        }
+                                        else
+                                        {
+                                            bookingEndTime = nextStartTime;
+                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                            b.Accept();
+                                            goto Exit;
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+                            else if (currentEndTime > bookingStartTime && bookingEndTime <= nextStartTime)
+                            {
+                                if (bookingEndTime - currentEndTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
+                                {
+                                    bookingStartTime = currentEndTime;
+                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                    b.Accept();
+                                    goto Exit;
+                                }
+
+                            }
+                            else if (currentEndTime <= bookingStartTime && bookingEndTime > nextStartTime)
+                            {
+                                if (nextStartTime - bookingStartTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
                                 {
                                     bookingEndTime = nextStartTime;
                                     cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                     b.Accept();
                                     goto Exit;
                                 }
-                                
-                            }else if(bookingStartTime - currentEndTime < new TimeSpan(1,0,0) )
-                            if(bookingStartTime - currentEndTime < new TimeSpan(1,0,0) && cc.charging_column_type_id.max_concurrent_charging < 50)
-                            {
-                                bookingStartTime = currentEndTime;
-                                cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan));
-                                b.Accept();
-                                goto Exit;
                             }
-                            
+                            else if (currentEndTime > bookingStartTime && bookingEndTime > nextStartTime)
+                            {
+                                if (nextStartTime - currentEndTime < bookingRealTimeSpan)
+                                {
+                                    goto Exit;
+                                }
+                                else
+                                {
+                                    bookingStartTime = currentEndTime;
+                                    bookingEndTime = nextStartTime;
+                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                    b.Accept();
+                                    goto Exit;
+                                }
+                            }
                         }
-                        else if (currentEndTime <= bookingStartTime && bookingEndTime >= nextStartTime)
-                        {
-                            bookingEndTime = bookingEndTime - (bookingEndTime - nextStartTime) - new TimeSpan(0, 15, 0);
-                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + new TimeSpan(0, 15, 0)));
-                            break;
-                        }
-                        else if (currentEndTime > bookingStartTime && bookingEndTime < nextStartTime)
-                        {
-                            bookingStartTime = bookingStartTime + (currentEndTime - bookingStartTime);
-                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + new TimeSpan(0, 15, 0)));
-                            break;
-                        }
-                        else if (currentEndTime > bookingStartTime && bookingEndTime >= nextStartTime)
-                        {
-                            bookingStartTime = bookingStartTime + (currentEndTime - bookingStartTime);
-                            bookingEndTime = bookingEndTime - (bookingEndTime - nextStartTime) - new TimeSpan(0, 15, 0);
-                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + new TimeSpan(0, 15, 0)));
-                            break;
-                        }
+                       
                     Exit:;
 
                     }
