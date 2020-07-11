@@ -224,7 +224,19 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Infrastructure()
         {
-            return View();
+            // Create Daos for Infrastructure
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDao chargingzone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnDao chargingcolumn_dao = new ChargingColumnDaoImpl(cache);
+            // Create ViewModel and set required daos
+            InfrastructureViewModel view_model = new InfrastructureViewModel();
+            List<Location> location = location_dao.GetAll(0);
+            List<ChargingZone> chargingzone = chargingzone_dao.GetAll(0);
+            List<ChargingColumn> chargingcolumn = chargingcolumn_dao.GetAll(0);
+            view_model.locations = location;
+            view_model.charging_zones = chargingzone;
+            view_model.charging_columns = chargingcolumn;
+            return View(view_model);
         }
         
         [HttpGet]
