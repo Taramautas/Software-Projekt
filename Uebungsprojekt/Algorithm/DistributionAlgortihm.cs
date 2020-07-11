@@ -18,18 +18,23 @@ namespace Uebungsprojekt
         /// <param name="chargingcolumndao"></param>
         /// <param name="connectorTypes"></param>
         /// <returns></returns>
-        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, LocationDaoImpl locationDaoImpl, BookingDaoImpl bookingdao, Location location)
+        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, LocationDaoImpl locationDaoImpl, BookingDaoImpl bookingdao)
         {
             /// generate several list which are needed to run the Algorithm and eliminate the candidates which arent needed
             List<Booking> bookings = bookingdao.GetAll(0);
+            //list of all unaccepted Bookings
             List<Booking> unacceptedBookings = bookings.FindAll(HelpFunctions.FindUnacceptetBookings);
-
+            //list of all needed locations which are extracted by bookings
             List<Location> listofBookingLocations = unacceptedBookings.OfType<Location>().ToList();
+            //list of all connector typs
             var connectorTypes = Enum.GetValues(typeof(ConnectorType)).Cast<ConnectorType>().ToList();
+            //help list
             List<ChargingColumn> result = new List<ChargingColumn>();
+            //
             List<ChargingColumn> overallresult = new List<ChargingColumn>();
+            //list of all chargingcolumns
             List<ChargingColumn> listofAllChargingColumn = chargingcolumndao.GetAll(0);
-
+            //list of needed charging columns filtered by Location
             List<ChargingColumn> listofChargingColumn = listofAllChargingColumn.FindAll(delegate (ChargingColumn cc)
             {
                 foreach (Location loc in listofBookingLocations)
@@ -43,6 +48,7 @@ namespace Uebungsprojekt
                 // Muss getestet werden keine Ahnung ob es passt
                 return false;
             });
+            //list of all charging columns filtered by location and needed connectortyps
             List<ChargingColumn> listofBookingChargingColumn = listofChargingColumn.FindAll(delegate (ChargingColumn cc)
             {
                 foreach (Booking b in unacceptedBookings)
@@ -64,7 +70,7 @@ namespace Uebungsprojekt
                 }
                 return false;
             });
-
+            //alternative lösung zu oben
             // all needed charging columns together in one list
             foreach (var connectorType in connectorTypes)
             {
@@ -136,6 +142,7 @@ namespace Uebungsprojekt
                                     if(nextStartTime - bookingEndTime >= pufferhigh)
                                     {
                                         cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                        b.charging_column = cc;
                                         b.Accept();
                                         goto Exit;
                                     }
