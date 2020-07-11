@@ -65,6 +65,66 @@
     
     ----------------------------------------------------------------------------
     */
+    function chargingColumnFunction() {
+        var spa = document.createElement('span');   // span to add a charging column
+        var inp = document.createElement("INPUT");  // input field to enter ** 
+        var del = document.createElement("button"); // delete button
+        var cz = document.createElement("button");  // add **
+        var br = document.createElement("br");      // simple break for visibility
+        var id;
+
+        spa.setAttribute("style", "margin-left: 100px")
+
+        inp.setAttribute("type", "text");
+        inp.setAttribute("placeholder", "Charging Column");
+        increment();
+        id = i;
+        inp.setAttribute("ChargingColumn", "textelement_" + id);
+        spa.appendChild(inp)
+
+        del.textContent = "Delete"
+        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
+        spa.appendChild(del);
+
+        spa.setAttribute("id", "loc_" + id);
+
+        document.getElementById("myForm").appendChild(spa);
+
+        spa.appendChild(br);
+    }
+
+    function chargingZoneFunction() {
+        var spa = document.createElement('span');   // span to add a charging zone
+        var inp = document.createElement("INPUT");  // input field to enter chargin zone name
+        var del = document.createElement("button"); // delete button
+        var cz = document.createElement("button");  // add charging column to charging zone
+        var br = document.createElement("br");      // simple break for visibility
+        var id;
+
+        spa.setAttribute("style", "margin-left: 50px")
+
+        inp.setAttribute("type", "text");
+        inp.setAttribute("placeholder", "Charging Zone");
+        increment();
+        id = i;
+        inp.setAttribute("ChargingZone", "textelement_" + id);
+        spa.appendChild(inp)
+
+        del.textContent = "Delete"
+        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
+        spa.appendChild(del);
+
+        spa.setAttribute("id", "loc_" + id);
+
+        document.getElementById("myForm").appendChild(spa);
+
+        cz.textContent = "AddChargingColumn";
+        cz.setAttribute("onclick", "chargingColumnFunction()");
+        spa.appendChild(cz);
+
+        spa.appendChild(br);
+    }
+
     function locationFunction() {
         var spa = document.createElement('span');   // span to add a location
         var inp = document.createElement("INPUT");  // input field to enter location name
@@ -89,58 +149,12 @@
         document.getElementById("myForm").appendChild(spa);
 
         cz.textContent = "AddChargingZone";
-        cz.setAttribute("onclick", "chargingZoneFunction(" + id + ")");
+        cz.setAttribute("onclick", "chargingZoneFunction()");
         spa.appendChild(cz);
         
         spa.appendChild(br);
     }
 
-    function chargingZoneFunction(int idLoc) {
-        var spa = document.createElement('span');   // span to add a chargin zone
-        var inp = document.createElement("INPUT");  // input field to enter charging zone name
-        var del = document.createElement("button"); // delete button
-        var cz = document.createElement("button");  // add charging column to charging zone
-        var br = document.createElement("br");      // simple break for visibility
-
-        inp.setAttribute("type", "text");
-        inp.setAttribute("placeholder", "Charging Zone");
-        incrementj();
-        inp.setAttribute("ChargingZone", "textelement_" + j);
-        spa.appendChild(inp)
-
-        del.textContent = "Delete"
-        del.setAttribute("onclick", "removeElement('loc_" + idLoc + "','cz_" + j + "')");
-        spa.appendChild(del);
-
-        spa.setAttribute("id", "cz_" + j);
-
-        document.getElementById("'loc_" + idLoc + "'").appendChild(spa);
-
-        cz.textContent = "AddChargingColumn";
-        cz.setAttribute("onclick", "chargingColumnFunction()");
-        spa.appendChild(cz);
-
-        spa.appendChild(br);
-    }
-
-    function chargingColumnFunction() {
-        var r = document.createElement('span');
-        var y = document.createElement("INPUT");
-        y.setAttribute("type", "text");
-        y.setAttribute("placeholder", "ChargingColumn");
-        var g = document.createElement("button");
-        increment();
-        y.setAttribute("ChargingColumn", "textelement_" + i);
-        g.textContent = "Delete"
-        y.setAttribute("style", "margin-left: 100px")
-        r.appendChild(y);
-        g.setAttribute("onclick", "removeElement('myForm','id_" + i + "')");
-        r.appendChild(g);
-        r.setAttribute("id", "id_" + i);
-        document.getElementById("myForm").appendChild(r);
-        var br = document.createElement("br");
-        r.appendChild(br);
-    }
     /*
     function resetElements() {
         document.getElementById('myForm').innerHTML = '';
