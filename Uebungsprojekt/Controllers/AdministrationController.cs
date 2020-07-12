@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
-using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uebungsprojekt.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
@@ -18,39 +16,34 @@ using Uebungsprojekt.ViewModel.Administration;
 namespace Uebungsprojekt.Controllers
 {
 
+    // AdministrationController is only accessible for planners
     [Authorize(Roles = "Planner")]
     public class AdministrationController : Controller
     {
-        private readonly UserManager user_manager;
-        private int user_id;
-        
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
-        private IMemoryCache cache; // TODO: Evaluation
+        private IMemoryCache cache;
 
 
         /// <summary>
         /// Constructor for AdministrationController
         /// </summary>
-        public AdministrationController(UserManager user_manager, IHttpContextAccessor http_context_accessor, IMemoryCache cache)
+        /// <param name="cache">IMemoryCache passed via Dependency Injection</param>
+        public AdministrationController(IMemoryCache cache)
         {
             this.cache = cache;
-            this.user_manager = user_manager;
-            user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
 
         /// <summary>
-        /// General administration overview
+        /// Static description of all possible actions within the administration controller
         /// </summary>
-        /// <returns>View</returns>
         public IActionResult Index()
         {
             return View();
         }
 
         /// <summary>
-        /// Show View containing the form for simulation parameters and infrastructure
+        /// Show View containing the form for simulation parameters
         /// </summary>
-        /// <returns>View</returns>
         [HttpGet]
         public IActionResult SimulationConfig()
         {
@@ -58,56 +51,71 @@ namespace Uebungsprojekt.Controllers
         }
         
         /// <summary>
-        /// Show View containing the form for simulation parameters and infrastructure
+        /// Save specified parameters as SimulationConfig object and redirect to form for SimulationInfrastructure
         /// </summary>
-        /// <returns>View</returns>
+        /// <param name="config">SimulationConfig</param>
         [HttpPost]
         public IActionResult SimulationConfig(SimulationConfig config)
         {
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             int config_id = config_dao.Create(config.tick_minutes, config.rush_hours, config.min, config.max, config.spread, config.weeks, config.vehicles);
-            return RedirectToAction("SimulationInfrastructure", config.id);
+            return RedirectToAction("SimulationInfrastructure", config_id);
         }
         
         /// <summary>
-        /// Passes both the simulation infrastructure and configuration to the simulation
+        /// Return form for defining the simulation infrastructure
         /// </summary>
-        /// <returns></returns>
+        /// <param name="simulation_config_id">int</param>
         [HttpGet]
         public IActionResult SimulationInfrastructure(int simulation_config_id)
         {
              SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-             SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel();
-             // ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache) TODO: 
-             view_model.all_simulation_infrastructures = infrastructure_dao.GetAll();
-             view_model.simulation_config_id = simulation_config_id;
-             //view_model.charging_column_types = type_dao.GetAll();
+             ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache);
+
+             SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel()
+             {
+                 all_simulation_infrastructures = infrastructure_dao.GetAll(),
+                 simulation_config_id = simulation_config_id,
+                 charging_column_types = type_dao.GetAll(),
+             };
              return View(view_model);
         }
         
-        
-        
-
         /// <summary>
-        /// Passes both the simulation infrastructure and configuration to the simulation
+        /// Save infrastructure as SimulationInfrastructure object and pass both the id of simulation and config to Simulation
         /// </summary>
-        /// <returns></returns>
+        /// <param name="view_model">SimulationInfrastructureViewModel</param>
         [HttpPost]
         public IActionResult SimulationInfrastructure(SimulationInfrastructureViewModel view_model)
         {
-            /* TODO:
-             * SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-             * int infrastructure_id = infrastructure_dao.Create(config.tick_minutes, config.rush_hours, config.min, config.max, config.spread, config.weeks, config.vehicles);
-             */
-            int infrastructure_id = 0;
+            int location_dao_id = LocationDaoImpl.CreateNewDaoId();
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            foreach (Location location in view_model.locations)
+                location_dao.Create(location.city, location.post_code, location.address, location_dao_id);
+
+            int charging_zone_dao_id = ChargingZoneDaoImpl.CreateNewDaoId();
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            foreach (ChargingZone charging_zone in view_model.charging_zones)
+                charging_zone_dao.Create(charging_zone.overall_performance, charging_zone.location, charging_zone_dao_id);
+
+            int charging_column_dao_id = ChargingColumnDaoImpl.CreateNewDaoId();
+            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
+            foreach (ChargingColumn charging_column in view_model.charging_columns)
+                charging_column_dao.Create(charging_column.charging_column_type_id,  charging_column.emergency_reserve, charging_column.charging_zone, charging_column_dao_id);
+            
+            SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
+            int infrastructure_id = infrastructure_dao.Create(location_dao_id, charging_zone_dao_id, charging_column_dao_id);
             SimulationViewModel simulation_view_model = new SimulationViewModel()
             {
                 simulation_config_id = view_model.simulation_config_id,
                 simulation_infrastructure_id = infrastructure_id,
             };
-            return Simulation(simulation_view_model);
+            return RedirectToAction("Simulation", simulation_view_model);
         }
         
+        /// <summary>
+        /// Redirect to SimulationConfig View (Start of the simulation configuration process) if not accessed via POST-Request
+        /// </summary>
         [HttpGet]
         public IActionResult Simulation()
         {
@@ -118,7 +126,7 @@ namespace Uebungsprojekt.Controllers
         /// <summary>
         /// Start and visualize the actual simulation
         /// </summary>
-        /// <param name="view_model"></param>
+        /// <param name="view_model">SimulationViewModel</param>
         [HttpPost]
         public IActionResult Simulation(SimulationViewModel view_model)
         {
@@ -130,13 +138,16 @@ namespace Uebungsprojekt.Controllers
              * SimulationInfrastructure infrastructure = infrastructure_dao.GetById(view_mode.simulation_infrastructure_id);
              * SimulationResult result = result_dao.Create(config.id, infrastructure.id);
              */
-            
-            SimulationConfig config = new SimulationConfig();
-            SimulationInfrastructure infrastructure = new SimulationInfrastructure();
+            SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
+            SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
+
+            SimulationConfig config = config_dao.GetById(view_model.simulation_config_id);
+            SimulationInfrastructure infrastructure =
+                infrastructure_dao.GetById(view_model.simulation_infrastructure_id);
             SimulationResult result = new SimulationResult()
             {
-                config_id = view_model.simulation_config_id,
-                infrastructure_id = view_model.simulation_infrastructure_id
+                config = config,
+                infrastructure = infrastructure,
             };
             
             
@@ -146,18 +157,16 @@ namespace Uebungsprojekt.Controllers
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
             }
-            return View(simulation.simulation_result.id);
+            return View(simulation.simulation_result);
         }
 
+        /*
         [HttpPost]
         public async Task GetSimulationResults(int simulation_result_id)
         {
-            /* TODO:
-             * SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-             * SimulationResult result = result_dao.GetByID(simulation_result_id);
-             */
-            SimulationResult result = new SimulationResult();
-            
+             SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+             SimulationResult result = result_dao.GetById(simulation_result_id);
+                        
             var context = ControllerContext.HttpContext;
             var is_socket_request = context.WebSockets.IsWebSocketRequest;
 
@@ -204,121 +213,143 @@ namespace Uebungsprojekt.Controllers
             await web_socket.SendAsync(new ArraySegment<byte>(null), WebSocketMessageType.Binary, false,
                 CancellationToken.None);
         }
+        */
 
         /// <summary>
-        /// Evaluate the just running simulation (Automatically redirect after simulation finished)
+        /// Evaluate the simulation afterwards(Automatically redirect after simulation finished)
         /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
+        /// <param name="simulation_result_id">int</param>
         [HttpPost]
         public IActionResult SimulationEvaluation(int simulation_result_id)
         {
-            /* TODO:
-             * SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-             * SimulationResult result = result_dao.GetByID(simulation_result_id);
-             */
-            SimulationResult result = new SimulationResult();
+            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+            SimulationResult result = result_dao.GetById(simulation_result_id);
             return View(result);
         }
         
+        /// <summary>
+        /// Display a complex table representing the current infrastructure
+        /// </summary>
         [HttpGet]
         public IActionResult Infrastructure()
         {
             // Create Daos for Infrastructure
             LocationDao location_dao = new LocationDaoImpl(cache);
-            ChargingZoneDao chargingzone_dao = new ChargingZoneDaoImpl(cache);
-            ChargingColumnDao chargingcolumn_dao = new ChargingColumnDaoImpl(cache);
-            // Create ViewModel and set required daos
-            InfrastructureViewModel view_model = new InfrastructureViewModel();
-            List<Location> location = location_dao.GetAll(0);
-            List<ChargingZone> chargingzone = chargingzone_dao.GetAll(0);
-            List<ChargingColumn> chargingcolumn = chargingcolumn_dao.GetAll(0);
-            view_model.locations = location;
-            view_model.charging_zones = chargingzone;
-            view_model.charging_columns = chargingcolumn;
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
+
+            InfrastructureViewModel view_model = new InfrastructureViewModel()
+            {
+                locations = location_dao.GetAll(0),
+                charging_zones = charging_zone_dao.GetAll(0),
+                charging_columns = charging_column_dao.GetAll(0),
+            };
             return View(view_model);
         }
         
+        /// <summary>
+        /// Display a table of all bookings in system
+        /// </summary>
         [HttpGet]
-        public IActionResult Users()
+        public IActionResult Bookings()
         {
-            UserDao user_dao = new UserDaoImpl(cache);
-            List<User> users = user_dao.GetAll();
-            return View(users);
+            BookingDao booking_dao = new BookingDaoImpl(cache);
+            return View(booking_dao.GetAll(0));
         }
-        
-        [HttpGet]
-        public IActionResult CreateUser()
-        {
-            return View(new User());
-        }
-        
-        [HttpPost]
-        public IActionResult CreateUser(User user)
-        {
-            /* TODO:
-             * UserDao user_dao = new UserDaoImpl(cache);
-             * user_dao.Create(user.name, user.email, user.password, user.role);
-             */
-            return RedirectToAction("Index");
-        }
-        
+
+        /// <summary>
+        /// Show Create form for Booking
+        /// </summary>
         [HttpGet]
         public IActionResult CreateBooking()
         {
-            /* TODO:
-             * return View(new Booking());
-             */
-            return RedirectToAction("Index");
+            return View(new Booking());
         }
         
+        /// <summary>
+        /// Add booking to DAO if valid and return to Bookings
+        /// </summary>
+        /// <param name="booking">Booking</param>
         [HttpPost]
         public IActionResult CreateBooking(Booking booking)
         {
-            /* TODO:
-             * BookingDao booking_dao = new BookingDaoImpl(cache);
-             * user_dao.Create(user.name, user.email, user.password, user.role, 1);
-             */
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                BookingDao booking_dao = new BookingDaoImpl(cache);
+                booking_dao.Create(
+                    booking.start_state_of_charge, 
+                    booking.target_state_of_charge, 
+                    booking.start_time, 
+                    booking.end_time, 
+                    booking.vehicle, 
+                    booking.user, 
+                    booking.location, 
+                    0);
+                return RedirectToAction("Bookings");
+            }
+            return View(new Booking());
         }
         
+        /// <summary>
+        /// Show Edit form for bookings (same as Create, but already filled)
+        /// </summary>
+        /// <param name="booking_id">int</param>
         [HttpGet]
         public IActionResult EditBooking(int booking_id)
         {
-            /* TODO:
-             * BookingDao booking_dao = new BookingDaoImpl(cache);
-             * Booking booking = booking_dao.GetById(booking_id);
-             * return View(booking);
-             */
-            return RedirectToAction("Index");
+            BookingDao booking_dao = new BookingDaoImpl(cache);
+            Booking booking = booking_dao.GetById(booking_id, 0);
+            return View(booking);
         }
         
+        /// <summary>
+        /// Delete and recreate booking with new data if valid. Return to Bookings afterwards.
+        /// </summary>
+        /// <param name="booking">Booking</param>
         [HttpPost]
         public IActionResult EditBooking(Booking booking)
         {
-            /* TODO:
-             * BookingDao booking_dao = new BookingDaoImpl(cache);
-             * booking_dao.Delete(booking_id, 1);
-             * booking_dao.Create(booking.start_state_of_charge, booking.target_state_of_charge, booking.start_time, booking.end, booking.vehicle, booking.user, 1);
-             */
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                BookingDao booking_dao = new BookingDaoImpl(cache);
+                booking_dao.Delete(booking.id, 0);
+                booking_dao.Create(
+                    booking.start_state_of_charge, 
+                    booking.target_state_of_charge, 
+                    booking.start_time, 
+                    booking.end_time, 
+                    booking.vehicle, 
+                    booking.user, 
+                    booking.location, 
+                    0);
+                return RedirectToAction("Bookings");
+            }
+            return View(booking);
         }
         
-        
+        /// <summary>
+        /// Display a table of all vehicles in system
+        /// </summary>
         [HttpGet]
         public IActionResult Vehicles()
         {
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-            List<Vehicle> vehicles = vehicle_dao.GetAll();
-            return View(vehicles);
+            return View(vehicle_dao.GetAll());
         }
         
+        /// <summary>
+        /// Show Create form for vehicles
+        /// </summary>
         [HttpGet]
         public IActionResult CreateVehicle()
         {
             return View(new Vehicle());
         }
 
+        /// <summary>
+        /// Add vehicle to DAO if valid and return to Vehicles
+        /// </summary>
+        /// <param name="vehicle">Vehicle</param>
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle)
         {
@@ -328,7 +359,7 @@ namespace Uebungsprojekt.Controllers
                 vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
                 return RedirectToAction("Vehicles");
             }
-            return RedirectToAction("CreateVehicle");
+            return RedirectToAction("Vehicles");
         }
         
 

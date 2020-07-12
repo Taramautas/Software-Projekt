@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Uebungsprojekt.Models
 {
@@ -21,7 +19,7 @@ namespace Uebungsprojekt.Models
 
         public ChargingColumn()
         {
-
+            list = new List<Tuple<DateTime, DateTime>>();
         }
     }
 }

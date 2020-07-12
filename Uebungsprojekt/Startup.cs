@@ -70,7 +70,9 @@ namespace Uebungsprojekt
             vehicle_dao.GetAll();
             UserDao user_dao = new UserDaoImpl(cache);
             user_dao.GetAll();
-            user_dao.Create("Admin", "admin@admin.de", "admin", Role.Planner);
+            user_dao.Create("Planner", "admin@admin.de", "admin", Role.Planner);
+            user_dao.Create("Assistant", "assistant@assistant.de", "assistant", Role.Assistant);
+            user_dao.Create("Employee", "user@user.de", "user", Role.Employee);
             
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             config_dao.GetAll();
@@ -86,6 +88,7 @@ namespace Uebungsprojekt
             ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
             charging_column_dao.GetAll(0);
 
+            /*
             // Create Infrastructure for testing
             int loc_id = location_dao.Create("Munich", "12345", "addressstreet 5", 0);
             int zone_id = charging_zone_dao.Create(50, location_dao.GetById(loc_id, 0), 0);
@@ -98,7 +101,8 @@ namespace Uebungsprojekt
             charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id2, 0), 0);
             charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id2, 0), 0);
             charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id2, 0), 0);
-
+            */ 
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

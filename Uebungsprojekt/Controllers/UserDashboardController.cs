@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
@@ -11,21 +9,38 @@ using Uebungsprojekt.ViewModel.Administration;
 
 namespace Uebungsprojekt.Controllers
 {
+    // Controller is only accessible for authorized (logged in) users
     [Authorize]
     public class UserDashboardController : Controller
     {
-        private readonly UserManager user_manager;
         private int user_id;
         private IMemoryCache cache;
+        
+        /// <summary>
+        /// Contructor for UserDashboardController
+        /// </summary>
+        /// <param name="user_manager">UserManager passed via Dependency Injection</param>
+        /// <param name="http_context_accessor">IHttpContextAccessor passed via Dependency Injection</param>
+        /// <param name="cache">IMemoryCache passed via Dependency Injection</param>
         public UserDashboardController(UserManager user_manager, IHttpContextAccessor http_context_accessor, IMemoryCache cache)
         {
             this.cache = cache;
-            this.user_manager = user_manager;
             user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
         
+        /// <summary>
+        /// Static description of all possible actions within the userdashboard controller
+        /// </summary>
         [HttpGet]
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Display a table of all bookings associated to the current user
+        /// </summary>
+        public IActionResult Bookings()
         {
             BookingDao booking_dao = new BookingDaoImpl(cache);
             List<Booking> bookings = booking_dao.GetAcceptedBookingsByUserId(user_id);
@@ -34,36 +49,34 @@ namespace Uebungsprojekt.Controllers
         }
         
         /// <summary>
-        /// Displays the Create Booking View only on GET request
+        /// Show Create form for booking
         /// </summary>
-        /// <returns>
-        /// Booking View
-        /// </returns>
         [HttpGet]
         public IActionResult Create()
         {
             return View(new Booking());
         }
 
+        /// <summary>
+        /// Add booking to DAO if valid and return to Bookings
+        /// </summary>
+        /// <param name="booking">Booking</param>
         [HttpPost]
-        public IActionResult Create(Booking book)
+        public IActionResult Create(Booking booking)
         {
             BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
             UserDaoImpl user_dao = new UserDaoImpl(cache);
-/*            booking_dao.Create(
-                book.start_state_of_charge,
-                book.target_state_of_charge,
-                book.start_time,
-                book.end_time,
-                false,
-                _vehicle,
+            booking_dao.Create(
+                booking.start_state_of_charge,
+                booking.target_state_of_charge,
+                booking.start_time,
+                booking.end_time,
+                booking.vehicle,
                 user_dao.GetById(user_id),
-                book.charging_column,
+                booking.location,
                 0
                 );
-*/  
-            //TODO: finish this shit
-            return RedirectToAction("Index");
+            return RedirectToAction("Bookings");
         }
         
         [HttpGet]
@@ -82,6 +95,41 @@ namespace Uebungsprojekt.Controllers
             view_model.charging_zones = chargingzone;
             view_model.charging_columns = chargingcolumn;
             return View(view_model);
+        }
+        
+        /// <summary>
+        /// Display a table of all users in system
+        /// </summary>
+        [Authorize(Roles = "Assistant")]
+        [HttpGet]
+        public IActionResult Users()
+        {
+            UserDao user_dao = new UserDaoImpl(cache);
+            return View(user_dao.GetAll());
+        }
+        
+        /// <summary>
+        /// Show Create form for User
+        /// </summary>
+        [Authorize(Roles = "Assistant")]
+        [HttpGet]
+        public IActionResult CreateUser()
+        {
+            return View(new User());
+        }
+        
+        /// <summary>
+        /// Add user to DAO if valid and return to Users
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Assistant")]
+        [HttpPost]
+        public IActionResult CreateUser(User user)
+        {
+            UserDao user_dao = new UserDaoImpl(cache);
+            user_dao.Create(user.name, user.email, user.password, user.role);
+            return RedirectToAction("Index");
         }
     }
 }
