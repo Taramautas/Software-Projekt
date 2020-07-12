@@ -1,32 +1,29 @@
-﻿@{
+﻿@model User
+@{
     ViewData["Title"] = "Create User";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<form asp-controller="" asp-action="" method="post">
+<form asp-controller="UserDashboard" asp-action="CreateUser" method="post">
     <div class="form-group row">
-        <label for="First Name" class="col-2 col-form-label">First Name:</label>
-        <input class="col-10 form-control"><br />
+        <label id="name" for="name" class="col-2 col-form-label">Name:</label>
+        <input asp-for="name" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
-        <label for="Name" class="col-2 col-form-label">Name:</label>
-        <input class="col-10 form-control"><br />
+        <label for="email" class="col-2 col-form-label">E-Mail:</label>
+        <input asp-for="email" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
-        <label for="E-Mail" class="col-2 col-form-label">E-Mail:</label>
-        <input class="col-10 form-control"><br />
-    </div>
-    <div class="form-group row">
-        <label for="Password" class="col-2 col-form-label">Password:</label>
-        <input class="col-10 form-control"><br />
+        <label for="password" class="col-2 col-form-label">Password:</label>
+        <input asp-for="password" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
         <label for="Role" class="col-2 col-form-label">Role:</label>
-        <select id="Role" class="col-10 form-control">
+        <select asp-for="role" id="role" class="col-10 form-control">
             <option value="Employee">Employee</option>
-            <option value="Guest">Guest</option>
-            <option value="VIP">VIP</option>
+            <option value="Assistant">Assistant</option>
+            <option value="Planner">Planner</option>
         </select><br />
     </div>
     <div class="row">
