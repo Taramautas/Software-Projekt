@@ -85,7 +85,20 @@ namespace Uebungsprojekt
             charging_zone_dao.GetAll(0);
             ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
             charging_column_dao.GetAll(0);
-            
+
+            // Create Infrastructure for testing
+            int loc_id = location_dao.Create("Munich", "12345", "addressstreet 5", 0);
+            int zone_id = charging_zone_dao.Create(50, location_dao.GetById(loc_id, 0), 0);
+            charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id, 0), 0);
+            charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id, 0), 0);
+            charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id, 0), 0);
+
+            int loc_id2 = location_dao.Create("Augsburg", "54321", "addressstreet 5", 0);
+            int zone_id2 = charging_zone_dao.Create(50, location_dao.GetById(loc_id2, 0), 0);
+            charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id2, 0), 0);
+            charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id2, 0), 0);
+            charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id2, 0), 0);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
