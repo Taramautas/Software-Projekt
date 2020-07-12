@@ -90,6 +90,7 @@ namespace Uebungsprojekt.Algorithm
             return false;
         }
 
+            // Falsch. checkt ob bookings accepted sind
             public static bool FindUnacceptetBookings(Booking booking)
         {
 
