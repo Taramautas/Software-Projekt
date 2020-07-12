@@ -40,7 +40,16 @@ namespace Uebungsprojekt
             }));
 
             //list of all needed locations which are extracted by bookings
-            List<Location> listofBookingLocations = unacceptedBookings.OfType<Location>().ToList();
+            List<Location> listofBookingLocations = new List<Location>();
+            foreach(Booking b in unacceptedBookings)
+            {
+                if (listofBookingLocations.Find(x => x.id == b.location.id) == null)
+                {
+                    listofBookingLocations.Add(b.location);
+                }
+                
+            }
+            
 
             //list of all connector typs
             var connectorTypes = Enum.GetValues(typeof(ConnectorType)).Cast<ConnectorType>().ToList();

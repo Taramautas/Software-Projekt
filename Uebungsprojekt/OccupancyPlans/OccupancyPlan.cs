@@ -1,38 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.OccupancyPlans
 {
     public class OccupancyPlan
     {
-        private static OccupancyPlan main_occupancy_plan;
 
-        private int location_dao_id;
-        private int charging_zone_dao_id;
-        private int charging_column_dao_id;
-        private int booking_dao_id;
-        public OccupancyPlan(int location_dao_id, int charging_zone_dao_id, int charging_column_dao_id, int booking_dao_id)
+        public OccupancyPlan(ChargingColumnDaoImpl chargingColumnDaoImpl)
         {
-            this.location_dao_id = location_dao_id;
-            this.charging_zone_dao_id = charging_zone_dao_id;
-            this.charging_column_dao_id = charging_column_dao_id;
-            this.booking_dao_id = booking_dao_id;
-        }
-        
-        public bool AcceptBooking(Booking booking)
-        {
-            return true;
+
+
+
+            List<Tuple<List<Tuple<DateTime,DateTime>>,ChargingColumn>> overallOccupancyPlan = new List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>>();
+
+            foreach(ChargingColumn cc in chargingColumnDaoImpl.GetAll(0))
+            {
+                overallOccupancyPlan.Add(new Tuple<List<Tuple<DateTime,DateTime>>,ChargingColumn>(cc.list, cc));
+            }
+
+           
+            
         }
 
-        public IEnumerable<Booking> GenerateBookingSuggestions(Booking booking)
+        public static List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> LocationFilter(List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> list, Location location)
         {
-            return new List<Booking>();
+            List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> locationOccupancyPlan = list.FindAll(delegate (Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn> tuple)
+            {
+                 return tuple.Item2.charging_zone.location.id == location.id;
+            });
+
+            return locationOccupancyPlan;
         }
+            
         
-        public double GetCurrentWorkload()
-        {
-            return 0.5;
-        }
+
+
+
     }
 }
