@@ -6,19 +6,19 @@
     
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<div class="container TableHeadline">
+<div class="row TableHeadline">
+    <p>Overview: </p>
     <div>
         <div class="row">
-            <div class="col-10">
-                <p>Overview: </p>
-            </div>
-            <div class="col-2">
-                <abbr title="Create new Booking">
-                    <a class="btn btn-primary submit" asp-area="" asp-controller="UserDashboard" asp-action="Create">
-                        <span class="material-icons">add_box</span>
-                    </a>
-                </abbr>
-            </div>
+            <form id="import_form" asp-controller="Booking" asp-action="Import" enctype="multipart/form-data" method="post">
+                <input id="json_files" class="btn btn-light d-none" size="1" name="json_files" type="file" accept=".json" onchange="importJson()"/>
+                <div class="btn btn-secondary" onclick="toggleImport()">Import</div>
+            </form>
+            <a class="btn btn-secondary ml-1" asp-area="" asp-controller="Booking" asp-action="Export">Export</a>
+            <a class="btn btn-primary ml-1" asp-area="" asp-controller="Booking" asp-action="Create">Create new Booking</a>
+        </div>
+        <div class="row">
+            <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing booking entries.</span>
         </div>
     </div>
 </div>
@@ -34,18 +34,22 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Vehicle</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var booking in Model)
         {
-            <tr>
-                <td>@booking.start_state_of_charge%</td>
-                <td>@booking.target_state_of_charge%</td>
-                <td>@booking.start_time</td>
-                <td>@booking.end_time</td>
-                <td>@booking.vehicle</td>
-            </tr>
+        <tr>
+            <td>@booking.start_state_of_charge%</td>
+            <td>@booking.target_state_of_charge%</td>
+            <td>@booking.start_time</td>
+            <td>@booking.end_time</td>
+            <td>@booking.vehicle</td>
+            <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+        </tr>
         }
     </tbody>
 </table>
@@ -89,7 +93,5 @@ function show_import_error(err_msg) {
     importFormSpan.text(err_msg);
     // Make span visible
     importFormSpan.removeClass('d-none');
-    }
-
-
+}
 </script>

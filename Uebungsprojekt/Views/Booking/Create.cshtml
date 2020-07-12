@@ -6,7 +6,7 @@
 <h1 class="page-title">@ViewData["Title"]</h1>
 
 <!-- Form Tag Helper in order to prevent cross-site request forgery -->
-<form asp-controller="UserDashboard" asp-action="Create" method="post">
+<form asp-controller="Booking" asp-action="Create" method="post">
     <div class="form-group row">
         <label for="StateOfCharge" class="col-2 col-form-label">Current state of charge:</label>
         <input id="StateOfCharge" class="col-10 form-control" asp-for="start_state_of_charge"><br />
@@ -33,7 +33,7 @@
         <select id="ConnectorType" class="col-10 form-control" asp-for="vehicle" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
         <span asp-validation-for="vehicle" class="text-danger form-danger-span"></span>
     </div>
-    -->
+        -->
     <div class="row">
         <button id="create-booking-btn" class="btn btn-success col-12" type="submit">Create</button>
     </div>
