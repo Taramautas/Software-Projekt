@@ -99,7 +99,25 @@ namespace Uebungsprojekt.Algorithm
             }
             return false;
         }
+
+
+        public static bool ConnectorCompare(ChargingColumn cc, Booking b)
+        {
+            foreach(ConnectorType ct in cc.charging_column_type_id.connectors)
+            {
+                foreach(ConnectorType ctb in b.connectorTypes)
+                {
+                    if(ct == ctb)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
+
+   
 
    
 

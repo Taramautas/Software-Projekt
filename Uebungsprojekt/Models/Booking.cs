@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Models
 {
@@ -46,6 +48,8 @@ namespace Uebungsprojekt.Models
         public ChargingColumn charging_column { get; set; }
 
         public Location location { get; set; }
+
+        public List<ConnectorType> connectorTypes { get; set; }
 
         /// <summary>
         /// Empty constructor of booking model
