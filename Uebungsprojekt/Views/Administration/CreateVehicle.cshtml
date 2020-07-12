@@ -1,34 +1,22 @@
-﻿@model Vehicle
-@{
+﻿@{
     ViewData["Title"] = "Create Vehicle";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<form asp-controller="Administration" asp-action="CreateVehicle" method="post">
+<form asp-controller="" asp-action="" method="post">
     <div class="form-group row">
-        <label for="model_name" class="col-2 col-form-label">Model:</label>
-        <input asp-for="model_name" class="col-10 form-control"><br />
+        <label for="model" class="col-2 col-form-label">Model:</label>
+        <input class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
-        <label for="capacity" class="col-2 col-form-label">Capacity (in kWh):</label>
-        <input asp-for="capacity" class="col-10 form-control"><br />
+        <label for="capacity" class="col-2 col-form-label">Capacity:</label>
+        <input class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
-        <label for="connector_types" class="col-2 col-form-label"><abbr title="Select multiple by holding CTRL + Left Click">Connector Types:</abbr></label>
-        <select multiple asp-for="connector_types" id="connector_types" class="col-10 form-control" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
-    </div>
-    <div class="form-group row">
-        <fieldset>
-        <legend>ConnectorType(s):</legend>
-            @foreach (ConnectorType connector in (ConnectorType[])Enum.GetValues(typeof(ConnectorType)))
-            { 
-                 <input type="checkbox" id="@connector"/>
-                 <label>@connector</label>
-            <br />    
-            }
-        </fieldset>
+        <label for="connectortypes" class="col-2 col-form-label">Connector Types:</label>
+        <input class="col-10 form-control"><br />
     </div>
     <div class="row">
         <button class="btn btn-outline-primary col-12" type="submit">Create</button>

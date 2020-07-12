@@ -1,25 +1,15 @@
-﻿@model IEnumerable<Uebungsprojekt.Models.Vehicle>
-
-@{
+﻿@{
     ViewData["Title"] = "Vehicles";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<div class="container TableHeadline">
+<div class="row TableHeadline">
+    <p>Overview: </p>
     <div>
         <div class="row">
-            <div class="col-10">
-                <p>Overview: </p>
-            </div>
-            <div class="col-2">
-                <abbr title="Create new Booking">
-                    <a class="btn btn-primary submit" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">
-                        <span class="material-icons">add_box</span>
-                    </a>
-                </abbr>
-            </div>
+            <a class="btn btn-primary ml-1" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">Create new Vehicle</a>
         </div>
         <div class="row">
             <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing booking entries.</span>
@@ -32,33 +22,10 @@
         <tr>
             <th>ID</th>
             <th>Model</th>
-            <th>Capacity in kWh</th>
+            <th>Capacity</th>
             <th>Connector Types</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var vehicle in Model)
-            {
-                <tr>
-                    <td>@vehicle.id</td>
-                    <td>@vehicle.model_name</td>
-                    <td>@vehicle.capacity</td>
-                    @{ ConnectorType last_type = vehicle.connector_types.Last();}
-                    <td>
-                        @foreach (var conntype in vehicle.connector_types)
-                        {
-                            if (!conntype.Equals(last_type))
-                            {
-                                // For spacing - not working good because of the used font
-                                string str = new string('-', 20 - conntype.ToString().Length);
-                                @(conntype + str)
-                            }
-                            else
-                            {@(conntype.ToString())}
-                        }
-                    </td>
-                </tr>
-            }
-
     </tbody>
 </table>

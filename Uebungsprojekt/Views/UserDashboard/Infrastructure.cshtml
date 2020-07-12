@@ -1,5 +1,4 @@
-﻿@model Uebungsprojekt.ViewModel.Administration.InfrastructureViewModel
-@{
+﻿@{
     ViewData["Title"] = "Infrastructure";
     Layout = "_Layout";
 }
@@ -38,52 +37,58 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Location location in Model.locations)
-        {
-            <tr>
-                @*<td>Location A</td>*@
-                <td>@location.city</td>
-                <td>
-                    <table class="table-borderless">
-                        <tr>
-                            <th>Charging Zone</th>
-                            <th></th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                            <th>Add</th>
-                        </tr>
-                        @foreach (ChargingZone chargingZone in Model.charging_zones)
-                        {
-                            @if (chargingZone.location.id == location.id)
-                            {
+        <tr>
+            <td>Location A</td>
+            <td>
+                <table class="table-borderless">
+                    <tr>
+                        <th>Charging Zone</th>
+                        <th></th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Add</th>
+                    </tr>
+                    <tr>
+                        <td>Ladezone A</td>
+                        <td>
+                            <table class="table-borderless">
                                 <tr>
-                                    <td>Ladezone @chargingZone.id</td>
-                                    <td>
-                                        <table class="table-borderless">
-                                            <tr>
-                                                <th>Charging Column</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                                <th>Add</th>
-                                            </tr>
-                                            @foreach (ChargingColumn chargingColumn in Model.charging_columns)
-                                            {
-                                                @if (chargingColumn.charging_zone.id == chargingZone.id)
-                                                {
-                                                    <tr>
-                                                        <td>Ladesäule @chargingColumn.id</td>
-                                                    </tr>
-                                                }
-                                            }
-                                        </table>
-                                    </td>
-
+                                    <th>Charging Column</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                    <th>Add</th>
                                 </tr>
-                            }
-                        }
-                    </table>
-                </td>
-            </tr>
-        }
+                                <tr>
+                                    <td>Ladesäule A</td>
+                                </tr>
+                                <tr>
+                                    <td>Ladesäule B</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ladezone B</td>
+                        <td>
+                            <table class="table-borderless">
+                                <tr>
+                                    <th>Charging Column</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                    <th>Add</th>
+                                </tr>
+                                <tr>
+                                    <td>Ladesäule A</td>
+                                </tr>
+                                <tr>
+                                    <td>Ladesäule B</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+
+                </table>
+        </tr>
     </tbody>
 </table>
