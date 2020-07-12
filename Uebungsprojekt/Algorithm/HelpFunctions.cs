@@ -93,7 +93,7 @@ namespace Uebungsprojekt.Algorithm
             public static bool FindUnacceptetBookings(Booking booking)
         {
 
-            if (booking.accepted == true)
+            if (booking.accepted == false)
             {
                 return true;
             }
