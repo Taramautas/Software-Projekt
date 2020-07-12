@@ -6,8 +6,8 @@ namespace Uebungsprojekt.Models
     public class SimulationResult
     {
         public int id { get; set; }
-        public int config_id { get; set; }
-        public int infrastructure_id { get; set; }
+        public SimulationConfig config { get; set; }
+        public SimulationInfrastructure infrastructure { get; set; }
         public List<double> total_workload { get; set; }
         public List<int> num_generated_bookings { get; set; }
         public List<int> num_unsatisfiable_bookings { get; set; }

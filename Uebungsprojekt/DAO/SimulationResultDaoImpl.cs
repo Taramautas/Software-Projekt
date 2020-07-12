@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a SimulationResult with new Id to the SimulationResultlist if there is one, else it creates a new List and adds the SimulationResult
         /// </summary>
         /// <returns>the id of the added SimulationResult</returns>
-        public int Create(int _config_id, int _infrastructure_id, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion)
+        public int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion)
         {
             if (_cache.TryGetValue("CreateSimulationResultIds", out int ids))
             {
@@ -30,8 +30,8 @@ namespace Uebungsprojekt.DAO
                 SimulationResult newSimulationResult = new SimulationResult()
                 {
                     id = ids,
-                    config_id = _config_id,
-                    infrastructure_id = _infrastructure_id,
+                    config = _config,
+                    infrastructure = _infrastructure,
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,
@@ -49,8 +49,8 @@ namespace Uebungsprojekt.DAO
                 SimulationResult newSimulationResult = new SimulationResult()
                 {
                     id = ++ids,
-                    config_id = _config_id,
-                    infrastructure_id = _infrastructure_id,
+                    config = _config,
+                    infrastructure = _infrastructure,
                     total_workload = _total_workload,
                     num_generated_bookings = _num_generated_bookings,
                     num_unsatisfiable_bookings = _num_unsatisfiable_bookings,

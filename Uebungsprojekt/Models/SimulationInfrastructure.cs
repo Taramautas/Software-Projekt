@@ -6,6 +6,5 @@
         public int location_dao_id { get; set; }
         public int charging_zone_dao_id { get; set; }
         public int charging_column_dao_id { get; set; }
-        public int booking_dao_id { get; set; }
     }
 }
