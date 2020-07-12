@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a Vehicle with new Id to the Vehiclelist if there is one, else it creates a new List and adds the Vehicle
         /// </summary>
         /// <returns>the id of the added Vehicle</returns>
-        public int Create(string _model_name, double _capacity, List<ConnectorType> _connector_types)
+        public int Create(string _model_name, int _capacity, List<ConnectorType> _connector_types)
         {
             if (_cache.TryGetValue("CreateVehicleIds", out int ids))
             {

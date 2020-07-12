@@ -12,7 +12,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in ChargingColumnDaoImpl
         ChargingColumn GetById(int Id, int DaoId);
         List<ChargingColumn> GetAll(int DaoId);
-        public int Create(int _charging_column_type_id, Boolean _Busy, Boolean _Emergency_reserve, ChargingZone _charging_zone, int DaoId);
+        public int Create(ChargingColumnType _charging_column_type_id, Boolean _Busy, Boolean _Emergency_reserve, ChargingZone _charging_zone,List<Tuple<DateTime,DateTime>> _list, int DaoId);
         bool Delete(int Id, int DaoId);
     }
 }

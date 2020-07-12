@@ -10,7 +10,7 @@ namespace Uebungsprojekt.Models
         public int id { get; set; }
         
         /// <summary>Maximum battery capacity in kWh </summary>
-        public double capacity { get; set; }
+        public int capacity { get; set; }
         
         /// <summary>List of available connector type</summary>
         public List<ConnectorType> connector_types { get; set; }
