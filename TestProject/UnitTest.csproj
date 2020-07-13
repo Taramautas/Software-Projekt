@@ -7,6 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Controllers\**" />
+      <Compile Remove="Dao\**" />
+      <Compile Remove="Simulation\**" />
+      <EmbeddedResource Remove="Controllers\**" />
+      <EmbeddedResource Remove="Dao\**" />
+      <EmbeddedResource Remove="Simulation\**" />
+      <None Remove="Controllers\**" />
+      <None Remove="Dao\**" />
+      <None Remove="Simulation\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="coverlet.msbuild" Version="2.9.0">
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
