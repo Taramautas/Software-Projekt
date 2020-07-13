@@ -20,7 +20,8 @@ namespace Uebungsprojekt.Algorithm
         public static TimeSpan RealChargingTime(ChargingColumnType chargingcolumn, Booking booking)
         {
             TimeSpan bookingTime = booking.end_time - booking.start_time;
-            TimeSpan time = new TimeSpan((int)((booking.vehicle.capacity / chargingcolumn.max_concurrent_charging) * (double)((100 - booking.start_state_of_charge) / 100)));
+            double d = (60 * ((((double)booking.vehicle.capacity / 100) * (double)booking.target_state_of_charge - ((double)booking.vehicle.capacity / 100) * (double)booking.start_state_of_charge) / (double)chargingcolumn.max_concurrent_charging));
+            TimeSpan time = new TimeSpan(0, (int)d,0);
             if (time < (bookingTime))
             {
                 return time;
