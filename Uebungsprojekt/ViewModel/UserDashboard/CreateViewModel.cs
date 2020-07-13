@@ -12,7 +12,7 @@ namespace Uebungsprojekt.ViewModel.UserDashboard
         public List<Models.ConnectorType> connectorTypes { get; set; }
         public List<Models.Location> location { get; set; }
         public List<Vehicle> vehicle { get; set; }
-        public List<Booking> booking { get; set; }
+        public Booking booking { get; set; }
 
     }
 }
