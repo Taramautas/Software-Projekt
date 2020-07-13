@@ -33,7 +33,7 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>the id of the added Booking</returns>
-        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Boolean _accepted, Vehicle _vehicle, User _user, Location _location, int DaoId)
+        public int Create(int _start_state_of_charge, int _target_state_of_charge, DateTime _start_time, DateTime _end_time, Vehicle _vehicle, User _user, Location _location, int DaoId)
         {
             if (_cache.TryGetValue(DaoId + "CreateBookingIds", out int ids))
             {
@@ -47,7 +47,7 @@ namespace Uebungsprojekt.DAO
                     target_state_of_charge = _target_state_of_charge,
                     start_time = _start_time,
                     end_time = _end_time,
-                    accepted = _accepted,
+                    accepted = false,
                     vehicle = _vehicle,
                     user = _user,
                     location = _location
@@ -67,6 +67,7 @@ namespace Uebungsprojekt.DAO
                     target_state_of_charge = _target_state_of_charge,
                     start_time = _start_time,
                     end_time = _end_time,
+                    accepted = false,
                     vehicle = _vehicle,
                     location = _location,
                 };
