@@ -6,7 +6,8 @@ namespace Uebungsprojekt.Models
     {
         public int id { get; set; }
         public int max_concurrent_charging { get; set; }
-        
+        public string model_name { get; set; }
+
         public string manufacturer_name { get; set; }
 
         public List<ConnectorType> connectors { get; set; }

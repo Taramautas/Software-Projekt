@@ -53,8 +53,8 @@ namespace ListsUnitTests
             int bId5 = _bookingDao.Create(50, 80, new DateTime(2020, 7, 4, 12, 0, 0), new DateTime(2020, 7, 4, 15, 0, 0), new Vehicle(), _userDao.GetById(user_id5), new Location(), new ChargingColumn(), id); //Emp
             int bId6 = _bookingDao.Create(60, 80, new DateTime(2020, 7, 4, 12, 0, 0), new DateTime(2020, 7, 4, 15, 0, 0), new Vehicle(), _userDao.GetById(user_id6), new Location(), new ChargingColumn(), id); //VIP
 
-            _bookingDao.GetById(bId2, id).accepted = true;
-            _bookingDao.GetById(bId4, id).accepted = true;
+            _bookingDao.GetById(bId2, id).Accept();
+            _bookingDao.GetById(bId6, id).Accept();
 
             List<Booking> bookings = _bookingDao.GetAll(id);
 
