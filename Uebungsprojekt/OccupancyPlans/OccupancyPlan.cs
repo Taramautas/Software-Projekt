@@ -10,16 +10,17 @@ namespace Uebungsprojekt.OccupancyPlans
     public class OccupancyPlan
     {
 
-
+        private BookingDaoImpl bookingDaoImpl;
         private ChargingColumnDaoImpl chargingColumnDaoImpl;
         private List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> overallOccupancyPlan;
         /// <summary>
         /// Constructor with the occupancy plans for all charging columns
         /// </summary>
         /// <param name="chargingColumnDaoImpl"></param>
-        public OccupancyPlan(ChargingColumnDaoImpl _chargingColumnDaoImpl)
+        public OccupancyPlan(ChargingColumnDaoImpl _chargingColumnDaoImpl, BookingDaoImpl _bookingDaoImpl)
         {
             chargingColumnDaoImpl = _chargingColumnDaoImpl;
+            bookingDaoImpl = _bookingDaoImpl;
 
             
             List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> overallOccupancyPlan = new List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>>();
@@ -85,6 +86,7 @@ namespace Uebungsprojekt.OccupancyPlans
         /// <param name="b"></param>
         public static void AcceptAdHocBooking(Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn> tuple, Booking b)
         {
+            if () { }
             if (DateTime.Now.Year == b.start_time.Year && DateTime.Now.Month == b.start_time.Month && DateTime.Now.Day == b.start_time.Day)
             {
                 if (tuple.Item2.id == b.charging_column.id)
@@ -104,27 +106,12 @@ namespace Uebungsprojekt.OccupancyPlans
             }
         }
 
-        public static List<Booking> GenerateBookingSuggestion(List<Tuple<List<Tuple<DateTime,DateTime>>, ChargingColumn>> list, Booking b)
-        {
-            List<Booking> bookingsuggestions;
-            List<Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn>> locationlist = LocationFilter(list, b.location);
-            int index = 0;
-            foreach(Tuple<List<Tuple<DateTime, DateTime>>, ChargingColumn> tuple in locationlist)
-            {
-                TimeSpan timetoend = ChargingTime.RealChargingTime(tuple.Item2.charging_column_type_id, b) + new TimeSpan(0,15,0);
-                foreach (Tuple<DateTime,DateTime> tupleTime in tuple.Item1)
-                {
-                    DateTime currentEndTime = tupleTime.Item2;
-                    DateTime nextStartTime = tuple.Item1[index + 1].Item1;
-                    if(currentEndTime < b.start_time && b.start_time + timetoend < nextStartTime)
-                    {
-                        bookingssuggestions.Add(new Booking())
-                    }
-                }
-                ++index;
-            }
+       
+        
 
-            return bookingsuggestions;
+        public double GetCurrentWorkload()
+        {
+            return 0.5;
         }
 
     }

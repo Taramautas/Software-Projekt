@@ -18,7 +18,7 @@ namespace Uebungsprojekt
         /// <param name="chargingcolumndao"></param>
         /// <param name="connectorTypes"></param>
         /// <returns></returns>
-        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndaog, BookingDaoImpl bookingdao)
+        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, BookingDaoImpl bookingdao)
         {
             /// generate several list which are needed to run the Algorithm and eliminate the candidates which arent needed
             List<Booking> bookings = bookingdao.GetAll(0);
@@ -200,6 +200,7 @@ namespace Uebungsprojekt
 
 
                                 }
+
                                 else if (currentStartTime1 >= bookingEndTime)
                                 {
                                     if (currentStartTime1 - bookingEndTime >= pufferhigh)
@@ -592,8 +593,9 @@ namespace Uebungsprojekt
                             }
                         }
                     }
-                Exit:;
+                
                 }
+                Exit:;
             }
         }
 
