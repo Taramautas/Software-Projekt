@@ -24,17 +24,17 @@ namespace Uebungsprojekt
             List<Booking> bookings = bookingdao.GetAll(0);
 
             //list of all unaccepted Bookings
-            List<Booking> unacceptedBookings = bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
+            List<Booking> unacceptedBookings = bookings.FindAll(HelpFunctions.FindUnacceptedBookings).FindAll(delegate (Booking b)
             {
                 return b.user.role == Role.VIP;
             });
 
-            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
+            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptedBookings).FindAll(delegate (Booking b)
             {
                 return b.user.role == Role.Employee;
             }));
 
-            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
+            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptedBookings).FindAll(delegate (Booking b)
             {
                 return b.user.role == Role.Guest;
             }));
@@ -386,6 +386,7 @@ namespace Uebungsprojekt
                                             }
 
                                         }
+
                                         else if (bookingStartTime - currentEndTime < pufferhigh)
                                         {
                                             if (nextStartTime - bookingEndTime >= pufferhigh)
@@ -418,9 +419,8 @@ namespace Uebungsprojekt
                                             }
 
                                         }
-
-
                                     }
+
                                     else if (currentEndTime > bookingStartTime && bookingEndTime <= nextStartTime)
                                     {
                                         if (bookingEndTime - currentEndTime < bookingRealTimeSpan)
@@ -438,6 +438,7 @@ namespace Uebungsprojekt
                                         }
 
                                     }
+
                                     else if (currentEndTime <= bookingStartTime && bookingEndTime > nextStartTime)
                                     {
                                         if (nextStartTime - bookingStartTime < bookingRealTimeSpan)
@@ -475,6 +476,7 @@ namespace Uebungsprojekt
 
 
                                 }
+
                                 else if (cc.charging_column_type_id.max_concurrent_charging < 50)
                                 {
                                     // Booking is between the last booking and the next booking without conflicts
