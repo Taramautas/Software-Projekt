@@ -72,7 +72,6 @@ namespace Uebungsprojekt.Controllers
 
         /// <summary>
         /// Try to login the user and redirect to given URL if successfull
-        /// TODO: Password should not be transmitted without enryption
         /// </summary>
         /// <param name="form">Form containing user email and password</param>
         /// <returns>Requested Page</returns>

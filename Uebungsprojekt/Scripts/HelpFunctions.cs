@@ -105,7 +105,7 @@ namespace Uebungsprojekt.Algorithm
         {
             foreach(ConnectorType ct in cc.charging_column_type_id.connectors)
             {
-                foreach(ConnectorType ctb in b.connectorTypes)
+                foreach(ConnectorType ctb in b.vehicle.connector_types)
                 {
                     if(ct == ctb)
                     {
