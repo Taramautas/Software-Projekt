@@ -26,15 +26,11 @@
 </div>
 
 
-
 <table id="booking-table" style="width:100%" class="table table-hover">
     <thead class="thead-light">
         <tr>
             <th>Location</th>
             <th></th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Add</th>
         </tr>
     </thead>
     <tbody>
@@ -48,9 +44,6 @@
                         <tr>
                             <th>Charging Zone</th>
                             <th></th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                            <th>Add</th>
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
                         {
@@ -62,9 +55,6 @@
                                         <table class="table-borderless">
                                             <tr>
                                                 <th>Charging Column</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                                <th>Add</th>
                                             </tr>
                                             @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                                             {

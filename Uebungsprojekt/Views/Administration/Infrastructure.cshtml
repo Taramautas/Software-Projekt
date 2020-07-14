@@ -35,7 +35,11 @@
             <th></th>
             <th>Edit</th>
             <th>Delete</th>
-            <th>Add</th>
+            <th>
+                <a asp-controller="Administration" asp-action="CreateLocation" class="submit">Create Location</a>
+                <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit">Create Chargin Zone</a>
+                <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Create Chargin Column</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +55,9 @@
                             <th></th>
                             <th>Edit</th>
                             <th>Delete</th>
-                            <th>Add</th>
+                            <th>
+                                <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit">Create Chargin Zone</a>
+                            </th>
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
                         {
@@ -65,7 +71,9 @@
                                                 <th>Charging Column</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
-                                                <th>Add</th>
+                                                <th>
+                                                    <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Create Chargin Column</a>
+                                                </th>
                                             </tr>
                                             @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                                             {
