@@ -1,0 +1,34 @@
+﻿@model ChargingColumnType
+@{
+    ViewData["Title"] = "Create Vehicle";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<form asp-controller="Administration" asp-action="CreateChargingColumnType" method="post">
+    <div class="form-group row">
+        <label for="max_concurrent_charging" class="col-2 col-form-label">Max Concurrent Charging (in kW):</label>
+        <input asp-for="max_concurrent_charging" class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="manufacturer_name" class="col-2 col-form-label">Manufacturer Name:</label>
+        <input asp-for="manufacturer_name" class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <fieldset>
+            <legend>ConnectorType(s):</legend>
+            <br />
+            @foreach (ConnectorType connector in (ConnectorType[])Enum.GetValues(typeof(ConnectorType)))
+            {
+                <input class="" />
+                <label class="">@connector</label>
+                <br />
+                <br />
+            }
+        </fieldset>
+    </div>
+    <div class="row">
+        <button class="btn btn-outline-primary col-12" type="submit">Create</button>
+    </div>
+</form>
