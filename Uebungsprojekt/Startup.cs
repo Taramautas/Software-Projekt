@@ -109,7 +109,7 @@ namespace Uebungsprojekt
             charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id2, 0), 0);
             charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id2, 0), 0);
             charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id2, 0), 0);
-            */ 
+            */
             
             if (env.IsDevelopment())
             {
