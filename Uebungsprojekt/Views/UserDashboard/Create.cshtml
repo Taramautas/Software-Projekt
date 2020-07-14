@@ -1,4 +1,6 @@
 ﻿@model Uebungsprojekt.ViewModel.UserDashboard.CreateViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 @{
     ViewData["Title"] = "Create Booking";
     Layout = "_Layout";
@@ -46,18 +48,38 @@
     </div>
     <div class="form-group row">
         <label for="location" class="col-2 col-form-label">Location:</label>
-        <select name="vehicle" id="vehicle">
+        <select name="location" id="location">
             @if (Model.location.Any())
             }
-                @foreach (var location in Model.location)
-                {
-                    <option value="@location">@location.city</option>
-                }
+            @foreach (var location in Model.location)
+            {
+                <option value="@location">@location.city</option>
+            }
             } else {
                 <option>--No Locations available--</option>
             }
         </select>
     </div>
+
+    @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+    {
+        <div class="form-group row">
+            <label for="user" class="col-2 col-form-label">User:</label>
+            <select name="user" id="user">
+                @if (Model.users.Any())
+                }
+                @foreach (var user in Model.users)
+                {
+                    <option value="@user">@user.name + (@user.email)</option>
+                }
+                } else {
+                    <option>--No Users available--</option>
+                }
+            </select>
+        </div>
+    }
+
+
     <div class="row">
         <button id="create-booking-btn" class="btn btn-success col-12" type="submit">Create</button>
     </div>

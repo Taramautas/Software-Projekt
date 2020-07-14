@@ -8,6 +8,10 @@
 
 <form asp-controller="Administration" asp-action="CreateChargingColumnType" method="post">
     <div class="form-group row">
+        <label for="name" class="col-2 col-form-label">Name:</label>
+        <input type="text" class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
         <label for="max_concurrent_charging" class="col-2 col-form-label">Max Concurrent Charging (in kW):</label>
         <input asp-for="max_concurrent_charging" type="number" class="col-10 form-control"><br />
     </div>
@@ -16,18 +20,34 @@
         <input asp-for="manufacturer_name" class="col-10 form-control"><br />
     </div>
     <div class="form-group row">
-        <fieldset>
-            <legend>ConnectorType(s):</legend>
-            <br />
-            @foreach (ConnectorType connector in (ConnectorType[])Enum.GetValues(typeof(ConnectorType)))
-            {
-                <input class=""  type="checkbox" id="@connector" />
-                <label class="">@connector</label>
-                <br />
-                <br />
-            }
-        </fieldset>
+        <label for="connectortype1" class="col-2 col-form-label">ConnectorType 1:</label>
+        <select name="connectortype1" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
+            <option>None</option>
+        </select>
+        <input placeholder="Charging Capacity" type="number" class="col-2 form-control"><br />
     </div>
+    <div class="form-group row">
+        <label for="connectortype2" class="col-2 col-form-label">ConnectorType 2:</label>
+        <select name="connectortype2" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
+            <option>None</option>
+        </select>
+        <input placeholder="Charging Capacity" type="number" class="col-2 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="connectortype3" class="col-2 col-form-label">ConnectorType 3:</label>
+        <select name="connectortype3" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
+            <option>None</option>
+        </select>
+        <input placeholder="Charging Capacity" type="number" class="col-2 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="connectortype4" class="col-2 col-form-label">ConnectorType 4:</label>
+        <select name="connectortype4" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
+            <option>None</option>
+        </select>
+        <input placeholder="Charging Capacity" type="number" class="col-2 form-control"><br />
+    </div>
+
     <div class="row">
         <button class="btn btn-outline-primary col-12" type="submit">Create</button>
     </div>

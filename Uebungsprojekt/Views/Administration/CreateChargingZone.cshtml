@@ -1,4 +1,4 @@
-﻿@model Uebungsprojekt.Models.ChargingZone
+﻿@model Uebungsprojekt.ViewModel.Administration.CreateChargingZoneViewModel
 
 @{
     ViewData["Title"] = "Create Charging Zone";
@@ -13,26 +13,32 @@
         <form asp-action="CreateChargingZone">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="overall_performance" class="control-label">Overall Performance (in kW)</label>
-                <input asp-for="overall_performance" class="form-control" />
-                <span asp-validation-for="overall_performance" class="text-danger"></span>
+                <label asp-for="chargingzone.overall_performance" class="control-label">Overall Performance (in kW)</label>
+                <input asp-for="chargingzone.overall_performance" type="number" class="form-control" />
+                <span asp-validation-for="chargingzone.overall_performance" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <!-- <label asp-for="Location" class="control-label"></label>
-                    <input asp-for="Location" class="form-control" />
-                    <span asp-validation-for="Location" class="text-danger"></span>-->
+            <div class="form-group row">
+                <label for="location" class="col-2 col-form-label">Location:</label>
+                <select name="location" id="location">
+                    @if (Model.location.Any())
+                    }
+                    @foreach (var location in Model.location)
+                    {
+                        <option value="@location">@location.city</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 
-    <div>
-        <a asp-action="Infrastructure">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Infrastructure">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

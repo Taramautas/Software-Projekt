@@ -37,8 +37,14 @@
             <th>Delete</th>
             <th>
                 <a asp-controller="Administration" asp-action="CreateLocation" class="submit">Create Location</a>
-                <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit">Create Chargin Zone</a>
-                <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Create Chargin Column</a>
+                @if (Model.locations.Any())
+                {
+                    <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit">Create Charging Zone</a>
+                }
+                @if (Model.charging_zones.Any())
+                {
+                    <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Add Charging Column</a>
+                }
             </th>
         </tr>
     </thead>
@@ -55,9 +61,6 @@
                             <th></th>
                             <th>Edit</th>
                             <th>Delete</th>
-                            <th>
-                                <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit">Create Chargin Zone</a>
-                            </th>
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
                         {
