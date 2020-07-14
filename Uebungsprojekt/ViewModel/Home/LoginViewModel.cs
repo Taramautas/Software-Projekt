@@ -10,7 +10,6 @@ namespace Uebungsprojekt.ViewModel.Home
         [Required(ErrorMessage = "Please enter a valid email adress.")]
         public string email { get; set; } 
         
-        // TODO: Add enryption method to password set
         /// <summary>User Password for login</summary>
         [PasswordPropertyText]
         [Required(ErrorMessage = "Please enter your password.")]

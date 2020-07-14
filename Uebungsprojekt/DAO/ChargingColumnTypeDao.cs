@@ -9,7 +9,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in ChargingColumnTypeDaoImpl
         ChargingColumnType GetById(int Id);
         List<ChargingColumnType> GetAll();
-        public int Create(int _max_concurrent_charging, string _manufacturer_name, List<ConnectorType> _connectors);
+        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<ConnectorType> _connectors);
         bool Delete(int Id);
 
 

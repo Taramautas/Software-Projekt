@@ -127,9 +127,13 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateUser(User user)
         {
-            UserDao user_dao = new UserDaoImpl(cache);
-            user_dao.Create(user.name, user.email, user.password, user.role);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                UserDao user_dao = new UserDaoImpl(cache);
+                user_dao.Create(user.name, user.email, user.password, user.role);
+                return RedirectToAction("Users");
+            }
+            return RedirectToAction("Users");
         }
     }
 }

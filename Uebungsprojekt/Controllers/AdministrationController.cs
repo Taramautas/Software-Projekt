@@ -130,14 +130,6 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult Simulation(SimulationViewModel view_model)
         {
-            /* TODO: 
-             * SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
-             * SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-             * SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-             * SimulationConfig config = config_dao.GetById(view_mode.simulation_config_id);
-             * SimulationInfrastructure infrastructure = infrastructure_dao.GetById(view_mode.simulation_infrastructure_id);
-             * SimulationResult result = result_dao.Create(config.id, infrastructure.id);
-             */
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
 

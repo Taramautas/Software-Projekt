@@ -61,13 +61,13 @@ namespace Uebungsprojekt.Simulations
                         {
                             int index = random.Next(config.vehicles.Count);
                             Vehicle vehicle = config.vehicles[index];
-                            int state_of_charge = random.Next(50);
+                            int state_of_charge = random.Next(33);
                             newest_bookings.Add(new Booking
                             {
                                 // Start state of charge is between 0 and 50
                                 start_state_of_charge = state_of_charge,
                                 // Target state of charge is between 25 and 50 more then start state of charge
-                                target_state_of_charge = state_of_charge + 25 + random.Next(25),
+                                target_state_of_charge = state_of_charge + 33 + random.Next(33),
                                 // TODO: Which start time to choose
                                 start_time = new DateTime(),
                                 // TODO: Which end time to choose

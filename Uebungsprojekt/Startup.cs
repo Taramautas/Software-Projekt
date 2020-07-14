@@ -41,6 +41,14 @@ namespace Uebungsprojekt
                     config.LogoutPath = "/Home/Logout/";
                     config.AccessDeniedPath = "/Home/Error/";
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Planner", policy => policy.RequireRole("Planner"));
+                options.AddPolicy("Assistant", policy => policy.RequireRole("Assistant"));
+                options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
+                options.AddPolicy("LoggedIn", policy => policy.RequireRole("Employee", "Assistant", "Planner"));
+            });
             
             // Deliver UserManger for each controller constructor
             services.AddTransient<UserManager>();
@@ -128,7 +136,7 @@ namespace Uebungsprojekt
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=LogIn}/{id?}");
             });
         }
     }

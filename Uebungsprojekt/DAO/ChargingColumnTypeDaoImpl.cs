@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a User with new Id to the Userlist if there is one, else it creates a new List and adds the User
         /// </summary>
         /// <returns>the id of the added User</returns>
-        public int Create(int _max_concurrent_charging, string _manufacturer_name, List<ConnectorType> _connectors)
+        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<ConnectorType> _connectors)
         {
             if (_cache.TryGetValue("CreateChargingColumnTypeIds", out int ids))
             {
@@ -30,8 +30,9 @@ namespace Uebungsprojekt.DAO
                 ChargingColumnType new_charging_column_type = new ChargingColumnType
                 {
                     id = ids,
-                    max_concurrent_charging = _max_concurrent_charging,
+                    model_name = _model_name,
                     manufacturer_name = _manufacturer_name,
+                    max_concurrent_charging = _max_concurrent_charging,
                     connectors = _connectors,
                 };
                 created_charging_column_types.Add(new_charging_column_type);
