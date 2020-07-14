@@ -10,7 +10,7 @@ using MathNet.Numerics.Optimization;
 
 namespace Uebungsprojekt
 {
-    public class DistributionAlgorithm
+    public partial class DistributionAlgorithm
     {
         /// <summary>
         /// 
@@ -21,7 +21,7 @@ namespace Uebungsprojekt
         public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, int chargingcolumndaoID, BookingDaoImpl bookingdao, int bookindaoID)
         {
             /// generate several list which are needed to run the Algorithm and eliminate the candidates which arent needed
-            List<Booking> bookings = bookingdao.GetAll(bookingdaoID);
+            List<Booking> bookings = bookingdao.GetAll(bookindaoID);
             Console.WriteLine("allbookings");
             foreach (Booking b in bookings)
             {
@@ -72,7 +72,7 @@ namespace Uebungsprojekt
             List<ChargingColumn> overallresult = new List<ChargingColumn>();
 
             //list of all chargingcolumns
-            List<ChargingColumn> listofAllChargingColumn = chargingcolumndao.GetAll(chargincolumndaoID);
+            List<ChargingColumn> listofAllChargingColumn = chargingcolumndao.GetAll(chargingcolumndaoID);
 
             //list of needed charging columns filtered by Location
             List<ChargingColumn> listofChargingColumn = listofAllChargingColumn.FindAll(delegate (ChargingColumn cc)
