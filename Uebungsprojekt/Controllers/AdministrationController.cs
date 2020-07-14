@@ -266,7 +266,9 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult CreateChargingZone()
         {
-            return View();
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            var cczvm = new CreateChargingZoneViewModel(location_dao.GetAll(0), new ChargingZone());
+            return View(cczvm);
         }
 
         /// <summary>
