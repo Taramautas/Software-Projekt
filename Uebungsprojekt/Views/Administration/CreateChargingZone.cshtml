@@ -13,12 +13,7 @@
         <form asp-action="CreateChargingZone">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="id" class="control-label"></label>
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="overall_performance" class="control-label"></label>
+                <label asp-for="overall_performance" class="control-label">Overall Performance (in kW)</label>
                 <input asp-for="overall_performance" class="form-control" />
                 <span asp-validation-for="overall_performance" class="text-danger"></span>
             </div>
