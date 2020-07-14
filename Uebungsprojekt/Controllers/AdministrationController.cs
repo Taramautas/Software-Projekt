@@ -381,7 +381,16 @@ namespace Uebungsprojekt.Controllers
             }
             return RedirectToAction("Vehicles");
         }
-        
+
+        public IActionResult ChargingColumnType()
+        {
+            return View();
+        }
+
+        public IActionResult CreateChargingColumnType()
+        {
+            return View();
+        }
 
         /// <summary>
         /// Converts the given files to Dataobjects and refreshes the view to display these importchanges

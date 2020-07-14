@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Uebungsprojekt.Models.ChargingColumnType>
 
 @{
-    ViewData["Title"] = "Vehicles";
+    ViewData["Title"] = "Charging Column Types";
     Layout = "_PlanerLayout";
 }
 
@@ -36,29 +36,4 @@
             <th>Connector Types</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var cCType in Model)
-        {
-            <tr>
-                <td>@cCType.id</td>
-                <td>@cCType.max_concurrent_charging</td>
-                <td>@cCType.manufacturer_name</td>
-                @{ ConnectorType last_type = cCType.connectors.Last();}
-                <td>
-                    @foreach (var conntype in cCType.connectors)
-                    {
-                        if (!conntype.Equals(last_type))
-                        {
-                            // For spacing - not working good because of the used font
-                            string str = new string('-', 20 - conntype.ToString().Length);
-                            @(conntype + str)
-                        }
-                        else
-                        {@(conntype.ToString())}
-                    }
-                </td>
-            </tr>
-        }
-
-    </tbody>
 </table>
