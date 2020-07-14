@@ -271,6 +271,15 @@ namespace Uebungsprojekt.Controllers
             return View(cczvm);
         }
 
+        [HttpPost]
+        public IActionResult CreateChargingZone(ChargingZone charge, int location_id)
+        {
+            ChargingZoneDaoImpl charging_zone = new ChargingZoneDaoImpl(cache);
+            LocationDaoImpl location_dao = new LocationDaoImpl(cache);
+            charging_zone.Create(charge.overall_performance, location_dao.GetById(location_id, 0), 0);
+            return RedirectToAction("Infrastructure");
+        }
+
         /// <summary>
         /// Display a complex table representing the current infrastructure
         /// </summary>

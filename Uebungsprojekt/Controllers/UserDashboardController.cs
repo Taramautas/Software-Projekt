@@ -71,8 +71,6 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult Create(Booking booking, int vehicle_id, int location_id, int eindeutige_benutzernummer)
         {
-            Console.WriteLine("USER-ID: "+eindeutige_benutzernummer);
-            Console.WriteLine("Location-ID: "+location_id);
             int usr_id;
             //TODO: Make it beautiful :) 
             if (location_id == 0 || vehicle_id == 0) return RedirectToAction("Create");
