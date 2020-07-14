@@ -248,6 +248,18 @@ namespace Uebungsprojekt.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult CreateLocation(Location location)
+        {
+            if (ModelState.IsValid)
+            {
+                LocationDao location_dao = new LocationDaoImpl(cache);
+                location_dao.Create(location.city, location.post_code, location.address, 0);
+                Console.WriteLine(location.city);
+            }
+            return RedirectToAction("Infrastructure");
+        }
+
         /// <summary>
         /// Display a complex table representing the current infrastructure
         /// </summary>
