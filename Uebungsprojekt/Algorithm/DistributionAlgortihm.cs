@@ -8,7 +8,7 @@ using Uebungsprojekt.DAO;
 using Uebungsprojekt.Algorithm;
 using MathNet.Numerics.Optimization;
 
-namespace Uebungsprojekt.Algorithm
+namespace Uebungsprojekt
 {
     public class DistributionAlgorithm
     {
