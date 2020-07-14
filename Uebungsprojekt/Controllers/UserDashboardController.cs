@@ -6,6 +6,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.ViewModel.Administration;
+using Uebungsprojekt.ViewModel.UserDashboard;
+using System.Runtime.InteropServices;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -54,7 +56,10 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new Booking());
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            var cvw = new CreateViewModel(location_dao.GetAll(0), vehicle_dao.GetAll(), new Booking());
+            return View(cvw);
         }
 
         /// <summary>
