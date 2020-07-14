@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -110,6 +111,16 @@ namespace Uebungsprojekt
             charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id2, 0), 0);
             charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id2, 0), 0);
             */ 
+            //
+            
+            
+            
+            //Vehicle startup
+            List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.Schuko_Socket);
+            vehicle_dao.Create("TestModel",400, tmp_conn_types);
+            tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
+            vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
             //
             
             if (env.IsDevelopment())
