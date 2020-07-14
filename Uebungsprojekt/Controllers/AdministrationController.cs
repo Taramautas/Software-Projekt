@@ -238,7 +238,35 @@ namespace Uebungsprojekt.Controllers
             };
             return View(view_model);
         }
-        
+
+        /// <summary>
+        /// Display a complex table representing the current infrastructure
+        /// </summary>
+        [HttpGet]
+        public IActionResult CreateLocation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Display a complex table representing the current infrastructure
+        /// </summary>
+        [HttpGet]
+        public IActionResult CreateChargingZone()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Display a complex table representing the current infrastructure
+        /// </summary>
+        [HttpGet]
+        public IActionResult CreateChargingColumn()
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// Display a table of all bookings in system
         /// </summary>
