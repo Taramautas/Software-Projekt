@@ -12,6 +12,10 @@
     <div class="col-md-4">
         <form asp-action="CreateChargingZone">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label for="name" class="col-2 col-form-label">Name*:</label>
+                <input type="text" class="col-10 form-control"><br />
+            </div>
             <div class="form-group">
                 <label asp-for="chargingzone.overall_performance" class="control-label">Overall Performance (in kW)</label>
                 <input asp-for="chargingzone.overall_performance" type="number" class="form-control" />
@@ -21,17 +25,17 @@
                 <label for="location" class="col-2 col-form-label">Location:</label>
                 <select name="location" id="location">
                     @if (Model.location.Any())
-                    }
-                    @foreach (var location in Model.location)
-                    {
-                        <option value="@location">@location.city</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                        }
+                        @foreach (var location in Model.location)
+                        {
+                            <option value="@location">@location.city</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
     </div>
 </div>
 
