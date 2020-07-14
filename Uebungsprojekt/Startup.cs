@@ -122,7 +122,7 @@ namespace Uebungsprojekt
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
             vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
             //
-            
+       
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

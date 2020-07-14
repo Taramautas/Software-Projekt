@@ -69,8 +69,23 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="booking">Booking</param>
         [HttpPost]
-        public IActionResult Create(Booking booking)
+        public IActionResult Create(Booking booking, int vehicle_id, int location_id, int eindeutige_benutzernummer)
         {
+            Console.WriteLine("USER-ID: "+eindeutige_benutzernummer);
+            Console.WriteLine("Location-ID: "+location_id);
+            int usr_id;
+            //TODO: Make it beautiful :) 
+            if (location_id == 0 || vehicle_id == 0) return RedirectToAction("Create");
+            if (eindeutige_benutzernummer == 0)
+            {
+                usr_id = user_id;
+            }
+            else
+            {
+                usr_id = eindeutige_benutzernummer;
+            }
+            LocationDaoImpl location_dao = new LocationDaoImpl(cache);
+            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
             BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
             UserDaoImpl user_dao = new UserDaoImpl(cache);
             booking_dao.Create(
@@ -78,9 +93,9 @@ namespace Uebungsprojekt.Controllers
                 booking.target_state_of_charge,
                 booking.start_time,
                 booking.end_time,
-                booking.vehicle,
-                user_dao.GetById(user_id),
-                booking.location,
+                vehicle_dao.GetById(vehicle_id),
+                user_dao.GetById(usr_id),
+                location_dao.GetById(location_id,0),
                 0
                 );
             return RedirectToAction("Bookings");

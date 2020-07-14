@@ -35,6 +35,8 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Vehicle</th>
+            <th>Location</th>
+
         </tr>
     </thead>
     <tbody>
@@ -45,7 +47,9 @@
                 <td>@booking.target_state_of_charge</td>
                 <td>@booking.start_time</td>
                 <td>@booking.end_time</td>
-                <td>@booking.vehicle</td>
+                <td>@booking.vehicle.model_name</td>
+                <td>@booking.location.id</td>
+
             </tr>
         }
     </tbody>
