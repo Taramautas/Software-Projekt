@@ -46,6 +46,7 @@ namespace Uebungsprojekt.DAO
                 ChargingColumnType new_charging_column_type = new ChargingColumnType
                 {
                     id = ids,
+                    model_name = _model_name,
                     max_parallel_charging = _max_concurrent_charging,
                     manufacturer_name = _manufacturer_name,
                     connectors = _connectors,

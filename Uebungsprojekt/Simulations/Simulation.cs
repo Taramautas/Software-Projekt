@@ -186,6 +186,8 @@ namespace Uebungsprojekt.Simulations
             day -= week * 5;
 
             int ticks_within_day = tick % ticks_per_day;
+
+            return null;
         }
     }
 }

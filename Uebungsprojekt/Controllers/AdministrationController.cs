@@ -144,7 +144,7 @@ namespace Uebungsprojekt.Controllers
             
             
             Simulation simulation = new Simulation(config, infrastructure, result, cache);
-            if (!simulation.RunSimulation())
+            if (!simulation.Run())
             {
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
@@ -424,19 +424,38 @@ namespace Uebungsprojekt.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateChargingColumnType(ChargingColumnType cct, ConnectorType connectortype1, ConnectorType connectortype2, ConnectorType connectortype3, ConnectorType connectortype4, int capacity1, int capacity2, int capacity3, int capacity4)
+        public IActionResult CreateChargingColumnType(ChargingColumnType cct, String connectortype1, String connectortype2, String connectortype3, String connectortype4, int capacity1, int capacity2, int capacity3, int capacity4)
         {
-            ChargingColumnTypeDao cct_dao = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnTypeDaoImpl cct_dao = new ChargingColumnTypeDaoImpl(cache);
             List<Tuple<ConnectorType, int>> _connectors = new List<Tuple<ConnectorType, int>>();
+            Console.WriteLine(("modelname: "+cct.model_name));
 
-            Console.WriteLine("capacity1: " + capacity1);
-            Console.WriteLine("Type1: " + connectortype1);
 
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype1, capacity1));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype2, capacity2));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype3, capacity3));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype4, capacity4));
+            if (connectortype1 != "None")
+            {
+                Enum.TryParse(connectortype1, out ConnectorType conn_1);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_1, capacity1));
+            }
 
+            if (connectortype2 != "None")
+            {
+                Enum.TryParse(connectortype2, out ConnectorType conn_2);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_2, capacity2));
+            }
+            
+            if (connectortype3 != "None")
+            {
+                Enum.TryParse(connectortype3, out ConnectorType conn_3);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_3, capacity3));
+            }
+            
+            if (connectortype4 != "None")
+            {
+                Enum.TryParse(connectortype4, out ConnectorType conn_4);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_4, capacity4));
+            }
+            
+            
             cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_parallel_charging, _connectors);
             return RedirectToAction("ChargingColumnType");
         }

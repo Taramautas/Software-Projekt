@@ -13,7 +13,7 @@
         <form asp-action="AddChargingColumn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label for="location_id" class="col-2 col-form-label">Charging Zone:</label>
+                <label for="charging_zone_id" class="col-2 col-form-label">Charging Zone:</label>
                 <select name="charging_zone_id" id="charging_zone_id">
                     @if (Model.chargingZones.Any())
                     {
@@ -25,7 +25,7 @@
                 </select>
             </div>
             <div class="form-group row">
-                <label for="location_id" class="col-2 col-form-label">Charging Column Type:</label>
+                <label for="charging_column_type_id" class="col-2 col-form-label">Charging Column Type:</label>
                 <select name="charging_column_type_id" id="charging_column_type_id">
                     @if (Model.chargingColumnTypes.Any())
                     {

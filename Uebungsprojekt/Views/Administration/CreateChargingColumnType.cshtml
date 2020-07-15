@@ -1,4 +1,5 @@
-﻿@model ChargingColumnType
+﻿@using System.Collections
+@model ChargingColumnType
 @{
     ViewData["Title"] = "Create Charging Column Types";
     Layout = "_PlanerLayout";
@@ -21,31 +22,47 @@
     </div>
         <div class="form-group row">
             <label for="connectortype1" class="col-2 col-form-label">ConnectorType 1:</label>
-            <select name="connectortype1" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
-                <option>None</option>
+            <select name="connectortype1" id="connectortype1">
+                <option selected="selected" value="None">None</option>
+                @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                {
+                    <option value="@conntype">@conntype</option>
+                }
             </select>
             <input placeholder="Charging Capacity (in kW)" type="number" class="col-2 form-control" name="capacity1" id="capacity1"><br />
         </div>
 
         <div class="form-group row">
             <label for="connectortype2" class="col-2 col-form-label">ConnectorType 2:</label>
-            <select name="connectortype2" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
-                <option>None</option>
-            </select>
+            <select name="connectortype2" id="connectortype2">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
             <input placeholder="Charging Capacity (in kW)" type="number" class="col-2 form-control" name="capacity2" id="capacity2"><br />
         </div>
         <div class="form-group row">
             <label for="connectortype3" class="col-2 col-form-label">ConnectorType 3:</label>
-            <select name="connectortype3" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
-                <option>None</option>
-            </select>
+            <select name="connectortype3" id="connectortype3">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
             <input placeholder="Charging Capacity (in kW)" type="number" class="col-2 form-control" name="capacity3" id="capacity3"><br />
         </div>
         <div class="form-group row">
             <label for="connectortype4" class="col-2 col-form-label">ConnectorType 4:</label>
-            <select name="connectortype4" id="connectortype1" asp-items="@Html.GetEnumSelectList<ConnectorType>()">
-                <option>None</option>
-            </select>
+            <select name="connectortype4" id="connectortype4">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
             <input placeholder="Max Parallel Charging" type="number" class="col-2 form-control" name="capacity4" id="capacity4"><br />
         </div>
     <div class="row">
