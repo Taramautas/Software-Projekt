@@ -51,58 +51,48 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.locations.Any())
+        @foreach (Location location in Model.locations)
         {
-            @foreach (Location location in Model.locations)
-            {
-                <tr>
-                    @*<td>Location A</td>*@
-                    <td>@location.city</td>
-                    <td>
-                        <table class="table-borderless">
-                            <tr>
-                                <th>Charging Zone</th>
-                                <th></th>
-                            </tr>
-                            @foreach (ChargingZone chargingZone in Model.charging_zones)
+            <tr>
+                @*<td>Location A</td>*@
+                <td>@location.city</td>
+                <td>
+                    <table class="table-borderless">
+                        <tr>
+                            <th>Charging Zone</th>
+                            <th></th>
+                        </tr>
+                        @foreach (ChargingZone chargingZone in Model.charging_zones)
+                        {
+                            @if (chargingZone.location.id == location.id)
                             {
-                                @if (chargingZone.location.id == location.id)
-                                {
+                    <tr>
+                        <td>@chargingZone.name</td> 
+                            <td>
+                                <table class="table-borderless">
                                     <tr>
-                                        <td>@chargingZone.name</td>
-                                        <td>
-                                            <table class="table-borderless">
-                                                <tr>
-                                                    <th>Charging Column</th>
-                                                    <th></th>
-                                                </tr>
-                                                @foreach (ChargingColumn chargingColumn in Model.charging_columns)
-                                                {
-                                                    @if (chargingColumn.charging_zone.id == chargingZone.id)
-                                                    {
-                                                        <tr>
-                                                            <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
-                                                            <td>@Html.ActionLink("Delete", "DeleteChargingColumn", new { id = chargingColumn.id })</td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td>No Charging Columns to display</td>
-                                                            <td></td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            </table>
-                                        </td>
-
+                                        <th>Charging Column</th>
+                                        <th></th>
                                     </tr>
-                                }
+                                    @foreach (ChargingColumn chargingColumn in Model.charging_columns)
+                                    {
+                                        @if (chargingColumn.charging_zone.id == chargingZone.id)
+                                        {
+                                            <tr>
+                                                <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
+                                                <td>@Html.ActionLink("Delete", "DeleteChargingColumn", new { id = chargingColumn.id })</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </td>
+
+                    </tr>
                             }
-                        </table>
-                    </td>
-                </tr>
-            }
+                        }
+                    </table>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

@@ -333,6 +333,20 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Infrastructure");
         }
 
+        [HttpGet, ActionName("DeleteChargingZone")]
+        public ActionResult DeleteChargingZone(int id)
+        {
+            ChargingZoneDaoImpl chargingZoneDao = new ChargingZoneDaoImpl(cache);
+            chargingZoneDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingZoneConfirmed(int id)
+        {
+            return RedirectToAction("Infrastructure");
+        }
+
         /// <summary>
         /// Display a complex table representing the current infrastructure
         /// </summary>
