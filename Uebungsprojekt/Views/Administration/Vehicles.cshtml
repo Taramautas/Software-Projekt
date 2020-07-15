@@ -24,30 +24,32 @@
             <th>Model</th>
             <th>Capacity in kWh</th>
             <th>Connector Types</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
     @foreach (var vehicle in Model)
             {
-                <tr>
-                    <td>@vehicle.id</td>
-                    <td>@vehicle.model_name</td>
-                    <td>@vehicle.capacity</td>
-                    @{ ConnectorType last_type = vehicle.connector_types.Last();}
-                    <td>
-                        @foreach (var conntype in vehicle.connector_types)
-                        {
-                            if (!conntype.Equals(last_type))
-                            {
-                                // For spacing - not working good because of the used font
-                                string str = new string('-', 20 - conntype.ToString().Length);
-                                @(conntype + str)
-                            }
-                            else
-                            {@(conntype.ToString())}
-                        }
-                    </td>
-                </tr>
+        <tr>
+            <td>@vehicle.id</td>
+            <td>@vehicle.model_name</td>
+            <td>@vehicle.capacity</td>
+            @{ ConnectorType last_type = vehicle.connector_types.Last();}
+            <td>
+                @foreach (var conntype in vehicle.connector_types)
+                {
+                    if (!conntype.Equals(last_type))
+                    {
+                        // For spacing - not working good because of the used font
+                        string str = new string('-', 20 - conntype.ToString().Length);
+                        @(conntype + str)
+                    }
+                    else
+                    {@(conntype.ToString())}
+                }
+            </td>
+            <td>@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })</td>
+        </tr>
             }
 
     </tbody>

@@ -25,23 +25,25 @@
             <th>Manufacturer</th>
             <th>Model Name</th>
             <th>Connector Types and their Charging Capacity</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var cct in Model)
         {
-            <tr>
-                <td>@cct.id</td>
-                <td>@cct.max_parallel_charging</td>
-                <td>@cct.manufacturer_name</td>
-                <td>@cct.model_name</td>
-                <td>
-                    @foreach (var conn_type in cct.connectors)
-                    {
-                        @(conn_type.Item1 + " - " + conn_type.Item2 + "   " );
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>@cct.id</td>
+            <td>@cct.max_parallel_charging</td>
+            <td>@cct.manufacturer_name</td>
+            <td>@cct.model_name</td>
+            <td>
+                @foreach (var conn_type in cct.connectors)
+                {
+                    @(conn_type.Item1 + " - " + conn_type.Item2 + "   " );
+                }
+            </td>
+            <td>@Html.ActionLink("Delete", "DeleteChargingColumnType", new { id = cct.id })</td>
+        </tr>
         }
     </tbody>
 </table>

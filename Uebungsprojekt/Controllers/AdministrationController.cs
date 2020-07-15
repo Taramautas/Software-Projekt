@@ -472,6 +472,20 @@ namespace Uebungsprojekt.Controllers
             return View(new Vehicle());
         }
 
+        [HttpGet, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicle(int id)
+        {
+            VehicleDaoImpl vehicleDao = new VehicleDaoImpl(cache);
+            vehicleDao.Delete(id);
+            return RedirectToAction("Vehicles");
+        }
+
+        [HttpPost, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicleConfirmed(int id)
+        {
+            return RedirectToAction("Vehicles");
+        }
+
         /// <summary>
         /// Add vehicle to DAO if valid and return to Vehicles
         /// </summary>
@@ -535,6 +549,20 @@ namespace Uebungsprojekt.Controllers
             
             
             cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors);
+            return RedirectToAction("ChargingColumnType");
+        }
+
+        [HttpGet, ActionName("DeleteChargingColumnType")]
+        public ActionResult DeleteChargingColumnType(int id)
+        {
+            ChargingColumnTypeDaoImpl chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(cache);
+            chargingColumnTypeDao.Delete(id);
+            return RedirectToAction("ChargingColumnType");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumnType")]
+        public ActionResult DeleteChargingColumnTypeConfirmed(int id)
+        {
             return RedirectToAction("ChargingColumnType");
         }
 
