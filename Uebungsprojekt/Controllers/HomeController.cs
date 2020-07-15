@@ -113,7 +113,7 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Logout()
         {
             user_manger.SignOut(HttpContext);
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
 
         public IActionResult Privacy()
