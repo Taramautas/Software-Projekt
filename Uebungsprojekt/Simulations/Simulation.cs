@@ -25,6 +25,8 @@ namespace Uebungsprojekt.Simulations
         private List<int> rush_hour_ticks;
         private double max_probability;
 
+        private DateTime start_datetime;
+
         /// <summary>
         /// Setup
         /// </summary>
@@ -66,6 +68,8 @@ namespace Uebungsprojekt.Simulations
             // Don't run simulation twice
             if (simulation_result.done)
                 return false;
+            
+            start_datetime = DateTime.Now;
 
             User vip = new User { 
                 email = "vip@vip.de",
@@ -115,16 +119,15 @@ namespace Uebungsprojekt.Simulations
                             Location location = occupancy_plan.GetAllLocations()[random.Next(occupancy_plan.GetAllLocations().Count)];
                             int state_of_charge = random.Next(33);
                             int target_state_of_charge = state_of_charge + 33 + random.Next(33);
+                            Tuple<DateTime, DateTime> times = GetChargingTimesByTick(tick);
                             occupancy_plan.AddNewBooking(new Booking
                             {
                                 // Start state of charge is between 0 and 50
                                 start_state_of_charge = state_of_charge,
                                 // Target state of charge is between 25 and 50 more then start state of charge
                                 target_state_of_charge = target_state_of_charge,
-                                // TODO: Which start time to choose
-                                start_time = new DateTime(),
-                                // TODO: Which end time to choose
-                                end_time = new DateTime(),
+                                start_time = times.Item1,
+                                end_time = times.Item2,
                                 // Take a random vehicle from the given list
                                 vehicle = vehicle,
                                 // Takes randomly from VIP, Guest and Employee (1 : 1 : 3)
@@ -137,6 +140,7 @@ namespace Uebungsprojekt.Simulations
                         simulation_result.num_generated_bookings.Add(number_bookings);
                         simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload());
                     }
+                    simulation_result.num_unsatisfiable_bookings.Add(occupancy_plan.Distribute());
                 }
             }
             return true;
@@ -179,15 +183,21 @@ namespace Uebungsprojekt.Simulations
             return probability / max_probability;
         }
 
-        public Tuple<DateTime, DateTime> GetChargingTimesByTick(int tick)
+        private Tuple<DateTime, DateTime> GetChargingTimesByTick(int tick)
         {
             int day = tick / ticks_per_day;
-            int week = day % 5;
-            day -= week * 5;
-
             int ticks_within_day = tick % ticks_per_day;
+<<<<<<< HEAD
 
             return null;
+=======
+            TimeSpan time = start_time + ticks_within_day * tick_minutes;
+            time += new TimeSpan(day, 0, 0, 0);
+            DateTime start_charging = start_datetime.Add(time);
+            // TODO: May make end time more random
+            DateTime end_charging = start_datetime.Add(new TimeSpan(1, 30, 0));
+            return new Tuple<DateTime, DateTime>(start_charging, end_charging);
+>>>>>>> d56abb2f67d1ab17f2970baefc47e0f3a65cec6a
         }
     }
 }
