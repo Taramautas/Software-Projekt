@@ -43,7 +43,7 @@
                 }
                 @if (Model.charging_zones.Any())
                 {
-                    <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Add Charging Column</a>
+                    <a asp-controller="Administration" asp-action="AddChargingColumn" class="submit">Add Charging Column</a>
                 }
             </th>
         </tr>
@@ -74,16 +74,13 @@
                                                 <th>Charging Column</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
-                                                <th>
-                                                    <a asp-controller="Administration" asp-action="CreateChargingColumn" class="submit">Create Chargin Column</a>
-                                                </th>
                                             </tr>
                                             @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                                             {
                                                 @if (chargingColumn.charging_zone.id == chargingZone.id)
                                                 {
                                                     <tr>
-                                                        <td>Ladesäule @chargingColumn.id</td>
+                                                        <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
                                                     </tr>
                                                 }
                                             }
