@@ -187,17 +187,14 @@ namespace Uebungsprojekt.Simulations
         {
             int day = tick / ticks_per_day;
             int ticks_within_day = tick % ticks_per_day;
-<<<<<<< HEAD
 
             return null;
-=======
             TimeSpan time = start_time + ticks_within_day * tick_minutes;
             time += new TimeSpan(day, 0, 0, 0);
             DateTime start_charging = start_datetime.Add(time);
             // TODO: May make end time more random
             DateTime end_charging = start_datetime.Add(new TimeSpan(1, 30, 0));
             return new Tuple<DateTime, DateTime>(start_charging, end_charging);
->>>>>>> d56abb2f67d1ab17f2970baefc47e0f3a65cec6a
         }
     }
 }
