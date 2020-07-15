@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,6 +13,23 @@
     <link rel="stylesheet" href="~/css/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato&family=Orbitron&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,24 +47,51 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark home" asp-area="" asp-controller="Administration" asp-action="Bookings">Bookings</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark privacy" asp-area="" asp-controller="Administration" asp-action="SimulationConfig">Simulation</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Infrastructure">Infrastructure</a>
+                            @*<li class="nav-item">
+            <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="Configuration">Configuration</a>
+        </li>*@
+                            <li>
+                                <div class="dropdown">
+                                    <a class="nav-link text-dark viewselection">Configuration</a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="infrastructure">infrastructure</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Vehicles">Vehicles</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="ChargingColumnType">CCType</a>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Vehicles">Vehicles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="ChargingColumnType">CCType</a>
-                            </li>
+                            @*<li class="nav-item">
+            <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="infrastructure">infrastructure</a>
+        </li>*@
+                            @*<li class="nav-item">
+            <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Vehicles">Vehicles</a>
+        </li>*@
+                            @*<li class="nav-item">
+            <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="ChargingColumnType">CCType</a>
+        </li>*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark viewselection" asp-controller="UserDashboard" asp-action="Index">
                                     User |
-                                    <i>Planer</i>
+                                    <i>Admin</i>
                                 </a>
                             </li>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "LoggedIn")).Succeeded)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark home" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark home" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                                </li>
+                            }
+
                         </ul>
                     </div>
                 </div>
