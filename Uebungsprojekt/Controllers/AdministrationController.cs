@@ -405,14 +405,36 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Vehicles");
         }
 
+        [HttpGet]
         public IActionResult ChargingColumnType()
         {
-            return View();
+            // Create Daos for Infrastructure
+            ChargingColumnTypeDao charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
+
+            return View(charging_column_type_dao.GetAll());
         }
 
+        [HttpGet]
         public IActionResult CreateChargingColumnType()
         {
-            return View();
+            return View(new ChargingColumnType());
+        }
+
+        [HttpPost]
+        public IActionResult CreateChargingColumnType(ChargingColumnType cct, ConnectorType connectortype1, ConnectorType connectortype2, ConnectorType connectortype3, ConnectorType connectortype4, int capacity1, int capacity2, int capacity3, int capacity4)
+        {
+            ChargingColumnTypeDao cct_dao = new ChargingColumnTypeDaoImpl(cache);
+            List<Tuple<ConnectorType, int>> _connectors = new List<Tuple<ConnectorType, int>>();
+
+            Console.WriteLine("capacity1: " + capacity1);
+
+            _connectors.Add(new Tuple<ConnectorType, int>(connectortype1, capacity1));
+            _connectors.Add(new Tuple<ConnectorType, int>(connectortype2, capacity2));
+            _connectors.Add(new Tuple<ConnectorType, int>(connectortype3, capacity3));
+            _connectors.Add(new Tuple<ConnectorType, int>(connectortype4, capacity4));
+
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_concurrent_charging, _connectors);
+            return RedirectToAction("ChargingColumnType");
         }
 
         /// <summary>

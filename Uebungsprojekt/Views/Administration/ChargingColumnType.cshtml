@@ -31,9 +31,22 @@
     <thead class="thead-light">
         <tr>
             <th>ID</th>
-            <th>Max Concurrent Charging (in kW)</th>
+            <th>Max Parallel Charging</th>
             <th>Manufacturer</th>
-            <th>Connector Types</th>
+            <th>Model Name</th>
+            <th>Connector Types and their Charging Capacity</th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var cct in Model)
+        {
+            <tr>
+                <td>@cct.id</td>
+                <td>@cct.max_concurrent_charging</td>
+                <td>@cct.manufacturer_name</td>
+                <td>@cct.model_name</td>
+                <td>@cct.connectors[0].Item1 - @cct.connectors[0].Item2 | @cct.connectors[1].Item1 - @cct.connectors[1].Item2 | @cct.connectors[2].Item1 - @cct.connectors[2].Item2 | @cct.connectors[3].Item1 - @cct.connectors[3].Item2</td>
+            </tr>
+        }
+    </tbody>
 </table>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Uebungsprojekt.Models
@@ -15,10 +16,11 @@ namespace Uebungsprojekt.Models
         
         [Required(ErrorMessage = "Please specify the maximum concurrent charging power.")]
         [Range(1, 100)]
-        public double max_concurrent_charging { get; set; }
+        public int max_concurrent_charging { get; set; }
 
+        // Connectortypes and their charging capacity
         [Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
-        public List<ConnectorType> connectors { get; set; }
+        public List<Tuple<ConnectorType, int>> connectors { get; set; }
 
     }
 }
