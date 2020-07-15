@@ -284,9 +284,12 @@ namespace Uebungsprojekt.Controllers
         /// Display a complex table representing the current infrastructure
         /// </summary>
         [HttpGet]
-        public IActionResult CreateChargingColumn()
+        public IActionResult AddChargingColumn()
         {
-            return View();
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
+            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(), new ChargingColumn());
+            return View(ccvm);
         }
 
 
@@ -427,13 +430,14 @@ namespace Uebungsprojekt.Controllers
             List<Tuple<ConnectorType, int>> _connectors = new List<Tuple<ConnectorType, int>>();
 
             Console.WriteLine("capacity1: " + capacity1);
+            Console.WriteLine("Type1: " + connectortype1);
 
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype1, capacity1));
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype2, capacity2));
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype3, capacity3));
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype4, capacity4));
 
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_concurrent_charging, _connectors);
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_parallel_charging, _connectors);
             return RedirectToAction("ChargingColumnType");
         }
 
