@@ -86,6 +86,11 @@ namespace Uebungsprojekt.OccupancyPlans
                 );
         }
 
+        public int Distribute()
+        {
+            return 1;
+        }
+
         public List<Location> GetAllLocations()
         {
             LocationDao location_dao = new LocationDaoImpl(cache);

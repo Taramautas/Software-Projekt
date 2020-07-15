@@ -144,7 +144,7 @@ namespace Uebungsprojekt.Controllers
             
             
             Simulation simulation = new Simulation(config, infrastructure, result, cache);
-            if (!simulation.RunSimulation())
+            if (!simulation.Run())
             {
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
