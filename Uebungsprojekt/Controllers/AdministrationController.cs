@@ -143,8 +143,8 @@ namespace Uebungsprojekt.Controllers
             };
             
             
-            Simulation simulation = new Simulation(config, infrastructure, result);
-            if (!simulation.RunSimulation())
+            Simulation simulation = new Simulation(config, infrastructure, result, cache);
+            if (!simulation.Run())
             {
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
@@ -292,6 +292,19 @@ namespace Uebungsprojekt.Controllers
             return View(ccvm);
         }
 
+        [HttpPost]
+        public IActionResult AddChargingColumn(int charging_zone_id, int charging_column_type_id )
+        {
+            //TODO: ERRORHANDLING!
+            Console.WriteLine(charging_column_type_id);
+            ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id), false,
+                charging_zone_dao.GetById(charging_zone_id, 0), 0);
+            return RedirectToAction("Infrastructure");
+        }
+
 
         /// <summary>
         /// Display a table of all bookings in system
@@ -424,20 +437,37 @@ namespace Uebungsprojekt.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateChargingColumnType(ChargingColumnType cct, ConnectorType connectortype1, ConnectorType connectortype2, ConnectorType connectortype3, ConnectorType connectortype4, int capacity1, int capacity2, int capacity3, int capacity4)
+        public IActionResult CreateChargingColumnType(ChargingColumnType cct, String connectortype1, String connectortype2, String connectortype3, String connectortype4, int capacity1, int capacity2, int capacity3, int capacity4)
         {
-            ChargingColumnTypeDao cct_dao = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnTypeDaoImpl cct_dao = new ChargingColumnTypeDaoImpl(cache);
             List<Tuple<ConnectorType, int>> _connectors = new List<Tuple<ConnectorType, int>>();
+            
+            if (connectortype1 != "None")
+            {
+                Enum.TryParse(connectortype1, out ConnectorType conn_1);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_1, capacity1));
+            }
 
-            Console.WriteLine("capacity1: " + capacity1);
-            Console.WriteLine("Type1: " + connectortype1);
-
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype1, capacity1));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype2, capacity2));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype3, capacity3));
-            _connectors.Add(new Tuple<ConnectorType, int>(connectortype4, capacity4));
-
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_concurrent_charging, _connectors);
+            if (connectortype2 != "None")
+            {
+                Enum.TryParse(connectortype2, out ConnectorType conn_2);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_2, capacity2));
+            }
+            
+            if (connectortype3 != "None")
+            {
+                Enum.TryParse(connectortype3, out ConnectorType conn_3);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_3, capacity3));
+            }
+            
+            if (connectortype4 != "None")
+            {
+                Enum.TryParse(connectortype4, out ConnectorType conn_4);
+                _connectors.Add(new Tuple<ConnectorType, int>(conn_4, capacity4));
+            }
+            
+            
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors);
             return RedirectToAction("ChargingColumnType");
         }
 

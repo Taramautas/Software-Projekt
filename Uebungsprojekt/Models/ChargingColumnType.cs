@@ -14,9 +14,9 @@ namespace Uebungsprojekt.Models
         [Required(ErrorMessage = "Please enter the manufacturer name of the charging column.")]
         public string manufacturer_name { get; set; }
         
-        [Required(ErrorMessage = "Please specify the maximum concurrent charging power.")]
-        [Range(1, 100)]
-        public int max_concurrent_charging { get; set; }
+        [Required(ErrorMessage = "Please specify the maximum of parallel chargable vehicles.")]
+        [Range(1, 4)]
+        public int max_parallel_charging { get; set; }
 
         // Connectortypes and their charging capacity
         [Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
