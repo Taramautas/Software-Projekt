@@ -433,7 +433,7 @@ namespace Uebungsprojekt.Controllers
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype3, capacity3));
             _connectors.Add(new Tuple<ConnectorType, int>(connectortype4, capacity4));
 
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_concurrent_charging, _connectors);
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_parallel_charging, _connectors);
             return RedirectToAction("ChargingColumnType");
         }
 
