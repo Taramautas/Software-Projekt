@@ -169,5 +169,19 @@ namespace Uebungsprojekt.Controllers
             }
             return RedirectToAction("Users");
         }
+
+        [HttpGet, ActionName("DeleteUser")]
+        public ActionResult DeleteUser(int id)
+        {
+            UserDaoImpl userDao = new UserDaoImpl(cache);
+            userDao.Delete(id);
+            return RedirectToAction("Users");
+        }
+
+        [HttpPost, ActionName("DeleteUser")]
+        public ActionResult DeleteUserConfirmed(int id)
+        {
+            return RedirectToAction("Users");
+        }
     }
 }

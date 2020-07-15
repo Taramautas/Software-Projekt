@@ -358,6 +358,19 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Infrastructure");
         }
 
+        [HttpGet, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingColumn(int id)
+        {
+            ChargingColumnDaoImpl chargingColumnDao = new ChargingColumnDaoImpl(cache);
+            chargingColumnDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingColumnConfirmed(int id)
+        {
+            return RedirectToAction("Infrastructure");
+        }
 
         /// <summary>
         /// Display a table of all bookings in system
