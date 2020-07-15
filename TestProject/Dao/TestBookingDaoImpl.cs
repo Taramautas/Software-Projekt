@@ -30,7 +30,7 @@ namespace UnitTest.Dao
             List<Booking> bookingList1 = _bookingDao.GetAll(list_id1);
 
             // Create new Bookings
-            int booking_id11 = _bookingDao.Create(30, 80, new DateTime(2020, 7, 4, 12, 0, 0), new DateTime(2020, 7, 4, 15, 0, 0), false, new Vehicle(), new User(), new ChargingColumn(), list_id1);
+            int booking_id11 = _bookingDao.Create(30, 80, new DateTime(2020, 7, 4, 12, 0, 0), new DateTime(2020, 7, 4, 15, 0, 0), new Vehicle(), new User(), new Location(), list_id1);
             
             // Edit Booking in Dao1 with GetById
             Booking booking11 = _bookingDao.GetById(booking_id11, list_id1);

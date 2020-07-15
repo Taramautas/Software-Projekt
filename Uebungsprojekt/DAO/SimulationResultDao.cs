@@ -12,7 +12,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in SimulationResultDaoImpl
         SimulationResult GetById(int Id);
         List<SimulationResult> GetAll();
-        int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<double> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done, List<Tuple<Booking, Booking>> _unsatisfiable_bookings_with_suggestion);
+        int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<Dictionary<int, double>> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done);
         bool Delete(int Id);
     }
 }

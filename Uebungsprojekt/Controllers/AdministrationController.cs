@@ -143,7 +143,7 @@ namespace Uebungsprojekt.Controllers
             };
             
             
-            Simulation simulation = new Simulation(config, infrastructure, result);
+            Simulation simulation = new Simulation(config, infrastructure, result, cache);
             if (!simulation.RunSimulation())
             {
                 Console.Out.WriteLine("Failure on simulation");
