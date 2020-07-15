@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Uebungsprojekt.Models
 {
@@ -14,7 +15,9 @@ namespace Uebungsprojekt.Models
         
         /// <summary>List of available connector type</summary>
         public List<ConnectorType> connector_types { get; set; }
-
+        
+        
+        
         /// <summary>
         /// Empty Constructor
         /// </summary>

@@ -21,6 +21,31 @@ namespace UnitTest.Dao
         }
 
         [Test]
+        public void TestEditBookingChagesObjectInCache()
+        {
+            // Create new IDs for Dao Instances
+            int list_id1 = BookingDaoImpl.CreateNewDaoId();
+
+            // Initialize Daos with IDs
+            List<Booking> bookingList1 = _bookingDao.GetAll(list_id1);
+
+            // Create new Bookings
+            int booking_id11 = _bookingDao.Create(30, 80, new DateTime(2020, 7, 4, 12, 0, 0), new DateTime(2020, 7, 4, 15, 0, 0), new Vehicle(), new User(), new Location(), list_id1);
+            
+            // Edit Booking in Dao1 with GetById
+            Booking booking11 = _bookingDao.GetById(booking_id11, list_id1);
+            booking11.start_state_of_charge = 20;
+
+            // check if the booking got changed in the cache
+            bookingList1 = _bookingDao.GetAll(list_id1);
+            Assert.AreEqual(bookingList1.Find(x => x.id == booking_id11).start_state_of_charge, 20);
+            Booking booking11_test = _bookingDao.GetById(booking_id11, list_id1);
+            Assert.AreEqual(booking11_test.start_state_of_charge, 20);
+
+
+        }
+        /*
+        [Test]
         public void TestGetByIdReturnsCorrectBooking()
         {
             // Create new IDs for Dao Instances
@@ -179,18 +204,7 @@ namespace UnitTest.Dao
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).end_time, new System.DateTime(2020, 7, 4, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId11, id1).vehicle, vehicle);
 
-            /*
-            Assert.AreEqual(new Booking
-            {
-                Id = bookingId11,
-                start_state_of_charge = 30,
-                target_state_of_charge = 100,
-                start_time = new System.DateTime(2020, 7, 4, 12, 0, 0),
-                end_time = new System.DateTime(2020, 7, 4, 15, 0, 0),
-                vehicle = vehicle,
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
-            }, _bookingDao.GetById(bookingId11, id1));
-            */
+            
 
             // Create new booking in List1 and add it with Create
             int bookingId21 = _bookingDao.Create(30, 100, new System.DateTime(2020, 7, 5, 12, 0, 0), new System.DateTime(2020, 7, 5, 15, 0, 0), vehicle, ConnectorType.CCS_Combo_2_Plug, id1);
@@ -213,18 +227,7 @@ namespace UnitTest.Dao
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).end_time, new System.DateTime(2020, 7, 5, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId21, id1).vehicle, vehicle);
 
-            /*
-            Assert.AreEqual(new Booking
-            {
-                Id = bookingId21,
-                start_state_of_charge = 30,
-                target_state_of_charge = 100,
-                start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
-                end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                vehicle = vehicle,
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
-            }, _bookingDao.GetById(bookingId21, id1));
-            */
+
 
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).id, bookingId12);
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).start_state_of_charge, 30);
@@ -233,18 +236,7 @@ namespace UnitTest.Dao
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).end_time, new System.DateTime(2020, 7, 5, 15, 0, 0));
             Assert.AreEqual(_bookingDao.GetById(bookingId12, id2).vehicle, vehicle);
 
-            /*
-            Assert.AreEqual(new Booking
-            {
-                Id = bookingId12,
-                start_state_of_charge = 30,
-                target_state_of_charge = 80,
-                start_time = new System.DateTime(2020, 7, 5, 12, 0, 0),
-                end_time = new System.DateTime(2020, 7, 5, 15, 0, 0),
-                vehicle = vehicle,
-                ConnectorType = Booking.ConnectorTypeEnum.CCS_Combo_2_Plug,
-            }, _bookingDao.GetById(bookingId12, id2));
-            */
+  
 
             // Test Create with new DaoId
             int id3 = BookingDaoImpl.CreateNewDaoId();
@@ -329,5 +321,7 @@ namespace UnitTest.Dao
             // Check if the second Booking really is the correct one left
             Assert.AreEqual(_bookingDao.GetById(2, id1), booking);
         }
+
+    */
     }
 }

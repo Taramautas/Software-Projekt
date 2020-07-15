@@ -5,47 +5,159 @@
 }
 <h1 class="page-title">@ViewData["Title"]</h1>
 <br />
-<form>
-    <div><h3><u>Configure Loaction Infrastructure</u></h3></div>
-    <br />
-    <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Location</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter a valid location">
+<body>
+    <div class="main_content">
+        <div class="two">
+            <h4>Edit Infrastructure</h4>
+            <button onclick="locationFunction()">AddLocation</button>
+        </div>
+        <div class="three">
+            <form action="#" id="mainform" method="get" name="mainform">
+                <span id="myForm"></span>
+                <p></p><input type="submit" value="Submit">
+            </form>
         </div>
     </div>
-    <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Type of Charging Station</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter the type of Charging Station">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for=" " class="col-sm-2 col-form-label">Count</label>
-        <div class="col-sm-10">
-            <input type=" " class="form-control" id=" " placeholder="Please enter the number of Charging Stations">
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-2">
-            <abbr title="Add Charging Station">
-                <button type="submit" class="btn btn-outline-primary submit" style="padding-bottom: 0;">
-                    <span class="material-icons">add_box</span>
-                </button>
-            </abbr>
-        </div>
-    </div>
-    <br />
-    <div class="form-group row">
-        <div class="col-sm-11">
-            <abbr title="Back">
-                <a class="btn btn-outline-primary ml-1" asp-area="" asp-controller="Administration" asp-action="SimulationConfig"><span class="material-icons">arrow_left</span></a>
-            </abbr>
-        </div>
-        <div class="col-sm-1">
-            <abbr title="Next">
-                <a class="btn btn-outline-primary ml-1 submit" asp-area="" asp-controller="Administration" asp-action="Simulation"><span class="material-icons">arrow_right</span></a>
-            </abbr>
-        </div>
-    </div>
-</form>
+</body>
+
+<!--
+    todo:   change column to multi select
+            fix deletion so that if a location gets deletet all zones also get deleted; same for zones and columns (maybe by using more id variables)
+            fix adding to only latest created location zones
+            fix bug when first adding a location(instant deletion of said location)
+-->
+
+<script>
+    var i = 0; /* location id */
+    var j = 0;
+    function increment() {
+        i += 1;
+    }
+
+    function incrementj() {
+        j += 1;
+    }
+    /*
+    ---------------------------------------------
+    
+    Function to Remove Form Elements Dynamically
+    ---------------------------------------------
+    
+    */
+    function removeElement(parentDiv, childDiv) {
+        if (childDiv == parentDiv) {
+            alert("The parent div cannot be removed.");
+        }
+        else if (document.getElementById(childDiv)) {
+            var child = document.getElementById(childDiv);
+            var parent = document.getElementById(parentDiv);
+            parent.removeChild(child);
+        }
+        else {
+            alert("Child div has already been removed or does not exist.");
+            return false;
+        }
+    }
+    /*
+    ----------------------------------------------------------------------------
+    
+    Functions that will be called upon, when user click on the Location text field.
+    
+    ----------------------------------------------------------------------------
+    */
+    function chargingColumnFunction() {
+        var spa = document.createElement('span');   // span to add a charging column
+        var inp = document.createElement("INPUT");  // input field to enter ** 
+        var del = document.createElement("button"); // delete button
+        var cz = document.createElement("button");  // add **
+        var br = document.createElement("br");      // simple break for visibility
+        var id;
+
+        spa.setAttribute("style", "margin-left: 100px")
+
+        inp.setAttribute("type", "text");
+        inp.setAttribute("placeholder", "Charging Column");
+        increment();
+        id = i;
+        inp.setAttribute("ChargingColumn", "textelement_" + id);
+        spa.appendChild(inp)
+
+        del.textContent = "Delete"
+        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
+        spa.appendChild(del);
+
+        spa.setAttribute("id", "loc_" + id);
+
+        document.getElementById("myForm").appendChild(spa);
+
+        spa.appendChild(br);
+    }
+
+    function chargingZoneFunction() {
+        var spa = document.createElement('span');   // span to add a charging zone
+        var inp = document.createElement("INPUT");  // input field to enter chargin zone name
+        var del = document.createElement("button"); // delete button
+        var cz = document.createElement("button");  // add charging column to charging zone
+        var br = document.createElement("br");      // simple break for visibility
+        var id;
+
+        spa.setAttribute("style", "margin-left: 50px")
+
+        inp.setAttribute("type", "text");
+        inp.setAttribute("placeholder", "Charging Zone");
+        increment();
+        id = i;
+        inp.setAttribute("ChargingZone", "textelement_" + id);
+        spa.appendChild(inp)
+
+        del.textContent = "Delete"
+        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
+        spa.appendChild(del);
+
+        spa.setAttribute("id", "loc_" + id);
+
+        document.getElementById("myForm").appendChild(spa);
+
+        cz.textContent = "AddChargingColumn";
+        cz.setAttribute("onclick", "chargingColumnFunction()");
+        spa.appendChild(cz);
+
+        spa.appendChild(br);
+    }
+
+    function locationFunction() {
+        var spa = document.createElement('span');   // span to add a location
+        var inp = document.createElement("INPUT");  // input field to enter location name
+        var del = document.createElement("button"); // delete button
+        var cz = document.createElement("button");  // add charging zone to location
+        var br = document.createElement("br");      // simple break for visibility
+        var id;
+
+        inp.setAttribute("type", "text");
+        inp.setAttribute("placeholder", "Location");
+        increment();
+        id = i;
+        inp.setAttribute("Location", "textelement_" + id);
+        spa.appendChild(inp)
+
+        del.textContent = "Delete"
+        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
+        spa.appendChild(del);
+
+        spa.setAttribute("id", "loc_" + id);
+
+        document.getElementById("myForm").appendChild(spa);
+
+        cz.textContent = "AddChargingZone";
+        cz.setAttribute("onclick", "chargingZoneFunction()");
+        spa.appendChild(cz);
+        
+        spa.appendChild(br);
+    }
+
+    /*
+    function resetElements() {
+        document.getElementById('myForm').innerHTML = '';
+    }
+    */
+</script>

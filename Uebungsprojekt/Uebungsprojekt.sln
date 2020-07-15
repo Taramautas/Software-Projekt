@@ -5,11 +5,7 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uebungsprojekt", "Uebungsprojekt.csproj", "{284E47A5-80F4-4BAD-ADD0-0626572DAECC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dao Unit Tests", "..\Dao Unit Tests\Dao Unit Tests.csproj", "{293DDC75-EB58-4203-8916-85B23FC8CBEC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListsUnitTests", "..\ListsUnitTests\ListsUnitTests.csproj", "{F2EBA026-5138-4BFD-98B5-72CB2B21D778}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "..\TestProject\UnitTest.csproj", "{66CB341F-BE5E-47D7-9D71-E46938EF914A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dao Unit Tests", "..\Dao Unit Tests\Dao Unit Tests.csproj", "{293DDC75-EB58-4203-8916-85B23FC8CBEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +21,6 @@ Global
 		{293DDC75-EB58-4203-8916-85B23FC8CBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{293DDC75-EB58-4203-8916-85B23FC8CBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{293DDC75-EB58-4203-8916-85B23FC8CBEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2EBA026-5138-4BFD-98B5-72CB2B21D778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2EBA026-5138-4BFD-98B5-72CB2B21D778}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2EBA026-5138-4BFD-98B5-72CB2B21D778}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2EBA026-5138-4BFD-98B5-72CB2B21D778}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66CB341F-BE5E-47D7-9D71-E46938EF914A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66CB341F-BE5E-47D7-9D71-E46938EF914A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66CB341F-BE5E-47D7-9D71-E46938EF914A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66CB341F-BE5E-47D7-9D71-E46938EF914A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

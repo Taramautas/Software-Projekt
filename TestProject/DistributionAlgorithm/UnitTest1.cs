@@ -30,6 +30,58 @@ namespace ListsUnitTests
             _chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(new MemoryCache(new MemoryCacheOptions()));
             _userDao = new UserDaoImpl(new MemoryCache(new MemoryCacheOptions()));
         }
+
+        [Test]
+        public void TestConnectorCompare()
+        {
+            // create vehicles
+            _vehicleDao.GetAll();
+            int veh1_id = _vehicleDao.Create("Tesla", 80, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.CCS_Combo_2_Plug });
+            int veh2_id = _vehicleDao.Create("Porsche", 95, new List<ConnectorType> { ConnectorType.Type_1_Plug, ConnectorType.Tesla_Supercharger, ConnectorType.CHAdeMO_Plug });
+            Vehicle veh1 = _vehicleDao.GetById(veh1_id);
+            Vehicle veh2 = _vehicleDao.GetById(veh2_id);
+
+            // create chargingColumnTypes
+            int cct_id1 = _chargingColumnTypeDao.Create("Terra 54 CT", "ABB", 50, new List<ConnectorType> { ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_2_Plug });
+            int cct_id2 = _chargingColumnTypeDao.Create("eStation smart multi QC45", "Innogy", 60, new List<ConnectorType> {  ConnectorType.Type_2_Plug, ConnectorType.CHAdeMO_Plug, ConnectorType.Type_1_Plug });
+            ChargingColumnType cct1 = _chargingColumnTypeDao.GetById(cct_id1);
+            ChargingColumnType cct2 = _chargingColumnTypeDao.GetById(cct_id2);
+
+            // create a Location
+            int locationdao_id = 0;
+            _locationDao.GetAll(locationdao_id);
+            int loc_id1 = _locationDao.Create("Munich", "12345", "addressstreet", locationdao_id);
+            Location loc1 = _locationDao.GetById(loc_id1, locationdao_id);
+
+            // Create ChargingZone
+            int ChargingZoneDao_id = 0;
+            _chargingZoneDao.GetAll(ChargingZoneDao_id);
+            int cz_id1 = _chargingZoneDao.Create(5, loc1, ChargingZoneDao_id);
+            ChargingZone cz1 = _chargingZoneDao.GetById(cz_id1, ChargingZoneDao_id);
+
+            // Create ChargingColumns
+            int charcoldao_id = 0;
+            _chargingcolumndao.GetAll(charcoldao_id);
+            int charcol_id1 = _chargingcolumndao.Create(cct1, false, false, cz1, new List<Tuple<DateTime, DateTime>>(), charcoldao_id);
+            int charcol_id2 = _chargingcolumndao.Create(cct2, false, false, cz1, new List<Tuple<DateTime, DateTime>>(), charcoldao_id);
+            ChargingColumn cc1 = _chargingcolumndao.GetById(charcol_id1, charcoldao_id);
+            ChargingColumn cc2 = _chargingcolumndao.GetById(charcol_id2, charcoldao_id);
+
+            // create a few bookings
+            int bookingdao_id = 0;
+            _bookingDao.GetAll(bookingdao_id);
+
+            int bk_id1 = _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 13, 30, 0), veh1, new User(), loc1, null, bookingdao_id);
+            int bk_id2 = _bookingDao.Create(30, 90, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 13, 30, 0), veh2, new User(), loc1, null, bookingdao_id);
+            Booking bk1 = _bookingDao.GetById(bk_id1, bookingdao_id);
+            Booking bk2 = _bookingDao.GetById(bk_id2, bookingdao_id);
+
+            Assert.AreEqual(true, HelpFunctions.ConnectorCompare(cc1, bk1)); // 1 gemeinsamen conTyp
+            Assert.AreEqual(true, HelpFunctions.ConnectorCompare(cc2, bk2)); // 2 gemeinsame conTyp
+            Assert.AreEqual(false, HelpFunctions.ConnectorCompare(cc1, bk2)); // 0 gemeinsame conTyp
+
+        }
+
         [Test]
         public void TestRealChargingTime()
         {
