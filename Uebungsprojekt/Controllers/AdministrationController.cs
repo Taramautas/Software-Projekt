@@ -292,6 +292,19 @@ namespace Uebungsprojekt.Controllers
             return View(ccvm);
         }
 
+        [HttpPost]
+        public IActionResult AddChargingColumn(int charging_zone_id, int charging_column_type_id )
+        {
+            //TODO: ERRORHANDLING!
+            Console.WriteLine(charging_column_type_id);
+            ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id), false,
+                charging_zone_dao.GetById(charging_zone_id, 0), 0);
+            return RedirectToAction("Infrastructure");
+        }
+
 
         /// <summary>
         /// Display a table of all bookings in system
@@ -428,9 +441,7 @@ namespace Uebungsprojekt.Controllers
         {
             ChargingColumnTypeDaoImpl cct_dao = new ChargingColumnTypeDaoImpl(cache);
             List<Tuple<ConnectorType, int>> _connectors = new List<Tuple<ConnectorType, int>>();
-            Console.WriteLine(("modelname: "+cct.model_name));
-
-
+            
             if (connectortype1 != "None")
             {
                 Enum.TryParse(connectortype1, out ConnectorType conn_1);
