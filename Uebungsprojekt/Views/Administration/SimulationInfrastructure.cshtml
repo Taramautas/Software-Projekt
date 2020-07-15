@@ -1,163 +1,111 @@
 ﻿@model Uebungsprojekt.ViewModel.Administration.SimulationInfrastructureViewModel
+
 @{
-    ViewData["Title"] = "Simulation";
+    ViewData["Title"] = "Infrastructure";
     Layout = "_PlanerLayout";
 }
+
 <h1 class="page-title">@ViewData["Title"]</h1>
-<br />
-<body>
-    <div class="main_content">
-        <div class="two">
-            <h4>Edit Infrastructure</h4>
-            <button onclick="locationFunction()">AddLocation</button>
-        </div>
-        <div class="three">
-            <form action="#" id="mainform" method="get" name="mainform">
-                <span id="myForm"></span>
-                <p></p><input type="submit" value="Submit">
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row submit">
+            <form id="import_form" asp-controller="Administration" asp-action="Import" enctype="multipart/form-data" method="post">
+                <input id="json_files" class="btn btn-primary d-none" size="1" name="json_files" type="file" accept=".json" onchange="importJson()" />
+                <abbr title="Import">
+                    <div class="btn btn-outline-primary ml-1 submit" onclick="toggleImport()"><span class="material-icons">publish</span></div>
+                </abbr>
             </form>
+            <abbr title="Export">
+                <a class="btn btn-outline-primary ml-1 submit" asp-area="" asp-controller="Administration" asp-action="Export"><span class="material-icons">get_app</span></a>
+            </abbr>
+        </div>
+        <div class="row">
+            <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing booking entries.</span>
         </div>
     </div>
-</body>
+</div>
 
-<!--
-    todo:   change column to multi select
-            fix deletion so that if a location gets deletet all zones also get deleted; same for zones and columns (maybe by using more id variables)
-            fix adding to only latest created location zones
-            fix bug when first adding a location(instant deletion of said location)
--->
 
-<script>
-    var i = 0; /* location id */
-    var j = 0;
-    function increment() {
-        i += 1;
-    }
 
-    function incrementj() {
-        j += 1;
-    }
-    /*
-    ---------------------------------------------
-    
-    Function to Remove Form Elements Dynamically
-    ---------------------------------------------
-    
-    */
-    function removeElement(parentDiv, childDiv) {
-        if (childDiv == parentDiv) {
-            alert("The parent div cannot be removed.");
+<table id="booking-table" style="width:100%" class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Location</th>
+            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>
+                <a asp-controller="Administration" asp-action="CreateSimulationLocation" class="submit">Create Location</a>
+                @if (Model.locations.Any())
+                {
+                    <a asp-controller="Administration" asp-action="CreateSimulationChargingZone" class="submit">Create Charging Zone</a>
+                }
+                @if (Model.charging_zones.Any())
+                {
+                    <a asp-controller="Administration" asp-action="AddSimulationChargingColumn" class="submit">Add Charging Column</a>
+                }
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Location location in Model.locations)
+        {
+            <tr>
+                @*<td>Location A</td>*@
+                <td>@location.city</td>
+                <td>
+                    <table class="table-borderless">
+                        <tr>
+                            <th>Charging Zone</th>
+                            <th></th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        @foreach (ChargingZone chargingZone in Model.charging_zones)
+                        {
+                            @if (chargingZone.location.id == location.id)
+                            {
+                                <tr>
+                                    <td>Ladezone @chargingZone.id</td>
+                                    <td>Ladezone @chargingZone.name</td>
+                                    <td>Ladezone @chargingZone.overall_performance</td>
+                                    <td>
+                                        <table class="table-borderless">
+                                            <tr>
+                                                <th>Charging Column</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                            @foreach (ChargingColumn chargingColumn in Model.charging_columns)
+                                            {
+                                                @if (chargingColumn.charging_zone.id == chargingZone.id)
+                                                {
+                                                    <tr>
+                                                        <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </table>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    </table>
+                </td>
+            </tr>
         }
-        else if (document.getElementById(childDiv)) {
-            var child = document.getElementById(childDiv);
-            var parent = document.getElementById(parentDiv);
-            parent.removeChild(child);
-        }
-        else {
-            alert("Child div has already been removed or does not exist.");
-            return false;
-        }
-    }
-    /*
-    ----------------------------------------------------------------------------
-    
-    Functions that will be called upon, when user click on the Location text field.
-    
-    ----------------------------------------------------------------------------
-    */
-    function chargingColumnFunction() {
-        var spa = document.createElement('span');   // span to add a charging column
-        var inp = document.createElement("INPUT");  // input field to enter ** 
-        var del = document.createElement("button"); // delete button
-        var cz = document.createElement("button");  // add **
-        var br = document.createElement("br");      // simple break for visibility
-        var id;
-
-        spa.setAttribute("style", "margin-left: 100px")
-
-        inp.setAttribute("type", "text");
-        inp.setAttribute("placeholder", "Charging Column");
-        increment();
-        id = i;
-        inp.setAttribute("ChargingColumn", "textelement_" + id);
-        spa.appendChild(inp)
-
-        del.textContent = "Delete"
-        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
-        spa.appendChild(del);
-
-        spa.setAttribute("id", "loc_" + id);
-
-        document.getElementById("myForm").appendChild(spa);
-
-        spa.appendChild(br);
-    }
-
-    function chargingZoneFunction() {
-        var spa = document.createElement('span');   // span to add a charging zone
-        var inp = document.createElement("INPUT");  // input field to enter chargin zone name
-        var del = document.createElement("button"); // delete button
-        var cz = document.createElement("button");  // add charging column to charging zone
-        var br = document.createElement("br");      // simple break for visibility
-        var id;
-
-        spa.setAttribute("style", "margin-left: 50px")
-
-        inp.setAttribute("type", "text");
-        inp.setAttribute("placeholder", "Charging Zone");
-        increment();
-        id = i;
-        inp.setAttribute("ChargingZone", "textelement_" + id);
-        spa.appendChild(inp)
-
-        del.textContent = "Delete"
-        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
-        spa.appendChild(del);
-
-        spa.setAttribute("id", "loc_" + id);
-
-        document.getElementById("myForm").appendChild(spa);
-
-        cz.textContent = "AddChargingColumn";
-        cz.setAttribute("onclick", "chargingColumnFunction()");
-        spa.appendChild(cz);
-
-        spa.appendChild(br);
-    }
-
-    function locationFunction() {
-        var spa = document.createElement('span');   // span to add a location
-        var inp = document.createElement("INPUT");  // input field to enter location name
-        var del = document.createElement("button"); // delete button
-        var cz = document.createElement("button");  // add charging zone to location
-        var br = document.createElement("br");      // simple break for visibility
-        var id;
-
-        inp.setAttribute("type", "text");
-        inp.setAttribute("placeholder", "Location");
-        increment();
-        id = i;
-        inp.setAttribute("Location", "textelement_" + id);
-        spa.appendChild(inp)
-
-        del.textContent = "Delete"
-        del.setAttribute("onclick", "removeElement('myForm','loc_" + id + "')");
-        spa.appendChild(del);
-
-        spa.setAttribute("id", "loc_" + id);
-
-        document.getElementById("myForm").appendChild(spa);
-
-        cz.textContent = "AddChargingZone";
-        cz.setAttribute("onclick", "chargingZoneFunction()");
-        spa.appendChild(cz);
-        
-        spa.appendChild(br);
-    }
-
-    /*
-    function resetElements() {
-        document.getElementById('myForm').innerHTML = '';
-    }
-    */
-</script>
+    </tbody>
+</table>
+<div class="form-group row">
+    <div class="col-sm-11">
+    </div>
+    <div class="col-sm-1">
+        <abbr title="Next">
+            <button class="btn btn-outline-primary ml-1">
+                <a class="material-icons" asp-controller="Administration" asp-action="Simulation">arrow_right</a>
+            </button>
+        </abbr>
+    </div>
+</div>

@@ -13,6 +13,10 @@
     <EmbeddedResource Remove="Scripts\**" />
     <None Remove="Algorithm\**" />
     <None Remove="Scripts\**" />
+    <Content Update="Views\Administration\AddSimulationChargingColumn.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 

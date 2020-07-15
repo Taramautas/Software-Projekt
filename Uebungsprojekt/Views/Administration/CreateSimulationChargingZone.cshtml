@@ -10,11 +10,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateChargingZone">
+        <form asp-action="CreateSimulationChargingZone">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label for="name" class="col-2 col-form-label">Name*:</label>
-                <input asp-for="chargingzone.name"type="text" class="col-10 form-control"><br />
+                <input id="name" asp-for="chargingzone.name" type="text" class="col-10 form-control"><br />
             </div>
             <div class="form-group">
                 <label asp-for="chargingzone.overall_performance" class="control-label">Overall Performance (in kW)</label>
@@ -31,12 +31,12 @@
                             <option value="@location.id">@location.city</option>
                         }
                     }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 

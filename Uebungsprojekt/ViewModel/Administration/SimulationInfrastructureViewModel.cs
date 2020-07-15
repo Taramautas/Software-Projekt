@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.ViewModel.Administration
@@ -14,7 +15,6 @@ namespace Uebungsprojekt.ViewModel.Administration
         public List<ChargingZone> charging_zones { get; set; }
         public List<Location> locations { get; set; }
 
-        /// <summary>Simulation configuration chosen for the current simulation</summary>
-        public int simulation_config_id { get; set; }
+        public int simulation_infrastructure_id { get; set; }
     }
 }

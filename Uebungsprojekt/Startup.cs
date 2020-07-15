@@ -143,11 +143,11 @@ namespace Uebungsprojekt
             //ChargingZone startup
             ChargingZoneDaoImpl charging_zone_dao_ = new ChargingZoneDaoImpl(cache);
             //Augsburg
-            charging_zone_dao_.Create(100, location_dao_.GetById(1,0), 0);
-            charging_zone_dao_.Create(250, location_dao_.GetById(1,0), 0);
-            charging_zone_dao_.Create(400, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Alpha", 100, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Beta", 250, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Gamma", 400, location_dao_.GetById(1,0), 0);
             //Berlin
-            charging_zone_dao_.Create(30, location_dao_.GetById(2,0), 0);
+            charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
             //
             
             //ChargingColumn startup
