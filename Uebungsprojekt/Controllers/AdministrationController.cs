@@ -456,7 +456,7 @@ namespace Uebungsprojekt.Controllers
             }
             
             
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, cct.max_parallel_charging, _connectors);
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors);
             return RedirectToAction("ChargingColumnType");
         }
 
