@@ -33,8 +33,7 @@
         <tr>
             <th>Location</th>
             <th></th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th></th>
             <th>
                 <a asp-controller="Administration" asp-action="CreateLocation" class="submit">Create Location</a>
                 @if (Model.locations.Any())
@@ -51,48 +50,53 @@
     <tbody>
         @foreach (Location location in Model.locations)
         {
-            <tr>
-                @*<td>Location A</td>*@
-                <td>@location.city</td>
-                <td>
-                    <table class="table-borderless">
-                        <tr>
-                            <th>Charging Zone</th>
-                            <th></th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                        @foreach (ChargingZone chargingZone in Model.charging_zones)
+        <tr>
+            @*<td>Location A</td>*@
+            <td>@location.city</td>
+            <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+            <td>
+                <table class="table-borderless">
+                    <tr>
+                        <th>Charging Zone</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    @foreach (ChargingZone chargingZone in Model.charging_zones)
+                    {
+                        @if (chargingZone.location.id == location.id)
                         {
-                            @if (chargingZone.location.id == location.id)
+                <tr>
+                    <td>Ladezone @chargingZone.id</td>
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+                    <td>
+                        <table class="table-borderless">
+                            <tr>
+                                <th>Charging Column</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                             {
-                                <tr>
-                                    <td>Ladezone @chargingZone.id</td>
-                                    <td>
-                                        <table class="table-borderless">
-                                            <tr>
-                                                <th>Charging Column</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                            @foreach (ChargingColumn chargingColumn in Model.charging_columns)
-                                            {
-                                                @if (chargingColumn.charging_zone.id == chargingZone.id)
-                                                {
-                                                    <tr>
-                                                        <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
-                                                    </tr>
-                                                }
-                                            }
-                                        </table>
-                                    </td>
-
-                                </tr>
+                                @if (chargingColumn.charging_zone.id == chargingZone.id)
+                                {
+                        <tr>
+                            <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
+                            <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+                            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+                        </tr>
+                                }
                             }
+                        </table>
+                    </td>
+
+                </tr>
                         }
-                    </table>
-                </td>
-            </tr>
+                    }
+                </table>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
