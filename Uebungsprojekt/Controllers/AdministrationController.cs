@@ -402,6 +402,20 @@ namespace Uebungsprojekt.Controllers
             return View(new Booking());
         }
         
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            booking_dao.Delete(id, 0);
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
+        }
+        
         /// <summary>
         /// Show Edit form for bookings (same as Create, but already filled)
         /// </summary>

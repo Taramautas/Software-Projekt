@@ -98,6 +98,20 @@ namespace Uebungsprojekt.Controllers
                 );
             return RedirectToAction("Bookings");
         }
+
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            booking_dao.Delete(id, 0);
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
+        }
         
         [HttpGet]
         public IActionResult Infrastructure()
