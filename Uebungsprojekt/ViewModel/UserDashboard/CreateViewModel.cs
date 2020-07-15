@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.ViewModel.UserDashboard
@@ -18,6 +19,7 @@ namespace Uebungsprojekt.ViewModel.UserDashboard
 
         public CreateViewModel(List<Models.Location> loc, List<Vehicle> veh, Booking bok, List<User> use)
         {
+                       
             location = loc;
             vehicle = veh;
             booking = bok;

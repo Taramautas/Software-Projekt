@@ -22,14 +22,15 @@
                 <span asp-validation-for="chargingzone.overall_performance" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label for="location" class="col-2 col-form-label">Location:</label>
-                <select name="location" id="location">
+                <label for="location_id" class="col-2 col-form-label">Location:</label>
+                <select name="location_id" id="location_id">
                     @if (Model.location.Any())
-                        }
+                    {
                         @foreach (var location in Model.location)
                         {
-                            <option value="@location">@location.city</option>
+                            <option value="@location.id">@location.city</option>
                         }
+                    }
                     </select>
                 </div>
                 <div class="form-group">

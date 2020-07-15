@@ -10,7 +10,7 @@ using MathNet.Numerics.Optimization;
 
 namespace Uebungsprojekt
 {
-    public class DistributionAlgorithm
+    public partial class DistributionAlgorithm
     {
         /// <summary>
         /// 
@@ -23,15 +23,15 @@ namespace Uebungsprojekt
             /// generate several list which are needed to run the Algorithm and eliminate the candidates which arent needed
             List<Booking> bookings = bookingdao.GetAll(0);
             //list of all unaccepted Bookings
-            List<Booking> unacceptedBookings = bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate(Booking b)
+            List<Booking> unacceptedBookings = bookings.FindAll(Algorithm.HelpFunctions.FindUnacceptetBookings).FindAll(delegate(Booking b)
             {
                 return b.user.role == Role.VIP;
             });
-            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
+            unacceptedBookings.AddRange(bookings.FindAll(Algorithm.HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
             {
                 return b.user.role == Role.Employee;
             }));
-            unacceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
+            unacceptedBookings.AddRange(bookings.FindAll(Algorithm.HelpFunctions.FindUnacceptetBookings).FindAll(delegate (Booking b)
             {
                 return b.user.role == Role.Guest;
             }));

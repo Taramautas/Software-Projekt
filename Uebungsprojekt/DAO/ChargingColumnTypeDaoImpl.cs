@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a User with new Id to the Userlist if there is one, else it creates a new List and adds the User
         /// </summary>
         /// <returns>the id of the added User</returns>
-        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<ConnectorType> _connectors)
+        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<Tuple<ConnectorType, int>> _connectors)
         {
             if (_cache.TryGetValue("CreateChargingColumnTypeIds", out int ids))
             {
