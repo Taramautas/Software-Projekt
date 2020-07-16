@@ -20,7 +20,8 @@ namespace Uebungsprojekt.Models
 
         // Connectortypes and their charging capacity
         [Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
-        public List<Tuple<ConnectorType, int>> connectors { get; set; }
+        //public List<Tuple<ConnectorType, int>> connectors { get; set; }
+        public List<ConnectorType> connectors { get; set; }
 
     }
 }
