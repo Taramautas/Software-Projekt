@@ -292,7 +292,7 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (ChargingColumnType b in importedChargingColumnType)
                     {
-                        _cache.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors);
+                        _cache.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors, 0);
                     }
                 }
             }
