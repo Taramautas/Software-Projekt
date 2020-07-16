@@ -13,15 +13,7 @@
             Tick:
         </div>
         <div class="col-sm-9">
-            213/1000
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            Elapsed Time:
-        </div>
-        <div class="col-sm-9">
-            00:10:05
+            <div id="liveticks">0 out of 100</div>
         </div>
     </div>
     <div class="row">
@@ -29,7 +21,7 @@
             Current time in Simulation:
         </div>
         <div class="col-sm-9">
-            10.06.2020 11:30
+            <div id="time"> </div>
         </div>
     </div>
     <div class="row">
@@ -68,3 +60,43 @@
         </abbr>
     </div>
 </div>
+<script>
+    // Update Ticks
+    function liveTicks(i) {
+        myVar = setTimeout(function () {
+            x.innerHTML = i + " out of 100"; console.log(i)
+            if (i == 100) {
+                clearTimeout(myVar);
+                return;
+            }
+            liveTicks(i + 1)
+        }, 2000)
+    }
+
+    var x = document.getElementById("liveticks");
+    var i = 1;
+    liveTicks(i); 
+
+    // Update Date, Time
+    function updateClock() {
+        var now = new Date(), // current date
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // you get the idea
+        var day = (now.getDate() < 10 ? '0' : '') + now.getDate(); 
+        var seconds = (now.getSeconds() < 10 ? '0' : '') + now.getSeconds();
+        var minutes = (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+        var hours = (now.getHours() < 10 ? '0' : '') + now.getHours(); 
+        time = hours + ':' + minutes + ':' + seconds,
+
+            // a cleaner way than string concatenation
+            date = [day,
+            months[now.getMonth()],
+            now.getFullYear()].join(' ');
+
+        // set the content of the element with the ID time to the formatted string
+        document.getElementById('time').innerHTML = [date, time].join(', ');
+
+        // call this function again in 1000ms
+        setTimeout(updateClock, 1000);
+    }
+    updateClock();
+</script>

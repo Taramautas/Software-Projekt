@@ -10,8 +10,11 @@ namespace Uebungsprojekt.ViewModel.Administration
     {
         public List<Vehicle> vehicles { get; set; }
 
-        public AddSimulationVehicleViewModel(List<Vehicle> veh)
+        public SimulationConfig config { get; set; }
+
+        public AddSimulationVehicleViewModel(List<Vehicle> veh, SimulationConfig con)
         {
+            config = con;
             vehicles = veh;
         }
     }
