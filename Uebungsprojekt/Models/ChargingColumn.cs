@@ -18,11 +18,11 @@ namespace Uebungsprojekt.Models
         [Required(ErrorMessage = "Please specify in which charging zone this column is located.")]
         public ChargingZone charging_zone { get; set; }
 
-        public List<Tuple<DateTime,DateTime>> list { get; set; }
+        public List<Tuple<List<Tuple<DateTime,DateTime>>, ConnectorType>> list { get; set; }
 
         public ChargingColumn()
         {
-            list = new List<Tuple<DateTime, DateTime>>();
+            
         }
     }
 }

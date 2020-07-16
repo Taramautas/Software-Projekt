@@ -11,7 +11,5 @@ namespace Uebungsprojekt.Models
 
         [Required(ErrorMessage = "Please select the location this zone is located in.")]
         public Location location { get; set; }
-
-        public string name { get; set; }
     }
 }
