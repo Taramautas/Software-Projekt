@@ -216,6 +216,20 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Infrastructure");
         }
 
+        [HttpGet, ActionName("DeleteLocation")]
+        public ActionResult DeleteLocation(int id)
+        {
+            LocationDaoImpl locationDao = new LocationDaoImpl(cache);
+            locationDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteLocation")]
+        public ActionResult DeleteLocationConfirmed(int id)
+        {
+            return RedirectToAction("Infrastructure");
+        }
+
         /// <summary>
         /// Display a complex table representing the current infrastructure
         /// </summary>
