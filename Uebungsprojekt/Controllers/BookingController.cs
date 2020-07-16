@@ -127,7 +127,7 @@ namespace Uebungsprojekt.Controllers
             // Check if exactly one file was uploaded
             if (json_files.Count == 1)
             {
-                Impl.Import.BookingImport(_cache, json_files);
+                Impl.Import.BookingImport(_bookingDao, json_files,0);
                 // Server side validation: Check the file for .json extension and for max. size 1MB
                 if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
                 {
