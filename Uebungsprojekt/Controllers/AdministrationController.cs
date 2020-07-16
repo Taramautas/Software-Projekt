@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -22,15 +23,17 @@ namespace Uebungsprojekt.Controllers
     {
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
         private IMemoryCache cache;
+        private HttpContext http_context;
 
 
         /// <summary>
         /// Constructor for AdministrationController
         /// </summary>
         /// <param name="cache">IMemoryCache passed via Dependency Injection</param>
-        public AdministrationController(IMemoryCache cache)
+        public AdministrationController(IMemoryCache cache, IHttpContextAccessor http_context_accessor)
         {
             this.cache = cache;
+            this.http_context = http_context_accessor.HttpContext;
         }
 
         /// <summary>
@@ -47,7 +50,10 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult SimulationConfig()
         {
-            return View(new SimulationConfig());
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                config = new SimulationConfig();
+            return View(config);
         }
         
         /// <summary>
@@ -59,6 +65,13 @@ namespace Uebungsprojekt.Controllers
         {
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             int config_id = config_dao.Create(config.tick_minutes, config.rush_hours, config.min, config.max, config.spread, config.weeks, config.vehicles);
+            
+            var options = new CookieOptions
+            {
+                Expires = DateTimeOffset.Now.AddDays(1)
+            };
+            Response.Cookies.Append("SimulationConfig", config_id.ToString(), options);
+            
             return RedirectToAction("SimulationInfrastructure", config_id);
         }
         
@@ -67,50 +80,41 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="simulation_config_id">int</param>
         [HttpGet]
-        public IActionResult SimulationInfrastructure(int simulation_config_id)
+        public IActionResult SimulationInfrastructure()
         {
-             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-             ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache);
-
-             SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel()
-             {
-                 all_simulation_infrastructures = infrastructure_dao.GetAll(),
-                 simulation_config_id = simulation_config_id,
-                 charging_column_types = type_dao.GetAll(),
-             };
-             return View(view_model);
-        }
-        
-        /// <summary>
-        /// Save infrastructure as SimulationInfrastructure object and pass both the id of simulation and config to Simulation
-        /// </summary>
-        /// <param name="view_model">SimulationInfrastructureViewModel</param>
-        [HttpPost]
-        public IActionResult SimulationInfrastructure(SimulationInfrastructureViewModel view_model)
-        {
-            int location_dao_id = LocationDaoImpl.CreateNewDaoId();
-            LocationDao location_dao = new LocationDaoImpl(cache);
-            foreach (Location location in view_model.locations)
-                location_dao.Create(location.city, location.post_code, location.address, location_dao_id);
-
-            int charging_zone_dao_id = ChargingZoneDaoImpl.CreateNewDaoId();
-            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            foreach (ChargingZone charging_zone in view_model.charging_zones)
-                charging_zone_dao.Create(charging_zone.overall_performance, charging_zone.location, charging_zone_dao_id);
-
-            int charging_column_dao_id = ChargingColumnDaoImpl.CreateNewDaoId();
-            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
-            foreach (ChargingColumn charging_column in view_model.charging_columns)
-                charging_column_dao.Create(charging_column.charging_column_type_id,  charging_column.emergency_reserve, charging_column.charging_zone, charging_column_dao_id);
-            
             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-            int infrastructure_id = infrastructure_dao.Create(location_dao_id, charging_zone_dao_id, charging_column_dao_id);
-            SimulationViewModel simulation_view_model = new SimulationViewModel()
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
+            ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache);
+
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+
+            if (infrastructure == null)
             {
-                simulation_config_id = view_model.simulation_config_id,
-                simulation_infrastructure_id = infrastructure_id,
+                int infrastructure_id = infrastructure_dao.Create(
+                    LocationDaoImpl.CreateNewDaoId(),
+                    ChargingZoneDaoImpl.CreateNewDaoId(),
+                    ChargingColumnDaoImpl.CreateNewDaoId()
+                );
+                infrastructure = infrastructure_dao.GetById(infrastructure_id);
+                var options = new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddDays(1)
+                };
+                Response.Cookies.Append("SimulationInfrastructure", infrastructure_id.ToString(), options);
+            }
+
+            SimulationInfrastructureViewModel view_model = new SimulationInfrastructureViewModel
+            {
+                all_simulation_infrastructures = infrastructure_dao.GetAll(),
+                simulation_infrastructure_id = infrastructure.id,
+                charging_column_types = type_dao.GetAll(0),
+                locations = location_dao.GetAll(infrastructure.location_dao_id),
+                charging_zones = charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id),
+                charging_columns = charging_column_dao.GetAll(infrastructure.charging_column_dao_id),
             };
-            return RedirectToAction("Simulation", simulation_view_model);
+            return View(view_model);
         }
         
         /// <summary>
@@ -119,30 +123,35 @@ namespace Uebungsprojekt.Controllers
         [HttpGet]
         public IActionResult Simulation()
         {
-            return RedirectToAction("SimulationConfig");
-        }
-
-
-        /// <summary>
-        /// Start and visualize the actual simulation
-        /// </summary>
-        /// <param name="view_model">SimulationViewModel</param>
-        [HttpPost]
-        public IActionResult Simulation(SimulationViewModel view_model)
-        {
-            SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
-            SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
-
-            SimulationConfig config = config_dao.GetById(view_model.simulation_config_id);
-            SimulationInfrastructure infrastructure =
-                infrastructure_dao.GetById(view_model.simulation_infrastructure_id);
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            // TODO: Get vehicles from View
+            config.vehicles = new List<Vehicle>()
+            {
+                new Vehicle()
+                {
+                    id = 22,
+                    model_name = "Tesla",
+                    capacity = 100,
+                    connector_types = new List<ConnectorType>()
+                    {
+                        ConnectorType.Schuko_Socket,
+                        ConnectorType.Tesla_Supercharger
+                    }
+                }
+            };
+            
             SimulationResult result = new SimulationResult()
             {
                 config = config,
                 infrastructure = infrastructure,
             };
-            
-            
+
             Simulation simulation = new Simulation(config, infrastructure, result, cache);
             if (!simulation.Run())
             {
@@ -152,61 +161,8 @@ namespace Uebungsprojekt.Controllers
             return View(simulation.simulation_result);
         }
 
-        /*
-        [HttpPost]
-        public async Task GetSimulationResults(int simulation_result_id)
-        {
-             SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-             SimulationResult result = result_dao.GetById(simulation_result_id);
-                        
-            var context = ControllerContext.HttpContext;
-            var is_socket_request = context.WebSockets.IsWebSocketRequest;
 
-            if (is_socket_request)
-            {
-                WebSocket web_socket = await context.WebSockets.AcceptWebSocketAsync();
-                await SendSimulationUpdates(context, web_socket, result);
-            }
-            else
-            {
-                context.Response.StatusCode = 400;
-            }
-        }
-
-        private async Task SendSimulationUpdates(HttpContext context, WebSocket web_socket, SimulationResult result)
-        {
-            List<string> messages = new List<string>();
-            if (result == null || 
-                result.num_generated_bookings.Count != result.total_workload.Count || 
-                result.total_workload.Count != result.unsatisfiable_bookings_with_suggestion.Count)
-            {
-                messages.Add("Simulation failed!");
-            }
-            else
-            {
-                for(var index = 0; index < result.total_workload.Count; index++)
-                {
-                    string message = "index:" + index.ToString() +
-                                     " workload:" + result.total_workload[index] +
-                                     " num_bookings:" + result.num_generated_bookings[index] +
-                                     " num_unsatisfiable:" + result.num_unsatisfiable_bookings[index];
-                    messages.Add(message);
-                }
-            }
-
-            foreach (var message in messages)
-            {
-                var bytes = Encoding.ASCII.GetBytes(message);
-                var array_segment = new ArraySegment<byte>(bytes);
-                await web_socket.SendAsync(array_segment, WebSocketMessageType.Text, true, CancellationToken.None);
-                Thread.Sleep(100);
-            }
-
-            await web_socket.SendAsync(new ArraySegment<byte>(null), WebSocketMessageType.Binary, false,
-                CancellationToken.None);
-        }
-        */
-
+        
         /// <summary>
         /// Evaluate the simulation afterwards(Automatically redirect after simulation finished)
         /// </summary>
@@ -260,6 +216,117 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Infrastructure");
         }
 
+        [HttpGet, ActionName("DeleteLocation")]
+        public ActionResult DeleteLocation(int id)
+        {
+            LocationDaoImpl locationDao = new LocationDaoImpl(cache);
+            locationDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteLocation")]
+        public ActionResult DeleteLocationConfirmed(int id)
+        {
+            return RedirectToAction("Infrastructure");
+        }
+
+        /// <summary>
+        /// Display a complex table representing the current infrastructure
+        /// </summary>
+        [HttpGet]
+        public IActionResult CreateSimulationLocation()
+        {
+            return View(new Location());
+        }
+
+        [HttpPost]
+        public IActionResult CreateSimulationLocation(Location location)
+        {
+            if (ModelState.IsValid)
+            {
+                SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+                LocationDao location_dao = new LocationDaoImpl(cache);
+                Console.WriteLine(location.city);
+                Console.WriteLine(location.post_code);
+                Console.WriteLine(location.address);
+                Console.WriteLine(infrastructure.location_dao_id);
+                location_dao.Create(location.city, location.post_code, location.address, infrastructure.location_dao_id);
+            }
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpGet]
+        public IActionResult CreateSimulationChargingZone()
+        {
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            CreateChargingZoneViewModel view_model = new CreateChargingZoneViewModel(
+                location_dao.GetAll(infrastructure.location_dao_id), 
+                new ChargingZone()
+                );
+            return View(view_model);
+        }
+
+        [HttpPost]
+        public IActionResult CreateSimulationChargingZone(ChargingZone charge, int location_id)
+        {
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            
+            charging_zone_dao.Create(
+                charge.name,
+                charge.overall_performance, 
+                location_dao.GetById(location_id, infrastructure.location_dao_id), 
+                infrastructure.charging_zone_dao_id
+                );
+
+            Console.Out.WriteLine(charge.name);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpGet]
+        public IActionResult AddSimulationChargingColumn()
+        {
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
+            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(
+                charging_zone_dao.GetAll(infrastructure.charging_column_dao_id), 
+                charging_column_type_dao.GetAll(0), 
+                new ChargingColumn()
+                );
+            return View(ccvm);
+        }
+        
+        [HttpPost]
+        public IActionResult AddSimulationChargingColumn(int charging_zone_id, int charging_column_type_id )
+        {
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            
+            charging_columnd_dao.Create(
+                charging_column_type.GetById(charging_column_type_id, 0), 
+                false,
+                charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
+                infrastructure.charging_column_dao_id);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
         /// <summary>
         /// Display a complex table representing the current infrastructure
         /// </summary>
@@ -274,9 +341,24 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateChargingZone(ChargingZone charge, int location_id)
         {
+            Console.WriteLine(charge.name+ " performance: "+charge.overall_performance);
             ChargingZoneDaoImpl charging_zone = new ChargingZoneDaoImpl(cache);
             LocationDaoImpl location_dao = new LocationDaoImpl(cache);
-            charging_zone.Create(charge.overall_performance, location_dao.GetById(location_id, 0), 0);
+            charging_zone.Create(charge.name,charge.overall_performance, location_dao.GetById(location_id, 0), 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpGet, ActionName("DeleteChargingZone")]
+        public ActionResult DeleteChargingZone(int id)
+        {
+            ChargingZoneDaoImpl chargingZoneDao = new ChargingZoneDaoImpl(cache);
+            chargingZoneDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingZoneConfirmed(int id)
+        {
             return RedirectToAction("Infrastructure");
         }
 
@@ -288,7 +370,7 @@ namespace Uebungsprojekt.Controllers
         {
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
-            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(), new ChargingColumn());
+            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(0), new ChargingColumn());
             return View(ccvm);
         }
 
@@ -300,11 +382,24 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
             ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id), false,
+            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id, 0), false,
                 charging_zone_dao.GetById(charging_zone_id, 0), 0);
             return RedirectToAction("Infrastructure");
         }
 
+        [HttpGet, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingColumn(int id)
+        {
+            ChargingColumnDaoImpl chargingColumnDao = new ChargingColumnDaoImpl(cache);
+            chargingColumnDao.Delete(id, 0);
+            return RedirectToAction("Infrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumn")]
+        public ActionResult DeleteChargingColumnConfirmed(int id)
+        {
+            return RedirectToAction("Infrastructure");
+        }
 
         /// <summary>
         /// Display a table of all bookings in system
@@ -347,6 +442,20 @@ namespace Uebungsprojekt.Controllers
                 return RedirectToAction("Bookings");
             }
             return View(new Booking());
+        }
+        
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            booking_dao.Delete(id, 0);
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
         }
         
         /// <summary>
@@ -405,6 +514,20 @@ namespace Uebungsprojekt.Controllers
             return View(new Vehicle());
         }
 
+        [HttpGet, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicle(int id)
+        {
+            VehicleDaoImpl vehicleDao = new VehicleDaoImpl(cache);
+            vehicleDao.Delete(id);
+            return RedirectToAction("Vehicles");
+        }
+
+        [HttpPost, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicleConfirmed(int id)
+        {
+            return RedirectToAction("Vehicles");
+        }
+
         /// <summary>
         /// Add vehicle to DAO if valid and return to Vehicles
         /// </summary>
@@ -427,7 +550,7 @@ namespace Uebungsprojekt.Controllers
             // Create Daos for Infrastructure
             ChargingColumnTypeDao charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
 
-            return View(charging_column_type_dao.GetAll());
+            return View(charging_column_type_dao.GetAll(0));
         }
 
         [HttpGet]
@@ -467,7 +590,21 @@ namespace Uebungsprojekt.Controllers
             }
             
             
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors);
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors, 0);
+            return RedirectToAction("ChargingColumnType");
+        }
+
+        [HttpGet, ActionName("DeleteChargingColumnType")]
+        public ActionResult DeleteChargingColumnType(int id)
+        {
+            ChargingColumnTypeDaoImpl chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(cache);
+            chargingColumnTypeDao.Delete(id, 0);
+            return RedirectToAction("ChargingColumnType");
+        }
+
+        [HttpPost, ActionName("DeleteChargingColumnType")]
+        public ActionResult DeleteChargingColumnTypeConfirmed(int id)
+        {
             return RedirectToAction("ChargingColumnType");
         }
 
@@ -511,6 +648,26 @@ namespace Uebungsprojekt.Controllers
             //Placeholder
             return null;
 
+        }
+
+        private SimulationInfrastructure GetSimulationInfrastructureFromCookie()
+        {
+            SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
+            Request.Cookies.TryGetValue("SimulationInfrastructure", out string infrastructure_string);
+            if (string.IsNullOrEmpty(infrastructure_string))
+                return null;
+            SimulationInfrastructure infrastructure = infrastructure_dao.GetById(Int32.Parse(infrastructure_string));
+            return infrastructure;
+        }
+        
+        private SimulationConfig GetSimulationConfigFromCookie()
+        {
+            SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
+            Request.Cookies.TryGetValue("SimulationConfig", out string config_string);
+            if (string.IsNullOrEmpty(config_string))
+                return null;
+            SimulationConfig infrastructure = config_dao.GetById(Int32.Parse(config_string));
+            return infrastructure;
         }
     }
 }

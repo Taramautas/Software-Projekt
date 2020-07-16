@@ -100,7 +100,6 @@ namespace Uebungsprojekt.Controllers
             }
             catch (Exception e)
             {
-                Console.Out.WriteLine("Error while logging in.");
                 ModelState.AddModelError("summary", e.Message);
                 return View(form);
             }

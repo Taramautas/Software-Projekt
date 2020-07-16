@@ -128,10 +128,10 @@ namespace Uebungsprojekt
             List<Tuple<ConnectorType,int>> connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 20));
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 10));
-            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list);
+            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list, 0);
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
-            charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);
+            charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list, 0);
             //
             
             //Location Startup
@@ -143,17 +143,17 @@ namespace Uebungsprojekt
             //ChargingZone startup
             ChargingZoneDaoImpl charging_zone_dao_ = new ChargingZoneDaoImpl(cache);
             //Augsburg
-            charging_zone_dao_.Create(100, location_dao_.GetById(1,0), 0);
-            charging_zone_dao_.Create(250, location_dao_.GetById(1,0), 0);
-            charging_zone_dao_.Create(400, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Alpha", 100, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Beta", 250, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Gamma", 400, location_dao_.GetById(1,0), 0);
             //Berlin
-            charging_zone_dao_.Create(30, location_dao_.GetById(2,0), 0);
+            charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
             //
             
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1), false, charging_zone_dao.GetById(1,0), 0);
+            charging_column.Create(charging_type.GetById(1, 0), false, charging_zone_dao.GetById(1,0), 0);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

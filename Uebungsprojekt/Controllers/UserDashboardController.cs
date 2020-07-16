@@ -98,6 +98,20 @@ namespace Uebungsprojekt.Controllers
                 );
             return RedirectToAction("Bookings");
         }
+
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            booking_dao.Delete(id, 0);
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
+        }
         
         [HttpGet]
         public IActionResult Infrastructure()
@@ -153,6 +167,20 @@ namespace Uebungsprojekt.Controllers
                 user_dao.Create(user.name, user.email, user.password, user.role);
                 return RedirectToAction("Users");
             }
+            return RedirectToAction("Users");
+        }
+
+        [HttpGet, ActionName("DeleteUser")]
+        public ActionResult DeleteUser(int id)
+        {
+            UserDaoImpl userDao = new UserDaoImpl(cache);
+            userDao.Delete(id);
+            return RedirectToAction("Users");
+        }
+
+        [HttpPost, ActionName("DeleteUser")]
+        public ActionResult DeleteUserConfirmed(int id)
+        {
             return RedirectToAction("Users");
         }
     }

@@ -36,24 +36,29 @@
     <tbody>
         @foreach (var booking in Model)
         {
-        <tr>
-            <td>@booking.start_state_of_charge</td>
-            <td>@booking.target_state_of_charge</td>
-            <td>@booking.start_time</td>
-            <td>@booking.end_time</td>
-            <td>@booking.vehicle.model_name</td>
-            <td>@booking.location.id</td>
-            @if (booking.accepted)
-            {
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">cancel</a></td>
-            }
-            else
-            {
-                <td>Open</td>
+            <tr>
+                <td>@booking.start_state_of_charge</td>
+                <td>@booking.target_state_of_charge</td>
+                <td>@booking.start_time</td>
+                <td>@booking.end_time</td>
+                <td>@booking.vehicle.model_name</td>
+                <td>@booking.location.id</td>
+                <td><span class="material-icons">done</span></td>
+                @if (booking.accepted)
+                {
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">cancel</a></td>
+                }
+                else
+                {
+                    <td>OPEN</td>
+                    <td>@Html.ActionLink("Delete","Delete", new{id=booking.id})</td>
+                }
+                <!--
+                <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
                 <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
-            }
-        </tr>
+                -->
+            </tr>
         }
     </tbody>
 </table>

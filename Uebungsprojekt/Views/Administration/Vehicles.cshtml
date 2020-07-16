@@ -25,7 +25,6 @@
             <th>Capacity in kWh</th>
             <th>Connector Types</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -49,8 +48,7 @@
                     {@(conntype.ToString())}
                 }
             </td>
-            <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
-            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+            <td>@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })</td>
         </tr>
             }
 

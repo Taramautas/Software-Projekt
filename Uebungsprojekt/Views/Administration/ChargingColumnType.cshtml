@@ -26,7 +26,6 @@
             <th>Model Name</th>
             <th>Connector Types and their Charging Capacity</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,8 +42,7 @@
                     @(conn_type.Item1 + " - " + conn_type.Item2 + "   " );
                 }
             </td>
-            <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
-            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+            <td>@Html.ActionLink("Delete", "DeleteChargingColumnType", new { id = cct.id })</td>
         </tr>
         }
     </tbody>

@@ -25,6 +25,8 @@
             <th>Name</th>
             <th>E-Mail</th>
             <th>Role</th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -32,12 +34,13 @@
     {
         @foreach (var user in Model)
         {
-            <tr>
-                <td>@user.id</td>
-                <td>@user.name</td>
-                <td>@user.email</td>
-                <td>@user.role</td>
-            </tr>
+        <tr>
+            <td>@user.id</td>
+            <td>@user.name</td>
+            <td>@user.email</td>
+            <td>@user.role</td>
+            <td>@Html.ActionLink("Delete", "DeleteUSer", new { id = user.id })</td>
+        </tr>
         }
     }
     </tbody>
