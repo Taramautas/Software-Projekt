@@ -128,8 +128,8 @@ namespace Uebungsprojekt
             //CCTYPE startup 
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
             List<Tuple<ConnectorType,int>> connector_list = new List<Tuple<ConnectorType, int>>();
-            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 20));
-            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 10));
+            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 70));
+            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 60));
             charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list);
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
@@ -155,7 +155,7 @@ namespace Uebungsprojekt
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0), 0);
+            charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

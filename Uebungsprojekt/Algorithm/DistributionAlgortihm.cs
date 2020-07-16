@@ -68,8 +68,8 @@ namespace Uebungsprojekt.Algorithm
             //help list
             List<ChargingColumn> result = new List<ChargingColumn>();
 
-            
-            
+
+
 
             //list of all chargingcolumns
             List<ChargingColumn> listofAllChargingColumn = chargingcolumndao.GetAll(chargingcolumndaoID);
@@ -110,11 +110,16 @@ namespace Uebungsprojekt.Algorithm
                 return false;
             });
 
-            foreach(ChargingColumn cc in listofBookingChargingColumn)
+            foreach (ChargingColumn cc in listofBookingChargingColumn)
             {
-                for (int i = 0; i < cc.charging_column_type_id.max_parallel_charging; ++i) {
+                for (int i = 0; i < cc.charging_column_type_id.max_parallel_charging; ++i)
+                {
+                    Console.WriteLine("muss");
+                    Console.WriteLine(cc.charging_column_type_id.max_parallel_charging);
+                    Console.WriteLine(i);
                     result.Add(new ChargingColumn
                     {
+
                         id = cc.id,
                         charging_column_type_id = new ChargingColumnType
                         {
@@ -131,8 +136,25 @@ namespace Uebungsprojekt.Algorithm
                     });
                 }
             }
+            foreach (ChargingColumn cc in result)
+            {
+                Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item2 + "\n");
+                foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
+                {
+                    foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
+                    {
+                        Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                    }
+                }
+
+            }
 
             foreach (ChargingColumn cc in listofBookingChargingColumn)
+            {
+                Console.WriteLine(cc.id + "\n");
+            }
+            Console.WriteLine("result id: \n");
+            foreach (ChargingColumn cc in result)
             {
                 Console.WriteLine(cc.id + "\n");
             }
@@ -152,7 +174,7 @@ namespace Uebungsprojekt.Algorithm
                 ++bookingindex;
                 foreach (ChargingColumn cc in result)
                 {
-
+                    Console.WriteLine(cc.id);
                     TimeSpan bookingRealTimeSpan = ChargingTime.RealChargingTime(cc.charging_column_type_id, b);
 
                     Console.WriteLine(bookingindex);
@@ -421,7 +443,7 @@ namespace Uebungsprojekt.Algorithm
 
 
                             }
-                            
+
                             else
                             {
                                 Console.WriteLine("meep");
@@ -638,7 +660,7 @@ namespace Uebungsprojekt.Algorithm
 
                                     foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count  -1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
                                             Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
@@ -655,7 +677,8 @@ namespace Uebungsprojekt.Algorithm
                                                     Console.WriteLine("Exit");
                                                     goto ExitTuple;
                                                 }
-                                                if (nextStartTime > bookingStartTime && nextStartTime - bookingStartTime >= bookingRealTimeSpan) {
+                                                if (nextStartTime > bookingStartTime && nextStartTime - bookingStartTime >= bookingRealTimeSpan)
+                                                {
 
                                                     Console.WriteLine(1);
                                                     bookingEndTime = bookingStartTime + bookingRealTimeSpan;
@@ -1038,20 +1061,32 @@ namespace Uebungsprojekt.Algorithm
                         }
                     }
                 }
-                Exit:;
+            Exit:;
+                foreach (ChargingColumn cc in result)
+                {
+                    Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item1 + "\n");
+                    foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
+                    {
+                        foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
+                        {
+                            Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                        }
+                    }
+                    Console.WriteLine("\n");
+                }
+
                 foreach (ChargingColumn cc in listofBookingChargingColumn)
                 {
-
-                    foreach (var v in cc.list[0].Item1)
+                    foreach (ChargingColumn cc2 in result)
                     {
-                        Console.WriteLine("CC: " + cc.charging_column_type_id.manufacturer_name + " start_time: " + v.Item1 + " end_time: " + v.Item2 + "\n");
-                        
-                    }
-                    Console.WriteLine(cc.list[0].Item1.Count());
-                    Console.Write("\n");
-                }
-            }
+                        if (cc.charging_column_type_id.id == cc2.charging_column_type_id.id)
+                        {
 
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

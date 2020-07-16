@@ -358,6 +358,7 @@ namespace Uebungsprojekt.Controllers
             charging_column_dao.Create(
                 charging_column_type_dao.GetById(charging_column_type_id), 
                 charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
+                null,
                 infrastructure.charging_column_dao_id);
             return RedirectToAction("SimulationInfrastructure");
         }
@@ -452,6 +453,7 @@ namespace Uebungsprojekt.Controllers
             charging_columnd_dao.Create(
                 charging_column_type.GetById(charging_column_type_id), 
                 charging_zone_dao.GetById(charging_zone_id, 0), 
+                null,
                 0
                 );
             return RedirectToAction("Infrastructure");
