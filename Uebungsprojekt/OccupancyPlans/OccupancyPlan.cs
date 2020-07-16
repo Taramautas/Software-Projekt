@@ -34,9 +34,8 @@ namespace Uebungsprojekt.OccupancyPlans
         /// Calculates current workload for each charging zone
         /// </summary>
         /// <returns>Dictionary<int, double> with Charging Zone ID as index and workload as value</returns>
-        public Dictionary<int, double> GetCurrentWorkload()
+        public Dictionary<int, double> GetCurrentWorkload(DateTime time)
         {
-            LocationDao location_dao = new LocationDaoImpl(cache);
             ChargingZoneDao zone_dao = new ChargingZoneDaoImpl(cache);
             ChargingColumnDao column_dao = new ChargingColumnDaoImpl(cache);
 

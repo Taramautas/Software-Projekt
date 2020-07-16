@@ -146,6 +146,12 @@ namespace Uebungsprojekt.Controllers
                 }
             };
             
+            config.rush_hours = new List<Tuple<DayOfWeek, TimeSpan>>()
+            {
+                new Tuple<DayOfWeek, TimeSpan>(DayOfWeek.Monday, new TimeSpan(8, 0, 0)),
+                new Tuple<DayOfWeek, TimeSpan>(DayOfWeek.Tuesday, new TimeSpan(8, 0, 0)),
+            };
+            
             SimulationResult result = new SimulationResult()
             {
                 config = config,
@@ -728,8 +734,8 @@ namespace Uebungsprojekt.Controllers
             Request.Cookies.TryGetValue("SimulationConfig", out string config_string);
             if (string.IsNullOrEmpty(config_string))
                 return null;
-            SimulationConfig infrastructure = config_dao.GetById(Int32.Parse(config_string));
-            return infrastructure;
+            SimulationConfig config = config_dao.GetById(Int32.Parse(config_string));
+            return config;
         }
     }
 }
