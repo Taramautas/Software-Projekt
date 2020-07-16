@@ -109,7 +109,7 @@ namespace Uebungsprojekt.Controllers
             {
                 all_simulation_infrastructures = infrastructure_dao.GetAll(),
                 simulation_infrastructure_id = infrastructure.id,
-                charging_column_types = type_dao.GetAll(),
+                charging_column_types = type_dao.GetAll(0),
                 locations = location_dao.GetAll(infrastructure.location_dao_id),
                 charging_zones = charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id),
                 charging_columns = charging_column_dao.GetAll(infrastructure.charging_column_dao_id),
@@ -302,7 +302,7 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
             AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(
                 charging_zone_dao.GetAll(infrastructure.charging_column_dao_id), 
-                charging_column_type_dao.GetAll(), 
+                charging_column_type_dao.GetAll(0), 
                 new ChargingColumn()
                 );
             return View(ccvm);
@@ -320,7 +320,7 @@ namespace Uebungsprojekt.Controllers
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             
             charging_columnd_dao.Create(
-                charging_column_type.GetById(charging_column_type_id), 
+                charging_column_type.GetById(charging_column_type_id, 0), 
                 false,
                 charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
                 infrastructure.charging_column_dao_id);
@@ -370,7 +370,7 @@ namespace Uebungsprojekt.Controllers
         {
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
-            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(), new ChargingColumn());
+            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(0), new ChargingColumn());
             return View(ccvm);
         }
 
@@ -382,7 +382,7 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
             ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id), false,
+            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id, 0), false,
                 charging_zone_dao.GetById(charging_zone_id, 0), 0);
             return RedirectToAction("Infrastructure");
         }
@@ -550,7 +550,7 @@ namespace Uebungsprojekt.Controllers
             // Create Daos for Infrastructure
             ChargingColumnTypeDao charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
 
-            return View(charging_column_type_dao.GetAll());
+            return View(charging_column_type_dao.GetAll(0));
         }
 
         [HttpGet]
@@ -590,7 +590,7 @@ namespace Uebungsprojekt.Controllers
             }
             
             
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors);
+            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors, 0);
             return RedirectToAction("ChargingColumnType");
         }
 
@@ -598,7 +598,7 @@ namespace Uebungsprojekt.Controllers
         public ActionResult DeleteChargingColumnType(int id)
         {
             ChargingColumnTypeDaoImpl chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(cache);
-            chargingColumnTypeDao.Delete(id);
+            chargingColumnTypeDao.Delete(id, 0);
             return RedirectToAction("ChargingColumnType");
         }
 
