@@ -33,11 +33,32 @@
         <input id="Weeks" class="col-10 form-control" asp-for="weeks"><br />
         <span asp-validation-for="weeks" class="text-danger form-danger-span"></span>
     </div>
-    <div class="form-group row">
-        <label for="Vehicles" class="col-2 col-form-label">Vehicles:</label>
-        <input id="Vehicles" class="col-10 form-control" asp-for="vehicles"><br />
-        <span asp-validation-for="vehicles" class="text-danger form-danger-span"></span>
+    <div class="row">
+        <button class="btn btn-outline-primary col-12" asp-area="" asp-controller="Administration" asp-action="AddSimulationVehicle" type="submit" formmethod="get">Add Vehicle</button>
     </div>
+    <table id="booking-table" style="width:100%" class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Model</th>
+                <th>Count</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.vehicles.Any())
+            {
+                @foreach (var vehicle in Model.vehicles)
+                {
+                    <tr>
+                        <td>@vehicle.id</td>
+                        <td>@vehicle.model_name</td>
+                        <td>@Html.ActionLink("Delete", "DeleteSimulationVehicle", new { id = vehicle })</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
     <br />
     <div class="form-group row">
         <div class="col-sm-11">
