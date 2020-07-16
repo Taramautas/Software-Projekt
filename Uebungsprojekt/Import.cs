@@ -324,7 +324,7 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (ChargingZone b in importedChargingZone)
                     {
-                        _cache.Create(b.overall_performance, b.location, DaoId);
+                        _cache.Create(b.name, b.overall_performance, b.location, DaoId);
                     }
                 }
             }
