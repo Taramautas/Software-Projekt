@@ -690,6 +690,32 @@ namespace Uebungsprojekt.Controllers
         /// <param name="files">Given files</param>
         /// <returns>Redirection to index</returns>
         [HttpPost]
+        public IActionResult ImportEverything(List<IFormFile> json_files)
+        {
+            if (json_files.Count == 1)
+            {
+                Impl.Import.ImportEverything(cache, json_files);
+            }
+            // TODO: exceptions
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Exports all live Data as .json file
+        /// </summary>
+        /// <returns>A File which is Downloaded</returns>
+        public IActionResult ExportEverything()
+        {
+            // TODO: exceptions
+            return Impl.Export.ExportEverything(cache);
+        }
+
+        /// <summary>
+        /// Converts the given files to Dataobjects and refreshes the view to display these importchanges
+        /// </summary>
+        /// <param name="files">Given files</param>
+        /// <returns>Redirection to index</returns>
+        [HttpPost]
         public IActionResult Import(List<IFormFile> files)
         {
             if(ModelState.IsValid)

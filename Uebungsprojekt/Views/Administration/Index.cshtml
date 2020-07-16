@@ -4,6 +4,24 @@
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row submit">
+            <form id="import_form" asp-controller="Administration" asp-action="ImportEverything" enctype="multipart/form-data" method="post">
+                <input id="json_files" class="btn btn-primary d-none" size="1" name="json_files" type="file" accept=".json" onchange="importJson()" />
+                <abbr title="ImportEverything">
+                    <div class="btn btn-outline-primary ml-1 submit" onclick="toggleImport()"><span class="material-icons">publish</span></div>
+                </abbr>
+            </form>
+            <abbr title="ExportEverything">
+                <a class="btn btn-outline-primary ml-1 submit" asp-area="" asp-controller="Administration" asp-action="ExportEverything"><span class="material-icons">get_app</span></a>
+            </abbr>
+        </div>
+        <div class="row">
+            <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing.</span>
+        </div>
+    </div>
+</div>
 <br>
 <h3><i>Welcome to the AdministrationDashboard. You can: </i></h3>
 <ol style="list-style-type: circle">
@@ -15,3 +33,39 @@
 </ol>
 
 
+<script>
+    function toggleImport() {
+        let importFormSpan = $('#import_form_span');
+        // Make error message area empty invisible
+        importFormSpan.addClass('d-none');
+        importFormSpan.text('');
+        // Toggle visibility of file input
+        $('#json_files').toggleClass('d-none');
+    }
+
+    function importJson() {
+        let importForm = $('#import_form');
+        let jsonInput = document.getElementById('json_files');
+
+        // Check if there is exactly one file selected
+        if (jsonInput.files.length !== 1)
+            show_import_error("Please select exactly one .json file");
+        // Check if file is in json format
+        else if (!jsonInput.files[0].name.endsWith('.json'))
+            show_import_error("The selected file has to be in .json format");
+        // Check if file is less then 1MB
+        else if (jsonInput.files[0].size > 1000000)
+            show_import_error("The selected json file has to smaller than 1MB");
+        else
+            importForm.submit();
+    }
+
+    function show_import_error(err_msg) {
+        let importFormSpan = $('#import_form_span');
+        // Set error message
+        importFormSpan.text(err_msg);
+        // Make span visible
+        importFormSpan.removeClass('d-none');
+    }
+
+</script>
