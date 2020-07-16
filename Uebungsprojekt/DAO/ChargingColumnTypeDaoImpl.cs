@@ -20,13 +20,13 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a User with new Id to the Userlist if there is one, else it creates a new List and adds the User
         /// </summary>
         /// <returns>the id of the added User</returns>
-        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<ConnectorType> _connectors)
+        public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<Tuple<ConnectorType, int>> _connectors, int DaoId)
         {
-            if (_cache.TryGetValue("CreateChargingColumnTypeIds", out int ids))
+            if (_cache.TryGetValue(DaoId + "CreateChargingColumnTypeIds", out int ids))
             {
                 ++ids;
-                _cache.Set("CreateChargingColumnTypeIds", ids);
-                _cache.TryGetValue("CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types);
+                _cache.Set(DaoId + "CreateChargingColumnTypeIds", ids);
+                _cache.TryGetValue(DaoId + "CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types);
                 ChargingColumnType new_charging_column_type = new ChargingColumnType
                 {
                     id = ids,
@@ -52,8 +52,8 @@ namespace Uebungsprojekt.DAO
                     connectors = _connectors,
                 };
                 created_charging_column_types.Add(new_charging_column_type);
-                _cache.Set("CreateChargingColumnType", created_charging_column_types);
-                _cache.Set("CreateChargingColumnTypeIds", ids);
+                _cache.Set(DaoId + "CreateChargingColumnType", created_charging_column_types);
+                _cache.Set(DaoId + "CreateChargingColumnTypeIds", ids);
                 return ids;
             }
         }
@@ -64,15 +64,15 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="_Id">User Id</param>
         /// <returns>true if found and deleted, false else</returns>
-        public bool Delete(int _Id)
+        public bool Delete(int _Id, int DaoId)
         {
-            if (_cache.TryGetValue("CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types))
+            if (_cache.TryGetValue(DaoId + "CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types))
             {
-                if (GetById(_Id) == null)
+                if (GetById(_Id, DaoId) == null)
                 {
                     return false;
                 }
-                created_charging_column_types.Remove(GetById(_Id));
+                created_charging_column_types.Remove(GetById(_Id, DaoId));
                 return true;
             }
             else
@@ -85,16 +85,16 @@ namespace Uebungsprojekt.DAO
         /// Returns the List of Users in Cache if there is one, else it creates a new List and returns it
         /// </summary>
         /// <returns>List of Users</returns>
-        public List<ChargingColumnType> GetAll()
+        public List<ChargingColumnType> GetAll(int DaoID)
         {
-            if (_cache.TryGetValue("CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types))
+            if (_cache.TryGetValue(DaoID + "CreateChargingColumnType", out List<ChargingColumnType> created_charging_column_types))
             {
                 return created_charging_column_types;
             }
             else
             {
                 created_charging_column_types = new List<ChargingColumnType>();
-                _cache.Set("CreateChargingColumnType", created_charging_column_types);
+                _cache.Set(DaoID + "CreateChargingColumnType", created_charging_column_types);
                 return created_charging_column_types;
             }
         }
@@ -104,9 +104,9 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="_Id">User Id</param>
         /// <returns>User with specified Id on success and null on failure</returns>
-        public ChargingColumnType GetById(int _Id)
+        public ChargingColumnType GetById(int _Id, int DaoId)
         {
-            if (_cache.TryGetValue("CreateChargingColumnType", out List<ChargingColumnType> createdUsers))
+            if (_cache.TryGetValue(DaoId + "CreateChargingColumnType", out List<ChargingColumnType> createdUsers))
             {
 
                 return createdUsers.Find(x => x.id == _Id);

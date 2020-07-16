@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
-using Uebungsprojekt.OccupancyPlans;
 using Uebungsprojekt.Service;
 
 namespace Uebungsprojekt
@@ -153,7 +152,7 @@ namespace Uebungsprojekt
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1, 0), false, charging_zone_dao.GetById(1,0), 0);
+            charging_column.Create(charging_type.GetById(1, 0), charging_zone_dao.GetById(1,0), 0);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
-
-namespace Uebungsprojekt
+/*
+namespace Uebungsprojekt.Algorithm
 {
     public class HelpFunctions
     {
@@ -155,10 +155,5 @@ namespace Uebungsprojekt
             return false;
         }
     }
-
-   
-
-   
-
 }
-
+*/

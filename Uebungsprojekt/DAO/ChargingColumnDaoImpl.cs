@@ -33,7 +33,7 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>the id of the added ChargingColumn</returns>
-        public int Create(ChargingColumnType _charging_column_type_id, Boolean _busy, Boolean _Emergency_reserve, ChargingZone _charging_zone, List<Tuple<DateTime,DateTime>> _list, int DaoId)
+        public int Create(ChargingColumnType _charging_column_type_id, ChargingZone _charging_zone, int DaoId)
         {
             if (_cache.TryGetValue(DaoId + "CreateChargingColumnIds", out int ids))
             {
@@ -44,10 +44,10 @@ namespace Uebungsprojekt.DAO
                 {
                     id = ids,
                     charging_column_type_id =_charging_column_type_id,
-                    busy = _busy,
-                    emergency_reserve = _Emergency_reserve,
+                    busy = false,
+                    emergency_reserve = false,
                     charging_zone = _charging_zone,
-                    list = _list
+                    list = new List<Tuple<DateTime, DateTime>>()
                 };
                 createdChargingColumns.Add(newChargingColumn);
                 return ids;
@@ -61,8 +61,10 @@ namespace Uebungsprojekt.DAO
                 {
                     id = ++ids,
                     charging_column_type_id =_charging_column_type_id,
-                    emergency_reserve = _Emergency_reserve,
+                    emergency_reserve = false,
+                    busy = false,
                     charging_zone = _charging_zone,
+                    list = new List<Tuple<DateTime, DateTime>>()
                 };
                 createdChargingColumns.Add(newChargingColumn);
                 _cache.Set(DaoId + "CreateChargingColumn", createdChargingColumns);

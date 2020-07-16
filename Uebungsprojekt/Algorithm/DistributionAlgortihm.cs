@@ -7,11 +7,12 @@ using Uebungsprojekt.Controllers;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Algorithm;
 using MathNet.Numerics.Optimization;
-
-namespace Uebungsprojekt
+/*
+namespace Uebungsprojekt.Algorithm
 {
-    public partial class DistributionAlgorithm
+    public class DistributionAlgorithm
     {
+        
         /// <summary>
         /// 
         /// </summary>
@@ -1035,3 +1036,4 @@ namespace Uebungsprojekt
 }
 
 
+*/

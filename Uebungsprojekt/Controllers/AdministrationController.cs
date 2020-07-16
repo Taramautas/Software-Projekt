@@ -357,7 +357,6 @@ namespace Uebungsprojekt.Controllers
             
             charging_columnd_dao.Create(
                 charging_column_type.GetById(charging_column_type_id, 0), 
-                false,
                 charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
                 infrastructure.charging_column_dao_id);
             return RedirectToAction("SimulationInfrastructure");
@@ -450,8 +449,11 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
             ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id, 0), false,
-                charging_zone_dao.GetById(charging_zone_id, 0), 0);
+            charging_columnd_dao.Create(
+                charging_column_type.GetById(charging_column_type_id, 0), 
+                charging_zone_dao.GetById(charging_zone_id, 0), 
+                0
+                );
             return RedirectToAction("Infrastructure");
         }
 
@@ -658,7 +660,12 @@ namespace Uebungsprojekt.Controllers
             }
             
             
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors, 0);
+            cct_dao.Create(
+                cct.model_name, 
+                cct.manufacturer_name, 
+                _connectors.Count, 
+                _connectors, 
+                0);
             return RedirectToAction("ChargingColumnType");
         }
 
