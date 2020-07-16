@@ -47,10 +47,10 @@ namespace UnitTest.DistributionAlgorithm
             User userVip = _userDao.GetById(user_id3);
 
             // create chargingColumnTypes
-            int cct_id1 = _chargingColumnTypeDao.Create("Terra 54 CT", "ABB", 2, new List<ConnectorType> { ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_2_Plug });
-            int cct_id2 = _chargingColumnTypeDao.Create("eStation smart multi QC45", "Innogy", 2, new List<ConnectorType> { ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_2_Plug, ConnectorType.CHAdeMO_Plug });
-            int cct_id3 = _chargingColumnTypeDao.Create("DC Ladestation", "Delta", 4, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.Type_1_Plug });
-            int cct_id4 = _chargingColumnTypeDao.Create("Evlink", "Schneider Electric", 2, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.Type_2_Plug, ConnectorType.Tesla_Supercharger });
+            int cct_id1 = _chargingColumnTypeDao.Create("Terra 54 CT", "ABB", 80, new List<ConnectorType> { ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_2_Plug });
+            int cct_id2 = _chargingColumnTypeDao.Create("eStation smart multi QC45", "Innogy", 60, new List<ConnectorType> { ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_2_Plug, ConnectorType.CHAdeMO_Plug });
+            int cct_id3 = _chargingColumnTypeDao.Create("DC Ladestation", "Delta", 80, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.Type_1_Plug });
+            int cct_id4 = _chargingColumnTypeDao.Create("Evlink", "Schneider Electric", 350, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.Type_2_Plug, ConnectorType.Tesla_Supercharger });
             ChargingColumnType cct1 = _chargingColumnTypeDao.GetById(cct_id1);
             ChargingColumnType cct2 = _chargingColumnTypeDao.GetById(cct_id2);
             ChargingColumnType cct3 = _chargingColumnTypeDao.GetById(cct_id3);
@@ -93,41 +93,70 @@ namespace UnitTest.DistributionAlgorithm
             // create a few bookings
             int bookingdao_id = 0;
             _bookingDao.GetAll(bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 13, 30, 0), veh1, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(30, 90, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 13, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            ///Vip user
+            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 6, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(80, 100, new DateTime(2020, 7, 15, 6, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(60, 100, new DateTime(2020, 7, 15, 6, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(31, 100, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(67, 100, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(50, 100, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(34, 100, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(19, 100, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(23, 100, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 17, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 8, 15, 6, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(20, 100, new DateTime(2020, 8, 15, 6, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(60, 100, new DateTime(2020, 8, 15, 6, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(31, 100, new DateTime(2020, 8, 15, 10, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(68, 100, new DateTime(2020, 8, 15, 10, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(50, 100, new DateTime(2020, 8, 15, 10, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(34, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(19, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(23, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 8, 15, 18, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(10, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userVip, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 12, 0, 0), veh2, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(30, 80, new DateTime(2020, 7, 15, 9, 0, 0), new DateTime(2020, 7, 15, 10, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
-            
-            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 15, 0, 0), new DateTime(2020, 7, 15, 17, 0, 0), veh3, userGue, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 15, 0, 0), veh1, userEmp, loc1, null, bookingdao_id);
-           
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 9, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 9, 30, 0), veh1, userVip, loc1, null, bookingdao_id);
+            _bookingDao.Create(30, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(21, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(16, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(90, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(30, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(80, 100, new DateTime(2020, 8, 15, 8, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(70, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(77, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(34, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(56, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(53, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(18, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userEmp, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 10, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 10, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 10, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
+            _bookingDao.Create(18, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(32, 100, new DateTime(2020, 8, 15, 15, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(75, 100, new DateTime(2020, 8, 15, 15, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(65, 100, new DateTime(2020, 8, 15, 16, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(63, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(86, 100, new DateTime(2020, 8, 15, 11, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(55, 100, new DateTime(2020, 8, 15, 14, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(86, 100, new DateTime(2020, 8, 15, 11, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(31, 100, new DateTime(2020, 8, 15, 13, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh3, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(31, 100, new DateTime(2020, 8, 15, 12, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh2, userGue, loc1, null, bookingdao_id);
+            _bookingDao.Create(89, 100, new DateTime(2020, 8, 15, 10, 0, 0), new DateTime(2020, 8, 15, 18, 30, 0), veh1, userGue, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 16, 0, 0), new DateTime(2020, 7, 15, 18, 0, 0), veh2, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 16, 0, 0), new DateTime(2020, 7, 15, 18, 0, 0), veh2, userGue, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 90, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 14, 0, 0), veh3, userGue, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 90, new DateTime(2020, 7, 15, 12, 0, 0), new DateTime(2020, 7, 15, 14, 0, 0), veh3, userVip, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 9, 0, 0), new DateTime(2020, 7, 15, 11, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 9, 0, 0), new DateTime(2020, 7, 15, 11, 0, 0), veh1, userEmp, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 7, 30, 0), new DateTime(2020, 7, 15, 9, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 16, 0, 0), veh3, userEmp, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 17, 0, 0), new DateTime(2020, 7, 15, 19, 0, 0), veh2, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(10, 80, new DateTime(2020, 7, 15, 16, 0, 0), new DateTime(2020, 7, 15, 17, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
 
-            _bookingDao.Create(40, 60, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 17, 30, 0), veh2, userVip, loc1, null, bookingdao_id);
-            _bookingDao.Create(40, 60, new DateTime(2020, 7, 15, 14, 0, 0), new DateTime(2020, 7, 15, 18, 00, 0), veh3, userEmp, loc1, null, bookingdao_id);
-            _bookingDao.Create(40, 60, new DateTime(2020, 7, 15, 10, 0, 0), new DateTime(2020, 7, 15, 11, 00, 0), veh1, userGue, loc1, null, bookingdao_id);
-            _bookingDao.Create(40, 60, new DateTime(2020, 7, 15, 8, 0, 0), new DateTime(2020, 7, 15, 17, 00, 0), veh3, userEmp, loc1, null, bookingdao_id);
+
+
+
+
+
+
+
+
 
             foreach (ChargingColumn cc in _chargingcolumndao.GetAll(charcoldao_id))
             {
@@ -138,7 +167,7 @@ namespace UnitTest.DistributionAlgorithm
                 }
             }
 
-            Uebungsprojekt.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, _bookingDao);
+            Uebungsprojekt.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, bookingdao_id);
 
             foreach (ChargingColumn cc in _chargingcolumndao.GetAll(charcoldao_id))
             {
@@ -152,7 +181,7 @@ namespace UnitTest.DistributionAlgorithm
             
             foreach(Booking b in _bookingDao.GetAll(bookingdao_id))
             {
-                Console.WriteLine("BookingId: " + b.id + " Role: " + b.user.role + " start_time: " + b.start_time + " end_time: " + b.end_time + "\n");
+                Console.WriteLine("BookingId: " + b.id + " Role: " + b.user.role + " start_time: " + b.start_time + " end_time: " + b.end_time + " Vehicle: " + b.vehicle.id+"\n");
                 Console.WriteLine("accepted: " + b.accepted + "\n");
             }
             

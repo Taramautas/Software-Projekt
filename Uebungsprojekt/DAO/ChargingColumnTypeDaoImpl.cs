@@ -32,7 +32,7 @@ namespace Uebungsprojekt.DAO
                     id = ids,
                     model_name = _model_name,
                     manufacturer_name = _manufacturer_name,
-                    max_concurrent_charging = _max_concurrent_charging,
+                    max_parallel_charging = _max_concurrent_charging,
                     connectors = _connectors,
                 };
                 created_charging_column_types.Add(new_charging_column_type);
@@ -46,7 +46,8 @@ namespace Uebungsprojekt.DAO
                 ChargingColumnType new_charging_column_type = new ChargingColumnType
                 {
                     id = ids,
-                    max_concurrent_charging = _max_concurrent_charging,
+                    model_name = _model_name,
+                    max_parallel_charging = _max_concurrent_charging,
                     manufacturer_name = _manufacturer_name,
                     connectors = _connectors,
                 };

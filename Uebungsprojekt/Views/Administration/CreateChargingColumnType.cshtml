@@ -1,0 +1,67 @@
+﻿@using System.Collections
+@model ChargingColumnType
+@{
+    ViewData["Title"] = "Create Charging Column Types";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<form asp-controller="Administration" asp-action="CreateChargingColumnType" method="post">
+    <div class="form-group row">
+        <label for="manufacturer_name" class="col-2 col-form-label">Manufacturer Name:</label>
+        <input asp-for="manufacturer_name" class="col-10 form-control"><br />
+    </div>
+    <div class="form-group row">
+        <label for="model_name" class="col-2 col-form-label">Model Name:</label>
+        <input asp-for="model_name" class="col-10 form-control"><br />
+    </div>
+        <div class="form-group row">
+            <label for="connectortype1" class="col-2 col-form-label">ConnectorType 1:</label>
+            <select name="connectortype1" id="connectortype1">
+                <option selected="selected" value="None">None</option>
+                @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                {
+                    <option value="@conntype">@conntype</option>
+                }
+            </select>
+            <input placeholder="Charging Capacity (in kWh)" type="number" class="col-2 form-control" name="capacity1" id="capacity1"><br />
+        </div>
+
+        <div class="form-group row">
+            <label for="connectortype2" class="col-2 col-form-label">ConnectorType 2:</label>
+            <select name="connectortype2" id="connectortype2">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
+            <input placeholder="Charging Capacity (in kWh)" type="number" class="col-2 form-control" name="capacity2" id="capacity2"><br />
+        </div>
+        <div class="form-group row">
+            <label for="connectortype3" class="col-2 col-form-label">ConnectorType 3:</label>
+            <select name="connectortype3" id="connectortype3">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
+            <input placeholder="Charging Capacity (in kWh)" type="number" class="col-2 form-control" name="capacity3" id="capacity3"><br />
+        </div>
+        <div class="form-group row">
+            <label for="connectortype4" class="col-2 col-form-label">ConnectorType 4:</label>
+            <select name="connectortype4" id="connectortype4">
+                            <option selected="selected" value="None">None</option>
+                            @foreach (var conntype in Enum.GetValues(typeof(ConnectorType)))
+                            {
+                                <option value="@conntype">@conntype</option>
+                            }
+                        </select>
+            <input placeholder="Charging Capacity (in kWh)" type="number" class="col-2 form-control" name="capacity4" id="capacity4"><br />
+        </div>
+    <div class="row">
+        <button class="btn btn-outline-primary col-12" type="submit">Create</button>
+    </div>
+</form>
