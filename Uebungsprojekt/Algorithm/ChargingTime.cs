@@ -20,7 +20,7 @@ namespace Uebungsprojekt
         public static TimeSpan RealChargingTime(ChargingColumnType chargingcolumn, Booking booking)
         {
             TimeSpan bookingTime = booking.end_time - booking.start_time;
-            double d = (60 * ((((double)booking.vehicle.capacity / 100) * (double)booking.target_state_of_charge - ((double)booking.vehicle.capacity / 100) * (double)booking.start_state_of_charge) / (double)chargingcolumn.max_concurrent_charging));
+            double d = (60 * ((((double)booking.vehicle.capacity / 100) * (double)booking.target_state_of_charge - ((double)booking.vehicle.capacity / 100) * (double)booking.start_state_of_charge) / (double)chargingcolumn.connectors[0].Item2));
             TimeSpan time = new TimeSpan(0, (int)d, 0);
             if (time < (bookingTime))
             {

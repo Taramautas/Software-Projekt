@@ -9,6 +9,11 @@
     <ItemGroup>
       <Compile Remove="Controllers\TestAdministrationController.cs" />
       <Compile Remove="Controllers\TestBookingController.cs" />
+      <Compile Remove="Controllers\TestConnectorTypeEvaluationController.cs" />
+      <Compile Remove="Controllers\TestHomeController.cs" />
+      <Compile Remove="AlgorithmTeset\UnitTest1.cs" />
+      <Compile Remove="DistrubutionAlgorithmUnitTests.cs" />
+      <Compile Remove="UnitTest1.cs" />
     </ItemGroup>
 
     <ItemGroup>

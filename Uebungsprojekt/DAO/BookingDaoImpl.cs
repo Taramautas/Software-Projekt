@@ -50,7 +50,7 @@ namespace Uebungsprojekt.DAO
                     accepted = false,
                     vehicle = _vehicle,
                     user = _user,
-                    location = _location
+                    location = _location,
                 };
                 createdBookings.Add(newBooking);
                 return ids;
@@ -69,6 +69,7 @@ namespace Uebungsprojekt.DAO
                     end_time = _end_time,
                     accepted = false,
                     vehicle = _vehicle,
+                    user = _user,
                     location = _location,
                 };
                 createdBookings.Add(newBooking);

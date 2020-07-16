@@ -109,7 +109,7 @@ namespace Uebungsprojekt.Controllers
             {
                 all_simulation_infrastructures = infrastructure_dao.GetAll(),
                 simulation_infrastructure_id = infrastructure.id,
-                charging_column_types = type_dao.GetAll(0),
+                charging_column_types = type_dao.GetAll(),
                 locations = location_dao.GetAll(infrastructure.location_dao_id),
                 charging_zones = charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id),
                 charging_columns = charging_column_dao.GetAll(infrastructure.charging_column_dao_id),
@@ -338,7 +338,7 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
             AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(
                 charging_zone_dao.GetAll(infrastructure.charging_column_dao_id), 
-                charging_column_type_dao.GetAll(0), 
+                charging_column_type_dao.GetAll(), 
                 new ChargingColumn()
                 );
             return View(ccvm);
@@ -351,14 +351,14 @@ namespace Uebungsprojekt.Controllers
             if (infrastructure == null)
                 return RedirectToAction("SimulationInfrastructure");
             
-            ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
-            ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
+            ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
+            ChargingColumnDaoImpl charging_column_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             
-            charging_columnd_dao.Create(
-                charging_column_type.GetById(charging_column_type_id, 0), 
-                false,
+            charging_column_dao.Create(
+                charging_column_type_dao.GetById(charging_column_type_id), 
                 charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
+                null,
                 infrastructure.charging_column_dao_id);
             return RedirectToAction("SimulationInfrastructure");
         }
@@ -476,7 +476,7 @@ namespace Uebungsprojekt.Controllers
         {
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
-            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(0), new ChargingColumn());
+            AddChargingColumnViewModel ccvm = new AddChargingColumnViewModel(charging_zone_dao.GetAll(0), charging_column_type_dao.GetAll(), new ChargingColumn());
             return View(ccvm);
         }
 
@@ -488,8 +488,12 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
             ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            charging_columnd_dao.Create(charging_column_type.GetById(charging_column_type_id, 0), false,
-                charging_zone_dao.GetById(charging_zone_id, 0), 0);
+            charging_columnd_dao.Create(
+                charging_column_type.GetById(charging_column_type_id), 
+                charging_zone_dao.GetById(charging_zone_id, 0), 
+                null,
+                0
+                );
             return RedirectToAction("Infrastructure");
         }
 
@@ -656,7 +660,7 @@ namespace Uebungsprojekt.Controllers
             // Create Daos for Infrastructure
             ChargingColumnTypeDao charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
 
-            return View(charging_column_type_dao.GetAll(0));
+            return View(charging_column_type_dao.GetAll());
         }
 
         [HttpGet]
@@ -696,7 +700,11 @@ namespace Uebungsprojekt.Controllers
             }
             
             
-            cct_dao.Create(cct.model_name, cct.manufacturer_name, _connectors.Count, _connectors, 0);
+            cct_dao.Create(
+                cct.model_name, 
+                cct.manufacturer_name, 
+                _connectors.Count, 
+                _connectors);
             return RedirectToAction("ChargingColumnType");
         }
 
@@ -704,7 +712,7 @@ namespace Uebungsprojekt.Controllers
         public ActionResult DeleteChargingColumnType(int id)
         {
             ChargingColumnTypeDaoImpl chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(cache);
-            chargingColumnTypeDao.Delete(id, 0);
+            chargingColumnTypeDao.Delete(id);
             return RedirectToAction("ChargingColumnType");
         }
 
@@ -712,6 +720,32 @@ namespace Uebungsprojekt.Controllers
         public ActionResult DeleteChargingColumnTypeConfirmed(int id)
         {
             return RedirectToAction("ChargingColumnType");
+        }
+
+        /// <summary>
+        /// Converts the given files to Dataobjects and refreshes the view to display these importchanges
+        /// </summary>
+        /// <param name="files">Given files</param>
+        /// <returns>Redirection to index</returns>
+        [HttpPost]
+        public IActionResult ImportEverything(List<IFormFile> json_files)
+        {
+            if (json_files.Count == 1)
+            {
+                Impl.Import.ImportEverything(cache, json_files);
+            }
+            // TODO: exceptions
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Exports all live Data as .json file
+        /// </summary>
+        /// <returns>A File which is Downloaded</returns>
+        public IActionResult ExportEverything()
+        {
+            // TODO: exceptions
+            return Impl.Export.ExportEverything(cache);
         }
 
         /// <summary>

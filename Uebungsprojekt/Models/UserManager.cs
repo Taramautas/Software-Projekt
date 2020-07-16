@@ -38,7 +38,7 @@ namespace Uebungsprojekt.Models
         {
             var user_id = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             
-            return user_id != null ? Int16.Parse(user_id.Value) : -1;
+            return user_id != null ? Int16.Parse(user_id.Value) : 0;
         }
 
         private IEnumerable<Claim> GetUserClaims(User user)

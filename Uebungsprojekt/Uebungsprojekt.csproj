@@ -3,23 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Algorithm\**" />
-    <Compile Remove="Scripts\**" />
-    <Content Remove="Algorithm\**" />
-    <Content Remove="Scripts\**" />
-    <EmbeddedResource Remove="Algorithm\**" />
-    <EmbeddedResource Remove="Scripts\**" />
-    <None Remove="Algorithm\**" />
-    <None Remove="Scripts\**" />
-    <Content Update="Views\Administration\AddSimulationChargingColumn.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-
+  
 
   <ItemGroup>
     <PackageReference Include="Cronos" Version="0.7.0" />

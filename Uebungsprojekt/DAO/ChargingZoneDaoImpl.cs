@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using Uebungsprojekt.Models;
+using static Uebungsprojekt.Models.ChargingZone;
 
 namespace Uebungsprojekt.DAO
 {
@@ -54,8 +57,8 @@ namespace Uebungsprojekt.DAO
                 ChargingZone newChargingZone = new ChargingZone
                 {
                     id = ++ids,
-                    overall_performance = _Overall_performance,
                     name = _name,
+                    overall_performance = _Overall_performance,
                     location = _location,
                 };
                 createdChargingZones.Add(newChargingZone);

@@ -8,7 +8,7 @@ using Uebungsprojekt.DAO;
 using Uebungsprojekt.Algorithm;
 using MathNet.Numerics.Optimization;
 
-namespace Uebungsprojekt
+namespace Uebungsprojekt.Algorithm
 {
     public partial class DistributionAlgorithm
     {
@@ -68,8 +68,8 @@ namespace Uebungsprojekt
             //help list
             List<ChargingColumn> result = new List<ChargingColumn>();
 
-            //
-            List<ChargingColumn> overallresult = new List<ChargingColumn>();
+
+
 
             //list of all chargingcolumns
             List<ChargingColumn> listofAllChargingColumn = chargingcolumndao.GetAll(chargingcolumndaoID);
@@ -98,7 +98,7 @@ namespace Uebungsprojekt
                     {
                         foreach (var connector in b.vehicle.connector_types)
                         {
-                            if (columnconnector == connector)
+                            if (columnconnector.Item1 == connector)
                             {
                                 return true;
 
@@ -111,6 +111,50 @@ namespace Uebungsprojekt
             });
 
             foreach (ChargingColumn cc in listofBookingChargingColumn)
+            {
+                for (int i = 0; i < cc.charging_column_type_id.max_parallel_charging; ++i)
+                {
+                    Console.WriteLine("muss");
+                    Console.WriteLine(cc.charging_column_type_id.max_parallel_charging);
+                    Console.WriteLine(i);
+                    result.Add(new ChargingColumn
+                    {
+
+                        id = cc.id,
+                        charging_column_type_id = new ChargingColumnType
+                        {
+                            id = cc.charging_column_type_id.id,
+                            model_name = cc.charging_column_type_id.model_name,
+                            manufacturer_name = cc.charging_column_type_id.manufacturer_name,
+                            max_parallel_charging = 1,
+                            connectors = new List<Tuple<ConnectorType, int>> { Tuple.Create(cc.charging_column_type_id.connectors[i].Item1, cc.charging_column_type_id.connectors[i].Item2) }
+                        },
+                        busy = false,
+                        emergency_reserve = false,
+                        charging_zone = cc.charging_zone,
+                        list = new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>> { Tuple.Create(cc.list[i].Item1, cc.list[i].Item2) }
+                    });
+                }
+            }
+            foreach (ChargingColumn cc in result)
+            {
+                Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item2 + "\n");
+                foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
+                {
+                    foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
+                    {
+                        Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                    }
+                }
+
+            }
+
+            foreach (ChargingColumn cc in listofBookingChargingColumn)
+            {
+                Console.WriteLine(cc.id + "\n");
+            }
+            Console.WriteLine("result id: \n");
+            foreach (ChargingColumn cc in result)
             {
                 Console.WriteLine(cc.id + "\n");
             }
@@ -128,9 +172,9 @@ namespace Uebungsprojekt
                 DateTime bookingEndTime = b.end_time + pufferbetween;
 
                 ++bookingindex;
-                foreach (ChargingColumn cc in listofBookingChargingColumn)
+                foreach (ChargingColumn cc in result)
                 {
-
+                    Console.WriteLine(cc.id);
                     TimeSpan bookingRealTimeSpan = ChargingTime.RealChargingTime(cc.charging_column_type_id, b);
 
                     Console.WriteLine(bookingindex);
@@ -140,9 +184,9 @@ namespace Uebungsprojekt
                         {
                             Console.WriteLine("==0");
 
-                            if (cc.list.Count == 0)
+                            if (cc.list[0].Item1.Count == 0)
                             {
-                                cc.list.Insert(0, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                cc.list[0].Item1.Insert(0, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                 b.charging_column = cc;
                                 b.Accept();
                                 b.start_time = bookingStartTime;
@@ -152,13 +196,13 @@ namespace Uebungsprojekt
 
                             Console.WriteLine("==1");
 
-                            if (cc.list.Count == 1)
+                            if (cc.list[0].Item1.Count == 1)
                             {
-                                Tuple<DateTime, DateTime> tuple1 = cc.list[0];
+                                Tuple<DateTime, DateTime> tuple1 = cc.list[0].Item1[0];
                                 DateTime currentStartTime1 = tuple1.Item1;
                                 DateTime currentEndTime1 = tuple1.Item2;
 
-                                if (cc.charging_column_type_id.max_concurrent_charging >= 50)
+                                if (cc.charging_column_type_id.connectors[0].Item2 >= 50)
                                 {
                                     // Booking is between the last booking and the next booking without conflicts
                                     if (currentEndTime1 <= bookingStartTime)
@@ -167,12 +211,12 @@ namespace Uebungsprojekt
                                         if (bookingStartTime - currentEndTime1 >= pufferhigh)
                                         {
 
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
 
 
@@ -181,12 +225,12 @@ namespace Uebungsprojekt
                                         {
 
                                             bookingStartTime = currentEndTime1;
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
                                             b.charging_column = cc;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                             goto Exit;
 
@@ -204,24 +248,24 @@ namespace Uebungsprojekt
 
                                         if (currentStartTime1 - bookingEndTime >= pufferhigh)
                                         {
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
                                         }
                                         else if (currentStartTime1 - bookingEndTime < pufferhigh)
                                         {
                                             bookingEndTime = currentStartTime1;
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                             b.end_time = bookingEndTime - pufferbetween;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
 
                                         }
@@ -243,12 +287,12 @@ namespace Uebungsprojekt
                                             {
                                                 Console.WriteLine("here");
                                                 bookingEndTime = currentStartTime1;
-                                                cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                                cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                                 b.charging_column = cc;
                                                 b.Accept();
                                                 b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                 b.end_time = bookingEndTime - pufferbetween;
-                                                cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                                 goto Exit;
                                             }
                                         }
@@ -263,12 +307,12 @@ namespace Uebungsprojekt
                                             else
                                             {
                                                 bookingStartTime = currentEndTime1;
-                                                cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                 b.charging_column = cc;
                                                 b.Accept();
                                                 b.start_time = bookingStartTime;
                                                 b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                                 goto Exit;
                                             }
                                         }
@@ -280,12 +324,12 @@ namespace Uebungsprojekt
                                         bookingStartTime = currentEndTime1;
                                         if (bookingEndTime - bookingStartTime > bookingRealTimeSpan)
                                         {
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
                                         }
 
@@ -294,30 +338,30 @@ namespace Uebungsprojekt
 
 
                                 }
-                                else if (cc.charging_column_type_id.max_concurrent_charging < 50)
+                                else if (cc.charging_column_type_id.connectors[0].Item2 < 50)
                                 {
                                     // Booking is between the last booking and the next booking without conflicts
                                     if (currentEndTime1 <= bookingStartTime)
                                     {
                                         if (bookingStartTime - currentEndTime1 >= pufferlow)
                                         {
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
                                         }
                                         else if (bookingStartTime - currentEndTime1 < pufferlow)
                                         {
                                             bookingStartTime = currentEndTime1;
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
                                         }
 
@@ -328,24 +372,24 @@ namespace Uebungsprojekt
                                     {
                                         if (currentStartTime1 - bookingEndTime >= pufferlow)
                                         {
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingStartTime;
                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
                                         }
                                         else if (currentStartTime1 - bookingEndTime < pufferlow)
                                         {
                                             bookingEndTime = currentStartTime1;
-                                            cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime, bookingEndTime - bookingRealTimeSpan + pufferbetween));
+                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime, bookingEndTime - bookingRealTimeSpan + pufferbetween));
                                             b.charging_column = cc;
                                             b.Accept();
                                             b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                             b.end_time = bookingEndTime - pufferbetween;
-                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                             goto Exit;
 
                                         }
@@ -364,12 +408,12 @@ namespace Uebungsprojekt
                                             else
                                             {
                                                 bookingEndTime = currentStartTime1;
-                                                cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                                cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                                 b.charging_column = cc;
                                                 b.Accept();
                                                 b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                 b.end_time = bookingEndTime - pufferbetween;
-                                                cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                                 goto Exit;
                                             }
                                         }
@@ -384,12 +428,12 @@ namespace Uebungsprojekt
                                             else
                                             {
                                                 bookingStartTime = currentEndTime1;
-                                                cc.list.Insert(cc.list.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingEndTime + pufferbetween));
+                                                cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingEndTime + pufferbetween));
                                                 b.charging_column = cc;
                                                 b.Accept();
                                                 b.start_time = bookingStartTime;
                                                 b.end_time = bookingEndTime;
-                                                cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
                                                 goto Exit;
                                             }
                                         }
@@ -399,47 +443,47 @@ namespace Uebungsprojekt
 
 
                             }
-                            
+
                             else
                             {
                                 Console.WriteLine("meep");
 
-                                if (cc.charging_column_type_id.max_concurrent_charging >= 50)
+                                if (cc.charging_column_type_id.connectors[0].Item2 >= 50)
                                 {
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) == 0)
+                                        if (cc.list[0].Item1.IndexOf(tuple) == 0)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
                                             Console.WriteLine(1.1);
-                                            if (bookingEndTime < currentStartTime && cc.list.IndexOf(tuple) == 1)
+                                            if (bookingEndTime < currentStartTime && cc.list[0].Item1.IndexOf(tuple) == 1)
                                             {
                                                 if (currentStartTime - bookingEndTime >= pufferhigh)
                                                 {
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                     b.end_time = bookingEndTime - pufferbetween;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
                                                 else if (currentStartTime - bookingEndTime < pufferhigh)
                                                 {
                                                     bookingEndTime = currentStartTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                     b.end_time = bookingEndTime - pufferbetween;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -447,11 +491,11 @@ namespace Uebungsprojekt
                                         }
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -467,12 +511,12 @@ namespace Uebungsprojekt
                                                 {
                                                     if (nextStartTime - bookingEndTime >= pufferhigh)
                                                     {
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                         b.charging_column = cc;
                                                         b.Accept();
                                                         b.start_time = bookingStartTime;
                                                         b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                         goto Exit;
                                                     }
@@ -480,12 +524,12 @@ namespace Uebungsprojekt
                                                     if (nextStartTime - bookingEndTime <= pufferhigh)
                                                     {
                                                         bookingEndTime = nextStartTime;
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                                         b.charging_column = cc;
                                                         b.Accept();
                                                         b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                         b.end_time = bookingEndTime - pufferbetween;
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                         goto Exit;
                                                     }
@@ -497,12 +541,12 @@ namespace Uebungsprojekt
                                                     if (nextStartTime - bookingEndTime >= pufferhigh)
                                                     {
                                                         bookingStartTime = currentEndTime;
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                         b.charging_column = cc;
                                                         b.Accept();
                                                         b.start_time = bookingStartTime;
                                                         b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                         goto Exit;
                                                     }
@@ -511,24 +555,24 @@ namespace Uebungsprojekt
                                                         if (nextStartTime - bookingEndTime > bookingStartTime - currentEndTime)
                                                         {
                                                             bookingStartTime = currentEndTime;
-                                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                             b.charging_column = cc;
                                                             b.Accept();
                                                             b.start_time = bookingStartTime;
                                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                             goto Exit;
                                                         }
                                                         else
                                                         {
                                                             bookingEndTime = nextStartTime;
-                                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                             b.charging_column = cc;
                                                             b.Accept();
                                                             b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                             b.end_time = bookingEndTime - pufferbetween;
-                                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                             goto Exit;
                                                         }
@@ -539,11 +583,11 @@ namespace Uebungsprojekt
                                         }
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -562,12 +606,12 @@ namespace Uebungsprojekt
                                                 else
                                                 {
                                                     bookingStartTime = currentEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -576,11 +620,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -599,12 +643,12 @@ namespace Uebungsprojekt
                                                 {
                                                     bookingStartTime = currentEndTime;
 
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -614,11 +658,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count  -1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -633,30 +677,31 @@ namespace Uebungsprojekt
                                                     Console.WriteLine("Exit");
                                                     goto ExitTuple;
                                                 }
-                                                if (nextStartTime > bookingStartTime && nextStartTime - bookingStartTime >= bookingRealTimeSpan) {
+                                                if (nextStartTime > bookingStartTime && nextStartTime - bookingStartTime >= bookingRealTimeSpan)
+                                                {
 
                                                     Console.WriteLine(1);
                                                     bookingEndTime = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 2, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 2, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingEndTime;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
-                                                else if (bookingStartTime >= nextStartTime && bookingStartTime < nextEndTime && bookingEndTime > nextEndTime && cc.list.IndexOf(tuple) + 1 == cc.list.Count - 1)
+                                                else if (bookingStartTime >= nextStartTime && bookingStartTime < nextEndTime && bookingEndTime > nextEndTime && cc.list[0].Item1.IndexOf(tuple) + 1 == cc.list[0].Item1.Count - 1)
                                                 {
 
                                                     Console.WriteLine(2);
                                                     bookingStartTime = nextEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 2, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 2, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -665,11 +710,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) == cc.list.Count - 2)
+                                        if (cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -677,28 +722,28 @@ namespace Uebungsprojekt
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
                                             Console.WriteLine(1.6);
-                                            if (bookingStartTime >= nextEndTime && cc.list.IndexOf(tuple) == cc.list.Count - 2)
+                                            if (bookingStartTime >= nextEndTime && cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                             {
                                                 if (bookingStartTime - nextEndTime >= pufferhigh)
                                                 {
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
                                                 else if (bookingStartTime - nextEndTime < pufferhigh)
                                                 {
                                                     bookingStartTime = nextEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -706,13 +751,13 @@ namespace Uebungsprojekt
                                         }
                                     }
                                 }
-                                else if (cc.charging_column_type_id.max_concurrent_charging < 50)
+                                else if (cc.charging_column_type_id.connectors[0].Item2 < 50)
                                 {
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) == 0)
+                                        if (cc.list[0].Item1.IndexOf(tuple) == 0)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -720,28 +765,28 @@ namespace Uebungsprojekt
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
                                             Console.WriteLine(1.1);
-                                            if (bookingEndTime < currentStartTime && cc.list.IndexOf(tuple) == 1)
+                                            if (bookingEndTime < currentStartTime && cc.list[0].Item1.IndexOf(tuple) == 1)
                                             {
                                                 if (currentStartTime - bookingEndTime >= pufferlow)
                                                 {
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                     b.end_time = bookingEndTime - pufferbetween;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
                                                 else if (currentStartTime - bookingEndTime < pufferlow)
                                                 {
                                                     bookingEndTime = currentStartTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                     b.end_time = bookingEndTime - pufferbetween;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -750,11 +795,11 @@ namespace Uebungsprojekt
                                         }
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -771,12 +816,12 @@ namespace Uebungsprojekt
                                                 {
                                                     if (nextStartTime - bookingEndTime >= pufferlow)
                                                     {
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                         b.charging_column = cc;
                                                         b.Accept();
                                                         b.start_time = bookingStartTime;
                                                         b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                         goto Exit;
                                                     }
@@ -784,12 +829,12 @@ namespace Uebungsprojekt
                                                     if (nextStartTime - bookingEndTime <= pufferlow)
                                                     {
                                                         bookingEndTime = nextStartTime;
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                                         b.charging_column = cc;
                                                         b.Accept();
                                                         b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                         b.end_time = bookingEndTime - pufferbetween;
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
 
                                                         goto Exit;
@@ -802,12 +847,12 @@ namespace Uebungsprojekt
                                                     if (nextStartTime - bookingEndTime >= pufferlow)
                                                     {
                                                         bookingStartTime = currentEndTime;
-                                                        cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                        cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                         b.charging_column = cc;
                                                         b.start_time = bookingStartTime;
                                                         b.end_time = bookingStartTime + bookingRealTimeSpan;
                                                         b.Accept();
-                                                        cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                        cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                         goto Exit;
 
@@ -817,24 +862,24 @@ namespace Uebungsprojekt
                                                         if (nextStartTime - bookingEndTime > bookingStartTime - currentEndTime)
                                                         {
                                                             bookingStartTime = currentEndTime;
-                                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                             b.charging_column = cc;
                                                             b.Accept();
                                                             b.start_time = bookingStartTime;
                                                             b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                             goto Exit;
                                                         }
                                                         else
                                                         {
                                                             bookingEndTime = nextStartTime;
-                                                            cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                            cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                             b.charging_column = cc;
                                                             b.Accept();
                                                             b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                             b.end_time = bookingEndTime - pufferbetween;
-                                                            cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                            cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                             goto Exit;
                                                         }
@@ -844,11 +889,11 @@ namespace Uebungsprojekt
                                         }
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -867,12 +912,12 @@ namespace Uebungsprojekt
                                                 else
                                                 {
                                                     bookingStartTime = currentEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -883,11 +928,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -906,12 +951,12 @@ namespace Uebungsprojekt
                                                 {
                                                     bookingStartTime = currentEndTime;
 
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -921,11 +966,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) < cc.list.Count - 1)
+                                        if (cc.list[0].Item1.IndexOf(tuple) < cc.list[0].Item1.Count - 1)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -942,24 +987,24 @@ namespace Uebungsprojekt
                                                 else if (nextStartTime - bookingStartTime > bookingRealTimeSpan)
                                                 {
                                                     bookingEndTime = nextStartTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan - pufferbetween, bookingEndTime));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingEndTime - bookingRealTimeSpan - pufferbetween;
                                                     b.end_time = bookingEndTime - pufferbetween;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
                                                 else if (bookingEndTime - nextEndTime > bookingRealTimeSpan)
                                                 {
                                                     bookingStartTime = nextEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
 
@@ -970,11 +1015,11 @@ namespace Uebungsprojekt
                                     ExitTuple:;
                                     }
 
-                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list)
+                                    foreach (Tuple<DateTime, DateTime> tuple in cc.list[0].Item1)
                                     {
-                                        if (cc.list.IndexOf(tuple) == cc.list.Count - 2)
+                                        if (cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                         {
-                                            Tuple<DateTime, DateTime> next = cc.list[cc.list.IndexOf(tuple) + 1];
+                                            Tuple<DateTime, DateTime> next = cc.list[0].Item1[cc.list[0].Item1.IndexOf(tuple) + 1];
 
                                             DateTime currentStartTime = tuple.Item1;
                                             DateTime currentEndTime = tuple.Item2;
@@ -982,28 +1027,28 @@ namespace Uebungsprojekt
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
                                             Console.WriteLine(1.6);
-                                            if (bookingStartTime >= nextEndTime && cc.list.IndexOf(tuple) == cc.list.Count - 2)
+                                            if (bookingStartTime >= nextEndTime && cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                             {
                                                 if (bookingStartTime - nextEndTime >= pufferlow)
                                                 {
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
                                                 else if (bookingStartTime - nextEndTime < pufferlow)
                                                 {
                                                     bookingStartTime = nextEndTime;
-                                                    cc.list.Insert(cc.list.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
+                                                    cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 1, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
                                                     b.Accept();
                                                     b.start_time = bookingStartTime;
                                                     b.end_time = bookingStartTime + bookingRealTimeSpan;
-                                                    cc.list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+                                                    cc.list[0].Item1.Sort((x, y) => x.Item1.CompareTo(y.Item1));
 
                                                     goto Exit;
                                                 }
@@ -1016,20 +1061,32 @@ namespace Uebungsprojekt
                         }
                     }
                 }
-                Exit:;
+            Exit:;
+                foreach (ChargingColumn cc in result)
+                {
+                    Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item1 + "\n");
+                    foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
+                    {
+                        foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
+                        {
+                            Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                        }
+                    }
+                    Console.WriteLine("\n");
+                }
+
                 foreach (ChargingColumn cc in listofBookingChargingColumn)
                 {
-
-                    foreach (var v in cc.list)
+                    foreach (ChargingColumn cc2 in result)
                     {
-                        Console.WriteLine("CC: " + cc.charging_column_type_id.manufacturer_name + " start_time: " + v.Item1 + " end_time: " + v.Item2 + "\n");
-                        
-                    }
-                    Console.WriteLine(cc.list.Count());
-                    Console.Write("\n");
-                }
-            }
+                        if (cc.charging_column_type_id.id == cc2.charging_column_type_id.id)
+                        {
 
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

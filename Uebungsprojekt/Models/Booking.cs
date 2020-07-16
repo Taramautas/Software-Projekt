@@ -38,11 +38,13 @@ namespace Uebungsprojekt.Models
         public User user { get; set; }
 
         // Frage: muss hier noch eine Variable für ChargingColumn rein?
-        public ChargingColumn charging_column { get; set; }
 
         [Required(ErrorMessage = "Please select a location.")]
         public Location location { get; set; }
+        public ChargingColumn charging_column { get; set; }
         
+        public ConnectorType connector_type { get; set; }
+
         public void Accept()
         {
             accepted = true;
