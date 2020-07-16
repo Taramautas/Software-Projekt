@@ -341,6 +341,7 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateChargingZone(ChargingZone charge, int location_id)
         {
+            Console.WriteLine(charge.name+ " performance: "+charge.overall_performance);
             ChargingZoneDaoImpl charging_zone = new ChargingZoneDaoImpl(cache);
             LocationDaoImpl location_dao = new LocationDaoImpl(cache);
             charging_zone.Create(charge.name,charge.overall_performance, location_dao.GetById(location_id, 0), 0);
