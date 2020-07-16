@@ -41,22 +41,32 @@ namespace Uebungsprojekt.Service
         /// <returns></returns>
         public override Task DoWork(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"{DateTime.Now:hh:mm:ss} CronJob is working.");
+           // _logger.LogInformation($"{DateTime.Now:hh:mm:ss} CronJob is working.");
             //TODO: 0 or 1 as productive BookingDao?
             // TODO: daoImpl
             BookingDaoImpl tmp1 = new BookingDaoImpl(_cache);
             tmp1.GetAll(0);
             
-            if(_cache.TryGetValue("0" + "CreateBooking", out List<Booking> createdBookings))
+            if(tmp1.GetAll(0).Count > 0)
             {
+                Console.WriteLine("BookingCount: "+ tmp1.GetAll(0).Count);
                 DateTime tmp = new DateTime();
                 NotificationService mail_notification = new NotificationService();
-                foreach (Booking book in createdBookings)
+                foreach (Booking book in tmp1.GetAll(0))
                 {
-                    tmp = book.start_time.Subtract(new TimeSpan(0,15,0));
-                    if (tmp == DateTime.Now)
+                    try
                     {
-                        //mail_notification.SendEmail(book.user.email, book.user.name);
+                        tmp = book.start_time.Subtract(new TimeSpan(0,15,0));
+                    }
+                    catch (ArgumentOutOfRangeException e)
+                    {
+                        Console.WriteLine(e);
+                        continue;
+                    }
+                    Console.WriteLine(tmp);
+                    if (tmp.Year == DateTime.Now.Year && tmp.Month == DateTime.Now.Month && tmp.Day == DateTime.Now.Day && tmp.Hour == DateTime.Now.Hour && tmp.Minute == DateTime.Now.Minute)
+                    {
+                        mail_notification.SendEmail(book.user.email, book.user.name);
                     }
                 }
                 //E-mail Notification Tes
