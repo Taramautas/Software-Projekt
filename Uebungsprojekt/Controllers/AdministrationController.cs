@@ -146,6 +146,12 @@ namespace Uebungsprojekt.Controllers
                 }
             };
             
+            config.rush_hours = new List<Tuple<DayOfWeek, TimeSpan>>()
+            {
+                new Tuple<DayOfWeek, TimeSpan>(DayOfWeek.Monday, new TimeSpan(8, 0, 0)),
+                new Tuple<DayOfWeek, TimeSpan>(DayOfWeek.Tuesday, new TimeSpan(8, 0, 0)),
+            };
+            
             SimulationResult result = new SimulationResult()
             {
                 config = config,
@@ -255,6 +261,21 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("SimulationInfrastructure");
         }
 
+        [HttpGet, ActionName("DeleteSimulationLocation")]
+        public ActionResult DeleteSimulationLocation(int id)
+        {
+            LocationDaoImpl locationDao = new LocationDaoImpl(cache);
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            locationDao.Delete(id, infrastructure.location_dao_id);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteSimulationLocation")]
+        public ActionResult DeleteSimulationLocationConfirmed(int id)
+        {
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
         [HttpGet]
         public IActionResult CreateSimulationChargingZone()
         {
@@ -288,6 +309,21 @@ namespace Uebungsprojekt.Controllers
                 );
 
             Console.Out.WriteLine(charge.name);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpGet, ActionName("DeleteSimulationChargingZone")]
+        public ActionResult DeleteSimulationChargingZone(int id)
+        {
+            ChargingZoneDaoImpl chargingZoneDao = new ChargingZoneDaoImpl(cache);
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            chargingZoneDao.Delete(id, infrastructure.charging_zone_dao_id);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteSimulationChargingZone")]
+        public ActionResult DeleteSimulationChargingZoneConfirmed(int id)
+        {
             return RedirectToAction("SimulationInfrastructure");
         }
 
@@ -325,6 +361,38 @@ namespace Uebungsprojekt.Controllers
                 charging_zone_dao.GetById(charging_zone_id, infrastructure.charging_zone_dao_id), 
                 infrastructure.charging_column_dao_id);
             return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpGet, ActionName("DeleteSimulationChargingColumn")]
+        public ActionResult DeleteSimulationChargingColumn(int id)
+        {
+            ChargingColumnDaoImpl chargingColumnTypeDao = new ChargingColumnDaoImpl(cache);
+            SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            chargingColumnTypeDao.Delete(id, infrastructure.charging_column_dao_id);
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpPost, ActionName("DeleteSimulationChargingColumn")]
+        public ActionResult DeleteSimulationChargingColumnConfirmed(int id)
+        {
+            return RedirectToAction("SimulationInfrastructure");
+        }
+
+        [HttpGet]
+        public IActionResult AddSimulationVehicle()
+        {
+            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
+            AddSimulationVehicleViewModel svvm = new AddSimulationVehicleViewModel(vehicle_dao.GetAll());
+            return View(svvm);
+        }
+
+        [HttpPost]
+        public IActionResult AddSimulationVehicle(int vehicle_id, int count)
+        {
+            //TODO: ERRORHANDLING!
+            Console.WriteLine(vehicle_id);
+            Console.WriteLine(count);
+            return RedirectToAction("SimulationConfig");
         }
 
         /// <summary>
@@ -666,8 +734,8 @@ namespace Uebungsprojekt.Controllers
             Request.Cookies.TryGetValue("SimulationConfig", out string config_string);
             if (string.IsNullOrEmpty(config_string))
                 return null;
-            SimulationConfig infrastructure = config_dao.GetById(Int32.Parse(config_string));
-            return infrastructure;
+            SimulationConfig config = config_dao.GetById(Int32.Parse(config_string));
+            return config;
         }
     }
 }
