@@ -72,7 +72,7 @@ namespace Uebungsprojekt.Controllers
             };
             Response.Cookies.Append("SimulationConfig", config_id.ToString(), options);
             
-            return RedirectToAction("SimulationInfrastructure", config_id);
+            return RedirectToAction("AddSimulationVehicle", config_id);
         }
         
         /// <summary>
@@ -382,17 +382,55 @@ namespace Uebungsprojekt.Controllers
         public IActionResult AddSimulationVehicle()
         {
             VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
-            AddSimulationVehicleViewModel svvm = new AddSimulationVehicleViewModel(vehicle_dao.GetAll());
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            AddSimulationVehicleViewModel svvm = new AddSimulationVehicleViewModel(vehicle_dao.GetAll(), config);
             return View(svvm);
         }
 
         [HttpPost]
         public IActionResult AddSimulationVehicle(int vehicle_id, int count)
         {
-            //TODO: ERRORHANDLING!
-            Console.WriteLine(vehicle_id);
-            Console.WriteLine(count);
-            return RedirectToAction("SimulationConfig");
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
+            for(int i = 0; i < count; i++)
+            {
+                config.vehicles.Add(vehicle_dao.GetById(vehicle_id));
+            }
+            return RedirectToAction("AddSimulationVehicle");
+        }
+
+        [HttpGet, ActionName("DeleteSimulationVehicle")]
+        public ActionResult DeleteSimulationVehicle(int id)
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
+            config.vehicles.Remove(vehicle_dao.GetById(id));
+            return RedirectToAction("AddSimulationVehicle");
+        }
+
+        [HttpPost, ActionName("DeleteSimulationVehicle")]
+        public ActionResult DeleteSimulationVehicleConfirmed(int id)
+        {
+            return RedirectToAction("AddSimulationVehicle");
+        }
+
+        [HttpGet, ActionName("DeleteAllSimulationVehicles")]
+        public ActionResult DeleteAllSimulationVehicles()
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            config.vehicles.Clear();
+            return RedirectToAction("AddSimulationVehicle");
+        }
+
+        [HttpPost, ActionName("DeleteAllSimulationVehicles")]
+        public ActionResult DeleteAllSimulationVehiclesConfirmed()
+        {
+            return RedirectToAction("AddSimulationVehicle");
+        }
+
+        public IActionResult AddRushHours()
+        {
+            return View();
         }
 
         /// <summary>
@@ -424,7 +462,7 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Infrastructure");
         }
 
-        [HttpPost, ActionName("DeleteChargingColumn")]
+        [HttpPost, ActionName("DeleteChargingZone")]
         public ActionResult DeleteChargingZoneConfirmed(int id)
         {
             return RedirectToAction("Infrastructure");

@@ -1,0 +1,48 @@
+﻿@model Uebungsprojekt.Models.SimulationConfig
+
+@{
+    ViewData["Title"] = "Rush Hours";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddRushHours">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label for="vehicle_id" class="col-2 col-form-label">Weekday::</label>
+                <select name="vehicle_id" id="vehicle_id" asp-items="@Html.GetEnumSelectList<System.DayOfWeek>()">
+                </select>
+            </div>
+            <div class="form-group row">
+                <label for="count" class="col-2 col-form-label">TimeSpan:</label>
+                <input type="text" name="StartTime" value="20:45" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<div><h3><u>Rush Hours</u></h3></div>
+<table id="booking-table" style="width:100%" class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Weekday</th>
+            <th>StartTime</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+
+<input type="button" value="Previous" onclick="location.href='@Url.Action("AddSimulationVehicle", "Administration")'" />
+<input type="button" value="Next" onclick="location.href='@Url.Action("SimulationInfrastructure", "Administration")'" />

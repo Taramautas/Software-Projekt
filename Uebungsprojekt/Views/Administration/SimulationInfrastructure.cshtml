@@ -128,14 +128,6 @@
         }
     </tbody>
 </table>
-<div class="form-group row">
-    <div class="col-sm-11">
-    </div>
-    <div class="col-sm-1">
-        <abbr title="Next">
-            <button class="btn btn-outline-primary ml-1">
-                <a class="material-icons" asp-controller="Administration" asp-action="Simulation">arrow_right</a>
-            </button>
-        </abbr>
-    </div>
-</div>
+
+<input type="button" value="Next" onclick="location.href='@Url.Action("AddRushHours", "Administration")'" />
+<input type="button" value="Next" onclick="location.href='@Url.Action("Simulation", "Administration")'" />
