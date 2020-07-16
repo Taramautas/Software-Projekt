@@ -29,7 +29,7 @@ namespace Uebungsprojekt.DAO
         /// <returns>the id of the added User</returns>
         public int Create(string _model_name, string _manufacturer_name, int _max_concurrent_charging, List<Tuple<ConnectorType, int>> _connectors, int DaoID)
         {
-            if (_cache.TryGetValue("CreateChargingColumnTypeIds", out int ids))
+            if (_cache.TryGetValue(DaoID + "CreateChargingColumnTypeIds", out int ids))
             {
                 ++ids;
                 _cache.Set(DaoId + "CreateChargingColumnTypeIds", ids);
