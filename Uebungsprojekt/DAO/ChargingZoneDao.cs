@@ -12,7 +12,7 @@ namespace Uebungsprojekt.DAO
         // Implemented in ChargingZoneDaoImpl
         ChargingZone GetById(int Id, int DaoId);
         List<ChargingZone> GetAll(int DaoId);
-        public int Create(int _Overall_performance, Location _location, int DaoId);
+        public int Create(string _name, int _Overall_performance, Location _location, int DaoId);
         bool Delete(int Id, int DaoId);
     }
 }

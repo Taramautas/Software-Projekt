@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Uebungsprojekt.Algorithm;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 using Uebungsprojekt.OccupancyPlans;
@@ -27,6 +27,10 @@ namespace Uebungsprojekt.Simulations
 
         private DateTime start_datetime;
 
+        private IMemoryCache cache;
+
+        private int booking_dao_id;
+        
         /// <summary>
         /// Setup
         /// </summary>
@@ -34,7 +38,7 @@ namespace Uebungsprojekt.Simulations
         /// <param name="infrastructure">Simulation Infrastructure</param>
         public Simulation(SimulationConfig config, SimulationInfrastructure infrastructure, SimulationResult simulation_result, IMemoryCache cache)
         {
-            int booking_dao_id = BookingDaoImpl.CreateNewDaoId();
+            booking_dao_id = BookingDaoImpl.CreateNewDaoId();
             this.simulation_result = simulation_result;
             this.config = config;
             occupancy_plan = new OccupancyPlan(
@@ -56,6 +60,7 @@ namespace Uebungsprojekt.Simulations
             }
             // Get maximum probability for given spread in order to normalize afterwards
             max_probability = (1 / (config.spread * Math.Sqrt(2 + Math.PI))) * Math.Pow(Math.E, (-0.5 * Math.Pow((0) / config.spread, 2)));
+            this.cache = cache;
         }
 
         /// <summary>
@@ -76,26 +81,11 @@ namespace Uebungsprojekt.Simulations
                 start_datetime = start_datetime.AddDays(1);
 
             start_datetime = start_datetime.Add(start_time);
+            UserDao user_dao = new UserDaoImpl(cache);
+            User vip = user_dao.GetById(3);
+            User guest = user_dao.GetById(4);
+            User employee = user_dao.GetById(5);
             
-            User vip = new User { 
-                email = "vip@vip.de",
-                name = "vip",
-                role = Role.VIP
-            };
-
-            User guest = new User
-            {
-                email = "guest@guest.de",
-                name = "guest",
-                role = Role.Guest
-            };
-
-            User employee = new User
-            {
-                email = "employee@employee.de",
-                name = "employee",
-                role = Role.Employee
-            };
             // Iterate through all weeks
             foreach (int week in Enumerable.Range(1, config.weeks))
             {
@@ -158,7 +148,12 @@ namespace Uebungsprojekt.Simulations
                         simulation_result.num_generated_bookings.Add(number_bookings);
                         simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload(start_datetime.AddDays(week * 5 + day)));
                     }
-                    simulation_result.num_unsatisfiable_bookings.Add(occupancy_plan.Distribute());
+                    DistributionAlgorithm.DistributionAlg(
+                        new ChargingColumnDaoImpl(cache), 
+                        simulation_result.infrastructure.charging_column_dao_id,
+                        new BookingDaoImpl(cache),
+                        booking_dao_id
+                        );
                 }
             }
             return true;

@@ -78,10 +78,13 @@ namespace Uebungsprojekt
             vehicle_dao.GetAll();
             UserDao user_dao = new UserDaoImpl(cache);
             user_dao.GetAll();
+            // Dont change the order of these accounts, as the simulation depends on the ids of the accounts
             user_dao.Create("Planner", "admin@admin.de", "admin", Role.Planner);
             user_dao.Create("Assistant", "assistant@assistant.de", "assistant", Role.Assistant);
+            user_dao.Create("VIP", "vip@vip.de", "vip", Role.VIP);
+            user_dao.Create("Guest", "guest@guest.de", "guest", Role.Employee);
             user_dao.Create("Employee", "user@user.de", "user", Role.Employee);
-            
+
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             config_dao.GetAll();
             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
@@ -127,10 +130,10 @@ namespace Uebungsprojekt
             List<Tuple<ConnectorType,int>> connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 20));
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 10));
-            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list, 0);
+            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list);
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
-            charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list, 0);
+            charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);
             //
             
             //Location Startup
@@ -152,7 +155,7 @@ namespace Uebungsprojekt
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1, 0), charging_zone_dao.GetById(1,0), 0);
+            charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0), 0);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
