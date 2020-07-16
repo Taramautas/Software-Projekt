@@ -158,7 +158,7 @@ namespace Uebungsprojekt.Simulations
                         simulation_result.num_generated_bookings.Add(number_bookings);
                         simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload(start_datetime.AddDays(week * 5 + day)));
                     }
-                    simulation_result.num_unsatisfiable_bookings.Add(occupancy_plan.DistributeAllUnaccptedBookings());
+                    simulation_result.num_unsatisfiable_bookings.Add(occupancy_plan.Distribute());
                 }
             }
             return true;
