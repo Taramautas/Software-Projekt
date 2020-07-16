@@ -33,8 +33,17 @@
         <input id="Weeks" class="col-10 form-control" asp-for="weeks"><br />
         <span asp-validation-for="weeks" class="text-danger form-danger-span"></span>
     </div>
+
+    <!-- Vehicles -->
+    <div><h3><u>Vehicles</u></h3></div>
     <div class="row">
-        <button class="btn btn-outline-primary col-12" asp-area="" asp-controller="Administration" asp-action="AddSimulationVehicle" type="submit" formmethod="get">Add Vehicle</button>
+        <div class="col-12">
+            <abbr title="Create new Vehicle">
+                <a class="btn btn-primary submit" asp-area="" asp-controller="Administration" asp-action="AddSimulationVehicle">
+                    <span class="material-icons">add_box</span>
+                </a>
+            </abbr>
+        </div>
     </div>
     <table id="booking-table" style="width:100%" class="table table-hover">
         <thead class="thead-light">
