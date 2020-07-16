@@ -66,7 +66,8 @@ namespace Uebungsprojekt.Service
                     Console.WriteLine(tmp);
                     if (tmp.Year == DateTime.Now.Year && tmp.Month == DateTime.Now.Month && tmp.Day == DateTime.Now.Day && tmp.Hour == DateTime.Now.Hour && tmp.Minute == DateTime.Now.Minute)
                     {
-                        mail_notification.SendEmail(book.user.email, book.user.name);
+                        //TODO: UNDO THIS ;) 
+                        //mail_notification.SendEmail(book.user.email, book.user.name);
                     }
                 }
                 //E-mail Notification Tes
