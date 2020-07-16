@@ -158,15 +158,6 @@ h1 {
 ## Booking
 --------------------------------------------------------------*/
 
-/* Booking table */
-#bookingTableHeadline {
-    justify-content: space-between;
-    margin: 1em 0;
-}
-
-#bookingTableHeadline p {
-    margin: auto 0;
-}
 
 /* Booking Form */
 .form-danger-span {

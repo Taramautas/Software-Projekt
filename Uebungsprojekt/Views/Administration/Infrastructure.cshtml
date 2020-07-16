@@ -72,7 +72,18 @@
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
                         {
-                            @if (chargingZone.location.id == location.id)
+                <tr>
+                    <td>Ladezone @chargingZone.id</td>
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+                    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+                    <td>
+                        <table class="table-borderless">
+                            <tr>
+                                <th>Charging Column</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                             {
                                 <tr>
                                     @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
@@ -111,6 +122,10 @@
                                 </tr>
 
                             }
+                        </table>
+                    </td>
+
+                </tr>
                         }
                         @if (!Model.charging_zones.Any(i => i.location == location))
                         {
