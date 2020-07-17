@@ -116,7 +116,7 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Bookings");
         }
 
-<<<<<<< HEAD
+
         [HttpGet, ActionName("CheckIn")]
         public ActionResult CheckIn(int id)
         {
@@ -145,7 +145,8 @@ namespace Uebungsprojekt.Controllers
         public ActionResult CheckOutConfirmed(int id)
         {
             return RedirectToAction("Bookings");
-=======
+        }
+
         /// <summary>
         /// Display a table of all vehicles from user
         /// </summary>
@@ -195,7 +196,7 @@ namespace Uebungsprojekt.Controllers
             vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, user_dao.GetById(usr_id));
 
             return RedirectToAction("Vehicles");
->>>>>>> e2d3aff9fac9ce7d49358d1d3b5de9155ed4bcf5
+
         }
 
         [HttpGet]
