@@ -73,7 +73,7 @@ namespace Uebungsprojekt.Controllers
             };
             Response.Cookies.Append("SimulationConfig", config_id.ToString(), options);
             
-            return RedirectToAction("AddSimulationVehicle", config_id);
+            return RedirectToAction("SimulationConfig", config_id);
         }
         
         /// <summary>
