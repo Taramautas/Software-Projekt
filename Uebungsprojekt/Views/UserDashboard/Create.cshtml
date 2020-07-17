@@ -104,8 +104,8 @@
         let start_time = document.getElementById('StartTime');
         let end_time = document.getElementById('EndTime');
 
-        let current_SoC = Int32.Parse(document.getElementById('StateOfCharge'));
-        let target_SoC = Int32.Parse(document.getElementById('NeededDistance'));
+        let current_SoC = parseInt(document.getElementById('StateOfCharge').value);
+        let target_SoC = parseInt(document.getElementById('NeededDistance').value);
 
         let sub_button = document.getElementById('btnsub');
 
@@ -114,7 +114,7 @@
         } else {
             sub_button.disabled = true;
         }
-        setTimeout(validate_Date, 1000);
+        setTimeout(validate_Date, 100);
     }
     validate_Date();
 
