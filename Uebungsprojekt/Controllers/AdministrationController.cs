@@ -293,7 +293,6 @@ namespace Uebungsprojekt.Controllers
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
             if (infrastructure == null)
                 return RedirectToAction("SimulationInfrastructure");
-            
             LocationDao location_dao = new LocationDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
 
@@ -306,7 +305,6 @@ namespace Uebungsprojekt.Controllers
                 infrastructure.charging_zone_dao_id
                 );
 
-            Console.Out.WriteLine(charge.name);
             return RedirectToAction("SimulationInfrastructure");
         }
 
@@ -464,7 +462,6 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateChargingZone(ChargingZone charge, int location_id)
         {
-            Console.WriteLine(charge.name+ " performance: "+charge.overall_performance);
             ChargingZoneDaoImpl charging_zone = new ChargingZoneDaoImpl(cache);
             LocationDaoImpl location_dao = new LocationDaoImpl(cache);
             charging_zone.Create(charge.name,charge.overall_performance, location_dao.GetById(location_id, 0), 0);
@@ -501,7 +498,6 @@ namespace Uebungsprojekt.Controllers
         public IActionResult AddChargingColumn(int charging_zone_id, int charging_column_type_id )
         {
             //TODO: ERRORHANDLING!
-            Console.WriteLine(charging_column_type_id);
             ChargingColumnTypeDaoImpl charging_column_type = new ChargingColumnTypeDaoImpl(cache);
             ChargingColumnDaoImpl charging_columnd_dao = new ChargingColumnDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);

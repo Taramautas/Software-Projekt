@@ -47,6 +47,9 @@ namespace Uebungsprojekt.Controllers
         {
             BookingDao booking_dao = new BookingDaoImpl(cache);
             List<Booking> bookings = booking_dao.GetAcceptedBookingsByUserId(user_id);
+            UserDaoImpl user_dao = new UserDaoImpl(cache);
+            if (user_dao.GetById(user_id).role == Role.Assistant)
+                return View(booking_dao.GetAll(0));
             bookings.AddRange(booking_dao.GetOpenBookingsByUserId(user_id));
             return View(bookings);
         }

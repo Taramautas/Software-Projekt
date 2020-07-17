@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Uebungsprojekt.Models.Booking>
+﻿@using Microsoft.AspNetCore.Authorization
+@model IEnumerable<Uebungsprojekt.Models.Booking>
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Bookings";
@@ -32,29 +34,36 @@
 {
 <table id="booking-table"style="width:100%; text-align: center" class="table table-striped table-hover">
     <thead>
-        <tr>
-            <th>Start State of Charge</th>
-            <th>Target State of Charge</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Vehicle</th>
-            <th>Location</th>
-            <th>Booking Accepted</th>
-            <th></th>
-            <th></th>
-        </tr>
+    <tr>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+        {
+            <th>User</th>
+        }
+
+        <th>Start State of Charge</th>
+        <th>Target State of Charge</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Vehicle</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var booking in Model)
         {
         <tr>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+                {
+                    <th>@booking.user.name</th>
+                }
             <td>@booking.start_state_of_charge%</td>
             <td>@booking.target_state_of_charge%</td>
             <td>@booking.start_time</td>
             <td>@booking.end_time</td>
             <td>@booking.vehicle.model_name</td>
             <td>@booking.location.city</td>
-            <td><span class="material-icons">done</span></td>
             @if (booking.accepted)
             {
                 <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
