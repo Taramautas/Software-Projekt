@@ -30,37 +30,49 @@
             <th>Vehicle</th>
             <th>Location</th>
             <th>User</th>
-            <th></th>
+            <th>Status</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var booking in Model)
         {
-            <tr>
-                <td>@booking.start_state_of_charge</td>
-                <td>@booking.target_state_of_charge</td>
-                <td>@booking.start_time</td>
-                <td>@booking.end_time</td>
-                <td>@booking.vehicle.model_name</td>
-                <td>@booking.location.id</td>
-                <td>@booking.user.email</td>
-                <td><span class="material-icons">done</span></td>
-                @if (booking.accepted)
+        <tr>
+            <td>@booking.start_state_of_charge</td>
+            <td>@booking.target_state_of_charge</td>
+            <td>@booking.start_time</td>
+            <td>@booking.end_time</td>
+            <td>@booking.vehicle.model_name</td>
+            <td>@booking.location.city</td>
+            <td>@booking.user.email</td>
+            @if (booking.accepted)
+            {
+                @if (booking.checkedIn == 0)
                 {
-                    <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
-                    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">cancel</a></td>
+                    <td>Accepted</td>
+                    <td></td>
                 }
-                else
+                else if (booking.checkedIn == 1)
                 {
-                    <td>OPEN</td>
-                    <td>@Html.ActionLink("Delete","Delete", new{id=booking.id})</td>
+                    <td>Checked-In</td>
+                    <td></td>
                 }
-                <!--
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
-                -->
-            </tr>
+                else if (booking.checkedIn == 2)
+                {
+                    <td>Closed</td>
+                    <td></td>
+                }
+            }
+            else
+            {
+                <td>Open</td>
+                <td>@Html.ActionLink("Delete", "Delete", new { id = booking.id })</td> // macht es sinn, dass der admin buchungen löscht
+            }
+            <!--
+    <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+    -->
+        </tr>
         }
     </tbody>
 </table>

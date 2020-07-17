@@ -115,7 +115,37 @@ namespace Uebungsprojekt.Controllers
         {
             return RedirectToAction("Bookings");
         }
-        
+
+        [HttpGet, ActionName("CheckIn")]
+        public ActionResult CheckIn(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            Booking b = booking_dao.GetById(id, 0);
+            b.checkedIn = 1;
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("CheckIn")]
+        public ActionResult CheckInConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpGet, ActionName("CheckOut")]
+        public ActionResult CheckOut(int id)
+        {
+            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
+            Booking b = booking_dao.GetById(id, 0);
+            b.checkedIn = 2;
+            return RedirectToAction("Bookings");
+        }
+
+        [HttpPost, ActionName("CheckOut")]
+        public ActionResult CheckOutConfirmed(int id)
+        {
+            return RedirectToAction("Bookings");
+        }
+
         [HttpGet]
         public IActionResult Infrastructure()
         {

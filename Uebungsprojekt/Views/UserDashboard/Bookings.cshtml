@@ -54,10 +54,10 @@
         @foreach (var booking in Model)
         {
         <tr>
-                @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
-                {
-                    <th>@booking.user.name</th>
-                }
+            @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+            {
+                <th>@booking.user.name</th>
+            }
             <td>@booking.start_state_of_charge%</td>
             <td>@booking.target_state_of_charge%</td>
             <td>@booking.start_time</td>
@@ -66,17 +66,30 @@
             <td>@booking.location.city</td>
             @if (booking.accepted)
             {
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
-                <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">cancel</a></td>
+                @if (booking.checkedIn == 0)
+                {
+                    <td><a href="@Url.Action("CheckIn", "UserDashboard", new { id = booking.id })">Check-In</a></td>
+                    <td></td>
+                }
+                else if (booking.checkedIn == 1)
+                {
+                    <td><a href="@Url.Action("CheckOut", "UserDashboard", new { id = booking.id })">Check-Out</a></td>
+                    <td></td>
+                }
+                else if (booking.checkedIn == 2)
+                {
+                    <td>Clossed</td>
+                    <td><a href="@Url.Action("Delete","UserDashboard", new{id=booking.id})"><span class="material-icons">cancel</span></a></td>
+                }
             }
             else
             {
-                <td>OPEN</td>
+                <td>Open</td>
                 <td><a href="@Url.Action("Delete","UserDashboard", new{id=booking.id})"><span class="material-icons">cancel</span></a></td>
             }
-          <!--  <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
-            <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
-            -->
+            <!--  <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
+      <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+      -->
         </tr>
         }
     </tbody>
