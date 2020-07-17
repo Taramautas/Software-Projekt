@@ -1,4 +1,4 @@
-﻿@model Uebungsprojekt.ViewModel.Administration.AddRushHoursViewModel
+﻿@model Uebungsprojekt.Models.SimulationConfig
 
 @{
     ViewData["Title"] = "Rush Hours";
@@ -13,13 +13,13 @@
         <form asp-action="AddRushHours">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label for="day_of_week" class="">Weekday: </label>
-                <select name="day_of_week" id="day_of_week" asp-items="@Html.GetEnumSelectList<System.DayOfWeek>()">
+                <label for="weekday" class="col-2 col-form-label">Weekday::</label>
+                <select name="weekday" id="weekday" asp-items="@Html.GetEnumSelectList<DayOfWeek>()">
                 </select>
             </div>
             <div class="form-group row">
-                <label for="time" class="">Time: </label>
-                <input type="time" name="time" id="time"/>
+                <label for="timespan" class="col-2 col-form-label">TimeSpan:</label>
+                <input type="time" name="timespan" value="20:45" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Add" class="btn btn-primary" />
@@ -39,17 +39,18 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.config.rush_hours.Any())
-        {
-            @foreach (var rush_hour in Model.config.rush_hours)
+            @if (Model.rush_hours.Any())
             {
-                <tr>
-                    <td>@rush_hour.Item1</td>
-                    <td>@rush_hour.Item2</td>
-                </tr>
+                @foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in Model.rush_hours)
+                {
+                    <tr>
+                        <td>@rush_hour.Item1</td>
+                        <td>@rush_hour.Item2</td>
+                        <td>@Html.ActionLink("Delete", "DeleteRushHours", new { id = Model.rush_hours.FindIndex(rh => rh.Item1 == rush_hour.Item1 && rh.Item2 == rush_hour.Item2)})</td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
+        </tbody>
 </table>
 
 
