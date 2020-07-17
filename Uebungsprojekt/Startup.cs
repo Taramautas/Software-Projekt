@@ -69,7 +69,7 @@ namespace Uebungsprojekt
                 // 02:00 every day
                 //c.CronExpression = @"0 02 * * *";
                 //Testingpurpose:
-                c.CronExpression = @"*/1 * * * *";
+                c.CronExpression = @"*/5 * * * *";
             });
         }
 
@@ -130,8 +130,12 @@ namespace Uebungsprojekt
             List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Schuko_Socket);
             vehicle_dao.Create("TestModel",400, tmp_conn_types);
+            tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
             vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
+            tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.CHAdeMO_Plug);
+            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types);
             //
             
             //CCTYPE startup 
@@ -143,6 +147,7 @@ namespace Uebungsprojekt
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
             charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);
+
             //
             
             //Location Startup
@@ -160,6 +165,11 @@ namespace Uebungsprojekt
             //Berlin
             charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
             //
+            
+            //Booking startup
+            booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
+                vehicle_dao.GetById(1), user_dao.GetById(2), location_dao.GetById(1,0), 0);
+            booking_dao.GetById(1, 0).Accept();
             
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);

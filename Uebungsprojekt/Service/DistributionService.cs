@@ -43,7 +43,9 @@ namespace Uebungsprojekt.Service
            ChargingColumnDaoImpl _chargingcolumndao = new ChargingColumnDaoImpl(_cache);
            BookingDaoImpl _bookingDao = new BookingDaoImpl(_cache);
            int bookingdao_id = 0;
-          // Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020, 8, 15), bookingdao_id);
+           int charcoldao_id = 0;
+           
+           Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020,07,18), bookingdao_id);
 
             return Task.CompletedTask;
         }
