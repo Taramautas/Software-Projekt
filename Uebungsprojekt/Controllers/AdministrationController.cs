@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
 using Uebungsprojekt.ViewModel.Administration;
+using System.Diagnostics;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -72,7 +73,7 @@ namespace Uebungsprojekt.Controllers
             };
             Response.Cookies.Append("SimulationConfig", config_id.ToString(), options);
             
-            return RedirectToAction("AddSimulationVehicle", config_id);
+            return RedirectToAction("SimulationConfig", config_id);
         }
         
         /// <summary>
@@ -294,7 +295,9 @@ namespace Uebungsprojekt.Controllers
                 return RedirectToAction("SimulationInfrastructure");
             LocationDao location_dao = new LocationDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
-            
+
+            Console.WriteLine(charge.name + " performance: " + charge.overall_performance + "test");
+
             charging_zone_dao.Create(
                 charge.name,
                 charge.overall_performance, 

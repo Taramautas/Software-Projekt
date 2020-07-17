@@ -41,7 +41,10 @@
 <hr />
 <div>
     <h3><u>Vehicles</u></h3>
+    @if (Model.config.vehicles.Any())
+    {
     <a href="@Url.Action("DeleteAllSimulationVehicles", "Administration")"><span class="material-icons">cancel</span></a>
+    }
 </div>
 <table id="booking-table" style="width:100%" class="table table-hover">
     <thead class="thead-light">
@@ -74,7 +77,7 @@
         </abbr>
     </div>
     <div class="col-sm-1">
-        <abbr title="Submit and go to Rush Hours">
+        <abbr title="Go to Rush Hours">
             <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("AddRushHours","Administration")"><span class="material-icons">navigate_next</span></a>
         </abbr>
     </div>

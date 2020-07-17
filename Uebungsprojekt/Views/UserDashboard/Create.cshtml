@@ -104,17 +104,17 @@
         let start_time = document.getElementById('StartTime');
         let end_time = document.getElementById('EndTime');
 
-        let current_SoC = document.getElementById('StateOfCharge');
-        let target_SoC = document.getElementById('NeededDistance');
+        let current_SoC = parseInt(document.getElementById('StateOfCharge').value);
+        let target_SoC = parseInt(document.getElementById('NeededDistance').value);
 
         let sub_button = document.getElementById('btnsub');
 
-        if (start_time.value < end_time.value && target_SoC.value > current_SoC.value) {
+        if (start_time.value < end_time.value && target_SoC > current_SoC) {
             sub_button.disabled = false;
         } else {
             sub_button.disabled = true;
         }
-        setTimeout(validate_Date, 1000);
+        setTimeout(validate_Date, 100);
     }
     validate_Date();
 

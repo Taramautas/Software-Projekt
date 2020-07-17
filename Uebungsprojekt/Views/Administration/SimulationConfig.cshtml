@@ -34,15 +34,17 @@
         <span asp-validation-for="weeks" class="text-danger form-danger-span"></span>
     </div>
     <br />
-    <div class="form-group row">
-        <div class="col-sm-11">
-        </div>
-        <div class="col-sm-1">
-            <abbr title="Submit and go to Vehicles">
-                <button class="btn btn-outline-primary ml-1 submit" type="submit"><span class="material-icons">navigate_next</span></button>
-            </abbr>
-        </div>
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 </form>
+
+<div class="form-group row">
+    <div class="col-sm-12">
+        <abbr title="Go to Vehicles">
+            <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("AddSimulationVehicle","Administration")"><span class="material-icons">navigate_next</span></a>
+        </abbr>
+    </div>
+</div>
 
 @*<input type="button" value="Next" onclick="location.href='@Url.Action("AddSimulationVehicle", "Administration")'" />*@

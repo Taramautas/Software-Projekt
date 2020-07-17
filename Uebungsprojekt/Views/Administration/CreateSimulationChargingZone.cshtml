@@ -31,7 +31,10 @@
                     {
                         @foreach (var location in Model.location)
                         {
-                            <option value="@location.id">@location.city</option>
+                            @foreach (var location in Model.location)
+                            {
+                                <option value="@location.id">@location.city</option>
+                            }
                         }
                     }
                 </select>
