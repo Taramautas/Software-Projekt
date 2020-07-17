@@ -10,27 +10,27 @@
     <br />
     <div class="form-group row">
         <label for="TickMinutes" class="col-2 col-form-label">Tick minutes:</label>
-        <input id="TickMinutes" class="col-10 form-control" asp-for="tick_minutes"><br />
+        <input id="TickMinutes" class="col-10 form-control" asp-for="tick_minutes" placeholder="@Model.tick_minutes"><br />
         <span asp-validation-for="tick_minutes" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Min" class="col-2 col-form-label">Min:</label>
-        <input id="Min" class="col-10 form-control" asp-for="min"><br />
+        <input id="Min" class="col-10 form-control" asp-for="min" placeholder="@Model.min"><br />
         <span asp-validation-for="min" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Max" class="col-2 col-form-label">Max:</label>
-        <input id="Max" class="col-10 form-control" asp-for="max"><br />
+        <input id="Max" class="col-10 form-control" asp-for="max" placeholder="@Model.max"><br />
         <span asp-validation-for="max" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Spread" class="col-2 col-form-label">Spread:</label>
-        <input id="Spread" class="col-10 form-control" asp-for="spread"><br />
+        <input id="Spread" class="col-10 form-control" asp-for="spread" placeholder="@Model.spread"><br />
         <span asp-validation-for="spread" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="Weeks" class="col-2 col-form-label">Weeks:</label>
-        <input id="Weeks" class="col-10 form-control" asp-for="weeks"><br />
+        <input id="Weeks" class="col-10 form-control" asp-for="weeks" placeholder="@Model.weeks"><br />
         <span asp-validation-for="weeks" class="text-danger form-danger-span"></span>
     </div>
     <br />
@@ -38,9 +38,11 @@
         <div class="col-sm-11">
         </div>
         <div class="col-sm-1">
-            <abbr title="Next">
+            <abbr title="Submit and go to Vehicles">
                 <button class="btn btn-outline-primary ml-1 submit" type="submit"><span class="material-icons">arrow_right</span></button>
             </abbr>
         </div>
     </div>
 </form>
+
+<input type="button" value="Next" onclick="location.href='@Url.Action("AddSimulationVehicle", "Administration")'" />
