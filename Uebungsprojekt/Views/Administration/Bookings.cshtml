@@ -29,6 +29,7 @@
             <th>End Time</th>
             <th>Vehicle</th>
             <th>Location</th>
+            <th>User</th>
             <th></th>
             <th></th>
         </tr>
@@ -43,6 +44,7 @@
                 <td>@booking.end_time</td>
                 <td>@booking.vehicle.model_name</td>
                 <td>@booking.location.id</td>
+                <td>@booking.user.email</td>
                 <td><span class="material-icons">done</span></td>
                 @if (booking.accepted)
                 {

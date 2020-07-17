@@ -94,7 +94,7 @@
                                             @if (chargingColumn.charging_zone.id == chargingZone.id)
                                             {
                                                 <tr>
-                                                    <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
+                                                    <td>@chargingColumn.charging_column_type_id.model_name</td>
                                                     <td><a href="@Url.Action("DeleteChargingColumn","Administration", new{id=chargingColumn.id})"><span class="material-icons">cancel</span></a>@*@Html.ActionLink("Delete", "DeleteChargingColumn", new { id = chargingColumn.id })*@</td>
                                                 </tr>
                                             }

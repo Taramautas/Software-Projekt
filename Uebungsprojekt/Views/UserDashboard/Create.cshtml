@@ -104,12 +104,12 @@
         let start_time = document.getElementById('StartTime');
         let end_time = document.getElementById('EndTime');
 
-        let current_SoC = document.getElementById('StateOfCharge');
-        let target_SoC = document.getElementById('NeededDistance');
+        let current_SoC = Int32.Parse(document.getElementById('StateOfCharge'));
+        let target_SoC = Int32.Parse(document.getElementById('NeededDistance'));
 
         let sub_button = document.getElementById('btnsub');
 
-        if (start_time.value < end_time.value && target_SoC.value > current_SoC.value) {
+        if (start_time.value < end_time.value && target_SoC > current_SoC) {
             sub_button.disabled = false;
         } else {
             sub_button.disabled = true;

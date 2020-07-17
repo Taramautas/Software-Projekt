@@ -19,7 +19,7 @@
                     {
                         @foreach (var charging_zone in Model.chargingZones)
                         {
-                            <option value="@charging_zone.id">@charging_zone.location.city - @charging_zone.id</option>
+                            <option value="@charging_zone.id">@charging_zone.location.city - @charging_zone.name</option>
                         }
                     }
                 </select>
