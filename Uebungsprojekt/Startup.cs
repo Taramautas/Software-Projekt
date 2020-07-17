@@ -56,10 +56,19 @@ namespace Uebungsprojekt
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
             
-            // Added Cronjob - which runs every 15th minute
+            // Added Cronjob (Booking mail reminder) - which runs every 1th minute
             services.AddCronJob<CronTest>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"*/1 * * * *";
+            });
+            // 
+            services.AddCronJob<DistributionService>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                // 02:00 every day
+                //c.CronExpression = @"0 02 * * *";
+                //Testingpurpose:
                 c.CronExpression = @"*/1 * * * *";
             });
         }
