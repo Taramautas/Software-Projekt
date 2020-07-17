@@ -92,7 +92,6 @@ namespace Uebungsprojekt.Simulations
                 // Iterate through all weekdays
                 foreach (int day in Enumerable.Range(1, 5))
                 {
-                    DateTime start = new DateTime();
                     // Iterate through all tick in a day
                     foreach (int tick in Enumerable.Range(1, ticks_per_day))
                     {
@@ -117,7 +116,7 @@ namespace Uebungsprojekt.Simulations
                             int state_of_charge = random.Next(33);
                             int target_state_of_charge = state_of_charge + 33 + random.Next(33);
 
-                            start = start_datetime.AddDays(week * 5 + day);
+                            DateTime start = start_datetime.AddDays(week * 5 + day);
                             start = start.Add(tick_minutes * tick);
                             start = start.Add(new TimeSpan(0, random.Next(45), 0));
 
@@ -153,7 +152,6 @@ namespace Uebungsprojekt.Simulations
                         new ChargingColumnDaoImpl(cache), 
                         simulation_result.infrastructure.charging_column_dao_id,
                         new BookingDaoImpl(cache),
-                        start,
                         booking_dao_id
                         );
                 }

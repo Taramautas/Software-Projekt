@@ -2,29 +2,28 @@
 
 @{
     ViewData["Title"] = "Create Location";
-    Layout = "_PlanerLayout";
-
 }
 
-<h1 style="margin-bottom: 0;">Create Location</h1>
+<h1>Create Location</h1>
 
+<h4>Location</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateLocation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="city" class="control-label">City:</label>
+                <label asp-for="city" class="control-label"></label>
                 <input asp-for="city" class="form-control" />
                 <span asp-validation-for="city" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="post_code" class="control-label">Post Code:</label>
+                <label asp-for="post_code" class="control-label"></label>
                 <input asp-for="post_code" class="form-control" />
                 <span asp-validation-for="post_code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="address" class="control-label">Adress:</label>
+                <label asp-for="address" class="control-label"></label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
             </div>
