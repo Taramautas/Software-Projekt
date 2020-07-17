@@ -46,8 +46,7 @@
         <th>End Time</th>
         <th>Vehicle</th>
         <th>Location</th>
-        <th>Booking Accepted</th>
-        <th></th>
+        <th>Status</th>
         <th></th>
     </tr>
     </thead>
@@ -65,7 +64,6 @@
             <td>@booking.end_time</td>
             <td>@booking.vehicle.model_name</td>
             <td>@booking.location.city</td>
-            <td><span class="material-icons">done</span></td>
             @if (booking.accepted)
             {
                 <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">check-in / -out</a></td>
