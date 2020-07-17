@@ -85,7 +85,7 @@
 
 
     <div class="row">
-        <button class="btn btn-outline-primary col-12" type="submit">Create</button>
+        <button id="btnsub" class="btn btn-outline-primary col-12" type="submit">Create</button>
     </div>
 </form>
 
@@ -93,3 +93,41 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+<script>
+    document.getElementById('StartTime').value = new Date().toISOString().slice(0, 10);
+    document.getElementById('EndTime').value = new Date().toISOString().slice(0, 10);
+
+    StartTime.min = new Date().toISOString().split("T")[0];
+    EndTime.min = new Date().toISOString().split("T")[0];
+
+    function validate_Date() {
+        let start_time = document.getElementById('StartTime');
+        let end_time = document.getElementById('EndTime');
+
+        let sub_button = document.getElementById('btnsub');
+
+        if (start_time.value >= end_time.value) {
+            sub_button.disabled = true;
+        } else {
+            sub_button.disabled = false;
+        }
+        setTimeout(validate_Date, 1000);
+    }
+    validate_Date();
+
+    function validate_SoC() {
+        let current_SoC = document.getElementById('StateOfCharge');
+        let target_SoC = document.getElementById('NeededDistance');
+
+        let sub_button = document.getElementById('btnsub');
+
+        if (target_SoC.value >= current_SoC.value) {
+            sub_button.disabled = false;
+        } else {
+            sub_button.disabled = true;
+        }
+        setTimeout(validate_SoC, 1000);
+    }
+    validate_SoC()
+
+</script>
