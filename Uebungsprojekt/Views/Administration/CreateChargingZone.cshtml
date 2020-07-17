@@ -5,26 +5,27 @@
     Layout = "_PlanerLayout";
 }
 
-<h1>Create Charging Zone</h1>
-
-<h4>Charging Zone</h4>
+<h1 style="margin-bottom: 0;">Create Charging Zone</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Administration" asp-action="CreateChargingZone" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label for="name" class="col-2 col-form-label">Name*:</label>
-                <input id="name" name="name" asp-for="chargingzone.name" type="text" class="col-10 form-control"><br />
+                <label for="name" class="col-2 col-form-label">Name:</label>
+                <div class="col-1"></div>
+                <input id="name" name="name" asp-for="chargingzone.name" type="text" class="col-9 form-control"><br />
             </div>
-            <div class="form-group">
-                <label for="overall_performance" class="control-label">Overall Performance (in kW)</label>
-                <input id="overall_performance" name="overall_performance"asp-for="chargingzone.overall_performance" type="number" class="form-control" />
+            <div class="form-group row">
+                <label for="overall_performance" class="control-label col-7"><b>Overall Performance (in kW):</b></label>
+                <div class="col-1"></div>
+                <input id="overall_performance" name="overall_performance" asp-for="chargingzone.overall_performance" type="number" class="form-control col-4" />
                 <span asp-validation-for="chargingzone.overall_performance" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label for="location_id" class="col-2 col-form-label">Location:</label>
-                <select name="location_id" id="location_id">
+                <div class="col-1"></div>
+                <select class="col-9" name="location_id" id="location_id">
                     @if (Model.location.Any())
                     {
                         @foreach (var location in Model.location)
@@ -32,8 +33,8 @@
                             <option value="@location.id">@location.city</option>
                         }
                     }
-                    </select>
-                </div>
+                </select>
+            </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>

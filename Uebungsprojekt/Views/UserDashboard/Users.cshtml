@@ -10,8 +10,8 @@
 <div class="row">
     <div class="col-12">
         <abbr title="Create new User">
-            <a class="btn btn-primary submit" asp-area="" asp-controller="UserDashboard" asp-action="CreateUser">
-                <span class="material-icons">add_box</span>
+            <a class="submit" asp-area="" asp-controller="UserDashboard" asp-action="CreateUser">
+                <span class="material-icons">add_to_photos</span>
             </a>
         </abbr>
     </div>
@@ -39,7 +39,7 @@
             <td>@user.name</td>
             <td>@user.email</td>
             <td>@user.role</td>
-            <td>@Html.ActionLink("Delete", "DeleteUser", new { id = user.id })</td>
+            <td><a href="@Url.Action("DeleteUser","UserDashboard", new{id=user.id})"><span class="material-icons">cancel</span></a>@*@Html.ActionLink("Delete", "DeleteUser", new { id = user.id })*@</td>
         </tr>
         }
     }
