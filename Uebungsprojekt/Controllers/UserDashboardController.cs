@@ -53,17 +53,17 @@ namespace Uebungsprojekt.Controllers
             bookings.AddRange(booking_dao.GetOpenBookingsByUserId(user_id));
             return View(bookings);
         }
-        
-        /// <summary>
-        /// Show Create form for booking
-        /// </summary>
-        [HttpGet]
+
+    /// <summary>
+    /// Show Create form for booking
+    /// </summary>
+    [HttpGet]
         public IActionResult Create()
         {
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
             LocationDao location_dao = new LocationDaoImpl(cache);
             UserDao user_dao = new UserDaoImpl(cache);
-            var cvw = new CreateViewModel(location_dao.GetAll(0), vehicle_dao.GetAll(), new Booking(), user_dao.GetAll());
+            var cvw = new CreateViewModel(location_dao.GetAll(0), vehicle_dao.GetVehiclesByUserId(user_id), new Booking(), user_dao.GetAll());
             return View(cvw);
         }
 
