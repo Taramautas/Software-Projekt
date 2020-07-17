@@ -40,6 +40,16 @@ namespace Uebungsprojekt
             return false;
         }
 
+        public static bool FindAcceptedBookings(Booking booking)
+        {
+
+            if (booking.accepted == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Helfunktion to proof the connector type is equal to the booking connector type
         /// </summary>

@@ -18,15 +18,15 @@ namespace Uebungsprojekt.Algorithm
         /// <param name="chargingcolumndao"></param>
         /// <param name="connectorTypes"></param>
         /// <returns></returns>
-        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, int chargingcolumndaoID, BookingDaoImpl bookingdao, int bookindaoID)
+        public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, int chargingcolumndaoID, BookingDaoImpl bookingdao, DateTime time, int bookindaoID)
         {
             /// generate several list which are needed to run the Algorithm and eliminate the candidates which arent needed
-            List<Booking> bookings = bookingdao.GetAll(bookindaoID);
-            Console.WriteLine("allbookings");
-            foreach (Booking b in bookings)
+            List<Booking> bookings = bookingdao.GetAll(bookindaoID).FindAll(delegate(Booking b) { return b.start_time.Date >= time.Date; });
+            Console.WriteLine("allbookings: " + bookings.Count());
+            /*foreach (Booking b in bookings)
             {
                 Console.WriteLine(b.id);
-            }
+            }*/
             Console.WriteLine();
 
             //list of all unaccepted Bookings
@@ -44,11 +44,11 @@ namespace Uebungsprojekt.Algorithm
             {
                 return b.user.role == Role.Guest;
             }));
-            Console.WriteLine("unaccapted");
-            foreach (Booking b in unacceptedBookings)
+            Console.WriteLine("unaccapted " + unacceptedBookings.Count());
+            /*foreach (Booking b in unacceptedBookings)
             {
                 Console.WriteLine(b.id);
-            }
+            }*/
             Console.WriteLine();
             //list of all needed locations which are extracted by bookings
             List<Location> listofBookingLocations = new List<Location>();
@@ -1075,17 +1075,59 @@ namespace Uebungsprojekt.Algorithm
                     Console.WriteLine("\n");
                 }
 
-                foreach (ChargingColumn cc in listofBookingChargingColumn)
-                {
-                    foreach (ChargingColumn cc2 in result)
-                    {
-                        if (cc.charging_column_type_id.id == cc2.charging_column_type_id.id)
-                        {
+                
+                
+            }
 
-                        }
+
+
+
+            bookings = bookingdao.GetAll(bookindaoID);
+
+            
+            
+
+
+            List<Booking> acceptedBookings = bookings.FindAll(HelpFunctions.FindAcceptedBookings).FindAll(delegate (Booking b)
+            {
+                return b.user.role == Role.VIP;
+            });
+
+            acceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindAcceptedBookings).FindAll(delegate (Booking b)
+            {
+                return b.user.role == Role.Employee;
+            }));
+
+            acceptedBookings.AddRange(bookings.FindAll(HelpFunctions.FindAcceptedBookings).FindAll(delegate (Booking b)
+            {
+                return b.user.role == Role.Guest;
+            }));
+
+            Console.WriteLine("accepted: " + acceptedBookings.Count());
+
+            foreach (ChargingColumn cc in listofBookingChargingColumn)
+            {
+                foreach (ChargingColumn cc2 in result)
+                {
+                    if (cc.charging_column_type_id.id == cc2.charging_column_type_id.id)
+                    {
+                        Console.WriteLine("pass");
+                        cc.list[cc.list.FindIndex(ind => ind.Item2.Equals(cc2.list[0].Item2))] = cc2.list[0];
                     }
                 }
+            }
 
+            foreach (ChargingColumn cc in listofBookingChargingColumn)
+            {
+                Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item1 + "\n");
+                foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
+                {
+                    foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
+                    {
+                        Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2 + "Connector: " + tuple.Item2);
+                    }
+                }
+                Console.WriteLine("\n");
             }
         }
     }

@@ -10,8 +10,8 @@
 <div class="row">
     <div class="col-12">
         <abbr title="Create new Vehicle">
-            <a class="btn btn-primary submit" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">
-                <span class="material-icons">add_box</span>
+            <a class="submit" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">
+                <span class="material-icons">add_to_photos</span>
             </a>
         </abbr>
     </div>
@@ -24,7 +24,6 @@
             <th>Model</th>
             <th>Capacity in kWh</th>
             <th>Connector Types</th>
-            <th>User</th>
             <th></th>
         </tr>
     </thead>
@@ -42,18 +41,16 @@
                     if (!conntype.Equals(last_type))
                     {
                         // For spacing - not working good because of the used font
-                        string str = new string('-', 20 - conntype.ToString().Length);
+                        string str = new string(' ', 20 - conntype.ToString().Length) + "| ";
                         @(conntype + str)
                     }
                     else
                     {@(conntype.ToString())}
                 }
             </td>
-            @if (vehicle.user != null)
-            {
-                <td>@vehicle.user.email</td>
-            }
-            <td>@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })</td>
+            <td><a href="@Url.Action("DeleteVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
+    @*@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })*@
+</td>
         </tr>
             }
 

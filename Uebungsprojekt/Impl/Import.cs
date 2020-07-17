@@ -282,7 +282,7 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (Vehicle b in importedVehicle)
                     {
-                        vehicleDao.Create(b.model_name, b.capacity, b.connector_types, b.user);
+                        vehicleDao.Create(b.model_name, b.capacity, b.connector_types);
                     }
                 }
             }
@@ -440,8 +440,7 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (Vehicle b in importedVehicle)
                     {
-                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
-                        vehicleIds.Add(new Tuple<int, int>(b.id, vehicleDao.Create(b.model_name, b.capacity, b.connector_types, userDao.GetById(user_id))));
+                        vehicleIds.Add(new Tuple<int, int>(b.id, vehicleDao.Create(b.model_name, b.capacity, b.connector_types)));
                     }
                 }
 

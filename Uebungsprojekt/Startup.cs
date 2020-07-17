@@ -93,7 +93,6 @@ namespace Uebungsprojekt
             user_dao.Create("VIP", "vip@vip.de", "vip", Role.VIP);
             user_dao.Create("Guest", "guest@guest.de", "guest", Role.Employee);
             user_dao.Create("Employee", "user@user.de", "user", Role.Employee);
-            user_dao.Create("Employee", "user2@user2.de", "user2", Role.Employee);
 
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             config_dao.GetAll();
@@ -126,12 +125,13 @@ namespace Uebungsprojekt
             //
             
             
+            
             //Vehicle startup
             List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Schuko_Socket);
-            vehicle_dao.Create("TestModel",400, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            vehicle_dao.Create("TestModel",400, tmp_conn_types);
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
-            vehicle_dao.Create("BlaModel", 999, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
             //
             
             //CCTYPE startup 

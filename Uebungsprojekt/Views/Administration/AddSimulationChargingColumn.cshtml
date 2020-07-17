@@ -2,19 +2,18 @@
 
 @{
     ViewData["Title"] = "Add Charging Column";
+    Layout = "_PlanerLayout";
 }
 
-<h1>Add Charging Column</h1>
-
-<h4>Charging Column</h4>
+<h1 style="margin-bottom: 0;">Add Charging Column</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddSimulationChargingColumn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label for="charging_zone_id" class="col-2 col-form-label">Charging Zone:</label>
-                <select name="charging_zone_id" id="charging_zone_id">
+                <label for="charging_zone_id" class="col-6 col-form-label">Charging Zone:</label>
+                <select class="col-6" name="charging_zone_id" id="charging_zone_id">
                     @if (Model.chargingZones.Any())
                     {
                         @foreach (var charging_zone in Model.chargingZones)
@@ -25,19 +24,19 @@
                 </select>
             </div>
             <div class="form-group row">
-                <label for="charging_column_type_id" class="col-2 col-form-label">Charging Column Type:</label>
-                <select name="charging_column_type_id" id="charging_column_type_id">
+                <label for="charging_column_type_id" class="col-6 col-form-label">Charging Column Type:</label>
+                <select class="col-6" name="charging_column_type_id" id="charging_column_type_id">
                     @if (Model.chargingColumnTypes.Any())
                     {
                         @foreach (var charging_column_type in Model.chargingColumnTypes)
                         {
                             <option value="@charging_column_type.id">@charging_column_type.model_name</option>
-                        } 
+                        }
                     }
                     else
                     {
                         <option>--No Charging Column Types available--</option>
-                    
+
                     }
                 </select>
             </div>
@@ -49,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-action="Infrastructure">Back to List</a>
+    <a asp-action="SimulationInfrastructure">Back to List</a>
 </div>
 
 @section Scripts {

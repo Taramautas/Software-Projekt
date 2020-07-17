@@ -15,11 +15,9 @@ namespace Uebungsprojekt.Models
         
         /// <summary>List of available connector type</summary>
         public List<ConnectorType> connector_types { get; set; }
-
-        public User user { get; set; }
-
-
-
+        
+        
+        
         /// <summary>
         /// Empty Constructor
         /// </summary>
