@@ -1,4 +1,4 @@
-﻿@model Uebungsprojekt.Models.SimulationConfig
+﻿@model Uebungsprojekt.ViewModel.Administration.AddRushHoursViewModel
 
 @{
     ViewData["Title"] = "Rush Hours";
@@ -13,13 +13,13 @@
         <form asp-action="AddRushHours">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label for="vehicle_id" class="col-2 col-form-label">Weekday::</label>
-                <select name="vehicle_id" id="vehicle_id" asp-items="@Html.GetEnumSelectList<System.DayOfWeek>()">
+                <label for="day_of_week" class="">Weekday: </label>
+                <select name="day_of_week" id="day_of_week" asp-items="@Html.GetEnumSelectList<System.DayOfWeek>()">
                 </select>
             </div>
             <div class="form-group row">
-                <label for="count" class="col-2 col-form-label">TimeSpan:</label>
-                <input type="text" name="StartTime" value="20:45" />
+                <label for="time" class="">Time: </label>
+                <input type="time" name="time" id="time"/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Add" class="btn btn-primary" />
@@ -39,7 +39,16 @@
         </tr>
     </thead>
     <tbody>
-        
+        @if (Model.config.rush_hours.Any())
+        {
+            @foreach (var rush_hour in Model.config.rush_hours)
+            {
+                <tr>
+                    <td>@rush_hour.Item1</td>
+                    <td>@rush_hour.Item2</td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
 

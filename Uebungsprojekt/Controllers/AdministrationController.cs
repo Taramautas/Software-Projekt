@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
 using Uebungsprojekt.ViewModel.Administration;
+using System.Linq.Expressions;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -399,6 +400,37 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("AddSimulationVehicle");
         }
 
+        [HttpGet]
+        public IActionResult AddRushHours()
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            AddRushHoursViewModel arhvm = new AddRushHoursViewModel(config);
+            return View(arhvm);
+        }
+
+        [HttpPost]
+        public IActionResult AddRushHours(String day_of_week, String time)
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            DayOfWeek dow = new DayOfWeek();
+            Enum.TryParse<DayOfWeek>(day_of_week, out dow);
+            TimeSpan ts = new TimeSpan();
+            if (time != null) {
+                try
+                {
+                    ts = TimeSpan.Parse(time);
+                } catch (FormatException)
+                {
+                    System.Diagnostics.Debug.WriteLine("Format Exeption");
+                } catch (OverflowException)
+                {
+                    System.Diagnostics.Debug.WriteLine("Overflow");
+                }
+            }
+            config.rush_hours.Add(new Tuple<DayOfWeek, TimeSpan>(dow, ts));
+            return RedirectToAction("AddRushHours");
+        }
+
         [HttpGet, ActionName("DeleteSimulationVehicle")]
         public ActionResult DeleteSimulationVehicle(int id)
         {
@@ -426,11 +458,6 @@ namespace Uebungsprojekt.Controllers
         public ActionResult DeleteAllSimulationVehiclesConfirmed()
         {
             return RedirectToAction("AddSimulationVehicle");
-        }
-
-        public IActionResult AddRushHours()
-        {
-            return View();
         }
 
         /// <summary>
