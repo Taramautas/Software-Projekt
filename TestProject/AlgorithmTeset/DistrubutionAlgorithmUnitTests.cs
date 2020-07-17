@@ -69,7 +69,7 @@ namespace UnitTest.Algorithm
             ChargingZone cz1 = _chargingZoneDao.GetById(cz_id1, ChargingZoneDao_id);
 
             // Create ChargingColumns
-            int charcoldao_id = 0;
+            int charcoldao_id = 1;
             _chargingcolumndao.GetAll(charcoldao_id);
             int charcol_id1 = _chargingcolumndao.Create(cct1,  cz1, null, charcoldao_id);
             int charcol_id2 = _chargingcolumndao.Create(cct2,  cz1, null, charcoldao_id);
@@ -91,7 +91,7 @@ namespace UnitTest.Algorithm
 
 
             // create a few bookings
-            int bookingdao_id = 0;
+            int bookingdao_id = 1;
             _bookingDao.GetAll(bookingdao_id);
             ///Vip user
             _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 6, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1,  bookingdao_id);
@@ -167,7 +167,7 @@ namespace UnitTest.Algorithm
                 }
             }
 
-            Uebungsprojekt.Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, bookingdao_id);
+            Uebungsprojekt.Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020, 8, 15), bookingdao_id);
 
             foreach (ChargingColumn cc in _chargingcolumndao.GetAll(charcoldao_id))
             {
