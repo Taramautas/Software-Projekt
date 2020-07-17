@@ -69,7 +69,7 @@ namespace UnitTest.Algorithm
             ChargingZone cz1 = _chargingZoneDao.GetById(cz_id1, ChargingZoneDao_id);
 
             // Create ChargingColumns
-            int charcoldao_id = 1;
+            int charcoldao_id = 0;
             _chargingcolumndao.GetAll(charcoldao_id);
             int charcol_id1 = _chargingcolumndao.Create(cct1,  cz1, null, charcoldao_id);
             int charcol_id2 = _chargingcolumndao.Create(cct2,  cz1, null, charcoldao_id);
@@ -82,16 +82,16 @@ namespace UnitTest.Algorithm
 
             // create vehicles
             _vehicleDao.GetAll();
-            int veh1_id = _vehicleDao.Create("Tesla", 80, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.CCS_Combo_2_Plug });
-            int veh2_id = _vehicleDao.Create("Porsche", 95, new List<ConnectorType> { ConnectorType.Type_2_Plug, ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_1_Plug });
-            int veh3_id = _vehicleDao.Create("VW", 58, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.CHAdeMO_Plug });
+            int veh1_id = _vehicleDao.Create("Tesla", 80, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.CCS_Combo_2_Plug }, null);
+            int veh2_id = _vehicleDao.Create("Porsche", 95, new List<ConnectorType> { ConnectorType.Type_2_Plug, ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_1_Plug }, null);
+            int veh3_id = _vehicleDao.Create("VW", 58, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.CHAdeMO_Plug }, null);
             Vehicle veh1 = _vehicleDao.GetById(veh1_id);
             Vehicle veh2 = _vehicleDao.GetById(veh2_id);
             Vehicle veh3 = _vehicleDao.GetById(veh3_id);
 
 
             // create a few bookings
-            int bookingdao_id = 1;
+            int bookingdao_id = 0;
             _bookingDao.GetAll(bookingdao_id);
             ///Vip user
             _bookingDao.Create(10, 100, new DateTime(2020, 7, 15, 6, 0, 0), new DateTime(2020, 7, 15, 18, 30, 0), veh1, userVip, loc1,  bookingdao_id);
@@ -167,7 +167,7 @@ namespace UnitTest.Algorithm
                 }
             }
 
-            Uebungsprojekt.Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020, 8, 15), bookingdao_id);
+            Uebungsprojekt.Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, bookingdao_id);
 
             foreach (ChargingColumn cc in _chargingcolumndao.GetAll(charcoldao_id))
             {

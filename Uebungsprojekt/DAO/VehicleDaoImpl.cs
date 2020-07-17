@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a Vehicle with new Id to the Vehiclelist if there is one, else it creates a new List and adds the Vehicle
         /// </summary>
         /// <returns>the id of the added Vehicle</returns>
-        public int Create(string _model_name, int _capacity, List<ConnectorType> _connector_types)
+        public int Create(string _model_name, int _capacity, List<ConnectorType> _connector_types, User _user)
         {
             if (_cache.TryGetValue("CreateVehicleIds", out int ids))
             {
@@ -33,6 +33,7 @@ namespace Uebungsprojekt.DAO
                     model_name = _model_name,
                     capacity = _capacity,
                     connector_types = _connector_types,
+                    user = _user
                 };
                 createdVehicles.Add(newVehicle);
                 return ids;
@@ -48,6 +49,7 @@ namespace Uebungsprojekt.DAO
                     model_name = _model_name,
                     capacity = _capacity,
                     connector_types = _connector_types,
+                    user = _user
                 };
                 createdVehicles.Add(newVehicle);
                 _cache.Set("CreateVehicle", createdVehicles);
@@ -55,6 +57,7 @@ namespace Uebungsprojekt.DAO
                 return ids;
             }
         }
+
 
         
         /// <summary>
@@ -108,6 +111,34 @@ namespace Uebungsprojekt.DAO
             {
 
                 return createdVehicles.Find(x => x.id == _Id);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Finds all Vehicles from specified user and returns them
+        /// </summary>
+        /// <param name="user_id">the id of the user whose bookings we are looking for</param>
+        /// <returns>List of Vehicles with specified parameters on success and null on failure</returns>
+        public List<Vehicle> GetVehiclesByUserId(int user_id)
+        {
+            if (_cache.TryGetValue("CreateVehicle", out List<Vehicle> createdVehicles))
+            {
+                List<Vehicle> vehicles_by_user = new List<Vehicle>();
+                foreach (Vehicle v in createdVehicles)
+                {
+                    if(v.user != null)
+                    {
+                        if ((v.user.id == user_id))
+                        {
+                            vehicles_by_user.Add(v);
+                        }
+                    }
+                }
+                return vehicles_by_user;
             }
             else
             {

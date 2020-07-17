@@ -10,8 +10,8 @@
 <div class="row">
     <div class="col-12">
         <abbr title="Create new Charging Column Type">
-            <a class="submit" asp-area="" asp-controller="Administration" asp-action="CreateChargingColumnType">
-                <span class="material-icons">add_to_photos</span>
+            <a class="btn btn-primary submit" asp-area="" asp-controller="Administration" asp-action="CreateChargingColumnType">
+                <span class="material-icons">add_box</span>
             </a>
         </abbr>
     </div>
@@ -39,20 +39,10 @@
             <td>
                 @foreach (var conn_type in cct.connectors)
                 {
-                    if (conn_type.Equals(cct.connectors.Last()))
-                    {
-
-                        @(conn_type.Item1 + " " + conn_type.Item2);
-                    }
-                    else
-                    {
-                        @(conn_type.Item1 + " " + conn_type.Item2 + " | " );
-
-                    }
+                    @(conn_type.Item1 + " - " + conn_type.Item2 + "   " );
                 }
             </td>
-            <td><a href="@Url.Action("DeleteChargingColumnType","Administration", new{id = cct.id })"><span class="material-icons">cancel</span></a>
-            @*@Html.ActionLink("Delete", "DeleteChargingColumnType", new { id = cct.id })*@</td>
+            <td>@Html.ActionLink("Delete", "DeleteChargingColumnType", new { id = cct.id })</td>
         </tr>
         }
     </tbody>
