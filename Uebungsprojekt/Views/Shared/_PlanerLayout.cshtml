@@ -47,9 +47,17 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark home" asp-area="" asp-controller="Administration" asp-action="Bookings">Bookings</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark privacy" asp-area="" asp-controller="Administration" asp-action="SimulationConfig">Simulation</a>
+                            <li>
+                                <div class="dropdown">
+                                    <a class="nav-link text-dark viewselection" asp-area="" asp-controller="Administration" asp-action="SimulationConfig">Simulation</a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="SimulationConfig">Simulation Configuration</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="AddSimulationVehicle">Simulation Vehicles</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="AddRushHours">Simulation Rush Hours</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="SimulationInfrastructure">Simulation Infrastructure</a>
+                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Simulation">Simulation</a>
+                                    </div>
+                                </div>
                             </li>
                             @*<li class="nav-item">
             <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="Configuration">Configuration</a>

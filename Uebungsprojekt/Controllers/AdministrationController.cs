@@ -13,7 +13,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Simulations;
 using Uebungsprojekt.ViewModel.Administration;
-using System.Linq.Expressions;
 
 namespace Uebungsprojekt.Controllers
 {
@@ -262,18 +261,13 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("SimulationInfrastructure");
         }
 
-        [HttpGet, ActionName("DeleteSimulationLocation")]
+        [HttpGet]
         public ActionResult DeleteSimulationLocation(int id)
         {
             LocationDaoImpl locationDao = new LocationDaoImpl(cache);
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
-            locationDao.Delete(id, infrastructure.location_dao_id);
-            return RedirectToAction("SimulationInfrastructure");
-        }
-
-        [HttpPost, ActionName("DeleteSimulationLocation")]
-        public ActionResult DeleteSimulationLocationConfirmed(int id)
-        {
+            if (infrastructure != null)
+                locationDao.Delete(id, infrastructure.location_dao_id);
             return RedirectToAction("SimulationInfrastructure");
         }
 
@@ -313,20 +307,16 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("SimulationInfrastructure");
         }
 
-        [HttpGet, ActionName("DeleteSimulationChargingZone")]
+        [HttpGet]
         public ActionResult DeleteSimulationChargingZone(int id)
         {
             ChargingZoneDaoImpl chargingZoneDao = new ChargingZoneDaoImpl(cache);
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
-            chargingZoneDao.Delete(id, infrastructure.charging_zone_dao_id);
+            if (infrastructure != null)
+                chargingZoneDao.Delete(id, infrastructure.charging_zone_dao_id);
             return RedirectToAction("SimulationInfrastructure");
         }
-
-        [HttpPost, ActionName("DeleteSimulationChargingZone")]
-        public ActionResult DeleteSimulationChargingZoneConfirmed(int id)
-        {
-            return RedirectToAction("SimulationInfrastructure");
-        }
+        
 
         [HttpGet]
         public IActionResult AddSimulationChargingColumn()
@@ -364,18 +354,15 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("SimulationInfrastructure");
         }
 
-        [HttpGet, ActionName("DeleteSimulationChargingColumn")]
+        [HttpGet]
         public ActionResult DeleteSimulationChargingColumn(int id)
         {
-            ChargingColumnDaoImpl chargingColumnTypeDao = new ChargingColumnDaoImpl(cache);
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
+            
+            ChargingColumnDaoImpl chargingColumnTypeDao = new ChargingColumnDaoImpl(cache);
             chargingColumnTypeDao.Delete(id, infrastructure.charging_column_dao_id);
-            return RedirectToAction("SimulationInfrastructure");
-        }
-
-        [HttpPost, ActionName("DeleteSimulationChargingColumn")]
-        public ActionResult DeleteSimulationChargingColumnConfirmed(int id)
-        {
             return RedirectToAction("SimulationInfrastructure");
         }
 
@@ -384,6 +371,8 @@ namespace Uebungsprojekt.Controllers
         {
             VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
             SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
             AddSimulationVehicleViewModel svvm = new AddSimulationVehicleViewModel(vehicle_dao.GetAll(), config);
             return View(svvm);
         }
@@ -392,6 +381,9 @@ namespace Uebungsprojekt.Controllers
         public IActionResult AddSimulationVehicle(int vehicle_id, int count)
         {
             SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            
             VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
             for(int i = 0; i < count; i++)
             {
@@ -401,63 +393,58 @@ namespace Uebungsprojekt.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddRushHours()
-        {
-            SimulationConfig config = GetSimulationConfigFromCookie();
-            AddRushHoursViewModel arhvm = new AddRushHoursViewModel(config);
-            return View(arhvm);
-        }
-
-        [HttpPost]
-        public IActionResult AddRushHours(String day_of_week, String time)
-        {
-            SimulationConfig config = GetSimulationConfigFromCookie();
-            DayOfWeek dow = new DayOfWeek();
-            Enum.TryParse<DayOfWeek>(day_of_week, out dow);
-            TimeSpan ts = new TimeSpan();
-            if (time != null) {
-                try
-                {
-                    ts = TimeSpan.Parse(time);
-                } catch (FormatException)
-                {
-                    System.Diagnostics.Debug.WriteLine("Format Exeption");
-                } catch (OverflowException)
-                {
-                    System.Diagnostics.Debug.WriteLine("Overflow");
-                }
-            }
-            config.rush_hours.Add(new Tuple<DayOfWeek, TimeSpan>(dow, ts));
-            return RedirectToAction("AddRushHours");
-        }
-
-        [HttpGet, ActionName("DeleteSimulationVehicle")]
         public ActionResult DeleteSimulationVehicle(int id)
         {
             SimulationConfig config = GetSimulationConfigFromCookie();
-            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
-            config.vehicles.Remove(vehicle_dao.GetById(id));
+            if (config != null)
+            {
+                VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
+                config.vehicles.Remove(vehicle_dao.GetById(id));
+            }
             return RedirectToAction("AddSimulationVehicle");
         }
 
-        [HttpPost, ActionName("DeleteSimulationVehicle")]
-        public ActionResult DeleteSimulationVehicleConfirmed(int id)
-        {
-            return RedirectToAction("AddSimulationVehicle");
-        }
-
-        [HttpGet, ActionName("DeleteAllSimulationVehicles")]
+        [HttpGet]
         public ActionResult DeleteAllSimulationVehicles()
         {
             SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            
             config.vehicles.Clear();
             return RedirectToAction("AddSimulationVehicle");
         }
 
-        [HttpPost, ActionName("DeleteAllSimulationVehicles")]
-        public ActionResult DeleteAllSimulationVehiclesConfirmed()
+        [HttpGet]
+        public IActionResult AddRushHours()
         {
-            return RedirectToAction("AddSimulationVehicle");
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            
+            return View(config);
+        }
+        
+        [HttpPost]
+        public IActionResult AddRushHours(DayOfWeek weekday, TimeSpan timespan)
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            
+            config.rush_hours.Add(new Tuple<DayOfWeek, TimeSpan>(weekday, timespan));
+            return View(config);
+        }
+        
+        [HttpGet]
+        public IActionResult DeleteRushHours(int index)
+        {
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
+            
+            config.rush_hours.RemoveAt(index);
+            return RedirectToAction("AddRushHours");
         }
 
         /// <summary>
