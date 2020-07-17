@@ -48,9 +48,14 @@
                     {@(conntype.ToString())}
                 }
             </td>
-            <td><a href="@Url.Action("DeleteVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
-    @*@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })*@
-</td>
+            @if (vehicle.user != null)
+            {
+                <td>@vehicle.user.email</td>
+            }
+            <td>
+                <a href="@Url.Action("DeleteVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
+                @*@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })*@
+            </td>
         </tr>
             }
 
