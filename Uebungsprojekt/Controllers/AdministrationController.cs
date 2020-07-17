@@ -25,16 +25,18 @@ namespace Uebungsprojekt.Controllers
         private readonly int max_allowed_filesize = (1024 * 1024) * 1; // Last multiplicator = mb
         private IMemoryCache cache;
         private HttpContext http_context;
+        private int user_id;
 
 
         /// <summary>
         /// Constructor for AdministrationController
         /// </summary>
         /// <param name="cache">IMemoryCache passed via Dependency Injection</param>
-        public AdministrationController(IMemoryCache cache, IHttpContextAccessor http_context_accessor)
+        public AdministrationController(UserManager user_manager, IMemoryCache cache, IHttpContextAccessor http_context_accessor)
         {
             this.cache = cache;
             this.http_context = http_context_accessor.HttpContext;
+            user_id = user_manager.GetUserIdByHttpContext(http_context_accessor.HttpContext);
         }
 
         /// <summary>
@@ -661,7 +663,8 @@ namespace Uebungsprojekt.Controllers
             if (ModelState.IsValid && vehicle.connector_types != null)
             {
                 VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-                vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types);
+                UserDao user_dao = new UserDaoImpl(cache);
+                vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, user_dao.GetById(user_id));
                 return RedirectToAction("Vehicles");
             }
             return RedirectToAction("Vehicles");

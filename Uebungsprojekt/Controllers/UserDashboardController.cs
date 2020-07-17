@@ -72,23 +72,23 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="booking">Booking</param>
         [HttpPost]
-        public IActionResult Create(Booking booking, int vehicle_id, int location_id, int eindeutige_benutzernummer)
+        public IActionResult Create(Booking booking, int vehicle_id, int location_id)
         {
             int usr_id;
+            UserDao user_dao = new UserDaoImpl(cache);
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            BookingDao booking_dao = new BookingDaoImpl(cache);
             //TODO: Make it beautiful :) 
             if (location_id == 0 || vehicle_id == 0) return RedirectToAction("Create");
-            if (eindeutige_benutzernummer == 0)
+            if (user_dao.GetById(user_id).role == Role.Assistant)
             {
-                usr_id = user_id;
+                usr_id = vehicle_dao.GetById(vehicle_id).user.id;
             }
             else
             {
-                usr_id = eindeutige_benutzernummer;
+                usr_id = user_id;
             }
-            LocationDaoImpl location_dao = new LocationDaoImpl(cache);
-            VehicleDaoImpl vehicle_dao = new VehicleDaoImpl(cache);
-            BookingDaoImpl booking_dao = new BookingDaoImpl(cache);
-            UserDaoImpl user_dao = new UserDaoImpl(cache);
             booking_dao.Create(
                 booking.start_state_of_charge,
                 booking.target_state_of_charge,
@@ -96,7 +96,7 @@ namespace Uebungsprojekt.Controllers
                 booking.end_time,
                 vehicle_dao.GetById(vehicle_id),
                 user_dao.GetById(usr_id),
-                location_dao.GetById(location_id,0),
+                location_dao.GetById(location_id, 0),
                 0
                 );
             return RedirectToAction("Bookings");
@@ -116,6 +116,7 @@ namespace Uebungsprojekt.Controllers
             return RedirectToAction("Bookings");
         }
 
+<<<<<<< HEAD
         [HttpGet, ActionName("CheckIn")]
         public ActionResult CheckIn(int id)
         {
@@ -144,6 +145,57 @@ namespace Uebungsprojekt.Controllers
         public ActionResult CheckOutConfirmed(int id)
         {
             return RedirectToAction("Bookings");
+=======
+        /// <summary>
+        /// Display a table of all vehicles from user
+        /// </summary>
+        [HttpGet]
+        public IActionResult Vehicles()
+        {
+            UserDao userDao = new UserDaoImpl(cache);
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            if (userDao.GetById(user_id).role == Role.Assistant)
+            {
+                return View(vehicle_dao.GetAll());
+            }
+            return View(vehicle_dao.GetVehiclesByUserId(user_id));
+        }
+
+        /// <summary>
+        /// Show Create form for vehicle
+        /// </summary>
+        [HttpGet]
+        public IActionResult CreateVehicle()
+        {
+            UserDao user_dao = new UserDaoImpl(cache);
+            var cvvm = new CreateVehicleViewModel(new Vehicle(), user_dao.GetAll());
+            return View(cvvm);
+            // eventuell muss hier eine Liste nur mit den vehicles vom eingeloggten user zurückgegeben werden
+        }
+
+        /// <summary>
+        /// Add vehicle to DAO if valid and return to Vehicles
+        /// </summary>
+        /// <param name="vehicle">Vehicle</param>
+        [HttpPost]
+        public IActionResult CreateVehicle(Vehicle vehicle, int eindeutige_benutzernummer)
+        {
+            int usr_id;
+            if (eindeutige_benutzernummer == 0)
+            {
+                usr_id = user_id;
+            }
+            else
+            {
+                usr_id = eindeutige_benutzernummer;
+            }
+            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+            UserDao user_dao = new UserDaoImpl(cache);
+
+            vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, user_dao.GetById(usr_id));
+
+            return RedirectToAction("Vehicles");
+>>>>>>> e2d3aff9fac9ce7d49358d1d3b5de9155ed4bcf5
         }
 
         [HttpGet]
