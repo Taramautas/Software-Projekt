@@ -45,7 +45,7 @@ namespace Uebungsprojekt.Service
            int bookingdao_id = 0;
            int charcoldao_id = 0;
            
-           Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020,07,18), bookingdao_id);
+           Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day), bookingdao_id);
 
             return Task.CompletedTask;
         }
