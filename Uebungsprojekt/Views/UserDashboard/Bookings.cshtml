@@ -46,6 +46,7 @@
         <th>End Time</th>
         <th>Vehicle</th>
         <th>Location</th>
+        <th>ChargingColumn</th>
         <th>Status</th>
         <th></th>
     </tr>
@@ -66,6 +67,7 @@
             <td>@booking.location.city</td>
             @if (booking.accepted)
             {
+                <td>@booking.charging_column.id</td>
                 @if (booking.checkedIn == 0)
                 {
                     <td><a href="@Url.Action("CheckIn", "UserDashboard", new { id = booking.id })">Check-In</a></td>
@@ -88,8 +90,8 @@
                 <td><a href="@Url.Action("Delete","UserDashboard", new{id=booking.id})"><span class="material-icons">cancel</span></a></td>
             }
             <!--  <td><a href="" type="button" data-toggle="modal" data-target="#modaledit">edit</a></td>
-      <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
-      -->
+    <td><a href="" type="button" data-toggle="modal" data-target="#modaldelete">delete</a></td>
+    -->
         </tr>
         }
     </tbody>
