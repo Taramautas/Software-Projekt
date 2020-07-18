@@ -48,6 +48,43 @@ namespace Uebungsprojekt.Controllers
         }
 
         /// <summary>
+        /// Converts the given files to Dataobjects and refreshes the view to display these importchanges
+        /// </summary>
+        /// <param name="files">Given files</param>
+        /// <returns>Redirection to SimulationConfig</returns>
+        [HttpPost]
+        public IActionResult ImportSimulationResult(List<IFormFile> json_files)
+        {
+            SimulationResultDao simulationResultDao = new SimulationResultDaoImpl(cache);
+            if (json_files.Count != 1)
+            {
+                return RedirectToAction("SimulationConfig");
+            }
+            SimulationResult simulationResult = simulationResultDao.GetById(Impl.Import.ImportSimulationResult(cache, json_files));
+            // TODO: exceptions
+            var options = new CookieOptions
+            {
+                Expires = DateTimeOffset.Now.AddDays(1)
+            };
+            Response.Cookies.Append("SimulationConfig", simulationResult.config.id.ToString(), options);
+            Response.Cookies.Append("SimulationInfrastructure", simulationResult.infrastructure.id.ToString(), options);
+            // TODO: SimulationResult setzen?
+
+            return RedirectToAction("SimulationConfig", simulationResult.config.id);
+        }
+
+        /// <summary>
+        /// Exports all live Data as .json file
+        /// </summary>
+        /// <returns>A downloadable file</returns>
+        public IActionResult ExportSimulationResult()
+        {
+
+            // TODO: exceptions
+            return Impl.Export.ExportSimulationResult(cache, );
+        }
+
+        /// <summary>
         /// Show View containing the form for simulation parameters
         /// </summary>
         [HttpGet]

@@ -77,5 +77,49 @@ namespace Uebungsprojekt.Impl
             // Return .json file for download
             return output;
         }
+
+        /// <summary>
+        /// Exports the whole System (only live data)
+        /// </summary>
+        /// <param name="_cache">the cache which the Daos use</param>
+        /// <returns></returns>
+        public static FileContentResult ExportSimulationResult(IMemoryCache _cache, int _simulationResultId)
+        {
+            // Create Daos with cache
+            ChargingColumnTypeDao chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(_cache);
+            LocationDao locationDao = new LocationDaoImpl(_cache);
+            ChargingZoneDao chargingZoneDao = new ChargingZoneDaoImpl(_cache);
+            ChargingColumnDao chargingColumnDao = new ChargingColumnDaoImpl(_cache);
+            SimulationResultDao simulationResultDao = new SimulationResultDaoImpl(_cache);
+
+            // Get simulationResult
+            SimulationResult simulationResult = simulationResultDao.GetById(_simulationResultId);
+
+            // Get Lists from Daos
+            List<ChargingColumnType> chargingColumnTypes = chargingColumnTypeDao.GetAll();
+            List<Location> locations = locationDao.GetAll(simulationResult.infrastructure.location_dao_id);
+            List<ChargingZone> chargingZones = chargingZoneDao.GetAll(simulationResult.infrastructure.charging_zone_dao_id);
+            List<ChargingColumn> chargingColumns = chargingColumnDao.GetAll(simulationResult.infrastructure.charging_column_dao_id);
+
+            // Serialize lists
+            string chargingColumnTypeString = JsonConvert.SerializeObject(chargingColumnTypes, Formatting.Indented);
+            string locationString = JsonConvert.SerializeObject(locations, Formatting.Indented);
+            string chargingZoneString = JsonConvert.SerializeObject(chargingZones, Formatting.Indented);
+            string chargingColumnString = JsonConvert.SerializeObject(chargingColumns, Formatting.Indented);
+            string simulationResultString = JsonConvert.SerializeObject(simulationResult, Formatting.Indented);
+
+            string json = chargingColumnTypeString + "\nNEXTSTRING\n" + locationString + "\nNEXTSTRING\n" + chargingZoneString + "\nNEXTSTRING\n" + chargingColumnString + "\nNEXTSTRING\n" + simulationResultString;
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
+            //Create downloadable file
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            string filename = "SystemExport_" + DateTime.Now.ToString(new CultureInfo("de-DE"))
+                .Replace(":", "_")
+                .Replace(".", "_")
+                .Replace(" ", "_")
+                                          + ".json";
+            output.FileDownloadName = filename;
+            // Return .json file for download
+            return output;
+        }
     }
 }
