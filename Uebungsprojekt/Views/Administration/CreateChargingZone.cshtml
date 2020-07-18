@@ -1,5 +1,4 @@
 ﻿@model Uebungsprojekt.ViewModel.Administration.CreateChargingZoneViewModel
-
 @{
     ViewData["Title"] = "Create Charging Zone";
     Layout = "_PlanerLayout";
@@ -10,17 +9,17 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Administration" asp-action="CreateChargingZone" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label for="name" class="col-2 col-form-label">Name:</label>
                 <div class="col-1"></div>
-                <input id="name" name="name" asp-for="chargingzone.name" type="text" class="col-9 form-control"><br />
+                <input placeholder="[Required]" id="name" name="name" type="text" class="col-9 form-control" asp-for="chargingzone.name"><br />
+                <span asp-validation-for="chargingzone.name" class="text-danger form-danger-span"></span>
             </div>
             <div class="form-group row">
-                <label for="overall_performance" class="control-label col-7"><b>Overall Performance (in kW):</b></label>
+                <label for="overall_performance" class="control-label col-7"><b>Overall Performance (in kW [1-10000]):</b></label>
                 <div class="col-1"></div>
                 <input id="overall_performance" name="overall_performance" asp-for="chargingzone.overall_performance" type="number" class="form-control col-4" />
-                <span asp-validation-for="chargingzone.overall_performance" class="text-danger"></span>
+                <span asp-validation-for="chargingzone.overall_performance" class="text-danger form-danger-span"></span>
             </div>
             <div class="form-group row">
                 <label for="location_id" class="col-2 col-form-label">Location:</label>
@@ -46,6 +45,7 @@
     <a asp-action="Infrastructure">Back to List</a>
 </div>
 
+<!-- Enable client side validation -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
