@@ -75,7 +75,7 @@ namespace Uebungsprojekt.Controllers
             };
             Response.Cookies.Append("SimulationConfig", config_id.ToString(), options);
             
-            return RedirectToAction("SimulationConfig", config_id);
+            return RedirectToAction("AddSimulationVehicle", config_id);
         }
         
         /// <summary>
@@ -133,11 +133,21 @@ namespace Uebungsprojekt.Controllers
             if (infrastructure == null)
                 return RedirectToAction("SimulationInfrastructure");
             
-            SimulationResult result = new SimulationResult()
+            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+            int result_id = result_dao.Create(
+                config, 
+                infrastructure,
+                new List<Dictionary<int, double>>(),
+                new List<int>(),
+                new List<int>(),
+                false
+                );
+            SimulationResult result = result_dao.GetById(result_id);
+            var options = new CookieOptions
             {
-                config = config,
-                infrastructure = infrastructure,
+                Expires = DateTimeOffset.Now.AddDays(1)
             };
+            Response.Cookies.Append("SimulationResult", result_id.ToString(), options);
 
             Simulation simulation = new Simulation(config, infrastructure, result, cache);
             if (!simulation.Run())
@@ -145,7 +155,16 @@ namespace Uebungsprojekt.Controllers
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
             }
-            return View(simulation.simulation_result);
+            
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            SimulationViewModel view_model = new SimulationViewModel()
+            {
+                locations = location_dao.GetAll(infrastructure.location_dao_id),
+                charging_zones = charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id),
+                result = simulation.simulation_result
+            };
+            return View(view_model);
         }
 
 
@@ -773,6 +792,16 @@ namespace Uebungsprojekt.Controllers
                 return null;
             SimulationConfig config = config_dao.GetById(Int32.Parse(config_string));
             return config;
+        }
+        
+        private SimulationResult GetSimulationResultFromCookie()
+        {
+            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+            Request.Cookies.TryGetValue("SimulationConfig", out string result_string);
+            if (string.IsNullOrEmpty(result_string))
+                return null;
+            SimulationResult result = result_dao.GetById(Int32.Parse(result_string));
+            return result;
         }
     }
 }
