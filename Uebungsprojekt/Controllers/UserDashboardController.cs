@@ -181,22 +181,24 @@ namespace Uebungsprojekt.Controllers
         [HttpPost]
         public IActionResult CreateVehicle(Vehicle vehicle, int eindeutige_benutzernummer)
         {
-            int usr_id;
-            if (eindeutige_benutzernummer == 0)
+            //When vehcicle has no connectortypes selected -> redirect to CreateVehicle
+            if (ModelState.IsValid && !ReferenceEquals(vehicle.connector_types, null))
             {
-                usr_id = user_id;
+                int usr_id;
+                if (eindeutige_benutzernummer == 0)
+                {
+                    usr_id = user_id;
+                }
+                else
+                {
+                    usr_id = eindeutige_benutzernummer;
+                }
+                VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
+                UserDao user_dao = new UserDaoImpl(cache);
+                vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, user_dao.GetById(usr_id));
+                return RedirectToAction("Vehicles");
             }
-            else
-            {
-                usr_id = eindeutige_benutzernummer;
-            }
-            VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-            UserDao user_dao = new UserDaoImpl(cache);
-
-            vehicle_dao.Create(vehicle.model_name, vehicle.capacity, vehicle.connector_types, user_dao.GetById(usr_id));
-
-            return RedirectToAction("Vehicles");
-
+            return RedirectToAction("CreateVehicle");
         }
 
         [HttpGet]
