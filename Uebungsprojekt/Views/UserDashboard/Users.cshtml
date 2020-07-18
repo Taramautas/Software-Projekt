@@ -39,7 +39,7 @@
             <td>@user.name</td>
             <td>@user.email</td>
             <td>@user.role</td>
-            <td><a href="@Url.Action("DeleteUser","UserDashboard", new{id=user.id})"><span class="material-icons">cancel</span></a>@*@Html.ActionLink("Delete", "DeleteUser", new { id = user.id })*@</td>
+            <td><a href="@Url.Action("DeleteUser","UserDashboard", new{id=user.id})" id="delete_btn_uitest"><span class="material-icons">cancel</span></a>@*@Html.ActionLink("Delete", "DeleteUser", new { id = user.id })*@</td>
         </tr>
         }
     }
