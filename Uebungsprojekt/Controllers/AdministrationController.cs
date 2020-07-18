@@ -129,7 +129,9 @@ namespace Uebungsprojekt.Controllers
             ChargingColumnTypeDao type_dao = new ChargingColumnTypeDaoImpl(cache);
 
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
-
+            SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config.rush_hours.Count == 0)
+                return RedirectToAction("AddRushHours");
             if (infrastructure == null)
             {
                 int infrastructure_id = infrastructure_dao.Create(
@@ -165,6 +167,12 @@ namespace Uebungsprojekt.Controllers
         {
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
             SimulationConfig config = GetSimulationConfigFromCookie();
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            if (location_dao.GetAll(infrastructure.location_dao_id).Count == 0)
+                return RedirectToAction("SimulationInfrastructure");
+            if (charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id).Count == 0)
+                return RedirectToAction("SimulationInfrastructure");
             if (config == null)
                 return RedirectToAction("SimulationConfig");
             if (infrastructure == null)
@@ -193,8 +201,6 @@ namespace Uebungsprojekt.Controllers
                 return RedirectToPage("/Home/Error/");
             }
             
-            LocationDao location_dao = new LocationDaoImpl(cache);
-            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
             SimulationViewModel view_model = new SimulationViewModel()
             {
                 locations = location_dao.GetAll(infrastructure.location_dao_id),
@@ -452,7 +458,8 @@ namespace Uebungsprojekt.Controllers
             SimulationConfig config = GetSimulationConfigFromCookie();
             if (config == null)
                 return RedirectToAction("SimulationConfig");
-            
+            if (config.vehicles.Count == 0)
+                return RedirectToAction("AddSimulationVehicle");
             return View(config);
         }
         
