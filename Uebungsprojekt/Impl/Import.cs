@@ -282,7 +282,7 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (Vehicle b in importedVehicle)
                     {
-                        vehicleDao.Create(b.model_name, b.capacity, b.connector_types);
+                        vehicleDao.Create(b.model_name, b.capacity, b.connector_types, b.user);
                     }
                 }
             }
@@ -365,7 +365,7 @@ namespace Uebungsprojekt.Impl
                 StreamReader reader = new StreamReader(json_files[0].OpenReadStream());
                 string json = reader.ReadToEnd();
                 string[] lines = json.Split("\nNEXTSTRING\n");
-                for(int i = 0; i < lines.Length; ++i)
+                for (int i = 0; i < lines.Length; ++i)
                 {
                     Console.WriteLine("Lines " + i + ": " + lines[i] + "\n");
                 }
@@ -440,7 +440,8 @@ namespace Uebungsprojekt.Impl
                 {
                     foreach (Vehicle b in importedVehicle)
                     {
-                        vehicleIds.Add(new Tuple<int, int>(b.id, vehicleDao.Create(b.model_name, b.capacity, b.connector_types)));
+                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
+                        vehicleIds.Add(new Tuple<int, int>(b.id, vehicleDao.Create(b.model_name, b.capacity, b.connector_types, userDao.GetById(user_id))));
                     }
                 }
 

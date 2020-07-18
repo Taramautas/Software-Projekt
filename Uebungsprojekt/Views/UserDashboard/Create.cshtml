@@ -31,22 +31,6 @@
         <span asp-validation-for="booking.end_time" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for="vehicle_id" class="col-2 col-form-label">Vehicle:</label>
-        <select name="vehicle_id" id="vehicle_id">
-            @if (Model.vehicle.Any())
-            {
-                @foreach (var vehicle in Model.vehicle)
-                {
-                    <option value="@vehicle.id">@vehicle.id - @vehicle.model_name</option>
-                }
-            }
-            else
-            {
-                <option>--No Vehicles available--</option>
-            }
-        </select>
-    </div>
-    <div class="form-group row">
         <label for="location_id" class="col-2 col-form-label">Location:</label>
         <select name="location_id" id="location_id">
             @if (Model.location.Any())
@@ -62,22 +46,42 @@
             }
         </select>
     </div>
-
-    @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+    @if (!(await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
     {
         <div class="form-group row">
-            <label for="eindeutige_benutzernummer" class="col-2 col-form-label">User:</label>
-            <select name="eindeutige_benutzernummer" id="eindeutige_benutzernummer">
-                @if (Model.users.Any())
+            <label for="vehicle_id" class="col-2 col-form-label">Vehicle:</label>
+            <select name="vehicle_id" id="vehicle_id">
+                @if (Model.vehicle.Any())
                 {
-                    @foreach (var user in Model.users)
+                    @foreach (var vehicle in Model.vehicle)
                     {
-                        <option value="@user.id">@user.name + (@user.email)</option>
+                        <option value="@vehicle.id">@vehicle.model_name</option>
                     }
                 }
                 else
                 {
-                    <option>--No Users available--</option>
+                    <option>--No Vehicles available--</option>
+                }
+            </select>
+        </div>
+    }
+
+
+    @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+    {
+        <div class="form-group row">
+            <label for="vehicle_id" class="col-2 col-form-label">Vehicle:</label>
+            <select name="vehicle_id" id="vehicle_id">
+                @if (Model.vehicle.Any())
+                {
+                    @foreach (var vehicle in Model.vehicle)
+                    {
+                        <option value="@vehicle.id">@vehicle.user.email - @vehicle.model_name</option>
+                    }
+                }
+                else
+                {
+                    <option>--No Vehicles available--</option>
                 }
             </select>
         </div>

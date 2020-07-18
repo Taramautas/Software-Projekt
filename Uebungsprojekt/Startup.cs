@@ -129,13 +129,13 @@ namespace Uebungsprojekt
             //Vehicle startup
             List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Schuko_Socket);
-            vehicle_dao.Create("TestModel",400, tmp_conn_types);
+            vehicle_dao.Create("TestModel",400, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
             tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
-            vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
+            vehicle_dao.Create("BlaModel", 999, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
             tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.CHAdeMO_Plug);
-            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types);
+            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
             //
             
             //CCTYPE startup 
@@ -168,7 +168,7 @@ namespace Uebungsprojekt
             
             //Booking startup
             booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
-                vehicle_dao.GetById(1), user_dao.GetById(2), location_dao.GetById(1,0), 0);
+                vehicle_dao.GetById(1), user_dao.GetById(5), location_dao.GetById(1,0), 0);
             booking_dao.GetById(1, 0).Accept();
             
             //ChargingColumn startup
