@@ -200,6 +200,20 @@ namespace Uebungsprojekt.Controllers
             }
             return RedirectToAction("CreateVehicle");
         }
+        
+        [HttpGet, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicle(int id)
+        {
+            VehicleDaoImpl vehicleDao = new VehicleDaoImpl(cache);
+            vehicleDao.Delete(id);
+            return RedirectToAction("Vehicles");
+        }
+
+        [HttpPost, ActionName("DeleteVehicle")]
+        public ActionResult DeleteVehicleConfirmed(int id)
+        {
+            return RedirectToAction("Vehicles");
+        }
 
         [HttpGet]
         public IActionResult Infrastructure()
