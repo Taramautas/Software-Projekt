@@ -81,6 +81,7 @@ namespace Uebungsprojekt.Simulations
                 start_datetime = start_datetime.AddDays(1);
 
             start_datetime = start_datetime.Add(start_time);
+            simulation_result.start_datetime = start_datetime;
             UserDao user_dao = new UserDaoImpl(cache);
             User vip = user_dao.GetById(3);
             User guest = user_dao.GetById(4);
@@ -158,6 +159,7 @@ namespace Uebungsprojekt.Simulations
                         );
                 }
             }
+            simulation_result.done = true;
             return true;
         }
 
