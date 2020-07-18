@@ -42,11 +42,11 @@
                     if (conn_type.Equals(cct.connectors.Last()))
                     {
 
-                        @(conn_type.Item1 + " " + conn_type.Item2);
+                        @(conn_type.Item1 + " {" + conn_type.Item2 + " kW}");
                     }
                     else
                     {
-                        @(conn_type.Item1 + " " + conn_type.Item2 + " | " );
+                        @(conn_type.Item1 + " {" + conn_type.Item2 + " kW} | " );
 
                     }
                 }

@@ -694,27 +694,33 @@ namespace Uebungsprojekt.Controllers
             if (connectortype1 != "None")
             {
                 Enum.TryParse(connectortype1, out ConnectorType conn_1);
-                _connectors.Add(new Tuple<ConnectorType, int>(conn_1, capacity1));
+                if(capacity1 > 0 && capacity1 <= 10000)
+                    _connectors.Add(new Tuple<ConnectorType, int>(conn_1, capacity1));
             }
 
             if (connectortype2 != "None")
             {
                 Enum.TryParse(connectortype2, out ConnectorType conn_2);
-                _connectors.Add(new Tuple<ConnectorType, int>(conn_2, capacity2));
+                if(capacity2 > 0 && capacity2 <= 10000)
+                    _connectors.Add(new Tuple<ConnectorType, int>(conn_2, capacity2));
             }
             
             if (connectortype3 != "None")
             {
                 Enum.TryParse(connectortype3, out ConnectorType conn_3);
-                _connectors.Add(new Tuple<ConnectorType, int>(conn_3, capacity3));
+                if(capacity3 > 0 && capacity3 <= 10000)
+                    _connectors.Add(new Tuple<ConnectorType, int>(conn_3, capacity3));
             }
             
             if (connectortype4 != "None")
             {
                 Enum.TryParse(connectortype4, out ConnectorType conn_4);
-                _connectors.Add(new Tuple<ConnectorType, int>(conn_4, capacity4));
+                if(capacity4 > 0 && capacity4 <= 10000)
+                    _connectors.Add(new Tuple<ConnectorType, int>(conn_4, capacity4));
             }
-            
+            //Checks if any Connecters got added - if not -> redirect
+            if (_connectors.Count == 0)
+                return RedirectToAction("CreateChargingColumnType");
             
             cct_dao.Create(
                 cct.model_name, 

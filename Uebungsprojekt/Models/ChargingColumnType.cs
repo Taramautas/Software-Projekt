@@ -19,8 +19,9 @@ namespace Uebungsprojekt.Models
         public int max_parallel_charging { get; set; }
 
         // Connectortypes and their charging capacity
-        [Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
+        //[Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
         //public List<Tuple<ConnectorType, int>> connectors { get; set; }
+        [Required(ErrorMessage = "Please select the connector types available at this column (multiple of same type allowed).")]
         public List<Tuple<ConnectorType, int>> connectors { get; set; }
 
     }
