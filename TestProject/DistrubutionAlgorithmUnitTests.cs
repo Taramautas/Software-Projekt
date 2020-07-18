@@ -72,10 +72,10 @@ namespace UnitTest.DistributionAlg
             // Create ChargingColumns
             int charcoldao_id = 0;
             _chargingcolumndao.GetAll(charcoldao_id);
-            int charcol_id1 = _chargingcolumndao.Create(cct1, cz1, charcoldao_id);
-            int charcol_id2 = _chargingcolumndao.Create(cct2, cz1, charcoldao_id);
-            int charcol_id3 = _chargingcolumndao.Create(cct3, cz1, charcoldao_id);
-            int charcol_id4 = _chargingcolumndao.Create(cct4, cz1, charcoldao_id);
+            int charcol_id1 = _chargingcolumndao.Create(cct1, cz1, null,0);
+            int charcol_id2 = _chargingcolumndao.Create(cct2, cz1, null,0);
+            int charcol_id3 = _chargingcolumndao.Create(cct3, cz1, null, 0);
+            int charcol_id4 = _chargingcolumndao.Create(cct4, cz1, null, 0);
             ChargingColumn cc1 = _chargingcolumndao.GetById(charcol_id1, charcoldao_id);
             ChargingColumn cc2 = _chargingcolumndao.GetById(charcol_id2, charcoldao_id);
             ChargingColumn cc3 = _chargingcolumndao.GetById(charcol_id3, charcoldao_id);
@@ -83,9 +83,9 @@ namespace UnitTest.DistributionAlg
 
             // create vehicles
             _vehicleDao.GetAll();
-            int veh1_id = _vehicleDao.Create("Tesla", 2, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.CCS_Combo_2_Plug });
-            int veh2_id = _vehicleDao.Create("Porsche", 3, new List<ConnectorType> { ConnectorType.Type_2_Plug, ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_1_Plug });
-            int veh3_id = _vehicleDao.Create("VW", 2, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.CHAdeMO_Plug });
+            int veh1_id = _vehicleDao.Create("Tesla", 2, new List<ConnectorType> { ConnectorType.Tesla_Supercharger, ConnectorType.CCS_Combo_2_Plug },userGue);
+            int veh2_id = _vehicleDao.Create("Porsche", 3, new List<ConnectorType> { ConnectorType.Type_2_Plug, ConnectorType.CCS_Combo_2_Plug, ConnectorType.Type_1_Plug },userGue);
+            int veh3_id = _vehicleDao.Create("VW", 2, new List<ConnectorType> { ConnectorType.Schuko_Socket, ConnectorType.CHAdeMO_Plug },userGue);
             Vehicle veh1 = _vehicleDao.GetById(veh1_id);
             Vehicle veh2 = _vehicleDao.GetById(veh2_id);
             Vehicle veh3 = _vehicleDao.GetById(veh3_id);
