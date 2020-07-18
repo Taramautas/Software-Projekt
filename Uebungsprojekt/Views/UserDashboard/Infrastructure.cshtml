@@ -50,7 +50,7 @@
                             @if (chargingZone.location.id == location.id)
                             {
                                 <tr>
-                                    <td>Ladezone @chargingZone.name</td>
+                                    <td>@chargingZone.name</td>
                                     <td>
                                         <table class="table-borderless">
                                             <tr>
@@ -61,7 +61,7 @@
                                                 @if (chargingColumn.charging_zone.id == chargingZone.id)
                                                 {
                                                     <tr>
-                                                        <td>Ladesäule @chargingColumn.id</td>
+                                                        <td>@chargingColumn.charging_column_type_id.model_name</td>
                                                     </tr>
                                                 }
                                             }
