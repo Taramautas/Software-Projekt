@@ -11,6 +11,7 @@ namespace ListsUnitTests
 {
     public class Tests
     {
+        /*
         private BookingDaoImpl _bookingDao;
         private LocationDaoImpl _locationDao;
         private ChargingColumnDaoImpl _chargingcolumndao;
@@ -179,12 +180,12 @@ namespace ListsUnitTests
             Assert.AreEqual(4, unacceptedBookings.Count);
 
             // Check if every booking in unacceptedBookings is in the right order
-            /*
-            foreach (Booking b in unacceptedBookings)
-            {
-                Console.WriteLine("Role: " + b.user.role);
-            }
-                */
+            
+            // foreach (Booking b in unacceptedBookings)
+            // {
+            //    Console.WriteLine("Role: " + b.user.role);
+            //}
+              
             int i = 1;
             foreach(Booking b in unacceptedBookings)
             {
@@ -241,11 +242,11 @@ namespace ListsUnitTests
             {
                 Console.WriteLine("Location: " + loc.city);
             }
-            /*
-            Assert.AreEqual(_locationDao.GetById(loc_id1, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Munich"));
-            Assert.AreEqual(_locationDao.GetById(loc_id2, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Augsburg"));
-            Assert.AreEqual(_locationDao.GetById(loc_id3, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Ingolcity"));
-            */
+            
+            // Assert.AreEqual(_locationDao.GetById(loc_id1, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Munich"));
+            // Assert.AreEqual(_locationDao.GetById(loc_id2, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Augsburg"));
+            // Assert.AreEqual(_locationDao.GetById(loc_id3, locationdao_id).city, listofBookingLocations.Find(x => x.city == "Ingolcity"));
+            
         }
     
         [Test]
@@ -442,6 +443,7 @@ namespace ListsUnitTests
             Assert.AreEqual(4, listofBookingChargingColumn.Count);
             Assert.AreEqual(charcol_id1 + charcol_id2 + charcol_id3 + charcol_id5, listofBookingChargingColumnSum);
         }
+        */
     }
 
 }

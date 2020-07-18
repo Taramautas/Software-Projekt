@@ -7,20 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Controllers\TestAdministrationController.cs" />
-      <Compile Remove="Controllers\TestBookingController.cs" />
-      <Compile Remove="Controllers\TestConnectorTypeEvaluationController.cs" />
-      <Compile Remove="Controllers\TestHomeController.cs" />
-      <Compile Remove="AlgorithmTeset\UnitTest1.cs" />
-      <Compile Remove="DistrubutionAlgorithmUnitTests.cs" />
-      <Compile Remove="UnitTest1.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="coverlet.msbuild" Version="2.9.0">
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.6" />
         <PackageReference Include="Moq" Version="4.14.1" />
         <PackageReference Include="nunit" Version="3.12.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
@@ -28,11 +19,6 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="ViewModels" />
     </ItemGroup>
 
     <ItemGroup>

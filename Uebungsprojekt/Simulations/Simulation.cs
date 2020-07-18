@@ -158,6 +158,7 @@ namespace Uebungsprojekt.Simulations
                         );
                 }
             }
+            simulation_result.done = true;
             return true;
         }
 
