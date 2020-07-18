@@ -5,12 +5,12 @@
 }
 <h1 class="page-title">@ViewData["Title"]</h1>
 <br />
-<form asp-controller="Administration" asp-action="SimulationConfig">
+<form asp-controller="Administration" asp-action="SimulationConfig" method="post">
     <div><h3><u>Booking Distribution</u></h3></div>
     <br />
     <div class="form-group row">
-        <label for="TickMinutes" class="col-2 col-form-label">Tick minutes:</label>
-        <input id="TickMinutes" class="col-10 form-control" asp-for="tick_minutes" placeholder="@Model.tick_minutes"><br />
+        <label for="tick_minutes" class="col-2 col-form-label">Tick minutes:</label>
+        <input id="tick_minutes" class="col-10 form-control" asp-for="tick_minutes" placeholder="@Model.tick_minutes"><br />
         <span asp-validation-for="tick_minutes" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
@@ -22,6 +22,7 @@
         <label for="Max" class="col-2 col-form-label">Max:</label>
         <input id="Max" class="col-10 form-control" asp-for="max" placeholder="@Model.max"><br />
         <span asp-validation-for="max" class="text-danger form-danger-span"></span>
+        <span class="text-danger form-danger-span" id="error_panel" name="error_panel"></span>
     </div>
     <div class="form-group row">
         <label for="Spread" class="col-2 col-form-label">Spread:</label>
@@ -35,7 +36,7 @@
     </div>
     <br />
     <div class="form-group">
-        <input type="submit" value="Submit" class="btn btn-primary" />
+        <input id="btnsub" type="submit" value="Submit" class="btn btn-primary" />
     </div>
 </form>
 
@@ -48,3 +49,34 @@
 </div>
 
 @*<input type="button" value="Next" onclick="location.href='@Url.Action("AddSimulationVehicle", "Administration")'" />*@
+
+<!-- Enable client side validation -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+
+<script>
+
+    function validate_Date() {
+        let min = document.getElementById('Min');
+        let max = document.getElementById('Max');
+
+        let sub_button = document.getElementById('btnsub');
+
+        if (max.value >= min.value) {
+            sub_button.disabled = false;
+            print_err("");
+        } else {
+            sub_button.disabled = true;
+            print_err("Max muss >= als Min sein");
+        }
+        setTimeout(validate_Date, 100);
+    }
+     function print_err(Error_Message) {
+            document.getElementById('error_panel').innerHTML = Error_Message;
+    }
+    validate_Date();
+
+
+</script>
