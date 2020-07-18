@@ -68,7 +68,7 @@ namespace Uebungsprojekt.Controllers
             };
             Response.Cookies.Append("SimulationConfig", simulationResult.config.id.ToString(), options);
             Response.Cookies.Append("SimulationInfrastructure", simulationResult.infrastructure.id.ToString(), options);
-            // TODO: SimulationResult setzen?
+            Response.Cookies.Append("SimulationResult", simulationResult.id.ToString(), options);
 
             return RedirectToAction("SimulationConfig", simulationResult.config.id);
         }
@@ -79,9 +79,9 @@ namespace Uebungsprojekt.Controllers
         /// <returns>A downloadable file</returns>
         public IActionResult ExportSimulationResult()
         {
-
+            SimulationResult simulationResult = GetSimulationResultFromCookie();
             // TODO: exceptions
-            return Impl.Export.ExportSimulationResult(cache, );
+            return Impl.Export.ExportSimulationResult(cache, simulationResult.id);
         }
 
         /// <summary>

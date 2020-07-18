@@ -553,7 +553,7 @@ namespace Uebungsprojekt.Impl
                 }
                 
                 // Deserialize ChargingZone
-                List<ChargingZone> importedChargingZone = JsonConvert.DeserializeObject<List<ChargingZone>>(lines[4], settings);
+                List<ChargingZone> importedChargingZone = JsonConvert.DeserializeObject<List<ChargingZone>>(lines[2], settings);
                 // If success, add to cached chargingZone list
                 if (success)
                 {
@@ -565,7 +565,7 @@ namespace Uebungsprojekt.Impl
                 }
 
                 // Deserialize ChargingColumn
-                List<ChargingColumn> importedChargingColumn = JsonConvert.DeserializeObject<List<ChargingColumn>>(lines[5], settings);
+                List<ChargingColumn> importedChargingColumn = JsonConvert.DeserializeObject<List<ChargingColumn>>(lines[3], settings);
                 // If success, add to cached chargingColumn list
                 if (success)
                 {
@@ -578,7 +578,7 @@ namespace Uebungsprojekt.Impl
                 }
 
                 // Deserialize SimulationResult
-                SimulationResult importedSimulationResult = JsonConvert.DeserializeObject<SimulationResult>(lines[6], settings);
+                SimulationResult importedSimulationResult = JsonConvert.DeserializeObject<SimulationResult>(lines[4], settings);
                 // If success, add to cached booking list
                 if (success)
                 {
