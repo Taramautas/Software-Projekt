@@ -569,30 +569,30 @@ namespace UnitTest.Controllers.Administration
     {
         private WebApplicationFactory<Startup> factory;
         private HttpClient client;
-
+        private int run = 0;
         [SetUp]
         public void Setup()
         {
             // Setup controller with initalized request parameters
+           // factory = new WebApplicationFactory<Startup>();
             factory = new WebApplicationFactory<Startup>();
             client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
-                BaseAddress = new Uri("https://localhost:44394"),
+                   BaseAddress = new Uri("https://localhost:44394"),
             });
         }
 
         [TearDown]
         public void TearDown()
         {
-            factory = null;
-            client = null;
         }
 
         [Test]
-        public async Task TestNoAccessAsNotVipAssistantGuestUser()
+        public async Task TestNoAccessAsNotVipAssistantGuestUser_()
         {
-            await IntegrationTestHelper.Login(client, "assistant@assistant.de", "assistant");
+            await IntegrationTestHelper.Login(client, "user@user.de", "user");
             var response = await client.GetAsync("/Administration/Index");
+            Console.WriteLine(response);
             Assert.AreEqual("https://localhost:44394/Home/Error/?ReturnUrl=%2FAdministration%2FIndex", response.RequestMessage.RequestUri.ToString());
         }
         

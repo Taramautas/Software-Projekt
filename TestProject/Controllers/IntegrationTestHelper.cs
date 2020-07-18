@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using NUnit.Framework;
+using Uebungsprojekt;
 
 namespace UnitTest.Controllers
 {
@@ -78,8 +80,10 @@ namespace UnitTest.Controllers
                 {"email", email},
                 {"password", password}
             };
-            
             HttpContent content = new FormUrlEncodedContent(form);
+            String value;
+            form.TryGetValue("__RequestVerificationToken",out value);
+            Console.WriteLine(value);
             var response = await client.PostAsync("/Home/Login", content);
             response.EnsureSuccessStatusCode();
         }
