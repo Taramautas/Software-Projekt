@@ -10,7 +10,7 @@
     <title>@ViewData["Title"] MHP</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/final_Style.css" />
+    <link rel="stylesheet" href="~/css/final_style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato&family=Orbitron&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
@@ -48,17 +48,17 @@
                                 <a class="nav-link text-dark home" asp-area="" asp-controller="Administration" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark home" asp-area="" asp-controller="Administration" asp-action="Bookings">Bookings</a>
+                                <a class="nav-link text-dark booking" asp-area="" asp-controller="Administration" asp-action="Bookings">Bookings</a>
                             </li>
                             <li>
                                 <div class="dropdown">
-                                    <a class="nav-link text-dark viewselection" asp-area="" asp-controller="Administration" asp-action="SimulationConfig">Simulation</a>
+                                    <a class="nav-link text-dark privacy" asp-area="" asp-controller="Administration" asp-action="SimulationConfig">Simulation</a>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark viewselection" asp-controller="administration" asp-action="SimulationConfig">Simulation Configuration</a>
-                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="AddSimulationVehicle">Simulation Vehicles</a>
-                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="AddRushHours">Simulation Rush Hours</a>
-                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="SimulationInfrastructure">Simulation Infrastructure</a>
-                                        <a class="nav-link text-dark viewselection" asp-controller="Administration" asp-action="Simulation">Simulation</a>
+                                        <a class="nav-link text-dark privacy" asp-controller="administration" asp-action="SimulationConfig">Simulation Configuration</a>
+                                        <a class="nav-link text-dark privacy" asp-controller="Administration" asp-action="AddSimulationVehicle">Simulation Vehicles</a>
+                                        <a class="nav-link text-dark privacy" asp-controller="Administration" asp-action="AddRushHours">Simulation Rush Hours</a>
+                                        <a class="nav-link text-dark privacy" asp-controller="Administration" asp-action="SimulationInfrastructure">Simulation Infrastructure</a>
+                                        <a class="nav-link text-dark privacy" asp-controller="Administration" asp-action="Simulation">Simulation</a>
                                         <br />
                                     </div>
                                 </div>
@@ -81,13 +81,13 @@
                             @if ((await AuthorizationService.AuthorizeAsync(User, "LoggedIn")).Succeeded)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark home" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    <a class="nav-link text-dark logout" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark home" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                                    <a class="nav-link text-dark logout" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
                                 </li>
                             }
 

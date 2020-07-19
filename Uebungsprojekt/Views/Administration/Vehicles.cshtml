@@ -17,13 +17,14 @@
     </div>
 </div>
 
-<table id="booking-table" style="width:100%" class="table table-hover">
+<table id="booking-table" style="width:100%; text-align: center" class="table table-hover">
     <thead class="thead-light">
         <tr>
             <th>ID</th>
             <th>Model</th>
             <th>Capacity in kWh</th>
             <th>Connector Types</th>
+            <th>User</th>
             <th></th>
         </tr>
     </thead>
@@ -52,6 +53,8 @@
             {
                 <td>@vehicle.user.email</td>
             }
+            else
+            { <td> - </td>}
             <td>
                 <a href="@Url.Action("DeleteVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
                 @*@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })*@

@@ -94,11 +94,11 @@ a {
 }
 
 .privacy:after {
-    border-bottom: 2px solid #0099ff;
+    border-bottom: 2px solid #80bfff;
 }
 
 .booking:after {
-    border-bottom: 2px solid #80bfff;
+    border-bottom: 2px solid #0099ff;
 }
 
 .evaluation:after {
@@ -106,7 +106,10 @@ a {
 }
 
 .viewselection:after {
-    border-bottom: 2px solid #ff0000
+    border-bottom: 2px solid #ff0000;
+}
+.logout::after {
+    border-bottom: 2px solid #d14141;
 }
 
 

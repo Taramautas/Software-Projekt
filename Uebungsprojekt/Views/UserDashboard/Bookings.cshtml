@@ -9,6 +9,16 @@
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
+<div class="row">
+    <div class="col-12">
+        <abbr title="Create new Booking">
+            <a class="submit" asp-area="" asp-controller="UserDashboard" asp-action="Create">
+                <span class="material-icons">add_to_photos</span>
+            </a>
+        </abbr>
+    </div>
+</div>
+
 <!-- Only show booking table if there are any bookings to display-->
 @if (Model.Any())
 {
@@ -66,6 +76,7 @@
             }
             else
             {
+                <td> - </td>
                 <td>Open</td>
                 <td><a href="@Url.Action("Delete","UserDashboard", new{id=booking.id})" id="delete_btn_uitest"><span class="material-icons">cancel</span></a></td>
             }
