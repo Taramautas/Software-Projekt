@@ -374,19 +374,29 @@ namespace Uebungsprojekt.Impl
 
                 // Initialize Daos
                 ChargingColumnTypeDao chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(_cache);
-                chargingColumnTypeDao.GetAll();
+                List<ChargingColumnType> chargingColumnTypeList = chargingColumnTypeDao.GetAll();
                 LocationDao locationDao = new LocationDaoImpl(_cache);
-                locationDao.GetAll(0);
+                List<Location> locationList = locationDao.GetAll(0);
                 UserDao userDao = new UserDaoImpl(_cache);
-                userDao.GetAll();
+                List<User> userList = userDao.GetAll();
                 VehicleDao vehicleDao = new VehicleDaoImpl(_cache);
-                vehicleDao.GetAll();
+                List<Vehicle> vehicleList = vehicleDao.GetAll();
                 ChargingZoneDao chargingZoneDao = new ChargingZoneDaoImpl(_cache);
-                chargingZoneDao.GetAll(0);
+                List<ChargingZone> chargingZoneList = chargingZoneDao.GetAll(0);
                 ChargingColumnDao chargingColumnDao = new ChargingColumnDaoImpl(_cache);
-                chargingColumnDao.GetAll(0);
+                List<ChargingColumn> chargingColumnList = chargingColumnDao.GetAll(0);
                 BookingDao bookingDao = new BookingDaoImpl(_cache);
-                bookingDao.GetAll(0);
+                List<Booking> bookingList = bookingDao.GetAll(0);
+
+                // Delete all current live data
+                bookingList.Clear();
+                chargingColumnList.Clear();
+                chargingZoneList.Clear();
+                vehicleList.Clear();
+                userList.Clear();
+                locationList.Clear();
+                chargingColumnTypeList.Clear();
+                
 
                 // ids of imported objects
                 // item1 = old id ; item2 = new id
@@ -474,7 +484,7 @@ namespace Uebungsprojekt.Impl
                     foreach (Booking b in importedBookings)
                     {
                         int veh_id = vehicleIds.Find(x => x.Item1 == b.vehicle.id).Item2;
-                        int user_id = chargingZoneIds.Find(x => x.Item1 == b.user.id).Item2;
+                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
                         int location_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
                         bookingDao.Create(b.start_state_of_charge, b.target_state_of_charge, b.start_time, b.end_time, vehicleDao.GetById(veh_id), userDao.GetById(user_id), locationDao.GetById(location_id, 0), 0);
                     }
