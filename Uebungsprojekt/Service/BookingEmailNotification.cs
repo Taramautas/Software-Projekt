@@ -9,12 +9,12 @@ using Uebungsprojekt.Models;
 
 namespace Uebungsprojekt.Service
 {
-    public class CronTest : CronJobService
+    public class BookingEmailNotification : CronJobService
     {
-        private readonly ILogger<CronTest> _logger;
+        private readonly ILogger<BookingEmailNotification> _logger;
         private IMemoryCache _cache;
 
-        public CronTest(IScheduleConfig<CronTest> config, ILogger<CronTest> logger, IMemoryCache cache)
+        public BookingEmailNotification(IScheduleConfig<BookingEmailNotification> config, ILogger<BookingEmailNotification> logger, IMemoryCache cache)
             : base(config.CronExpression, config.TimeZoneInfo)
         {
              _cache = cache;

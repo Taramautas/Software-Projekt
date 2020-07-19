@@ -11,10 +11,10 @@ namespace Uebungsprojekt.Service
 {
     public class DistributionService : CronJobService
      {
-        private readonly ILogger<CronTest> _logger;
+        private readonly ILogger<DistributionService> _logger;
         private IMemoryCache _cache;
 
-        public DistributionService(IScheduleConfig<CronTest> config, ILogger<CronTest> logger, IMemoryCache cache)
+        public DistributionService(IScheduleConfig<DistributionService> config, ILogger<DistributionService> logger, IMemoryCache cache)
             : base(config.CronExpression, config.TimeZoneInfo)
         {
              _cache = cache;

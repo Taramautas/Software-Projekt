@@ -57,7 +57,7 @@ namespace Uebungsprojekt
             services.AddHttpContextAccessor();
             
             // Added Cronjob (Booking mail reminder) - which runs every 1th minute
-            services.AddCronJob<CronTest>(c =>
+            services.AddCronJob<BookingEmailNotification>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
                 c.CronExpression = @"*/1 * * * *";

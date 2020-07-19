@@ -41,6 +41,8 @@ namespace Uebungsprojekt.Service
             if (next.HasValue)
             {
                 var delay = next.Value - DateTimeOffset.Now;
+                if (delay.Minutes < 0)
+                    delay *= -1;
                 _timer = new System.Timers.Timer(delay.TotalMilliseconds);
                 _timer.Elapsed += async (sender, args) =>
                 {
