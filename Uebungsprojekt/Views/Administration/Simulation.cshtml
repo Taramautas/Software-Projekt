@@ -165,25 +165,25 @@
         var labels = Array(num_generated_bookings.length).fill(1).map((x, y) => x + y);
         
         var datasets = [];
-        
+ 
         
         Object.keys(zones_workloads).forEach(function(zone_id) {
             datasets.push({
-                    label: 'Zone ' + zone_id.toString() + 'workload (%)',
+                    label: 'Zone ' + zone_id.toString() + ' workload (%)',
                     fill: false,
                     borderColor: getRandomColor(),
+                    yAxisID: 'workload',
                     spanGaps: true,
                     lineTension: 0.15,
                     data: zones_workloads[zone_id]
                     });
+           
         })
-        
-         
-        
         datasets.push({                 
             label: 'Generated Bookings',
             fill: false,
             borderColor: '#f21d1d',
+            yAxisID: 'generated_bookings',
             spanGaps: true,
             lineTension: 0.15,
             data: num_generated_bookings
@@ -198,8 +198,24 @@
                 datasets: datasets
             },
             options: {
-                responsive: true,
-            }
+               responsive: true,
+               scales: {
+                   yAxes: [{
+                       id: 'generated_bookings',
+                       type: 'linear',
+                       position: 'left',
+
+                   }, {
+                       id: 'workload',
+                         type: 'linear',
+                         position: 'right',
+                         ticks: {
+                           max: 100,
+                           min: 0
+                       }
+                   }]
+               }
+           }
         });
     }
     
