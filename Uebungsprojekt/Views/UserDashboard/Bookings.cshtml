@@ -9,26 +9,6 @@
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-
-<div class="row">
-    <div class="col-1">
-        <a class="btn btn-secondary ml-1" asp-area="" asp-controller="" asp-action="">EXPORT</a>
-    </div>
-    <div class="col-5">
-        <form id="" asp-controller="" asp-action="" enctype="multipart/form-data" method="post">
-            <input id="json_files" class="btn btn-light d-none" size="1" name="json_files" type="file" accept=".json" onchange="importJson()" />
-            <div class="btn btn-secondary" onclick="toggleImport()">IMPORT</div>
-        </form>
-    </div>
-    <div class="col-6">
-        <abbr title="Create new Booking">
-            <a class="submit" asp-area="" asp-controller="UserDashboard" asp-action="Create">
-                <span class="material-icons">add_to_photos</span>
-            </a>
-        </abbr>
-    </div>
-</div>
-
 <!-- Only show booking table if there are any bookings to display-->
 @if (Model.Any())
 {
