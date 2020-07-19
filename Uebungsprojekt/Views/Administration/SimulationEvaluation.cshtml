@@ -1,8 +1,248 @@
-﻿@{
-    ViewData["Title"] = "Simulation";
+﻿@model Uebungsprojekt.ViewModel.Administration.SimulationEvaluationViewModel
+@{
+    ViewData["Title"] = "Simulation Evaluation";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<img src="~/Kunst_Bene.png" style="width: 100%" />
+<div id="simulation-chart">
+    <div class="row">
+        <div class="col-12">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<table id="booking-table" style="width:100%" class="table">
+    <thead class="thead-light">
+    <tr>
+        <th><h4>Locations</h4></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Location location in Model.locations)
+    {
+        <tr>
+            <td><h4>@location.city </h4></td>
+            <td>
+                <table id="booking-table" style="width:100%" class="table">
+                    <tr>
+                        <th class="table-hr">Charging Zones</th>
+                        <th></th>
+                    </tr>
+                    @foreach (ChargingZone chargingZone in Model.charging_zones)
+                    {
+                        @if (chargingZone.location.id == location.id)
+                        {
+                            <tr>
+                                <td>@chargingZone.name</td>
+                                <td>
+                                    <table id="booking-table" style="width:100%" class="table">
+                                        <tr>
+                                            <th class="table-hr">Charging Columns</th>
+                                        </tr>
+                                        @foreach (ChargingColumn chargingColumn in Model.charging_columns)
+                                        {
+                                            @if (chargingColumn.charging_zone.id == chargingZone.id)
+                                            {
+                                                <tr>
+                                                    <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
+                                        {
+                                            <tr>
+                                                <td class="table-hr"></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+
+                            </tr>
+
+                        }
+                    }
+                    @if (!Model.charging_zones.Any(i => i.location == location))
+                    {
+                        <tr>
+                            <td class="table-hr">No Charging Zones to display</td>
+                            <td></td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<table id="simulation-config-table" style="width:100%" class="table">
+    <thead class="thead-light">
+    <tr>
+        <th><h4>Configuration</h4></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>Tick minutes</td>
+        <td>@Model.result.config.tick_minutes</td>
+    </tr>
+    <tr>
+        <td>Min bookings per tick</td>
+        <td>@Model.result.config.min</td>
+    </tr>
+    <tr>
+        <td>Max bookings per tick</td>
+        <td>@Model.result.config.max</td>
+    </tr>
+    
+    <tr>
+        <td>Spread of bookings over time</td>
+        <td>@Model.result.config.max</td>
+    </tr>
+    
+    <tr>
+        <td>Weeks to simulate</td>
+        <td>@Model.result.config.max</td>
+    </tr>
+    <tr>
+        <td>Rush hours</td>
+        <td>
+            <table id="rush-hour-table" style="width:100%" class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>Weekday</th>
+                    <th>StartTime</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                @foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in Model.result.config.rush_hours)
+                {
+                    <tr>
+                        <td>@rush_hour.Item1</td>
+                        <td>@rush_hour.Item2</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Vehicles</td>
+        <td>
+            <table id="vehicle-table" style="width:100%" class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Model</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var vehicle in Model.result.config.vehicles)
+                    {
+                        <tr>
+                            <td>@vehicle.id</td>
+                            <td>@vehicle.model_name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script>    
+    var locations = @Html.Raw(Json.Serialize(Model.locations));
+    var charging_zones = @Html.Raw(Json.Serialize(Model.charging_zones));
+    var charging_columns = @Html.Raw(Json.Serialize(Model.charging_columns));
+    
+    var num_ticks = '@Html.Raw(Model.result.num_generated_bookings.Count)';
+    var tick_minutes = '@Html.Raw(Model.result.config.tick_minutes)';
+    var weeks = '@Html.Raw(Model.result.config.weeks)';
+    var min = '@Html.Raw(Model.result.config.min)';
+    var max = '@Html.Raw(Model.result.config.max)';
+    var spread = '@Html.Raw(Model.result.config.spread)';
+    var vehicles = @Html.Raw(Json.Serialize(Model.result.config.vehicles));
+    var rush_hours = @Html.Raw(Json.Serialize(Model.result.config.rush_hours));
+    
+    var all_workloads = @Html.Raw(Json.Serialize(Model.result.total_workload));
+    var all_num_generated = @Html.Raw(Json.Serialize(Model.result.num_generated_bookings));
+    var all_num_unsatisfiable = @Html.Raw(Json.Serialize(Model.result.num_unsatisfiable_bookings));
+    
+    console.log(all_workloads);
+    
+    
+    var zones_workloads =  {};
+    
+    charging_zones.forEach(function(zone) {
+      zones_workloads[zone.id] = [];
+    });
+    
+    all_workloads.forEach(function(tick) {
+        Object.keys(tick).forEach(function(zone_id) {
+            zones_workloads[parseInt(zone_id)].push(tick[zone_id]);
+        });
+    });
+    
+    console.log(all_workloads);
+    
+
+    create_chart(all_num_generated);
+    
+    function create_chart(num_generated_bookings) {        
+        var labels = Array(num_generated_bookings.length).fill(1).map((x, y) => x + y);
+        
+        var datasets = [];
+        
+        
+        Object.keys(zones_workloads).forEach(function(zone_id) {
+            datasets.push({
+                    label: 'Zone ' + zone_id.toString() + 'workload (%)',
+                    fill: false,
+                    borderColor: getRandomColor(),
+                    spanGaps: true,
+                    lineTension: 0.15,
+                    data: zones_workloads[zone_id]
+                    });
+        });
+        datasets.push({                 
+            label: 'Generated Bookings',
+            fill: false,
+            borderColor: '#f21d1d',
+            spanGaps: true,
+            lineTension: 0.15,
+            data: num_generated_bookings
+            });
+       
+        this.chart = new Chart(document.getElementById("chart"), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    }
+    
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+   
+</script>

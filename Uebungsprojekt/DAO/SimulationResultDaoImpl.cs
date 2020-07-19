@@ -20,7 +20,7 @@ namespace Uebungsprojekt.DAO
         /// Creates and adds a SimulationResult with new Id to the SimulationResultlist if there is one, else it creates a new List and adds the SimulationResult
         /// </summary>
         /// <returns>the id of the added SimulationResult</returns>
-        public int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<Dictionary<int, double>> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done)
+        public int Create(SimulationConfig _config, SimulationInfrastructure _infrastructure, List<Dictionary<string, double>> _total_workload, List<int> _num_generated_bookings, List<int> _num_unsatisfiable_bookings, bool _done)
         {
             if (_cache.TryGetValue("CreateSimulationResultIds", out int ids))
             {

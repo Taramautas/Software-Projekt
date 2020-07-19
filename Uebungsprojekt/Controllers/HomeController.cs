@@ -50,8 +50,6 @@ namespace Uebungsprojekt.Controllers
         [HttpGet("{ReturnUrl}")]
         public IActionResult Login(string ReturnUrl)
         {
-    
-            
             LoginViewModel login_try = new LoginViewModel()
             {
                 redirect_url = ReturnUrl,

@@ -34,7 +34,7 @@ namespace Uebungsprojekt.Algorithm
             {
                 Console.WriteLine(b.id);
             }*/
-            Console.WriteLine();
+            //Console.WriteLine();
 
             //list of all unaccepted Bookings
             List<Booking> unacceptedBookings = bookings.FindAll(HelpFunctions.FindUnacceptedBookings).FindAll(delegate (Booking b)
@@ -51,12 +51,12 @@ namespace Uebungsprojekt.Algorithm
             {
                 return b.user.role == Role.Guest;
             }));
-            Console.WriteLine("unaccapted " + unacceptedBookings.Count());
+            //Console.WriteLine("unaccapted " + unacceptedBookings.Count());
             /*foreach (Booking b in unacceptedBookings)
             {
                 Console.WriteLine(b.id);
             }*/
-            Console.WriteLine();
+            //Console.WriteLine();
             //list of all needed locations which are extracted by bookings
             List<Location> listofBookingLocations = new List<Location>();
             foreach (Booking b in unacceptedBookings)
@@ -121,9 +121,9 @@ namespace Uebungsprojekt.Algorithm
             {
                 for (int i = 0; i < cc.charging_column_type_id.max_parallel_charging; ++i)
                 {
-                    Console.WriteLine("muss");
-                    Console.WriteLine(cc.charging_column_type_id.max_parallel_charging);
-                    Console.WriteLine(i);
+                    //Console.WriteLine("muss");
+                    //Console.WriteLine(cc.charging_column_type_id.max_parallel_charging);
+                    //Console.WriteLine(i);
                     result.Add(new ChargingColumn
                     {
 
@@ -145,12 +145,12 @@ namespace Uebungsprojekt.Algorithm
             }
             foreach (ChargingColumn cc in result)
             {
-                Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item2 + "\n");
+                //Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item2 + "\n");
                 foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
                 {
                     foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
                     {
-                        Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                        //Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
                     }
                 }
 
@@ -158,12 +158,12 @@ namespace Uebungsprojekt.Algorithm
 
             foreach (ChargingColumn cc in listofBookingChargingColumn)
             {
-                Console.WriteLine(cc.id + "\n");
+                //Console.WriteLine(cc.id + "\n");
             }
-            Console.WriteLine("result id: \n");
+            //Console.WriteLine("result id: \n");
             foreach (ChargingColumn cc in result)
             {
-                Console.WriteLine(cc.id + "\n");
+                //Console.WriteLine(cc.id + "\n");
             }
 
             TimeSpan pufferhigh = new TimeSpan(0, 45, 0);
@@ -181,15 +181,15 @@ namespace Uebungsprojekt.Algorithm
                 ++bookingindex;
                 foreach (ChargingColumn cc in result)
                 {
-                    Console.WriteLine(cc.id);
+                    //Console.WriteLine(cc.id);
                     TimeSpan bookingRealTimeSpan = ChargingTime.RealChargingTime(cc.charging_column_type_id, b);
 
-                    Console.WriteLine(bookingindex);
+                    //Console.WriteLine(bookingindex);
                     if (cc.charging_zone.location == b.location)
                     {
                         if (HelpFunctions.ConnectorCompare(cc, b))
                         {
-                            Console.WriteLine("==0");
+                            //Console.WriteLine("==0");
 
                             if (cc.list[0].Item1.Count == 0)
                             {
@@ -201,7 +201,7 @@ namespace Uebungsprojekt.Algorithm
                                 goto Exit;
                             }
 
-                            Console.WriteLine("==1");
+                            //Console.WriteLine("==1");
 
                             if (cc.list[0].Item1.Count == 1)
                             {
@@ -214,7 +214,7 @@ namespace Uebungsprojekt.Algorithm
                                     // Booking is between the last booking and the next booking without conflicts
                                     if (currentEndTime1 <= bookingStartTime)
                                     {
-                                        Console.WriteLine(01.1111);
+                                        //Console.WriteLine(01.1111);
                                         if (bookingStartTime - currentEndTime1 >= pufferhigh)
                                         {
 
@@ -248,7 +248,7 @@ namespace Uebungsprojekt.Algorithm
 
                                     if (currentStartTime1 >= bookingEndTime)
                                     {
-                                        Console.WriteLine(01.2111);
+                                        //Console.WriteLine(01.2111);
                                         // Booking is between the last booking and the next booking without conflicts
 
 
@@ -281,18 +281,18 @@ namespace Uebungsprojekt.Algorithm
 
                                     else
                                     {
-                                        Console.WriteLine("meepmeep");
+                                        //Console.WriteLine("meepmeep");
                                         if (bookingStartTime < currentStartTime1)
                                         {
                                             if (currentStartTime1 - bookingStartTime < bookingRealTimeSpan)
                                             {
-                                                Console.WriteLine("Exit");
+                                                //Console.WriteLine("Exit");
                                                 goto Exit;
                                             }
 
                                             else
                                             {
-                                                Console.WriteLine("here");
+                                                //Console.WriteLine("here");
                                                 bookingEndTime = currentStartTime1;
                                                 cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple1) + 1, new Tuple<DateTime, DateTime>(bookingEndTime - bookingRealTimeSpan, bookingEndTime));
                                                 b.charging_column = cc;
@@ -453,7 +453,7 @@ namespace Uebungsprojekt.Algorithm
 
                             else
                             {
-                                Console.WriteLine("meep");
+                                //Console.WriteLine("meep");
 
                                 if (cc.charging_column_type_id.connectors[0].Item2 >= 50)
                                 {
@@ -468,7 +468,7 @@ namespace Uebungsprojekt.Algorithm
                                             DateTime currentEndTime = tuple.Item2;
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.1);
+                                            //Console.WriteLine(1.1);
                                             if (bookingEndTime < currentStartTime && cc.list[0].Item1.IndexOf(tuple) == 1)
                                             {
                                                 if (currentStartTime - bookingEndTime >= pufferhigh)
@@ -509,7 +509,7 @@ namespace Uebungsprojekt.Algorithm
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
 
-                                            Console.WriteLine(1.2);
+                                            //Console.WriteLine(1.2);
 
                                             // Booking is between the last booking and the next booking without conflicts
                                             if (currentEndTime <= bookingStartTime && bookingEndTime <= nextStartTime)
@@ -601,7 +601,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.3);
+                                            //Console.WriteLine(1.3);
 
                                             if (currentEndTime > bookingStartTime && bookingEndTime <= nextStartTime)
                                             {
@@ -638,7 +638,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.4);
+                                            //Console.WriteLine(1.4);
                                             if (currentEndTime > bookingStartTime && bookingEndTime > nextStartTime)
                                             {
                                                 if (nextStartTime - pufferbetween - currentEndTime < bookingRealTimeSpan)
@@ -676,7 +676,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.5);
+                                            //Console.WriteLine(1.5);
                                             if (currentEndTime <= bookingStartTime && bookingEndTime > nextStartTime)
                                             {
                                                 if ((nextStartTime > bookingStartTime && nextStartTime - bookingStartTime < bookingRealTimeSpan) && (bookingEndTime > nextEndTime && bookingEndTime - nextEndTime < bookingRealTimeSpan))
@@ -701,7 +701,7 @@ namespace Uebungsprojekt.Algorithm
                                                 else if (bookingStartTime >= nextStartTime && bookingStartTime < nextEndTime && bookingEndTime > nextEndTime && cc.list[0].Item1.IndexOf(tuple) + 1 == cc.list[0].Item1.Count - 1)
                                                 {
 
-                                                    Console.WriteLine(2);
+                                                    //Console.WriteLine(2);
                                                     bookingStartTime = nextEndTime;
                                                     cc.list[0].Item1.Insert(cc.list[0].Item1.IndexOf(tuple) + 2, new Tuple<DateTime, DateTime>(bookingStartTime, bookingStartTime + bookingRealTimeSpan + pufferbetween));
                                                     b.charging_column = cc;
@@ -728,7 +728,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.6);
+                                            //Console.WriteLine(1.6);
                                             if (bookingStartTime >= nextEndTime && cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                             {
                                                 if (bookingStartTime - nextEndTime >= pufferhigh)
@@ -771,7 +771,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.1);
+                                            //Console.WriteLine(1.1);
                                             if (bookingEndTime < currentStartTime && cc.list[0].Item1.IndexOf(tuple) == 1)
                                             {
                                                 if (currentStartTime - bookingEndTime >= pufferlow)
@@ -814,7 +814,7 @@ namespace Uebungsprojekt.Algorithm
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
 
-                                            Console.WriteLine(1.2);
+                                            //Console.WriteLine(1.2);
 
                                             // Booking is between the last booking and the next booking without conflicts
                                             if (currentEndTime <= bookingStartTime && bookingEndTime <= nextStartTime)
@@ -907,7 +907,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.3);
+                                            //Console.WriteLine(1.3);
 
                                             if (currentEndTime > bookingStartTime && bookingEndTime <= nextStartTime)
                                             {
@@ -946,7 +946,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.4);
+                                            //Console.WriteLine(1.4);
                                             if (currentEndTime > bookingStartTime && bookingEndTime > nextStartTime)
                                             {
                                                 if (nextStartTime - pufferbetween - currentEndTime < bookingRealTimeSpan)
@@ -984,7 +984,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.5);
+                                            //Console.WriteLine(1.5);
                                             if (currentEndTime <= bookingStartTime && bookingEndTime > nextStartTime)
                                             {
                                                 if (nextStartTime - bookingStartTime < bookingRealTimeSpan || bookingEndTime - nextEndTime < bookingRealTimeSpan)
@@ -1033,7 +1033,7 @@ namespace Uebungsprojekt.Algorithm
 
                                             DateTime nextStartTime = next.Item1;
                                             DateTime nextEndTime = next.Item2;
-                                            Console.WriteLine(1.6);
+                                            //Console.WriteLine(1.6);
                                             if (bookingStartTime >= nextEndTime && cc.list[0].Item1.IndexOf(tuple) == cc.list[0].Item1.Count - 2)
                                             {
                                                 if (bookingStartTime - nextEndTime >= pufferlow)
@@ -1071,15 +1071,15 @@ namespace Uebungsprojekt.Algorithm
             Exit:;
                 foreach (ChargingColumn cc in result)
                 {
-                    Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item1 + "\n");
+                    //Console.WriteLine("ID: " + cc.id + "\n Modelname:" + cc.charging_column_type_id.model_name + "\n ConnectorType:" + cc.charging_column_type_id.connectors[0].Item1 + "\n");
                     foreach (Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType> tuple in cc.list)
                     {
                         foreach (Tuple<DateTime, DateTime> tuple1 in tuple.Item1)
                         {
-                            Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
+                            //Console.WriteLine("StartTime: " + tuple1.Item1 + "\t EndTime: " + tuple1.Item2);
                         }
                     }
-                    Console.WriteLine("\n");
+                    //Console.WriteLine("\n");
                 }
 
                 

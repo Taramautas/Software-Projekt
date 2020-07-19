@@ -1,4 +1,6 @@
-﻿@model Uebungsprojekt.ViewModel.Administration.SimulationViewModel
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@model Uebungsprojekt.ViewModel.Administration.SimulationViewModel
 @{
     ViewData["Title"] = "Simulation";
     Layout = "_PlanerLayout";
@@ -31,7 +33,23 @@
             Current time in Simulation:
         </div>
         <div class="col-sm-9">
-            <div id="time"> </div>
+            <div id="time">@Model.result.start_datetime</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            Min / Max:
+        </div>
+        <div class="col-sm-9">
+            <div id="liveticks">@Model.result.config.min / @Model.result.config.max</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            Weeks:
+        </div>
+        <div class="col-sm-9">
+            <div id="liveticks">@Model.result.config.weeks</div>
         </div>
     </div>
     <div class="row">
@@ -43,7 +61,16 @@
         </div>
     </div>
 </div>
+
 <br />
+
+<div id="simulation-chart">
+    <div class="row">
+        <div class="col-12">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+</div>
 
 <table id="simulation-table"style="width:100%" class="table table-striped table-hover">
     <thead>
@@ -56,7 +83,7 @@
     <tbody>
         @foreach (ChargingZone zone in Model.charging_zones)
         {
-        <tr id="charging-zone-@zone.name">
+        <tr id="charging-zone-@zone.id">
             <td>@zone.location.city</td>
             <td>@zone.name</td>
             <td><span class="workload-span"></span></td>
@@ -74,45 +101,115 @@
         </abbr>
     </div>
 </div>
+
+
 <script>
     var live_ticks = document.getElementById("liveticks");
+    var time = document.getElementById("time");
+    
+    var charging_zones = @Html.Raw(Json.Serialize(Model.charging_zones));
+    
     var num_ticks = '@Html.Raw(Model.result.num_generated_bookings.Count)';
+    var tick_minutes = '@Html.Raw(Model.result.config.tick_minutes)';
+    var start_datetime = '@Html.Raw(new DateTimeOffset(Model.result.start_datetime).ToUnixTimeMilliseconds())';
+    
+    var all_workloads = @Html.Raw(Json.Serialize(Model.result.total_workload));
+    var all_num_generated = @Html.Raw(Json.Serialize(Model.result.num_generated_bookings));
+    console.log(all_workloads);
+    var all_num_unsatisfiable = @Html.Raw(Json.Serialize(Model.result.num_unsatisfiable_bookings));
+    
+    start_datetime = new Date(parseInt(start_datetime));
 
     // Update Ticks
-    function liveTicks(i) {
+    function liveTicks(tick) {
         setTimeout(function () {
-            live_ticks.innerHTML = i + " out of " + num_ticks; console.log(i)
-            if (i < num_ticks) 
-                liveTicks(i + 1)
-        }, 2000)
+            live_ticks.innerHTML = tick + " out of " + num_ticks;
+            start_datetime = new Date(start_datetime.getTime() + tick_minutes * 60000);
+            time.innerHTML = start_datetime.toLocaleString();
+            
+            var workloads = all_workloads[tick - 1];
+                  
+            Object.keys(workloads).forEach(function(zone_id) 
+            {
+                var workload_selector = "#charging-zone-" + zone_id + " span.workload-span";
+                var workload = document.querySelector(workload_selector);
+                workload.innerHTML = workloads[zone_id];
+            });
+   
+            
+            if (tick < num_ticks) 
+                liveTicks(tick + 1)
+        }, 500)
     }
-
-    var i = 1;
-    liveTicks(i); 
-
-    // Update Date, Time
-    function updateClock() {
-        var now = new Date(), // current date
-            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // you get the idea
-        var day = (now.getDate() < 10 ? '0' : '') + now.getDate(); 
-        var seconds = (now.getSeconds() < 10 ? '0' : '') + now.getSeconds();
-        var minutes = (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-        var hours = (now.getHours() < 10 ? '0' : '') + now.getHours(); 
-        time = hours + ':' + minutes + ':' + seconds,
-
-            // a cleaner way than string concatenation
-            date = [day,
-            months[now.getMonth()],
-            now.getFullYear()].join(' ');
-
-        // set the content of the element with the ID time to the formatted string
-        document.getElementById('time').innerHTML = [date, time].join(', ');
-
-        // call this function again in 1000ms
-        setTimeout(updateClock, 1000);
-    }
-    updateClock();
     
-    var start_datetime = '@Html.Raw(Model.result.start_datetime)';
-    console.log(start_datetime);
+    var zones_workloads =  {};
+    
+    charging_zones.forEach(function(zone) {
+      zones_workloads[zone.id] = [];
+    });
+    
+    all_workloads.forEach(function(tick) {
+        Object.keys(tick).forEach(function(zone_id) {
+            zones_workloads[parseInt(zone_id)].push(tick[zone_id]);
+        });
+    })
+    
+
+    var tick = 1;
+    liveTicks(tick);  
+    create_chart(all_num_generated);
+    
+    function create_chart(num_generated_bookings) {
+        var ctx = document.getElementById("chart");
+        
+        var labels = Array(num_generated_bookings.length).fill(1).map((x, y) => x + y);
+        
+        var datasets = [];
+        
+        
+        Object.keys(zones_workloads).forEach(function(zone_id) {
+            datasets.push({
+                    label: 'Zone ' + zone_id.toString() + 'workload (%)',
+                    fill: false,
+                    borderColor: getRandomColor(),
+                    spanGaps: true,
+                    lineTension: 0.15,
+                    data: zones_workloads[zone_id]
+                    });
+        })
+        
+         
+        
+        datasets.push({                 
+            label: 'Generated Bookings',
+            fill: false,
+            borderColor: '#f21d1d',
+            spanGaps: true,
+            lineTension: 0.15,
+            data: num_generated_bookings
+            });
+       
+      
+        
+        this.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    }
+    
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+   
 </script>

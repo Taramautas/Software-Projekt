@@ -42,7 +42,7 @@ namespace Uebungsprojekt
             return user_id != null ? Int16.Parse(user_id.Value) : -1;
         }
 
-        private IEnumerable<Claim> GetUserClaims(User user)
+        public IEnumerable<Claim> GetUserClaims(User user)
         {
             List<Claim> claims = new List<Claim>();
 
@@ -52,7 +52,7 @@ namespace Uebungsprojekt
             return claims;
         }
 
-        private IEnumerable<Claim> GetUserRoleClaims(User user)
+        public IEnumerable<Claim> GetUserRoleClaims(User user)
         {
             List<Claim> claims = new List<Claim>();
 

@@ -169,6 +169,7 @@ namespace Uebungsprojekt.Controllers
         {
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
             SimulationConfig config = GetSimulationConfigFromCookie();
+            
             LocationDao location_dao = new LocationDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
             if (infrastructure == null)
@@ -180,21 +181,11 @@ namespace Uebungsprojekt.Controllers
             if (config == null)
                 return RedirectToAction("SimulationConfig");
             
-            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-            int result_id = result_dao.Create(
-                config, 
-                infrastructure,
-                new List<Dictionary<int, double>>(),
-                new List<int>(),
-                new List<int>(),
-                false
-                );
-            SimulationResult result = result_dao.GetById(result_id);
-            var options = new CookieOptions
+            SimulationResult result = new SimulationResult()
             {
-                Expires = DateTimeOffset.Now.AddDays(1)
+                config = config,
+                infrastructure = infrastructure,
             };
-            Response.Cookies.Append("SimulationResult", result_id.ToString(), options);
 
             Simulation simulation = new Simulation(config, infrastructure, result, cache);
             if (!simulation.Run())
@@ -202,6 +193,21 @@ namespace Uebungsprojekt.Controllers
                 Console.Out.WriteLine("Failure on simulation");
                 return RedirectToPage("/Home/Error/");
             }
+            
+            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
+            int result_id = result_dao.Create(
+                simulation.simulation_result.config, 
+                infrastructure,
+                simulation.simulation_result.total_workload,
+                simulation.simulation_result.num_generated_bookings,
+                simulation.simulation_result.num_unsatisfiable_bookings,
+                true
+            );
+            var options = new CookieOptions
+            {
+                Expires = DateTimeOffset.Now.AddDays(1)
+            };
+            Response.Cookies.Append("SimulationResult", result_id.ToString(), options);
             
             SimulationViewModel view_model = new SimulationViewModel()
             {
@@ -219,11 +225,31 @@ namespace Uebungsprojekt.Controllers
         /// </summary>
         /// <param name="simulation_result_id">int</param>
         [HttpGet]
-        public IActionResult SimulationEvaluation(int simulation_result_id)
+        public IActionResult SimulationEvaluation()
         {
-            SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-            SimulationResult result = result_dao.GetById(simulation_result_id);
-            return View(result);
+            SimulationResult result = GetSimulationResultFromCookie();
+            if (result == null)
+                return RedirectToAction("SimulationConfig");
+
+            SimulationInfrastructure infrastructure = result.infrastructure;
+            SimulationConfig config = result.config;
+
+            if (infrastructure == null || config == null)
+                return RedirectToAction("SimulationConfig");
+            
+            
+            LocationDao location_dao = new LocationDaoImpl(cache);
+            ChargingZoneDao charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
+            
+            SimulationEvaluationViewModel view_model = new SimulationEvaluationViewModel()
+            {
+                locations = location_dao.GetAll(infrastructure.location_dao_id),
+                charging_zones = charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id),
+                charging_columns = charging_column_dao.GetAll(infrastructure.charging_column_dao_id),
+                result = result
+            };
+            return View(view_model);
         }
         
         /// <summary>
@@ -843,7 +869,7 @@ namespace Uebungsprojekt.Controllers
         private SimulationResult GetSimulationResultFromCookie()
         {
             SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
-            Request.Cookies.TryGetValue("SimulationConfig", out string result_string);
+            Request.Cookies.TryGetValue("SimulationResult", out string result_string);
             if (string.IsNullOrEmpty(result_string))
                 return null;
             SimulationResult result = result_dao.GetById(Int32.Parse(result_string));

@@ -55,11 +55,14 @@ namespace Uebungsprojekt.Simulations
             // Convert rush hours to ticks (for calculations)
             foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in config.rush_hours)
             {
-                int rush_hour_tick = (int)(rush_hour.Item1) * ticks_per_day + (int)((rush_hour.Item2 - start_time) / tick_minutes);
-                rush_hour_ticks.Add(rush_hour_tick);
+                if (rush_hour.Item1 != DayOfWeek.Saturday && rush_hour.Item1 != DayOfWeek.Sunday)
+                {
+                    int rush_hour_tick = (int)(rush_hour.Item1) * ticks_per_day + (int)((rush_hour.Item2 - start_time) / tick_minutes);
+                    rush_hour_ticks.Add(rush_hour_tick);
+                }
             }
             // Get maximum probability for given spread in order to normalize afterwards
-            max_probability = (1 / (config.spread * Math.Sqrt(2 + Math.PI))) * Math.Pow(Math.E, (-0.5 * Math.Pow((0) / config.spread, 2)));
+            max_probability = (1.0 / (config.spread * Math.Sqrt(2.0 * Math.PI))) * Math.Exp(-0.5 * 0);
             this.cache = cache;
         }
 
@@ -86,18 +89,18 @@ namespace Uebungsprojekt.Simulations
             User vip = user_dao.GetById(3);
             User guest = user_dao.GetById(4);
             User employee = user_dao.GetById(5);
-            
+
             // Iterate through all weeks
-            foreach (int week in Enumerable.Range(1, config.weeks))
+            foreach (int week in Enumerable.Range(0, config.weeks))
             {
                 // Iterate through all weekdays
-                foreach (int day in Enumerable.Range(1, 5))
+                foreach (int day in Enumerable.Range(0, 5))
                 {
                     DateTime start = new DateTime();
                     // Iterate through all tick in a day
-                    foreach (int tick in Enumerable.Range(1, ticks_per_day))
+                    foreach (int tick in Enumerable.Range(0, ticks_per_day))
                     {
-                        int number_bookings = GetNumberOfBookings(tick);
+                        int number_bookings = GetNumberOfBookings(tick + day * ticks_per_day);
                         foreach (int booking in Enumerable.Range(0, number_bookings))
                         {
                             User user;
@@ -145,10 +148,19 @@ namespace Uebungsprojekt.Simulations
                                 // Random location
                                 location = location,
                             });
+
+                            Console.Out.WriteLine("Start soc: " + state_of_charge);
+                            Console.Out.WriteLine("End soc: " + target_state_of_charge);
+                            Console.Out.WriteLine("Start time: " + start);
+                            Console.Out.WriteLine("End time: " + end);
+                            Console.Out.WriteLine("Vehicle: " + vehicle.model_name);
+                            Console.Out.WriteLine("Vehicle: " + vehicle.user.name);
+                            Console.Out.WriteLine("Vehicle: " + vehicle.user.role);
+                            Console.Out.WriteLine("User: " + user.name);
+                            Console.Out.WriteLine("Location: " + location.city);
                         }
                         // Update results after each tick
                         simulation_result.num_generated_bookings.Add(number_bookings);
-                        simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload(start_datetime.AddDays(week * 5 + day)));
                     }
                     DistributionAlgorithm.DistributionAlg(
                         new ChargingColumnDaoImpl(cache), 
@@ -157,6 +169,11 @@ namespace Uebungsprojekt.Simulations
                         start,
                         booking_dao_id
                         );
+                    foreach (int tick in Enumerable.Range(0, ticks_per_day))
+                    {
+                        DateTime time = start_datetime.AddDays(week * 5 + day).Add(tick_minutes * tick);
+                        simulation_result.total_workload.Add(occupancy_plan.GetCurrentWorkload(time));
+                    }
                 }
             }
             simulation_result.done = true;
@@ -171,11 +188,11 @@ namespace Uebungsprojekt.Simulations
         private int GetNumberOfBookings(int tick)
         {
             // Get probability for given tick
-            double probability = GetProbabilityScore(tick) / max_probability;
-            // Normalize to specified minimum and maximum of bookings and decide whether to round up or down
-            int number_bookings = config.min + (int)Math.Ceiling(probability * (config.max - config.min));
+            double probability = GetProbabilityScore(tick);
 
-            return number_bookings;
+            // Normalize to specified minimum and maximum of bookings and decide whether to round up or down
+            int number_bookings = config.min + (int)(probability * (config.max - config.min));
+            return Math.Min(number_bookings, config.max);
         }
 
         /// <summary>
@@ -187,12 +204,12 @@ namespace Uebungsprojekt.Simulations
         {
             double probability = 0.0;
             double normal_probability;
+            tick %= 5 * ticks_per_day;
             // Iterate over all rush hours as mean values
             foreach (int rush_hour_tick in rush_hour_ticks)
             {
                 // Calculate probability with: x = tick; mean = rush_hour_tick; standard deviation = spread
-                normal_probability = (1 / (config.spread * Math.Sqrt(2 + Math.PI))) * Math.Pow(Math.E,
-                    (-0.5 * Math.Pow((tick - rush_hour_tick) / config.spread, 2)));
+                normal_probability = (1.0 / (config.spread * Math.Sqrt(2.0 * Math.PI))) * Math.Exp(-0.5 * Math.Pow((tick - rush_hour_tick) / config.spread, 2.0));
                 probability = Math.Max(probability, normal_probability);
             }
             // Return maximum of those probabilities normalized to 0 and 1

@@ -31,33 +31,37 @@ namespace Uebungsprojekt.OccupancyPlans
         /// Calculates current workload for each charging zone
         /// </summary>
         /// <returns>Dictionary<int, double> with Charging Zone ID as index and workload as value</returns>
-        public Dictionary<int, double> GetCurrentWorkload(DateTime time)
+        public Dictionary<string, double> GetCurrentWorkload(DateTime time)
         {
             ChargingZoneDao zone_dao = new ChargingZoneDaoImpl(cache);
             ChargingColumnDao column_dao = new ChargingColumnDaoImpl(cache);
+            Console.Out.WriteLine("Accepted Bookings: " + GetAllBookings().FindAll(b => b.accepted).Count);
+            List<Booking> all_bookings = GetAllBookings().FindAll(b => b.start_time <= time && b.end_time >= time && b.accepted);
+            Console.Out.WriteLine("All bookings: " + all_bookings.Count);
 
-            Dictionary<int, double> map_workload = new Dictionary<int, double>();
+            Dictionary<string, double> map_workload = new Dictionary<string, double>();
             Dictionary<int, int> map_available_columns = new Dictionary<int, int>();
 
             // Initiate the dictionary with zeros
             foreach (ChargingZone zone in zone_dao.GetAll(charging_zone_dao_id))
             {
-                map_workload[zone.id] = 0;
+                map_workload[zone.id.ToString()] = 0;
                 map_available_columns[zone.id] = 0;
             }
 
             // Count up variables
             foreach (ChargingColumn column in column_dao.GetAll(charging_column_dao_id))
             {
-                if (column.busy)
-                    map_workload[column.charging_zone.id] += 1;
+                if (all_bookings.FindAll(b => b.charging_column.id == column.id).Count != 0)
+                    map_workload[column.charging_zone.id.ToString()] += 1;
                 map_available_columns[column.charging_zone.id] += 1;
             }
 
             // Divide busy columns by total columns in order to get workload
             foreach(ChargingZone zone in zone_dao.GetAll(charging_zone_dao_id))
             {
-                map_workload[zone.id] /= map_available_columns[zone.id];
+                map_workload[zone.id.ToString()] /= map_available_columns[zone.id];
+                map_workload[zone.id.ToString()] *= 100;
             }
 
             return map_workload;
