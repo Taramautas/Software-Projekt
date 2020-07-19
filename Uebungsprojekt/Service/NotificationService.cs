@@ -18,12 +18,12 @@ namespace Uebungsprojekt.Service
         /// Creates a MailMessage and fills it with the given information. Finally sends it via a smtp Connection
         /// </summary>
         /// TODO: fill Method with variable sender_mail, reciever_mail, pwd
-        public void SendEmail(String reciever_mail, String Name)
+        public void SendEmail(String reciever_mail, String Name, String city)
         {
             using (MailMessage mm = new MailMessage(sender_mail, reciever_mail))
             {
                 mm.Subject = "Sent from ASP.NET Server";
-                mm.Body = "Hallo "+Name+",\nDer Ladeslot beginnt in 15 minuten" +
+                mm.Body = "Hallo "+Name+",\n ihr Ladeslot in "+city+" an der Zone - beginnt in 15 minuten" +
                           "\nViele Grüße\n\nihr Team 11";
                 mm.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
@@ -63,17 +64,14 @@ namespace Uebungsprojekt.Service
                     Console.WriteLine(tmp);
                     if (tmp.Year == DateTime.Now.Year && tmp.Month == DateTime.Now.Month && tmp.Day == DateTime.Now.Day && tmp.Hour == DateTime.Now.Hour && tmp.Minute == DateTime.Now.Minute)
                     {
-                        //TODO: UNDO THIS ;) 
-                        //mail_notification.SendEmail(book.user.email, book.user.name);
+                        String[] ignored_email_names = new[] {"admin@admin.de", "assistant@assistant.de", "vip@vip.de", "guest@guest.de", "user@user.de"};
+                        if (!ignored_email_names.Contains(book.user.email))
+                            mail_notification.SendEmail(book.user.email, book.user.name, book.location.city);
+
+                        //ONly if accepted
+                        //mail_notification.SendEmail(book.user.email, book.user.name, book.location.city, book.charging_column.charging_zone.name);
                     }
                 }
-                //E-mail Notification Tes
-                //is working but don't activate it.. mail flooding ;)
-                //NotificationService mail_noti = new NotificationService();
-                //mail_noti.SendEmail();
-               
-            
-                //DO WHATEVERY YOU WANT HERE
             }
             
             NotificationService mail_noti = new NotificationService();
