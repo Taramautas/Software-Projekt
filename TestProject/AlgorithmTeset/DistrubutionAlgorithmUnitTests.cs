@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
@@ -184,8 +185,21 @@ namespace UnitTest.Algorithm
                 Console.WriteLine("BookingId: " + b.id + " Role: " + b.user.role + " start_time: " + b.start_time + " end_time: " + b.end_time + " Vehicle: " + b.vehicle.id+"\n");
                 Console.WriteLine("accepted: " + b.accepted + "\n");
             }
+
+            foreach (ChargingColumn cc in _chargingcolumndao.GetAll(charcoldao_id))
+            {
+                for (int i = 0; i < cc.charging_column_type_id.max_parallel_charging; i++)
+                {
+                    CollectionAssert.IsOrdered(cc.list[i].Item1);
+                    Console.WriteLine("Liste sortiert");
+                }
+            }
+
+            Assert.AreEqual(35, Uebungsprojekt.Algorithm.DistributionAlgorithm.acc.Count());
+            Console.WriteLine("akzeptierte Buchungen sind 35");
+
             
-            Assert.Pass();
+            
         }
     }
 }

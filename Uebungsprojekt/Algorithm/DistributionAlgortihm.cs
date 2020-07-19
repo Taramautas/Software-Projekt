@@ -12,6 +12,7 @@ namespace Uebungsprojekt.Algorithm
 {
     public partial class DistributionAlgorithm
     {
+        public static List<Booking> acc;
         /// <summary>
         /// 
         /// </summary>
@@ -1128,9 +1129,11 @@ namespace Uebungsprojekt.Algorithm
                     }
                 }
                 Console.WriteLine("\n");
+                acc = acceptedBookings;
             }
         }
     }
+    
 }
 
 
