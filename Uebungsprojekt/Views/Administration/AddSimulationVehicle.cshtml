@@ -1,0 +1,88 @@
+﻿@model Uebungsprojekt.ViewModel.Administration.AddSimulationVehicleViewModel
+
+@{
+    ViewData["Title"] = "Add Simulation Vehicle";
+    Layout = "_PlanerLayout";
+
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddSimulationVehicle">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label for="vehicle_id" class="col-4 col-form-label">Vehicle Type:</label>
+                <div class="col-1"></div>
+                <select class="col-7" name="vehicle_id" id="vehicle_id">
+                    @if (Model.vehicles.Any())
+                    {
+                        @foreach (var vehicle in Model.vehicles)
+                        {
+                            <option value="@vehicle.id">@vehicle.id - @vehicle.model_name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group row">
+                <label for="count" class="col-4 col-form-label">Count:</label>
+                <div class="col-1"></div>
+                <input class="col-7" name="count" id="count" type="number" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<div>
+    <h3><u>Vehicles</u></h3>
+    @if (Model.config.vehicles.Any())
+    {
+    <a href="@Url.Action("DeleteAllSimulationVehicles", "Administration")"><span class="material-icons">cancel</span></a>
+    }
+</div>
+<table id="booking-table" style="width:100%" class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Model</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.config.vehicles.Any())
+        {
+            @foreach (var vehicle in Model.config.vehicles)
+            {
+                <tr>
+                    <td>@vehicle.id</td>
+                    <td>@vehicle.model_name</td>
+                    <td><a href="@Url.Action("DeleteSimulationVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
+                    @*@Html.ActionLink("Delete", "DeleteSimulationVehicle", new { id = vehicle.id })*@</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<div class="form-group row">
+    <div class="col-sm-11">
+        <abbr title="Go back to Simulation Configuration">
+            <a class="btn btn-outline-primary ml-1" href="@Url.Action("SimulationConfig","Administration")"><span class="material-icons">navigate_before</span></a>
+        </abbr>
+    </div>
+    <div class="col-sm-1">
+        <abbr title="Go to Rush Hours">
+            <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("AddRushHours","Administration")"><span class="material-icons">navigate_next</span></a>
+        </abbr>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Uebungsprojekt.Models
@@ -34,7 +31,6 @@ namespace Uebungsprojekt.Models
         /// <summary>Indicates if the booking is allready accepted or still just a booking wish</summary>
         public Boolean accepted { get; set; }
 
-        // TODO: Need custom JSONConverter for Vehicle etc.
         /// <summary>Connector type for charging</summary>
         [Required(ErrorMessage = "Please select at least one of the plug types.")]
         public Vehicle vehicle { get; set; }
@@ -42,14 +38,18 @@ namespace Uebungsprojekt.Models
         public User user { get; set; }
 
         // Frage: muss hier noch eine Variable für ChargingColumn rein?
+
+        [Required(ErrorMessage = "Please select a location.")]
+        public Location location { get; set; }
         public ChargingColumn charging_column { get; set; }
+        
+        public ConnectorType connector_type { get; set; }
 
-        /// <summary>
-        /// Empty constructor of booking model
-        /// </summary>
-        public Booking()
-        { 
+        public int checkedIn = 0;
 
+        public void Accept()
+        {
+            accepted = true;
         }
     }
 }

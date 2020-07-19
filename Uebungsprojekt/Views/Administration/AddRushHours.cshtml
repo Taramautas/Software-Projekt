@@ -1,0 +1,71 @@
+﻿@model Uebungsprojekt.Models.SimulationConfig
+
+@{
+    ViewData["Title"] = "Rush Hours";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddRushHours">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label for="weekday" class="col-2 col-form-label">Weekday:</label>
+                <div class="col-2"></div>
+                <select class="col-8" name="weekday" id="weekday" asp-items="@Html.GetEnumSelectList<DayOfWeek>()">
+                </select>
+            </div>
+            <div class="form-group row">
+                <label for="timespan" class="col-2 col-form-label">Time:</label>
+                <div class="col-2"></div>
+                <input class="col-8" type="time" name="timespan" value="00:00" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<div><h3><u>Rush Hours</u></h3></div><br />
+<table id="booking-table" style="width:100%" class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Weekday</th>
+            <th>StartTime</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.rush_hours.Any())
+        {
+            @foreach (Tuple<DayOfWeek, TimeSpan> rush_hour in Model.rush_hours)
+            {
+                <tr>
+                    <td>@rush_hour.Item1</td>
+                    <td>@rush_hour.Item2</td>
+                    <td><a href="@Url.Action("DeleteRushHours","Administration", new{id = Model.rush_hours.FindIndex(rh => rh.Item1 == rush_hour.Item1 && rh.Item2 == rush_hour.Item2)})"><span class="material-icons">cancel</span></a>
+                    @*@Html.ActionLink("Delete", "DeleteRushHours", new { id = Model.rush_hours.FindIndex(rh => rh.Item1 == rush_hour.Item1 && rh.Item2 == rush_hour.Item2) })*@</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<div class="form-group row">
+    <div class="col-sm-11">
+        <abbr title="Go back to Vehicles">
+            <a class="btn btn-outline-primary ml-1" href="@Url.Action("AddSimulationVehicle","Administration")"><span class="material-icons">navigate_before</span></a>
+        </abbr>
+    </div>
+    <div class="col-sm-1">
+        <abbr title="Go to Infrastructure">
+            <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("SimulationInfrastructure","Administration")"><span class="material-icons">navigate_next</span></a>
+        </abbr>
+    </div>
+</div>

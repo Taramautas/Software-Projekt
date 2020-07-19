@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Uebungsprojekt.Models.ChargingColumnType>
+
+@{
+    ViewData["Title"] = "Charging Column Types";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-12">
+        <abbr title="Create new Charging Column Type">
+            <a class="submit" asp-area="" asp-controller="Administration" asp-action="CreateChargingColumnType">
+                <span class="material-icons">add_to_photos</span>
+            </a>
+        </abbr>
+    </div>
+</div>
+
+<table id="booking-table" style="width:100%" class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Max Parallel Charging</th>
+            <th>Manufacturer</th>
+            <th>Model Name</th>
+            <th>Connector Types and their Charging Capacity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cct in Model)
+        {
+        <tr>
+            <td>@cct.id</td>
+            <td>@cct.max_parallel_charging</td>
+            <td>@cct.manufacturer_name</td>
+            <td>@cct.model_name</td>
+            <td>
+                @foreach (var conn_type in cct.connectors)
+                {
+                    if (conn_type.Equals(cct.connectors.Last()))
+                    {
+
+                        @(conn_type.Item1 + " {" + conn_type.Item2 + " kW}");
+                    }
+                    else
+                    {
+                        @(conn_type.Item1 + " {" + conn_type.Item2 + " kW} | " );
+
+                    }
+                }
+            </td>
+            <td><a href="@Url.Action("DeleteChargingColumnType","Administration", new{id = cct.id })"><span class="material-icons">cancel</span></a>
+            @*@Html.ActionLink("Delete", "DeleteChargingColumnType", new { id = cct.id })*@</td>
+        </tr>
+        }
+    </tbody>
+</table>

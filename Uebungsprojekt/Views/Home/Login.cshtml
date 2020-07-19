@@ -1,25 +1,30 @@
 ﻿@model Uebungsprojekt.ViewModel.Home.LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Welcome";
+    Layout = "_Layout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
+<h2><i>Please enter your login data:</i></h2>
+<br />
 <!-- Form Tag Helper in order to prevent cross-site request forgery -->
 <form asp-controller="Home" asp-action="Login" method="post">
     <div class="form-group row">
-        <label for="email" class="col-2 col-form-label">Email:</label>
-        <input id="email" class="col-10 form-control" asp-for="email"><br />
+        <label for="email" class="col-form-label"><u><h5>Email:</h5></u></label>
+        <input id="email" class="form-control" asp-for="email" placeholder="Please enter your email adress"><br />
         <span asp-validation-for="email" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for="password" class="col-2 col-form-label">Password:</label>
-        <input id="password" class="col-10 form-control" asp-for="password"><br />
+        <label for="password" class="col-form-label"><u><h5>Password:</h5></u></label>
+        <input id="password" type="password" class="form-control" asp-for="password" placeholder="Please enter your password"><br />
         <span asp-validation-for="password" class="text-danger form-danger-span"></span>
     </div>
-    <input id="redirect" type="hidden" asp-for="redirect_url" value="@Model.redirect_url"/>
-    <div class="row">
-        <button id="login-btn" class="btn btn-success col-12" type="submit">Login</button>
+    <input id="redirect" type="hidden" asp-for="redirect_url" value="@Model.redirect_url" />
+    <div class="row submit">
+        <abbr title="Login">
+            <button class="btn btn-outline-primary col-12" type="submit"><span class="material-icons">login</span></button>
+        </abbr>
     </div>
 </form>
 

@@ -1,6 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
-
+<br>
+<h3><i>Welcome to the UserDashboard. You can: </i></h3><br />
+<ol style="list-style-type: circle">
+    <li><h5>Create and see your Bookings</h5></li>
+    <li><h5>See the current Infrastructure</h5></li>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
+    {
+        <li><h5>Create and see Users</h5></li>
+    }
+    @if ((await AuthorizationService.AuthorizeAsync(User, "Planner")).Succeeded)
+    {
+        <li><h5>Go to the AdminDashboard</h5></li>
+    }
+</ol>

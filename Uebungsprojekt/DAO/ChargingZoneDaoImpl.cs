@@ -32,7 +32,7 @@ namespace Uebungsprojekt.DAO
         /// </summary>
         /// <param name="DaoId">Id of List that's to be used.</param>
         /// <returns>the id of the added ChargingZone</returns>
-        public int Create(int _Overall_performance, Location _location, int DaoId)
+        public int Create(string _name, int _Overall_performance, Location _location, int DaoId)
         {
             if (_cache.TryGetValue(DaoId + "CreateChargingZoneIds", out int ids))
             {
@@ -42,6 +42,7 @@ namespace Uebungsprojekt.DAO
                 ChargingZone newChargingZone = new ChargingZone
                 {
                     id = ids,
+                    name = _name,
                     overall_performance = _Overall_performance,
                     location = _location,
                 };
@@ -56,7 +57,9 @@ namespace Uebungsprojekt.DAO
                 ChargingZone newChargingZone = new ChargingZone
                 {
                     id = ++ids,
+                    name = _name,
                     overall_performance = _Overall_performance,
+                    location = _location,
                 };
                 createdChargingZones.Add(newChargingZone);
                 _cache.Set(DaoId + "CreateChargingZone", createdChargingZones);

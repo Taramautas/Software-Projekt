@@ -1,19 +1,19 @@
-﻿@{
+﻿@model IEnumerable<Uebungsprojekt.Models.Vehicle>
+
+@{
     ViewData["Title"] = "Vehicles";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
 
-<div class="row TableHeadline">
-    <p>Overview: </p>
-    <div>
-        <div class="row">
-            <a class="btn btn-primary ml-1" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">Create new Vehicle</a>
-        </div>
-        <div class="row">
-            <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing booking entries.</span>
-        </div>
+<div class="row">
+    <div class="col-12">
+        <abbr title="Create new Vehicle">
+            <a class="submit" asp-area="" asp-controller="Administration" asp-action="CreateVehicle">
+                <span class="material-icons">add_to_photos</span>
+            </a>
+        </abbr>
     </div>
 </div>
 
@@ -22,10 +22,42 @@
         <tr>
             <th>ID</th>
             <th>Model</th>
-            <th>Capacity</th>
+            <th>Capacity in kWh</th>
             <th>Connector Types</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
+    @foreach (var vehicle in Model)
+            {
+        <tr>
+            <td>@vehicle.id</td>
+            <td>@vehicle.model_name</td>
+            <td>@vehicle.capacity</td>
+            @{ ConnectorType last_type = vehicle.connector_types.Last();}
+            <td>
+                @foreach (var conntype in vehicle.connector_types)
+                {
+                    if (!conntype.Equals(last_type))
+                    {
+                        // For spacing - not working good because of the used font
+                        string str = new string(' ', 20 - conntype.ToString().Length) + "| ";
+                        @(conntype + str)
+                    }
+                    else
+                    {@(conntype.ToString())}
+                }
+            </td>
+            @if (vehicle.user != null)
+            {
+                <td>@vehicle.user.email</td>
+            }
+            <td>
+                <a href="@Url.Action("DeleteVehicle","Administration", new{id = vehicle.id })"><span class="material-icons">cancel</span></a>
+                @*@Html.ActionLink("Delete", "DeleteVehicle", new { id = vehicle.id })*@
+            </td>
+        </tr>
+            }
+
     </tbody>
 </table>

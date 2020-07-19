@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
-using Uebungsprojekt.OccupancyPlans;
 using Uebungsprojekt.Service;
 
 namespace Uebungsprojekt
@@ -41,6 +41,14 @@ namespace Uebungsprojekt
                     config.LogoutPath = "/Home/Logout/";
                     config.AccessDeniedPath = "/Home/Error/";
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Planner", policy => policy.RequireRole("Planner"));
+                options.AddPolicy("Assistant", policy => policy.RequireRole("Assistant"));
+                options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
+                options.AddPolicy("LoggedIn", policy => policy.RequireRole("Employee", "Assistant", "Planner"));
+            });
             
             // Deliver UserManger for each controller constructor
             services.AddTransient<UserManager>();
@@ -48,11 +56,20 @@ namespace Uebungsprojekt
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
             
-            // Added Cronjob - which runs every 15th minute
+            // Added Cronjob (Booking mail reminder) - which runs every 1th minute
             services.AddCronJob<CronTest>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
                 c.CronExpression = @"*/1 * * * *";
+            });
+            // 
+            services.AddCronJob<DistributionService>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                // 02:00 every day
+                //c.CronExpression = @"0 02 * * *";
+                //Testingpurpose:
+                c.CronExpression = @"*/5 * * * *";
             });
         }
 
@@ -70,8 +87,13 @@ namespace Uebungsprojekt
             vehicle_dao.GetAll();
             UserDao user_dao = new UserDaoImpl(cache);
             user_dao.GetAll();
-            user_dao.Create("Admin", "admin@admin.de", "admin", Role.Planner);
-            
+            // Dont change the order of these accounts, as the simulation depends on the ids of the accounts
+            user_dao.Create("Planner", "admin@admin.de", "admin", Role.Planner);
+            user_dao.Create("Assistant", "assistant@assistant.de", "assistant", Role.Assistant);
+            user_dao.Create("VIP", "vip@vip.de", "vip", Role.VIP);
+            user_dao.Create("Guest", "guest@guest.de", "guest", Role.Employee);
+            user_dao.Create("Employee", "user@user.de", "user", Role.Employee);
+
             SimulationConfigDao config_dao = new SimulationConfigDaoImpl(cache);
             config_dao.GetAll();
             SimulationInfrastructureDao infrastructure_dao = new SimulationInfrastructureDaoImpl(cache);
@@ -85,7 +107,79 @@ namespace Uebungsprojekt
             charging_zone_dao.GetAll(0);
             ChargingColumnDao charging_column_dao = new ChargingColumnDaoImpl(cache);
             charging_column_dao.GetAll(0);
+
+            /*
+            // Create Infrastructure for testing
+            int loc_id = location_dao.Create("Munich", "12345", "addressstreet 5", 0);
+            int zone_id = charging_zone_dao.Create(50, location_dao.GetById(loc_id, 0), 0);
+            charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id, 0), 0);
+            charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id, 0), 0);
+            charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id, 0), 0);
+
+            int loc_id2 = location_dao.Create("Augsburg", "54321", "addressstreet 5", 0);
+            int zone_id2 = charging_zone_dao.Create(50, location_dao.GetById(loc_id2, 0), 0);
+            charging_column_dao.Create(1, false, false, charging_zone_dao.GetById(zone_id2, 0), 0);
+            charging_column_dao.Create(2, true, false, charging_zone_dao.GetById(zone_id2, 0), 0);
+            charging_column_dao.Create(1, false, true, charging_zone_dao.GetById(zone_id2, 0), 0);
+            */ 
+            //
             
+            
+            
+            //Vehicle startup
+            List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.Schuko_Socket);
+            vehicle_dao.Create("TestModel",400, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
+            vehicle_dao.Create("BlaModel", 999, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.CHAdeMO_Plug);
+            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            //
+            
+            //CCTYPE startup 
+            ChargingColumnTypeDaoImpl charging_column_type_dao = new ChargingColumnTypeDaoImpl(cache);
+            List<Tuple<ConnectorType,int>> connector_list = new List<Tuple<ConnectorType, int>>();
+            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 70));
+            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 60));
+            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list);
+            connector_list = new List<Tuple<ConnectorType, int>>();
+            connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
+            charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);
+
+            //
+            
+            //Location Startup
+            LocationDaoImpl location_dao_ = new LocationDaoImpl(cache);
+            location_dao_.Create("Augsburg", "86165", "BeneStreet", 0);
+            location_dao_.Create("Berlin", "10033", "Blublaa", 0);
+            //
+            
+            //ChargingZone startup
+            ChargingZoneDaoImpl charging_zone_dao_ = new ChargingZoneDaoImpl(cache);
+            //Augsburg
+            charging_zone_dao_.Create("Alpha", 100, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Beta", 250, location_dao_.GetById(1,0), 0);
+            charging_zone_dao_.Create("Gamma", 400, location_dao_.GetById(1,0), 0);
+            //Berlin
+            charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
+            //
+            
+            
+            //ChargingColumn startup
+            ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
+            ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
+            int cc_id1 = charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
+
+
+            //Booking startup
+            booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
+                vehicle_dao.GetById(1), user_dao.GetById(5), location_dao.GetById(1, 0), 0);
+            booking_dao.GetById(1, 0).charging_column = charging_column.GetById(cc_id1, 0);
+            booking_dao.GetById(1, 0).Accept();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -111,7 +205,7 @@ namespace Uebungsprojekt
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=LogIn}/{id?}");
             });
         }
     }
