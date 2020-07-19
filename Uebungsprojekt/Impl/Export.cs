@@ -112,7 +112,7 @@ namespace Uebungsprojekt.Impl
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
             //Create downloadable file
             var output = new FileContentResult(bytes, "application/octet-stream");
-            string filename = "SystemExport_" + DateTime.Now.ToString(new CultureInfo("de-DE"))
+            string filename = "SimulationExport_" + DateTime.Now.ToString(new CultureInfo("de-DE"))
                 .Replace(":", "_")
                 .Replace(".", "_")
                 .Replace(" ", "_")
