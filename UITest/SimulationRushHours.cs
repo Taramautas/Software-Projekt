@@ -77,7 +77,7 @@ namespace UITest.SimulationRushHours
             IWebElement max = web_driver.FindElement(By.Name("max"));
             IWebElement spread = web_driver.FindElement(By.Name("spread"));
             IWebElement weeks = web_driver.FindElement(By.Name("weeks"));
-            IWebElement btn_submit = web_driver.FindElement(By.ClassName("btn-primary"));
+            IWebElement btn_submit = web_driver.FindElement(By.Id("btnsub"));
 
             tick_minutes.Clear();
             tick_minutes.SendKeys("1");

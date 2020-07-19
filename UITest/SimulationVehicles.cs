@@ -77,7 +77,7 @@ namespace UITest.SimulationVehicles
             IWebElement max = web_driver.FindElement(By.Name("max"));
             IWebElement spread = web_driver.FindElement(By.Name("spread"));
             IWebElement weeks = web_driver.FindElement(By.Name("weeks"));
-            IWebElement btn_submit = web_driver.FindElement(By.ClassName("btn-primary"));
+            IWebElement btn_submit = web_driver.FindElement(By.Id("btnsub"));
 
             tick_minutes.Clear();
             tick_minutes.SendKeys("1");
@@ -95,10 +95,6 @@ namespace UITest.SimulationVehicles
             weeks.SendKeys("1");
 
             btn_submit.Click();
-
-            IWebElement btn_next = web_driver.FindElement(By.ClassName("btn-outline-primary"));
-
-            btn_next.Click();
 
             IWebElement count = web_driver.FindElement(By.Name("count"));
             IWebElement btn_add = web_driver.FindElement(By.ClassName("btn-primary"));

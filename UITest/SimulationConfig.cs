@@ -46,7 +46,11 @@ namespace UITest.SimulationConfig
         }
 
         [Test]
-        [TestCase("1", "1", "1", "1", "1", true)]
+        [TestCase("1", "1", "2", "1", "1", true)]
+        [TestCase("1", "1", "0", "1", "1", false)]
+        [TestCase("0", "1", "2", "1", "1", false)]
+        [TestCase("1", "1", "2", "0", "1", false)]
+        [TestCase("1", "1", "2", "1", "0", false)]
         public void TestSimulationConfig(string ticks, string minimum, string maximum, string spread_bok, string weeks_bok, bool expected)
         {
             bool success = InputSimulationConfig(ticks, minimum, maximum, spread_bok, weeks_bok);
@@ -77,7 +81,7 @@ namespace UITest.SimulationConfig
             IWebElement max = web_driver.FindElement(By.Name("max"));
             IWebElement spread = web_driver.FindElement(By.Name("spread"));
             IWebElement weeks = web_driver.FindElement(By.Name("weeks"));
-            IWebElement btn_submit = web_driver.FindElement(By.ClassName("btn-primary"));
+            IWebElement btn_submit = web_driver.FindElement(By.Id("btnsub"));
 
             tick_minutes.Clear();
             tick_minutes.SendKeys(ticks);
@@ -95,10 +99,6 @@ namespace UITest.SimulationConfig
             weeks.SendKeys(weeks_bok);
 
             btn_submit.Click();
-
-            IWebElement btn_next = web_driver.FindElement(By.ClassName("btn-outline-primary"));
-
-            btn_next.Click();
 
             try
             {
