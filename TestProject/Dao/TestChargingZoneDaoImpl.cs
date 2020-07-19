@@ -32,20 +32,20 @@ namespace UnitTest.Dao
             List<ChargingZone> chargingZoneList1 = _chargingZoneDao.GetAll(list_id1);
 
             // Create new ChargingZones
-            int chargingZone_id11 = _chargingZoneDao.Create(new ChargingZoneType(), new ChargingZone { name = "Alpha" }, new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(), list_id1);
+            int chargingZone_id11 = _chargingZoneDao.Create("Alpha", 500, new Location(), list_id1);
 
             // Edit ChargingZone in Dao1 with GetById
-            Assert.AreEqual("Alpha", _chargingZoneDao.GetById(chargingZone_id11, list_id1).charging_zone.name);
+            Assert.AreEqual("Alpha", _chargingZoneDao.GetById(chargingZone_id11, list_id1).name);
             ChargingZone chargingZone11 = _chargingZoneDao.GetById(chargingZone_id11, list_id1);
-            chargingZone11.charging_zone.name = "Beta";
+            chargingZone11.name = "Beta";
 
             // check if the chargingZone got changed in the cache
             chargingZoneList1 = _chargingZoneDao.GetAll(list_id1);
-            Assert.AreEqual("Beta", _chargingZoneDao.GetById(chargingZone_id11, list_id1).charging_zone.name);
+            Assert.AreEqual("Beta", _chargingZoneDao.GetById(chargingZone_id11, list_id1).name);
 
 
         }
-        /*
+        
         [Test]
         public void TestGetByIdReturnsCorrectChargingZone()
         {
@@ -61,49 +61,49 @@ namespace UnitTest.Dao
             ChargingZone chargingZone11 = new ChargingZone
             {
                 id = 1,
-                charging_column_type_id = new ChargingZoneType(),
-                charging_zone = new ChargingZone { name = "Alpha" },
-                list = new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                name = "Alpha",
+                overall_performance = 500,
+                location = new Location(),
             };
             ChargingZone chargingZone21 = new ChargingZone
             {
                 id = 2,
-                charging_column_type_id = new ChargingZoneType(),
-                charging_zone = new ChargingZone { name = "Beta" },
-                list = new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                name = "Beta",
+                overall_performance = 600,
+                location = new Location(),
             };
-            int bk_id11 = _chargingZoneDao.Create(chargingZone11.charging_column_type_id, chargingZone11.charging_zone, chargingZone11.list, id1);
-            int bk_id21 = _chargingZoneDao.Create(chargingZone21.charging_column_type_id, chargingZone21.charging_zone, chargingZone21.list, id1);
+            int bk_id11 = _chargingZoneDao.Create(chargingZone11.name, chargingZone11.overall_performance, chargingZone11.location, id1);
+            int bk_id21 = _chargingZoneDao.Create(chargingZone21.name, chargingZone21.overall_performance, chargingZone21.location, id1);
 
             // Create new chargingZones in List2 and add it with Create
             ChargingZone chargingZone12 = new ChargingZone
             {
                 id = 1,
-                charging_column_type_id = new ChargingZoneType(),
-                charging_zone = new ChargingZone { name = "Gamma" },
-                list = new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                name = "Gamma",
+                overall_performance = 500,
+                location = new Location(),
             };
             ChargingZone chargingZone22 = new ChargingZone
             {
                 id = 2,
-                charging_column_type_id = new ChargingZoneType(),
-                charging_zone = new ChargingZone { name = "Delta" },
-                list = new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                name = "Delta",
+                overall_performance = 500,
+                location = new Location(),
             };
-            int bk_id12 = _chargingZoneDao.Create(chargingZone12.charging_column_type_id, chargingZone12.charging_zone, chargingZone12.list, id2);
-            int bk_id22 = _chargingZoneDao.Create(chargingZone22.charging_column_type_id, chargingZone22.charging_zone, chargingZone22.list, id2);
+            int bk_id12 = _chargingZoneDao.Create(chargingZone12.name, chargingZone12.overall_performance, chargingZone12.location, id2);
+            int bk_id22 = _chargingZoneDao.Create(chargingZone22.name, chargingZone22.overall_performance, chargingZone22.location, id2);
 
             // Check if GetById returns the correct chargingZone
-            Assert.AreEqual(chargingZone11.charging_zone.name, _chargingZoneDao.GetById(bk_id11, id1).charging_zone.name);
+            Assert.AreEqual(chargingZone11.name, _chargingZoneDao.GetById(bk_id11, id1).name);
 
-            Assert.AreEqual(chargingZone21.charging_zone.name, _chargingZoneDao.GetById(bk_id21, id1).charging_zone.name);
+            Assert.AreEqual(chargingZone21.name, _chargingZoneDao.GetById(bk_id21, id1).name);
 
-            Assert.AreEqual(chargingZone12.charging_zone.name, _chargingZoneDao.GetById(bk_id12, id2).charging_zone.name);
+            Assert.AreEqual(chargingZone12.name, _chargingZoneDao.GetById(bk_id12, id2).name);
 
-            Assert.AreEqual(chargingZone22.charging_zone.name, _chargingZoneDao.GetById(bk_id22, id2).charging_zone.name);
+            Assert.AreEqual(chargingZone22.name, _chargingZoneDao.GetById(bk_id22, id2).name);
 
         }
-
+        
         
         /// <summary>
         /// Tests if chargingZones added to Dao with Create are added to the Cache with the right Key
@@ -123,9 +123,9 @@ namespace UnitTest.Dao
 
             // Create new chargingZone in List1 and add it with Create
             _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Alpha" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Alpha",
+                500,
+                new Location(),
                 id1
                 );
 
@@ -144,16 +144,16 @@ namespace UnitTest.Dao
 
             // Create new chargingZone in List1 and add it with Create
             _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Beta" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Beta",
+                500,
+                new Location(),
                 id1);
 
             // Create new chargingZone in List2 and add it with Create
             _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Gamma" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Gamma",
+                500,
+                new Location(),
                 id2);
 
             // Check if there is 2 chargingZones in chargingZoneList1 and 1 in chargingZoneList2
@@ -183,23 +183,23 @@ namespace UnitTest.Dao
 
             // Create new chargingZone in List1 and add it with Create
             int bk_id11 = _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Alpha" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Alpha",
+                500,
+                new Location(),
                 id1);
 
             // Create new chargingZone in List1 and add it with Create
             int bk_id12 = _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Beta" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Beta",
+                500,
+                new Location(),
                 id1);
 
             // Create new chargingZone in List2 and add it with Create
             _chargingZoneDao.Create(
-                new ChargingZoneType(),
-                new ChargingZone { name = "Gamma" },
-                new List<Tuple<List<Tuple<DateTime, DateTime>>, ConnectorType>>(),
+                "Gamma",
+                500,
+                new Location(),
                 id2);
 
             // Check if there is 2 chargingZones in chargingZoneList1 and 1 in chargingZoneList2
@@ -218,8 +218,7 @@ namespace UnitTest.Dao
             Assert.AreEqual(1, chargingZoneList2.Count);
 
             // Check if the second ChargingZone really is the correct one left
-            Assert.AreEqual("Beta", _chargingZoneDao.GetById(bk_id12, id1).charging_zone.name);
+            Assert.AreEqual("Beta", _chargingZoneDao.GetById(bk_id12, id1).name);
         }
-        */
     }
 }

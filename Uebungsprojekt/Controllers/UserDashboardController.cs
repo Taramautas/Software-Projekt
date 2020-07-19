@@ -63,6 +63,11 @@ namespace Uebungsprojekt.Controllers
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
             LocationDao location_dao = new LocationDaoImpl(cache);
             UserDao user_dao = new UserDaoImpl(cache);
+            if(user_dao.GetById(user_id).role == Role.Assistant)
+            {
+                var cvwa = new CreateViewModel(location_dao.GetAll(0), vehicle_dao.GetAll(), new Booking(), user_dao.GetAll());
+                return View(cvwa);
+            }
             var cvw = new CreateViewModel(location_dao.GetAll(0), vehicle_dao.GetVehiclesByUserId(user_id), new Booking(), user_dao.GetAll());
             return View(cvw);
         }
