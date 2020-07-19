@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
 using Uebungsprojekt;
-using Uebungsprojekt.Algorithm;
 using Uebungsprojekt.DAO;
 using Uebungsprojekt.Models;
 
