@@ -8,18 +8,26 @@
 
 <form asp-controller="Administration" asp-action="CreateVehicle" method="post">
     <div class="form-group row">
-        <label for="model_name" class="col-2 col-form-label">Model:</label>
-        <input asp-for="model_name" class="col-10 form-control"><br />
+        <label for="model_name" class="col-3 col-form-label">Model:</label>
+        <input asp-for="model_name" class="col-9 form-control"><br />
+        <span asp-validation-for="model_name" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for="capacity" class="col-2 col-form-label">Battery Capacity (in kWh):</label>
-        <input asp-for="capacity" class="col-10 form-control"><br />
+        <label for="capacity" class="col-3 col-form-label">Battery Capacity (in kWh):</label>
+        <input asp-for="capacity" class="col-9 form-control"><br />
+        <span asp-validation-for="capacity" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
-        <label for="connector_types" class="col-2 col-form-label"><abbr title="Select multiple by holding CTRL + Left Click">Connector Types:</abbr></label>
-            <select multiple asp-for="connector_types" id="connector_types" class="col-10 form-control" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
-        </div>
+        <label for="connector_types" class="col-3 col-form-label"><abbr title="Select multiple by holding CTRL + Left Click">Connector Types:</abbr></label>
+        <select multiple asp-for="connector_types" id="connector_types" class="col-9 form-control" asp-items="Html.GetEnumSelectList<ConnectorType>()"></select><br />
+        <span asp-validation-for="connector_types" class="text-danger form-danger-span"></span>
+    </div>
     <div class="row">
         <button class="btn btn-outline-primary col-12" type="submit">Create</button>
     </div>
 </form>
+
+<!-- Enable client side validation -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

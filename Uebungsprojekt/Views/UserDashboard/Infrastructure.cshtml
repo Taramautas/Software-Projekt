@@ -26,10 +26,10 @@
 </div>
 
 
-<table id="booking-table" style="width:100%" class="table table-hover">
+<table id="booking-table" style="width:100%" class="table">
     <thead class="thead-light">
         <tr>
-            <th>Location</th>
+            <th><h4>Location</h4></th>
             <th></th>
         </tr>
     </thead>
@@ -38,11 +38,11 @@
         {
             <tr>
                 @*<td>Location A</td>*@
-                <td>@location.city</td>
+                <td><h4>@location.city</h4></td>
                 <td>
                     <table class="table-borderless">
                         <tr>
-                            <th>Charging Zone</th>
+                            <th class="table-hr">Charging Zone</th>
                             <th></th>
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
@@ -50,18 +50,18 @@
                             @if (chargingZone.location.id == location.id)
                             {
                                 <tr>
-                                    <td>Ladezone @chargingZone.name</td>
+                                    <td>@chargingZone.name</td>
                                     <td>
                                         <table class="table-borderless">
                                             <tr>
-                                                <th>Charging Column</th>
+                                                <th class="table-hr">Charging Column</th>
                                             </tr>
                                             @foreach (ChargingColumn chargingColumn in Model.charging_columns)
                                             {
                                                 @if (chargingColumn.charging_zone.id == chargingZone.id)
                                                 {
                                                     <tr>
-                                                        <td>Ladesäule @chargingColumn.id</td>
+                                                        <td>@chargingColumn.charging_column_type_id.model_name</td>
                                                     </tr>
                                                 }
                                             }

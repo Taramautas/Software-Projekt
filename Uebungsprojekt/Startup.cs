@@ -56,11 +56,20 @@ namespace Uebungsprojekt
             // Add HTTPContext Accessor to each controller constructor
             services.AddHttpContextAccessor();
             
-            // Added Cronjob - which runs every 15th minute
+            // Added Cronjob (Booking mail reminder) - which runs every 1th minute
             services.AddCronJob<CronTest>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
                 c.CronExpression = @"*/1 * * * *";
+            });
+            // 
+            services.AddCronJob<DistributionService>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                // 02:00 every day
+                //c.CronExpression = @"0 02 * * *";
+                //Testingpurpose:
+                c.CronExpression = @"*/5 * * * *";
             });
         }
 
@@ -120,9 +129,13 @@ namespace Uebungsprojekt
             //Vehicle startup
             List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Schuko_Socket);
-            vehicle_dao.Create("TestModel",400, tmp_conn_types);
+            vehicle_dao.Create("TestModel",400, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
-            vehicle_dao.Create("BlaModel", 999, tmp_conn_types);
+            vehicle_dao.Create("BlaModel", 999, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
+            tmp_conn_types = new List<ConnectorType>();
+            tmp_conn_types.Add(ConnectorType.CHAdeMO_Plug);
+            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types, user_dao.GetByEmail("admin@admin.de"));
             //
             
             //CCTYPE startup 
@@ -134,6 +147,7 @@ namespace Uebungsprojekt
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
             charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);
+
             //
             
             //Location Startup
@@ -152,10 +166,20 @@ namespace Uebungsprojekt
             charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
             //
             
+            
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
+            int cc_id1 = charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
+
+
+            //Booking startup
+            booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
+                vehicle_dao.GetById(1), user_dao.GetById(5), location_dao.GetById(1, 0), 0);
+            booking_dao.GetById(1, 0).charging_column = charging_column.GetById(cc_id1, 0);
+            booking_dao.GetById(1, 0).Accept();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

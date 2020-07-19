@@ -45,6 +45,8 @@ namespace Uebungsprojekt.Models
         
         public ConnectorType connector_type { get; set; }
 
+        public int checkedIn = 0;
+
         public void Accept()
         {
             accepted = true;

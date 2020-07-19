@@ -13,7 +13,6 @@ namespace Uebungsprojekt.Service
     {
         private readonly ILogger<CronTest> _logger;
         private IMemoryCache _cache;
-        private List<int> notifcationList;
 
         public CronTest(IScheduleConfig<CronTest> config, ILogger<CronTest> logger, IMemoryCache cache)
             : base(config.CronExpression, config.TimeZoneInfo)
@@ -29,8 +28,6 @@ namespace Uebungsprojekt.Service
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("CronJob starts.");
-            //TODO: Necessary??
-            notifcationList = new List<int>();
             return base.StartAsync(cancellationToken);
         }
 

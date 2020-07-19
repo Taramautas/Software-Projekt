@@ -26,27 +26,42 @@
     </div>
 </div>
 
-<table id="booking-table" style="width:100%" class="table table-striped table-hover">
+<table id="booking-table" style="width:100%" class="table">
     <thead class="thead-light">
         <tr>
-            <th>Locations</th>
-            <th></th>
-            <th></th>
-            <th>
-                <a asp-controller="Administration" asp-action="CreateSimulationLocation" class="submit">Add Location</a>
-            </th>
-            <th>
-                @if (Model.locations.Any())
-                {
-                    <a asp-controller="Administration" asp-action="CreateSimulationChargingZone" class="submit">Add Charging Zone</a>
-                }
-            </th>
+            <th><h4>Locations</h4></th>
             <th>
                 @if (Model.charging_zones.Any())
                 {
-                    <a asp-controller="Administration" asp-action="AddSimulationChargingColumn" class="submit">Add Charging Column</a>
+                    <abbr title="Add Charging Column">
+                        <a asp-controller="Administration" asp-action="AddSimulationChargingColumn" class="submit" style="margin-left:5%"><span class="material-icons">ev_station</span></a>
+                    </abbr>
                 }
+                @if (Model.locations.Any())
+                {
+                    <abbr title="Add Charging Zone">
+                        <a asp-controller="Administration" asp-action="CreateSimulationChargingZone" class="submit" style="margin-left:5%"><span class="material-icons">electrical_services</span></a>
+                    </abbr>
+                }
+                <abbr title="Add Location">
+                    <a asp-controller="Administration" asp-action="CreateSimulationLocation" class="submit" style="margin-left:5%"><span class="material-icons">location_city</span></a>
+                </abbr>
             </th>
+            @*<th>
+                    <a asp-controller="Administration" asp-action="CreateSimulationLocation" class="submit">Add Location</a>
+                </th>
+                <th>
+                    @if (Model.locations.Any())
+                    {
+                        <a asp-controller="Administration" asp-action="CreateSimulationChargingZone" class="submit">Add Charging Zone</a>
+                    }
+                </th>
+                <th>
+                    @if (Model.charging_zones.Any())
+                    {
+                        <a asp-controller="Administration" asp-action="AddSimulationChargingColumn" class="submit">Add Charging Column</a>
+                    }
+                </th>*@
         </tr>
     </thead>
     <tbody>
@@ -56,16 +71,16 @@
                 @*<td>Location A</td>*@
                 @if (!Model.charging_zones.Any(i => i.location == location))
                 {
-                    <td>@location.city @Html.ActionLink("Delete", "DeleteSimulationLocation", new { id = location.id })</td>
+                    <td><h4>@location.city <a href="@Url.Action("DeleteSimulationLocation","Administration", new{id=location.id})"><span class="material-icons">cancel</span></a></h4>@*@location.city @Html.ActionLink("Delete", "DeleteSimulationLocation", new { id = location.id })*@</td>
                 }
                 else
                 {
-                    <td>@location.city</td>
+                    <td><h4>@location.city</h4></td>
                 }
                 <td>
-                    <table id="booking-table" style="width:100%" class="table table-striped table-hover">
+                    <table id="booking-table" style="width:100%" class="table">
                         <tr>
-                            <th>Charging Zones</th>
+                            <th class="table-hr">Charging Zones</th>
                             <th></th>
                         </tr>
                         @foreach (ChargingZone chargingZone in Model.charging_zones)
@@ -75,16 +90,16 @@
                                 <tr>
                                     @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
                                     {
-                                        <td>@chargingZone.name @Html.ActionLink("Delete", "DeleteSimulationChargingZone", new { id = chargingZone.id })</td>
+                                        <td>@chargingZone.name <a href="@Url.Action("DeleteSimulationChargingZone","Administration", new{id=chargingZone.id})"><span class="material-icons">cancel</span></a></td>
                                     }
                                     else
                                     {
                                         <td>@chargingZone.name</td>
                                     }
                                     <td>
-                                        <table id="booking-table" style="width:100%" class="table table-striped table-hover">
+                                        <table id="booking-table" style="width:100%" class="table">
                                             <tr>
-                                                <th>Charging Columns</th>
+                                                <th class="table-hr">Charging Columns</th>
                                                 <th></th>
                                             </tr>
                                             @foreach (ChargingColumn chargingColumn in Model.charging_columns)
@@ -93,14 +108,15 @@
                                                 {
                                                     <tr>
                                                         <td>@chargingColumn.id - @chargingColumn.charging_column_type_id.model_name</td>
-                                                        <td>@Html.ActionLink("Delete", "DeleteSimulationChargingColumn", new { id = chargingColumn.id })</td>
+                                                        <td><a href="@Url.Action("DeleteSimulationChargingColumn","Administration", new{id=chargingColumn.id})"><span class="material-icons">cancel</span></a></td>
                                                     </tr>
                                                 }
                                             }
                                             @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
                                             {
                                                 <tr>
-                                                    <td>No Charging Columns to display</td>
+                                                    <td class="table-hr"></td>
+                                                    <td></td>
                                                 </tr>
                                             }
                                         </table>
@@ -113,7 +129,8 @@
                         @if (!Model.charging_zones.Any(i => i.location == location))
                         {
                             <tr>
-                                <td>No Charging Zones to display</td>
+                                <td class="table-hr">No Charging Zones to display</td>
+                                <td></td>
                             </tr>
                         }
                     </table>
@@ -123,11 +140,24 @@
         @if (!Model.locations.Any())
         {
             <tr>
-                <td>No Locations to display</td>
+                <td class="table-hr">No Locations to display</td>
+                <td></td>
             </tr>
         }
     </tbody>
 </table>
-
-<input type="button" value="Previous" onclick="location.href='@Url.Action("AddRushHours", "Administration")'" />
-<input type="button" value="Next" onclick="location.href='@Url.Action("Simulation", "Administration")'" />
+<br />
+<div class="form-group row">
+    <div class="col-sm-11">
+        <abbr title="Go back to Rush Hours">
+            <a class="btn btn-outline-primary ml-1" href="@Url.Action("AddRushHours","Administration")"><span class="material-icons">navigate_before</span></a>
+        </abbr>
+    </div>
+    <div class="col-sm-1">
+        <abbr title="Submit and start the Simulation">
+            <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("Simulation","Administration")"><span class="material-icons">navigate_next</span></a>
+        </abbr>
+    </div>
+</div>
+@*<input type="button" value="Previous" onclick="location.href='@Url.Action("AddRushHours", "Administration")'" />
+<input type="button" value="Next" onclick="location.href='@Url.Action("Simulation", "Administration")'" />*@

@@ -11,10 +11,12 @@
     <div class="form-group row">
         <label for="manufacturer_name" class="col-2 col-form-label">Manufacturer Name:</label>
         <input asp-for="manufacturer_name" class="col-10 form-control"><br />
+        <span asp-validation-for="manufacturer_name" class="text-danger form-danger-span"></span>
     </div>
     <div class="form-group row">
         <label for="model_name" class="col-2 col-form-label">Model Name:</label>
         <input asp-for="model_name" class="col-10 form-control"><br />
+        <span asp-validation-for="model_name" class="text-danger form-danger-span"></span>
     </div>
         <div class="form-group row">
             <label for="connectortype1" class="col-2 col-form-label">ConnectorType 1:</label>
@@ -65,3 +67,8 @@
         <button class="btn btn-outline-primary col-12" type="submit">Create</button>
     </div>
 </form>
+
+<!-- Enable client side validation -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
