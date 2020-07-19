@@ -37,7 +37,8 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Index()
         {
             UserDaoImpl user_dao = new UserDaoImpl(cache);
-            if (user_dao.GetById(user_id).role == Role.Planner)
+            User user = user_dao.GetById(user_id);
+            if (user != null && user.role == Role.Planner)
                 return RedirectToAction("Index", "Administration");
             return View();
         }

@@ -1,0 +1,11 @@
+URL: https://sopro-ss2020-team11.azurewebsites.net
+
+#######################################################################
+Email: admin@admin.de	
+Password: admin
+#######################################################################
+Email: assistant@assitant.de
+Password: assistant
+#######################################################################
+Email: user@user.de
+Password: user
