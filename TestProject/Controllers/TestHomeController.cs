@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Text;
 using Uebungsprojekt.Controllers;
 
-namespace UnitTest.Controllers
+namespace UnitTest.Controllers.Home
 {
     /// <summary>Test Class for Home Controller</summary>
+    [TestFixture]
     class TestHomeController
     {
-        private HomeController hc;
 
         /// <summary>
         /// Setup function executed once before every test
@@ -21,8 +21,6 @@ namespace UnitTest.Controllers
         [SetUp]
         public void Setup()
         {
-            var logger = new Mock<ILogger<HomeController>>();
-            hc = new HomeController(logger.Object);
         }
     }
 }

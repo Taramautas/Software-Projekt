@@ -1,9 +1,19 @@
-﻿@{
+﻿@model Uebungsprojekt.ViewModel.Administration.SimulationViewModel
+@{
     ViewData["Title"] = "Simulation";
     Layout = "_PlanerLayout";
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row submit">
+            <abbr title="ExportSimulationResult">
+                <a class="btn btn-outline-primary ml-1 submit" asp-area="" asp-controller="Administration" asp-action="ExportSimulationResult"><span class="material-icons">get_app</span></a>
+            </abbr>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="col-sm-12">
         <h2><i>Simulation Data</i></h2><br />
@@ -13,7 +23,7 @@
             Tick:
         </div>
         <div class="col-sm-9">
-            <div id="liveticks">0 out of 100</div>
+            <div id="liveticks">0 out of @Model.result.num_generated_bookings.Count</div>
         </div>
     </div>
     <div class="row">
@@ -29,28 +39,32 @@
             Minutes per Tick:
         </div>
         <div class="col-sm-9">
-            15
+            @Model.result.config.tick_minutes
         </div>
     </div>
 </div>
 <br />
-<table id="booking-table" style="width:100%" class="table table-striped table-hover">
+
+<table id="simulation-table"style="width:100%" class="table table-striped table-hover">
     <thead>
         <tr>
             <th>Location</th>
-            <th>Total amount of charging stations</th>
-            <th>Current Workload</th>
+            <th>ChargingZone</th>
+            <th>Workload</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <!-- for with data -->
-            <td>Ludwigsburg Film- und Medien-Zentrum (Headquarter)</td>
-            <td>2</td>
-            <td>50%</td>
+        @foreach (ChargingZone zone in Model.charging_zones)
+        {
+        <tr id="charging-zone-@zone.name">
+            <td>@zone.location.city</td>
+            <td>@zone.name</td>
+            <td><span class="workload-span"></span></td>
         </tr>
+        }
     </tbody>
 </table>
+
 
 <br />
 <div class="row">
@@ -61,19 +75,18 @@
     </div>
 </div>
 <script>
+    var live_ticks = document.getElementById("liveticks");
+    var num_ticks = '@Html.Raw(Model.result.num_generated_bookings.Count)';
+
     // Update Ticks
     function liveTicks(i) {
-        myVar = setTimeout(function () {
-            x.innerHTML = i + " out of 100"; console.log(i)
-            if (i == 100) {
-                clearTimeout(myVar);
-                return;
-            }
-            liveTicks(i + 1)
+        setTimeout(function () {
+            live_ticks.innerHTML = i + " out of " + num_ticks; console.log(i)
+            if (i < num_ticks) 
+                liveTicks(i + 1)
         }, 2000)
     }
 
-    var x = document.getElementById("liveticks");
     var i = 1;
     liveTicks(i); 
 
@@ -99,4 +112,7 @@
         setTimeout(updateClock, 1000);
     }
     updateClock();
+    
+    var start_datetime = '@Html.Raw(Model.result.start_datetime)';
+    console.log(start_datetime);
 </script>

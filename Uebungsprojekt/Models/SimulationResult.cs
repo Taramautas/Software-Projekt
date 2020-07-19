@@ -11,6 +11,7 @@ namespace Uebungsprojekt.Models
         public List<Dictionary<int, double>> total_workload { get; set; }
         public List<int> num_generated_bookings { get; set; }
         public List<int> num_unsatisfiable_bookings { get; set; }
+        public DateTime start_datetime { get; set; }
         public bool done { get; set; }
         
         public SimulationResult()

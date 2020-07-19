@@ -166,15 +166,20 @@ namespace Uebungsprojekt
             charging_zone_dao_.Create("Omega", 30, location_dao_.GetById(2,0), 0);
             //
             
-            //Booking startup
-            booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
-                vehicle_dao.GetById(1), user_dao.GetById(5), location_dao.GetById(1,0), 0);
-            booking_dao.GetById(1, 0).Accept();
             
             //ChargingColumn startup
             ChargingColumnDaoImpl charging_column = new ChargingColumnDaoImpl(cache);
             ChargingColumnTypeDaoImpl charging_type = new ChargingColumnTypeDaoImpl(cache);
-            charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
+            int cc_id1 = charging_column.Create(charging_type.GetById(1), charging_zone_dao.GetById(1,0),null, 0);
+
+
+            //Booking startup
+            booking_dao.Create(10, 30, new DateTime(2020, 07, 20, 10, 20, 0), new DateTime(2020, 07, 20, 12, 20, 0),
+                vehicle_dao.GetById(1), user_dao.GetById(5), location_dao.GetById(1, 0), 0);
+            booking_dao.GetById(1, 0).charging_column = charging_column.GetById(cc_id1, 0);
+            booking_dao.GetById(1, 0).Accept();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

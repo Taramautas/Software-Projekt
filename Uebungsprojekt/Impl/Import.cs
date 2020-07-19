@@ -365,10 +365,6 @@ namespace Uebungsprojekt.Impl
                 StreamReader reader = new StreamReader(json_files[0].OpenReadStream());
                 string json = reader.ReadToEnd();
                 string[] lines = json.Split("\nNEXTSTRING\n");
-                for (int i = 0; i < lines.Length; ++i)
-                {
-                    Console.WriteLine("Lines " + i + ": " + lines[i] + "\n");
-                }
                 bool success = true;
                 var settings = new JsonSerializerSettings
                 {
@@ -411,7 +407,7 @@ namespace Uebungsprojekt.Impl
                         chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors)));
                     }
                 }
-                // Deserialize ChargingColumnType
+                // Deserialize Location
                 List<Location> importedLocation = JsonConvert.DeserializeObject<List<Location>>(lines[1], settings);
                 // If success, add to cached chargingColumnType list
                 if (success)
@@ -484,6 +480,124 @@ namespace Uebungsprojekt.Impl
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Deserializes json file and loads everything into daos and returns the id of the SimulationResult
+        /// </summary>
+        /// <param name="_cache"></param>
+        /// <param name="json_files"></param>
+        /// <returns>Id of SimulationResult on success and -1 on failure</returns>
+        public static int ImportSimulationResult(IMemoryCache _cache, List<IFormFile> json_files)
+        {
+            // Server side validation: Check the file for .json extension and for max. size 1MB
+            if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
+            {
+                // Split Json file into all model lists
+                StreamReader reader = new StreamReader(json_files[0].OpenReadStream());
+                string json = reader.ReadToEnd();
+                string[] lines = json.Split("\nNEXTSTRING\n");
+                bool success = true;
+                var settings = new JsonSerializerSettings
+                {
+                    Error = (sender, args) => { success = false; args.ErrorContext.Handled = true; },
+                    MissingMemberHandling = MissingMemberHandling.Error
+                };
+
+                // Initialize Daos
+                ChargingColumnTypeDao chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(_cache);
+                chargingColumnTypeDao.GetAll();
+                LocationDao locationDao = new LocationDaoImpl(_cache);
+                int locationDaoId = LocationDaoImpl.CreateNewDaoId();
+                locationDao.GetAll(locationDaoId);
+                ChargingZoneDao chargingZoneDao = new ChargingZoneDaoImpl(_cache);
+                int chargingZoneDaoId = ChargingZoneDaoImpl.CreateNewDaoId();
+                chargingZoneDao.GetAll(chargingZoneDaoId);
+                ChargingColumnDao chargingColumnDao = new ChargingColumnDaoImpl(_cache);
+                int chargingColumnDaoId = ChargingColumnDaoImpl.CreateNewDaoId();
+                chargingColumnDao.GetAll(chargingColumnDaoId);
+                SimulationInfrastructureDao simulationInfrastructureDao = new SimulationInfrastructureDaoImpl(_cache);
+                simulationInfrastructureDao.GetAll();
+                SimulationConfigDao simulationConfigDao = new SimulationConfigDaoImpl(_cache);
+                simulationConfigDao.GetAll();
+                SimulationResultDao simulationResultDao = new SimulationResultDaoImpl(_cache);
+                simulationResultDao.GetAll();
+
+                // ids of imported objects
+                // item1 = old id ; item2 = new id
+                List<Tuple<int, int>> chargingColumnTypeIds = new List<Tuple<int, int>>();
+                List<Tuple<int, int>> locationIds = new List<Tuple<int, int>>();
+                List<Tuple<int, int>> chargingZoneIds = new List<Tuple<int, int>>();
+                List<Tuple<int, int>> chargingColumnIds = new List<Tuple<int, int>>();
+                int simulationInfrastructureId;
+                int simulationConfigId;
+
+                // Deserialize ChargingColumnType
+                List<ChargingColumnType> importedChargingColumnType = JsonConvert.DeserializeObject<List<ChargingColumnType>>(lines[0], settings);
+                // If success, add to cached booking list
+                if (success)
+                {
+                    foreach (ChargingColumnType b in importedChargingColumnType)
+                    {
+                        chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors)));
+                    }
+                }
+                // Deserialize Location
+                List<Location> importedLocation = JsonConvert.DeserializeObject<List<Location>>(lines[1], settings);
+                // If success, add to cached chargingColumnType list
+                if (success)
+                {
+                    foreach (Location b in importedLocation)
+                    {
+                        locationIds.Add(new Tuple<int, int>(b.id, locationDao.Create(b.city, b.post_code, b.address, locationDaoId)));
+                    }
+                }
+                
+                // Deserialize ChargingZone
+                List<ChargingZone> importedChargingZone = JsonConvert.DeserializeObject<List<ChargingZone>>(lines[2], settings);
+                // If success, add to cached chargingZone list
+                if (success)
+                {
+                    foreach (ChargingZone b in importedChargingZone)
+                    {
+                        int loc_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
+                        chargingZoneIds.Add(new Tuple<int, int>(b.id, chargingZoneDao.Create(b.name, b.overall_performance, locationDao.GetById(loc_id, locationDaoId), chargingZoneDaoId)));
+                    }
+                }
+
+                // Deserialize ChargingColumn
+                List<ChargingColumn> importedChargingColumn = JsonConvert.DeserializeObject<List<ChargingColumn>>(lines[3], settings);
+                // If success, add to cached chargingColumn list
+                if (success)
+                {
+                    foreach (ChargingColumn b in importedChargingColumn)
+                    {
+                        int cz_id = chargingZoneIds.Find(x => x.Item1 == b.charging_zone.id).Item2;
+                        int cct_id = chargingColumnTypeIds.Find(x => x.Item1 == b.charging_column_type_id.id).Item2;
+                        chargingColumnIds.Add(new Tuple<int, int>(b.id, chargingColumnDao.Create(chargingColumnTypeDao.GetById(cct_id), chargingZoneDao.GetById(cz_id, chargingZoneDaoId), b.list, chargingColumnDaoId)));
+                    }
+                }
+
+                // Deserialize SimulationResult
+                SimulationResult importedSimulationResult = JsonConvert.DeserializeObject<SimulationResult>(lines[4], settings);
+                // If success, add to cached booking list
+                if (success)
+                {
+                    // Add SimulationConfig
+                    SimulationConfig simulationConfig = importedSimulationResult.config;
+                    simulationConfigId = simulationConfigDao.Create(simulationConfig.tick_minutes, simulationConfig.rush_hours, simulationConfig.min, simulationConfig.max, simulationConfig.spread, simulationConfig.weeks, simulationConfig.vehicles);
+
+                    // Add SimulationInfrastructure
+                    SimulationInfrastructure simulationInfrastructure = importedSimulationResult.infrastructure;
+                    simulationInfrastructureId = simulationInfrastructureDao.Create(locationDaoId, chargingZoneDaoId, chargingColumnDaoId);
+
+                    // Add SimulationResult
+                    int simulationResultId = simulationResultDao.Create(simulationConfigDao.GetById(simulationConfigId), simulationInfrastructureDao.GetById(simulationInfrastructureId), importedSimulationResult.total_workload, importedSimulationResult.num_generated_bookings, importedSimulationResult.num_unsatisfiable_bookings, importedSimulationResult.done);
+
+                    return simulationResultId;
+                }
+                return -1;
+            }
+            return -1;
         }
     }
 }
