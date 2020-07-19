@@ -129,13 +129,13 @@ namespace Uebungsprojekt
             //Vehicle startup
             List<ConnectorType> tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Schuko_Socket);
-            vehicle_dao.Create("TestModel",400, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
+            vehicle_dao.Create("Tesla",400, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
             tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.Tesla_Supercharger);
-            vehicle_dao.Create("BlaModel", 999, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
+            vehicle_dao.Create("Panamera e-hybrid", 999, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
             tmp_conn_types = new List<ConnectorType>();
             tmp_conn_types.Add(ConnectorType.CHAdeMO_Plug);
-            vehicle_dao.Create("MarcinCodeMobile", 20, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
+            vehicle_dao.Create("Cayenne e-hybrid", 20, tmp_conn_types, user_dao.GetByEmail("user@user.de"));
             //
             
             //CCTYPE startup 
@@ -143,7 +143,7 @@ namespace Uebungsprojekt
             List<Tuple<ConnectorType,int>> connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Schuko_Socket, 70));
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.Tesla_Supercharger, 60));
-            charging_column_type_dao.Create("RadiFast'n Charge", "Rados", 2, connector_list);
+            charging_column_type_dao.Create("n Charge", "Rados", 2, connector_list);
             connector_list = new List<Tuple<ConnectorType, int>>();
             connector_list.Add(new Tuple<ConnectorType, int>(ConnectorType.CHAdeMO_Plug, 80));
             charging_column_type_dao.Create("Marcos - ultraspeed", "Marcinos", 1, connector_list);

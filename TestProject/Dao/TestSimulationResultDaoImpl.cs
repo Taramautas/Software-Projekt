@@ -27,7 +27,7 @@ namespace UnitTest.Dao
             List<SimulationResult> simulationResultList1 = _simulationResultDao.GetAll();
 
             // Create new SimulationResults
-            int simulationResult_id11 = _simulationResultDao.Create(new SimulationConfig { tick_minutes = 10 }, new SimulationInfrastructure(), new List<Dictionary<int, double>>(), new List<int>(), new List<int>(), true);
+            int simulationResult_id11 = _simulationResultDao.Create(new SimulationConfig { tick_minutes = 10 }, new SimulationInfrastructure(), new List<Dictionary<string, double>>(), new List<int>(), new List<int>(), true);
 
             // Edit SimulationResult in Dao1 with GetById
             Assert.AreEqual(10, _simulationResultDao.GetById(simulationResult_id11).config.tick_minutes);
@@ -58,8 +58,8 @@ namespace UnitTest.Dao
                 id = 2,
                 config = new SimulationConfig { tick_minutes = 11 },
             };
-            int bk_id11 = _simulationResultDao.Create(simulationResult11.config, new SimulationInfrastructure(), new List<Dictionary<int, double>>(), new List<int>(), new List<int>(), true);
-            int bk_id21 = _simulationResultDao.Create(simulationResult21.config, new SimulationInfrastructure(), new List<Dictionary<int, double>>(), new List<int>(), new List<int>(), true);
+            int bk_id11 = _simulationResultDao.Create(simulationResult11.config, new SimulationInfrastructure(), new List<Dictionary<string, double>>(), new List<int>(), new List<int>(), true);
+            int bk_id21 = _simulationResultDao.Create(simulationResult21.config, new SimulationInfrastructure(), new List<Dictionary<string, double>>(), new List<int>(), new List<int>(), true);
 
             // Check if GetById returns the correct simulationResult
             Assert.AreEqual(simulationResult11.config.tick_minutes, _simulationResultDao.GetById(bk_id11).config.tick_minutes);
@@ -83,7 +83,7 @@ namespace UnitTest.Dao
             _simulationResultDao.Create(
                 new SimulationConfig { tick_minutes = 10 },
                 new SimulationInfrastructure(), 
-                new List<Dictionary<int, double>>(), 
+                new List<Dictionary<string, double>>(), 
                 new List<int>(), 
                 new List<int>(), 
                 true
@@ -102,7 +102,7 @@ namespace UnitTest.Dao
             _simulationResultDao.Create(
                 new SimulationConfig { tick_minutes = 11 },
                 new SimulationInfrastructure(),
-                new List<Dictionary<int, double>>(),
+                new List<Dictionary<string, double>>(),
                 new List<int>(),
                 new List<int>(),
                 true
@@ -130,7 +130,7 @@ namespace UnitTest.Dao
             int bk_id11 = _simulationResultDao.Create(
                 new SimulationConfig { tick_minutes = 10 },
                 new SimulationInfrastructure(),
-                new List<Dictionary<int, double>>(),
+                new List<Dictionary<string, double>>(),
                 new List<int>(),
                 new List<int>(),
                 true
@@ -140,7 +140,7 @@ namespace UnitTest.Dao
             int bk_id12 = _simulationResultDao.Create(
                 new SimulationConfig { tick_minutes = 11 },
                 new SimulationInfrastructure(),
-                new List<Dictionary<int, double>>(),
+                new List<Dictionary<string, double>>(),
                 new List<int>(),
                 new List<int>(),
                 true

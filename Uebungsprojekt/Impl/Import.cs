@@ -16,7 +16,7 @@ namespace Uebungsprojekt.Impl
 {
     public class Import
     {
-        public static void ImportEverything(IMemoryCache _cache, List<IFormFile> json_files)
+        public static bool ImportEverything(IMemoryCache _cache, List<IFormFile> json_files)
         {
             // Server side validation: Check the file for .json extension and for max. size 1MB
             if (json_files[0].FileName.EndsWith(".json") && json_files[0].Length < 1000000)
@@ -67,91 +67,114 @@ namespace Uebungsprojekt.Impl
                 List<Tuple<int, int>> chargingZoneIds = new List<Tuple<int, int>>();
                 List<Tuple<int, int>> chargingColumnIds = new List<Tuple<int, int>>();
 
-                // Deserialize ChargingColumnType
-                
-                List<ChargingColumnType> importedChargingColumnType = JsonConvert.DeserializeObject<List<ChargingColumnType>>(lines[0], settings);
-                
-                // If success, add to cached booking list
-                if (success)
+                try
                 {
-                    foreach (ChargingColumnType b in importedChargingColumnType)
-                    {
-                        chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors)));
-                    }
-                }
-                // Deserialize Location
-                List<Location> importedLocation = JsonConvert.DeserializeObject<List<Location>>(lines[1], settings);
-                // If success, add to cached chargingColumnType list
-                if (success)
-                {
-                    foreach (Location b in importedLocation)
-                    {
-                        locationIds.Add(new Tuple<int, int>(b.id, locationDao.Create(b.city, b.post_code, b.address, 0)));
-                    }
-                }
+                    // Deserialize ChargingColumnType
 
-                // Deserialize User
-                List<User> importedUser = JsonConvert.DeserializeObject<List<User>>(lines[2], settings);
-                // If success, add to cached user list
-                if (success)
-                {
-                    foreach (User b in importedUser)
+                    List<ChargingColumnType> importedChargingColumnType =
+                        JsonConvert.DeserializeObject<List<ChargingColumnType>>(lines[0], settings);
+
+                    // If success, add to cached booking list
+                    if (success)
                     {
-                        userIds.Add(new Tuple<int, int>(b.id, userDao.Create(b.name, b.email, b.password, b.role)));
+                        foreach (ChargingColumnType b in importedChargingColumnType)
+                        {
+                            chargingColumnTypeIds.Add(new Tuple<int, int>(b.id,
+                                chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging,
+                                    b.connectors)));
+                        }
+                    }
+
+                    // Deserialize Location
+                    List<Location> importedLocation = JsonConvert.DeserializeObject<List<Location>>(lines[1], settings);
+                    // If success, add to cached chargingColumnType list
+                    if (success)
+                    {
+                        foreach (Location b in importedLocation)
+                        {
+                            locationIds.Add(new Tuple<int, int>(b.id,
+                                locationDao.Create(b.city, b.post_code, b.address, 0)));
+                        }
+                    }
+
+                    // Deserialize User
+                    List<User> importedUser = JsonConvert.DeserializeObject<List<User>>(lines[2], settings);
+                    // If success, add to cached user list
+                    if (success)
+                    {
+                        foreach (User b in importedUser)
+                        {
+                            userIds.Add(new Tuple<int, int>(b.id, userDao.Create(b.name, b.email, b.password, b.role)));
+                        }
+                    }
+
+                    // Deserialize Vehicle
+                    List<Vehicle> importedVehicle = JsonConvert.DeserializeObject<List<Vehicle>>(lines[3], settings);
+                    // If success, add to cached vehicle list
+                    if (success)
+                    {
+                        foreach (Vehicle b in importedVehicle)
+                        {
+                            int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
+                            vehicleIds.Add(new Tuple<int, int>(b.id,
+                                vehicleDao.Create(b.model_name, b.capacity, b.connector_types,
+                                    userDao.GetById(user_id))));
+                        }
+                    }
+
+                    // Deserialize ChargingZone
+                    List<ChargingZone> importedChargingZone =
+                        JsonConvert.DeserializeObject<List<ChargingZone>>(lines[4], settings);
+                    // If success, add to cached chargingZone list
+                    if (success)
+                    {
+                        foreach (ChargingZone b in importedChargingZone)
+                        {
+                            int loc_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
+                            chargingZoneIds.Add(new Tuple<int, int>(b.id,
+                                chargingZoneDao.Create(b.name, b.overall_performance, locationDao.GetById(loc_id, 0),
+                                    0)));
+                        }
+                    }
+
+                    // Deserialize ChargingColumn
+                    List<ChargingColumn> importedChargingColumn =
+                        JsonConvert.DeserializeObject<List<ChargingColumn>>(lines[5], settings);
+                    // If success, add to cached chargingColumn list
+                    if (success)
+                    {
+                        foreach (ChargingColumn b in importedChargingColumn)
+                        {
+                            int cz_id = chargingZoneIds.Find(x => x.Item1 == b.charging_zone.id).Item2;
+                            int cct_id = chargingColumnTypeIds.Find(x => x.Item1 == b.charging_column_type_id.id).Item2;
+                            chargingColumnIds.Add(new Tuple<int, int>(b.id,
+                                chargingColumnDao.Create(chargingColumnTypeDao.GetById(cct_id),
+                                    chargingZoneDao.GetById(cz_id, 0), b.list, 0)));
+                        }
+                    }
+
+                    // Deserialize Booking
+                    List<Booking> importedBookings = JsonConvert.DeserializeObject<List<Booking>>(lines[6], settings);
+                    // If success, add to cached booking list
+                    if (success)
+                    {
+                        foreach (Booking b in importedBookings)
+                        {
+                            int veh_id = vehicleIds.Find(x => x.Item1 == b.vehicle.id).Item2;
+                            int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
+                            int location_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
+                            bookingDao.Create(b.start_state_of_charge, b.target_state_of_charge, b.start_time,
+                                b.end_time, vehicleDao.GetById(veh_id), userDao.GetById(user_id),
+                                locationDao.GetById(location_id, 0), 0);
+                        }
                     }
                 }
-
-                // Deserialize Vehicle
-                List<Vehicle> importedVehicle = JsonConvert.DeserializeObject<List<Vehicle>>(lines[3], settings);
-                // If success, add to cached vehicle list
-                if (success)
+                catch (IndexOutOfRangeException e)
                 {
-                    foreach (Vehicle b in importedVehicle)
-                    {
-                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
-                        vehicleIds.Add(new Tuple<int, int>(b.id, vehicleDao.Create(b.model_name, b.capacity, b.connector_types, userDao.GetById(user_id))));
-                    }
-                }
-
-                // Deserialize ChargingZone
-                List<ChargingZone> importedChargingZone = JsonConvert.DeserializeObject<List<ChargingZone>>(lines[4], settings);
-                // If success, add to cached chargingZone list
-                if (success)
-                {
-                    foreach (ChargingZone b in importedChargingZone)
-                    {
-                        int loc_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
-                        chargingZoneIds.Add(new Tuple<int, int>(b.id, chargingZoneDao.Create(b.name, b.overall_performance, locationDao.GetById(loc_id, 0), 0)));
-                    }
-                }
-
-                // Deserialize ChargingColumn
-                List<ChargingColumn> importedChargingColumn = JsonConvert.DeserializeObject<List<ChargingColumn>>(lines[5], settings);
-                // If success, add to cached chargingColumn list
-                if (success)
-                {
-                    foreach (ChargingColumn b in importedChargingColumn)
-                    {
-                        int cz_id = chargingZoneIds.Find(x => x.Item1 == b.charging_zone.id).Item2;
-                        int cct_id = chargingColumnTypeIds.Find(x => x.Item1 == b.charging_column_type_id.id).Item2;
-                        chargingColumnIds.Add(new Tuple<int, int>(b.id, chargingColumnDao.Create(chargingColumnTypeDao.GetById(cct_id), chargingZoneDao.GetById(cz_id, 0), b.list, 0)));
-                    }
-                }
-
-                // Deserialize Booking
-                List<Booking> importedBookings = JsonConvert.DeserializeObject<List<Booking>>(lines[6], settings);
-                // If success, add to cached booking list
-                if (success)
-                {
-                    foreach (Booking b in importedBookings)
-                    {
-                        int veh_id = vehicleIds.Find(x => x.Item1 == b.vehicle.id).Item2;
-                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
-                        int location_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
-                        bookingDao.Create(b.start_state_of_charge, b.target_state_of_charge, b.start_time, b.end_time, vehicleDao.GetById(veh_id), userDao.GetById(user_id), locationDao.GetById(location_id, 0), 0);
-                    }
+                    return false;
                 }
             }
+            return true;
         }
         /// <summary>
         /// Deserializes json file and loads everything into daos and returns the id of the SimulationResult

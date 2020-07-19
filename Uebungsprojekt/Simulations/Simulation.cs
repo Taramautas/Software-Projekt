@@ -148,16 +148,6 @@ namespace Uebungsprojekt.Simulations
                                 // Random location
                                 location = location,
                             });
-
-                            Console.Out.WriteLine("Start soc: " + state_of_charge);
-                            Console.Out.WriteLine("End soc: " + target_state_of_charge);
-                            Console.Out.WriteLine("Start time: " + start);
-                            Console.Out.WriteLine("End time: " + end);
-                            Console.Out.WriteLine("Vehicle: " + vehicle.model_name);
-                            Console.Out.WriteLine("Vehicle: " + vehicle.user.name);
-                            Console.Out.WriteLine("Vehicle: " + vehicle.user.role);
-                            Console.Out.WriteLine("User: " + user.name);
-                            Console.Out.WriteLine("Location: " + location.city);
                         }
                         // Update results after each tick
                         simulation_result.num_generated_bookings.Add(number_bookings);

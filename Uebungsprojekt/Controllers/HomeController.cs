@@ -77,7 +77,6 @@ namespace Uebungsprojekt.Controllers
         /// <param name="form">Form containing user email and password</param>
         /// <returns>Requested Page</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel form)
         {
             if (!ModelState.IsValid)
@@ -124,6 +123,11 @@ namespace Uebungsprojekt.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+        public IActionResult MessagedError(string error_message)
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, ErrorMessage = error_message});
         }
     }
 }

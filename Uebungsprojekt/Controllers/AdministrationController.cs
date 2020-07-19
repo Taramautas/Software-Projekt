@@ -61,7 +61,12 @@ namespace Uebungsprojekt.Controllers
                 return RedirectToAction("SimulationConfig");
             }
             SimulationResult simulationResult = simulationResultDao.GetById(Impl.Import.ImportSimulationResult(cache, json_files));
-            // TODO: exceptions
+            if (simulationResult == null)
+            {
+                string error_message = "Selected invalid json file. Please try again with new one.";
+                return RedirectToAction("MessagedError", "Home", new  {error_message = error_message});
+            }
+                
             var options = new CookieOptions
             {
                 Expires = DateTimeOffset.Now.AddDays(1)
@@ -80,7 +85,8 @@ namespace Uebungsprojekt.Controllers
         public IActionResult ExportSimulationResult()
         {
             SimulationResult simulationResult = GetSimulationResultFromCookie();
-            // TODO: exceptions
+            if (simulationResult == null)
+                return RedirectToAction("Simulation");
             return Impl.Export.ExportSimulationResult(cache, simulationResult.id);
         }
 
@@ -788,9 +794,13 @@ namespace Uebungsprojekt.Controllers
         {
             if (json_files.Count == 1)
             {
-                Impl.Import.ImportEverything(cache, json_files);
+                bool success = Impl.Import.ImportEverything(cache, json_files);
+                if (!success)
+                {
+                    string error_message = "Selected invalid json file. Please try again with new one.";
+                    return RedirectToAction("MessagedError", "Home", new  {error_message = error_message});
+                }
             }
-            // TODO: exceptions
             return RedirectToAction("Index");
         }
 

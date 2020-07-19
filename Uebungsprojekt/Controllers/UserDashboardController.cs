@@ -160,7 +160,8 @@ namespace Uebungsprojekt.Controllers
         {
             UserDao userDao = new UserDaoImpl(cache);
             VehicleDao vehicle_dao = new VehicleDaoImpl(cache);
-            if (userDao.GetById(user_id).role == Role.Assistant)
+            User user = userDao.GetById(user_id);
+            if (user != null && user.role == Role.Assistant)
             {
                 return View(vehicle_dao.GetAll());
             }

@@ -115,10 +115,27 @@
     
     var all_workloads = @Html.Raw(Json.Serialize(Model.result.total_workload));
     var all_num_generated = @Html.Raw(Json.Serialize(Model.result.num_generated_bookings));
-    console.log(all_workloads);
     var all_num_unsatisfiable = @Html.Raw(Json.Serialize(Model.result.num_unsatisfiable_bookings));
     
     start_datetime = new Date(parseInt(start_datetime));
+    
+    var zones_workloads =  {};
+    
+    charging_zones.forEach(function(zone) {
+      zones_workloads[zone.id] = [];
+    });
+    
+    all_workloads.forEach(function(tick) {
+        Object.keys(tick).forEach(function (zone_id) {
+            zones_workloads[parseInt(zone_id)].push(tick[zone_id]);
+        })
+    })
+    
+    
+    var tick = 1;
+    create_chart();
+    liveTicks(tick);  
+    
 
     // Update Ticks
     function liveTicks(tick) {
@@ -135,34 +152,27 @@
                 var workload = document.querySelector(workload_selector);
                 workload.innerHTML = workloads[zone_id];
             });
-   
             
+            this.chart.data.datasets.forEach(function(dataset, index) {
+                console.log(index);
+                if (index + 1 !== this.chart.data.datasets.length)
+                    var value = zones_workloads[index + 1].shift();
+                else 
+                    var value = all_num_generated.shift();
+                dataset.data.push(value);
+            });
+            
+            this.chart.update();
+
             if (tick < num_ticks) 
                 liveTicks(tick + 1)
-        }, 500)
+        }, 250)
     }
     
-    var zones_workloads =  {};
-    
-    charging_zones.forEach(function(zone) {
-      zones_workloads[zone.id] = [];
-    });
-    
-    all_workloads.forEach(function(tick) {
-        Object.keys(tick).forEach(function(zone_id) {
-            zones_workloads[parseInt(zone_id)].push(tick[zone_id]);
-        });
-    })
-    
-
-    var tick = 1;
-    liveTicks(tick);  
-    create_chart(all_num_generated);
-    
-    function create_chart(num_generated_bookings) {
+    function create_chart() {
         var ctx = document.getElementById("chart");
         
-        var labels = Array(num_generated_bookings.length).fill(1).map((x, y) => x + y);
+        var labels = Array(all_num_generated.length).fill(1).map((x, y) => x + y);
         
         var datasets = [];
  
@@ -175,7 +185,8 @@
                     yAxisID: 'workload',
                     spanGaps: true,
                     lineTension: 0.15,
-                    data: zones_workloads[zone_id]
+                    data: []
+                    //data: zones_workloads[zone_id]
                     });
            
         })
@@ -186,7 +197,8 @@
             yAxisID: 'generated_bookings',
             spanGaps: true,
             lineTension: 0.15,
-            data: num_generated_bookings
+            //data: all_num_generated
+            data: []
             });
        
       
@@ -204,6 +216,10 @@
                        id: 'generated_bookings',
                        type: 'linear',
                        position: 'left',
+                       ticks: {
+                           min: 0,
+                           max: @Html.Raw(Model.result.config.max)
+                       }
 
                    }, {
                        id: 'workload',

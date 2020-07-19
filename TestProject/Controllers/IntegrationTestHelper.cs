@@ -76,14 +76,10 @@ namespace UnitTest.Controllers
         {
             var form = new Dictionary<string, string>
             {
-                {"__RequestVerificationToken" , await EnsureAntiForgeryTokenAsync(client, "/Home/Login")},
                 {"email", email},
                 {"password", password}
             };
             HttpContent content = new FormUrlEncodedContent(form);
-            String value;
-            form.TryGetValue("__RequestVerificationToken",out value);
-            Console.WriteLine(value);
             var response = await client.PostAsync("/Home/Login", content);
             response.EnsureSuccessStatusCode();
         }

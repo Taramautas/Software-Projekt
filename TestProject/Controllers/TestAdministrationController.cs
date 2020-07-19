@@ -565,7 +565,7 @@ namespace UnitTest.Controllers.Administration
     }
 
     [TestFixture, SingleThreaded]
-    public class TestAdministrationControllerMethodsWork
+    public class TestAdministrationControllerMethodsWorks
     {
         private WebApplicationFactory<Startup> factory;
         private HttpClient client;
@@ -580,11 +580,6 @@ namespace UnitTest.Controllers.Administration
             {
                    BaseAddress = new Uri("https://localhost:44394"),
             });
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
         }
 
         [Test]
@@ -617,6 +612,7 @@ namespace UnitTest.Controllers.Administration
         [Test]
         public async Task TestImportExport()
         {
+            await IntegrationTestHelper.Login(client, "admin@admin.de", "admin");
             var response = await client.GetAsync("/Administration/ExportEverything");
             response.EnsureSuccessStatusCode();
             HttpContent first_result = response.Content;
@@ -633,5 +629,6 @@ namespace UnitTest.Controllers.Administration
             
             Assert.AreEqual(first_json, second_json);
         }
+
     }
 }
