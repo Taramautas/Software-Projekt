@@ -92,10 +92,9 @@ namespace Uebungsprojekt.Controllers
                 };
                 
                 user_manger.SignIn(HttpContext, user);
-
                 if (form.redirect_url == null)
                     return RedirectToAction("Index");
-                
+
                 return Redirect(form.redirect_url);
             }
             catch (Exception e)
