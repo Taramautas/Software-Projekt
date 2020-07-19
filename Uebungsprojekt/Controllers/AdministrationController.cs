@@ -130,6 +130,8 @@ namespace Uebungsprojekt.Controllers
 
             SimulationInfrastructure infrastructure = GetSimulationInfrastructureFromCookie();
             SimulationConfig config = GetSimulationConfigFromCookie();
+            if (config == null)
+                return RedirectToAction("SimulationConfig");
             if (config.rush_hours.Count == 0)
                 return RedirectToAction("AddRushHours");
             if (infrastructure == null)
@@ -169,14 +171,14 @@ namespace Uebungsprojekt.Controllers
             SimulationConfig config = GetSimulationConfigFromCookie();
             LocationDao location_dao = new LocationDaoImpl(cache);
             ChargingZoneDaoImpl charging_zone_dao = new ChargingZoneDaoImpl(cache);
+            if (infrastructure == null)
+                return RedirectToAction("SimulationInfrastructure");
             if (location_dao.GetAll(infrastructure.location_dao_id).Count == 0)
                 return RedirectToAction("SimulationInfrastructure");
             if (charging_zone_dao.GetAll(infrastructure.charging_zone_dao_id).Count == 0)
                 return RedirectToAction("SimulationInfrastructure");
             if (config == null)
                 return RedirectToAction("SimulationConfig");
-            if (infrastructure == null)
-                return RedirectToAction("SimulationInfrastructure");
             
             SimulationResultDao result_dao = new SimulationResultDaoImpl(cache);
             int result_id = result_dao.Create(
