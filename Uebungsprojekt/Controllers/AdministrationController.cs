@@ -503,13 +503,13 @@ namespace Uebungsprojekt.Controllers
         }
         
         [HttpGet]
-        public IActionResult DeleteRushHours(int index)
+        public IActionResult DeleteRushHours(int id)
         {
             SimulationConfig config = GetSimulationConfigFromCookie();
             if (config == null)
                 return RedirectToAction("SimulationConfig");
             
-            config.rush_hours.RemoveAt(index);
+            config.rush_hours.RemoveAt(id);
             return RedirectToAction("AddRushHours");
         }
 
