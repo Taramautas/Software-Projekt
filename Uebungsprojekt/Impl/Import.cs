@@ -474,7 +474,7 @@ namespace Uebungsprojekt.Impl
                     foreach (Booking b in importedBookings)
                     {
                         int veh_id = vehicleIds.Find(x => x.Item1 == b.vehicle.id).Item2;
-                        int user_id = chargingZoneIds.Find(x => x.Item1 == b.user.id).Item2;
+                        int user_id = userIds.Find(x => x.Item1 == b.user.id).Item2;
                         int location_id = locationIds.Find(x => x.Item1 == b.location.id).Item2;
                         bookingDao.Create(b.start_state_of_charge, b.target_state_of_charge, b.start_time, b.end_time, vehicleDao.GetById(veh_id), userDao.GetById(user_id), locationDao.GetById(location_id, 0), 0);
                     }
