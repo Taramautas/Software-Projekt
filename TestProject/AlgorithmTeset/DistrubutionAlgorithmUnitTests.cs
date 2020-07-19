@@ -31,7 +31,7 @@ namespace UnitTest.Algorithm
             _chargingColumnTypeDao = new ChargingColumnTypeDaoImpl(new MemoryCache(new MemoryCacheOptions()));
             _userDao = new UserDaoImpl(new MemoryCache(new MemoryCacheOptions()));
         }
-        /*
+        
         [Test]
         public void TestDistributionAlgorithm()
         {
@@ -201,6 +201,6 @@ namespace UnitTest.Algorithm
             
             
         }
-        */
+        
     }
 }
