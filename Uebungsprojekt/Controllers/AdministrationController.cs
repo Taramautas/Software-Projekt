@@ -26,7 +26,7 @@ namespace Uebungsprojekt.Controllers
         private IMemoryCache cache;
         private HttpContext http_context;
         private int user_id;
-
+        
 
         /// <summary>
         /// Constructor for AdministrationController
