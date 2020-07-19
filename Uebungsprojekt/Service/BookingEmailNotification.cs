@@ -61,7 +61,7 @@ namespace Uebungsprojekt.Service
                         Console.WriteLine(e);
                         continue;
                     }
-                    Console.WriteLine(tmp);
+                    //Console.WriteLine(tmp);
                     if (tmp.Year == DateTime.Now.Year && tmp.Month == DateTime.Now.Month && tmp.Day == DateTime.Now.Day && tmp.Hour == DateTime.Now.Hour && tmp.Minute == DateTime.Now.Minute)
                     {
                         String[] ignored_email_names = new[] {"admin@admin.de", "assistant@assistant.de", "vip@vip.de", "guest@guest.de", "user@user.de"};

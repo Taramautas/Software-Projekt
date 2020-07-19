@@ -57,7 +57,7 @@
         <tr>
             @if ((await AuthorizationService.AuthorizeAsync(User, "Assistant")).Succeeded)
             {
-                <th>@booking.user.name</th>
+                <th>@booking.user.email</th>
             }
             <td>@booking.start_state_of_charge%</td>
             <td>@booking.target_state_of_charge%</td>

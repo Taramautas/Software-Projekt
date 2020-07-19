@@ -39,13 +39,13 @@ namespace Uebungsprojekt.Service
         /// <returns></returns>
         public override Task DoWork(CancellationToken cancellationToken)
         {
-           Console.WriteLine("JUHU");
            ChargingColumnDaoImpl _chargingcolumndao = new ChargingColumnDaoImpl(_cache);
            BookingDaoImpl _bookingDao = new BookingDaoImpl(_cache);
            int bookingdao_id = 0;
            int charcoldao_id = 0;
            
-           Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day), bookingdao_id);
+           //Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day), bookingdao_id);
+           Algorithm.DistributionAlgorithm.DistributionAlg(_chargingcolumndao, charcoldao_id, _bookingDao, new DateTime(2020,07,19), bookingdao_id);
 
             return Task.CompletedTask;
         }

@@ -47,7 +47,7 @@ namespace Uebungsprojekt
                 options.AddPolicy("Planner", policy => policy.RequireRole("Planner"));
                 options.AddPolicy("Assistant", policy => policy.RequireRole("Assistant"));
                 options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
-                options.AddPolicy("LoggedIn", policy => policy.RequireRole("Employee", "Assistant", "Planner"));
+                options.AddPolicy("LoggedIn", policy => policy.RequireRole("Employee", "Assistant", "Planner","VIP"));
             });
             
             // Deliver UserManger for each controller constructor
@@ -69,7 +69,7 @@ namespace Uebungsprojekt
                 // 02:00 every day
                 //c.CronExpression = @"0 02 * * *";
                 //Testingpurpose:
-                c.CronExpression = @"*/5 * * * *";
+                c.CronExpression = @"*/1 * * * *";
             });
         }
 
