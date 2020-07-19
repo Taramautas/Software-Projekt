@@ -14,10 +14,16 @@ namespace Uebungsprojekt.Algorithm
     {
         public static List<Booking> acc;
         /// <summary>
+        /// distribute the unaccepted bookings in this way:
+        /// 1st if the occupancy list is empty the algorithm get the start time of the booking and add the "real charging time" to get the end time of the booking this parameter will be replace the end time of the booking wish endtime
+        /// 2nd if there are already an elements in the occupancyplan the algorithm searching for a space where it can be insert the booking without any conflicts and in the time span of the booking wish
         /// 
         /// </summary>
         /// <param name="chargingcolumndao"></param>
-        /// <param name="connectorTypes"></param>
+        /// <param name="chargingcolumndaoID"></param>
+        /// <param name="bookingdao"></param>
+        /// <param name="time"></param>
+        /// <param name="bookindaoID"></param>
         /// <returns></returns>
         public static void DistributionAlg(ChargingColumnDaoImpl chargingcolumndao, int chargingcolumndaoID, BookingDaoImpl bookingdao, DateTime time, int bookindaoID)
         {
