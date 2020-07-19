@@ -96,6 +96,14 @@ namespace UITest.SimulationRushHours
 
             btn_submit.Click();
 
+            IWebElement count = web_driver.FindElement(By.Name("count"));
+            IWebElement btn_add2 = web_driver.FindElement(By.ClassName("btn-primary"));
+
+            count.Clear();
+            count.SendKeys("5");
+
+            btn_add2.Click();
+
             web_driver.Navigate().GoToUrl("https://localhost:44394/administration/AddRushHours");
 
             IWebElement timespan = web_driver.FindElement(By.Name("timespan"));
