@@ -108,12 +108,13 @@
     }
 
     function validate_Date() {
-        let min = document.getElementById('Min');
-        let max = document.getElementById('Max');
+        let min = parseInt(document.getElementById('Min').value);
+        let max = parseInt(document.getElementById('Max').value);
+
 
         let sub_button = document.getElementById('btnsub');
 
-        if (max.value >= min.value) {
+        if (max >= min) {
             sub_button.disabled = false;
             print_err("");
         } else {
