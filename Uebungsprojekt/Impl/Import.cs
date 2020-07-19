@@ -544,11 +544,20 @@ namespace Uebungsprojekt.Impl
                 // Deserialize ChargingColumnType
                 List<ChargingColumnType> importedChargingColumnType = JsonConvert.DeserializeObject<List<ChargingColumnType>>(lines[0], settings);
                 // If success, add to cached booking list
+                
                 if (success)
                 {
                     foreach (ChargingColumnType b in importedChargingColumnType)
                     {
-                        chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors)));
+                        ChargingColumnType cct1 = null;
+                        if ((cct1 = chargingColumnTypeDao.GetAll().Find(x => x.Equals(b))) != null)
+                        {
+                            chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, cct1.id));
+                        }
+                        else
+                        {
+                            chargingColumnTypeIds.Add(new Tuple<int, int>(b.id, chargingColumnTypeDao.Create(b.model_name, b.manufacturer_name, b.max_parallel_charging, b.connectors)));
+                        }
                     }
                 }
                 // Deserialize Location
