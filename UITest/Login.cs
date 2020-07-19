@@ -78,7 +78,7 @@ namespace UITest.Login
 
             try
             {
-                web_driver.FindElement(By.ClassName("btn-secondary"));
+                web_driver.FindElement(By.ClassName("btn_uitest"));
             } catch (NoSuchElementException)
             {
                 return false;

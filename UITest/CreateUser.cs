@@ -99,7 +99,7 @@ namespace UITest.UserCreateDelete
             web_driver.Navigate().GoToUrl("https://localhost:44394/UserDashboard/Bookings");
             try
             {
-                web_driver.FindElement(By.ClassName("btn-secondary"));
+                web_driver.FindElement(By.ClassName("btn_uitest"));
             }
             catch (NoSuchElementException)
             {
