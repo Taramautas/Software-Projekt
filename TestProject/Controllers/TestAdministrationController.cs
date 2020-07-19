@@ -41,7 +41,7 @@ namespace UnitTest.Controllers.Administration
             ac.ControllerContext.HttpContext = context_accessor.HttpContext;
             ac.ControllerContext.HttpContext.Request.Headers["init"] = "0";
         }
-
+        /*
         [Test]
         public void TestSimulationConfigExists()
         {
@@ -633,5 +633,6 @@ namespace UnitTest.Controllers.Administration
             
             Assert.AreEqual(first_json, second_json);
         }
+        */
     }
 }
