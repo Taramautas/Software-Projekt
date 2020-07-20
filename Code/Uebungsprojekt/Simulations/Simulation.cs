@@ -86,9 +86,9 @@ namespace Uebungsprojekt.Simulations
             start_datetime = start_datetime.Add(start_time);
             simulation_result.start_datetime = start_datetime;
             UserDao user_dao = new UserDaoImpl(cache);
-            User vip = user_dao.GetById(3);
-            User guest = user_dao.GetById(4);
-            User employee = user_dao.GetById(5);
+            User vip = user_dao.GetByEmail("vip@vip.de");
+            User guest = user_dao.GetByEmail("guest@guest.de");
+            User employee = user_dao.GetByEmail("user@user.de");
 
             // Iterate through all weeks
             foreach (int week in Enumerable.Range(0, config.weeks))
