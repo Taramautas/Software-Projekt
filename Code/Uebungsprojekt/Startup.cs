@@ -63,14 +63,14 @@ namespace Uebungsprojekt
                 c.CronExpression = @"*/1 * * * *";
             });
             
-            //services.AddCronJob<DistributionService>(c =>
-            //{
-            //   c.TimeZoneInfo = TimeZoneInfo.Local;
-            //    // 02:00 every day
-            //    //c.CronExpression = @"0 02 * * *";
-            //    //Testingpurpose:
-            //    c.CronExpression = @"*/1 * * * *";
-            //});
+            services.AddCronJob<DistributionService>(c =>
+            {
+               c.TimeZoneInfo = TimeZoneInfo.Local;
+                // 02:00 every day
+                //c.CronExpression = @"0 02 * * *";
+                //Testingpurpose:
+                c.CronExpression = @"*/5 * 21 * *";
+            });
         }
 
         /// <summary>
