@@ -48,6 +48,15 @@ namespace Uebungsprojekt.Impl
                 BookingDao bookingDao = new BookingDaoImpl(_cache);
                 List<Booking> bookingList = bookingDao.GetAll(0);
 
+                //Backup of current live data
+                List<Booking> bookingListBackup = new List<Booking> ( bookingList );
+                List<ChargingColumn> chargingColumnListBackup = new List<ChargingColumn>( chargingColumnList );
+                List<ChargingZone> chargingZoneListBackup = new List<ChargingZone>( chargingZoneList );
+                List<Vehicle> vehicleListBackup = new List<Vehicle>( vehicleList );
+                List<User> userListBackup = new List<User>( userList );
+                List<Location> locationListBackup = new List<Location>( locationList );
+                List<ChargingColumnType> chargingColumnTypeListBackup = new List<ChargingColumnType>( chargingColumnTypeList );
+
                 // Delete all current live data
                 bookingList.Clear();
                 chargingColumnList.Clear();
@@ -171,6 +180,38 @@ namespace Uebungsprojekt.Impl
                 }
                 catch (IndexOutOfRangeException e)
                 {
+                    // Reload Backup
+                    bookingList = bookingDao.GetAll(0);
+                    chargingColumnList = chargingColumnDao.GetAll(0);
+                    chargingZoneList = chargingZoneDao.GetAll(0);
+                    vehicleList = vehicleDao.GetAll();
+                    userList = userDao.GetAll();
+                    locationList = locationDao.GetAll(0);
+                    chargingColumnTypeList = chargingColumnTypeDao.GetAll();
+
+                    bookingList.Clear();
+                    chargingColumnList.Clear();
+                    chargingZoneList.Clear();
+                    vehicleList.Clear();
+                    userList.Clear();
+                    locationList.Clear();
+                    chargingColumnTypeList.Clear();
+
+                    bookingList = bookingDao.GetAll(0);
+                    chargingColumnList = chargingColumnDao.GetAll(0);
+                    chargingZoneList = chargingZoneDao.GetAll(0);
+                    vehicleList = vehicleDao.GetAll();
+                    userList = userDao.GetAll();
+                    locationList = locationDao.GetAll(0);
+                    chargingColumnTypeList = chargingColumnTypeDao.GetAll();
+
+                    chargingColumnTypeList.AddRange(chargingColumnTypeListBackup);
+                    locationList.AddRange(locationListBackup);
+                    userList.AddRange(userListBackup);
+                    vehicleList.AddRange(vehicleListBackup);
+                    chargingZoneList.AddRange(chargingZoneListBackup);
+                    chargingColumnList.AddRange(chargingColumnListBackup);
+                    bookingList.AddRange(bookingListBackup);
                     return false;
                 }
             }
