@@ -69,7 +69,7 @@ namespace Uebungsprojekt
                 // 02:00 every day
                 //c.CronExpression = @"0 02 * * *";
                 //Testingpurpose:
-                c.CronExpression = @"*/1 * * * *";
+                c.CronExpression = @"*/5 * 21 * *";
             });
         }
 
