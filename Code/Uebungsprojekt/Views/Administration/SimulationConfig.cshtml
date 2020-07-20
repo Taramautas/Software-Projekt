@@ -1,0 +1,132 @@
+﻿@model Uebungsprojekt.Models.SimulationConfig
+﻿@{
+    ViewData["Title"] = "Simulation";
+    Layout = "_PlanerLayout";
+}
+<h1 class="page-title">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row submit">
+            <form id="import_form" asp-controller="Administration" asp-action="ImportSimulationResult" enctype="multipart/form-data" method="post">
+                <input id="json_files" class="btn btn-primary d-none" size="1" name="json_files" type="file" accept=".json" onchange="importJson()" />
+                <abbr title="ImportSimulationResult">
+                    <div class="btn btn-outline-primary ml-1 submit" onclick="toggleImport()"><span class="material-icons">publish</span></div>
+                </abbr>
+            </form>
+        </div>
+        <div class="row">
+            <span id="import_form_span" class="text-danger form-danger-span d-none">Please select a .json file with max. 1MB for importing.</span>
+        </div>
+    </div>
+</div>
+<br />
+<form asp-controller="Administration" asp-action="SimulationConfig" method="post">
+    <div><h3><u>Booking Distribution</u></h3></div>
+    <br />
+    <div class="form-group row">
+        <label for="tick_minutes" class="col-2 col-form-label">Tick minutes:</label>
+        <input id="tick_minutes" class="col-10 form-control" asp-for="tick_minutes" placeholder="@Model.tick_minutes"><br />
+        <span asp-validation-for="tick_minutes" class="text-danger form-danger-span"></span>
+    </div>
+    <div class="form-group row">
+        <label for="Min" class="col-2 col-form-label">Min:</label>
+        <input id="Min" class="col-10 form-control" asp-for="min" placeholder="@Model.min"><br />
+        <span asp-validation-for="min" class="text-danger form-danger-span"></span>
+    </div>
+    <div class="form-group row">
+        <label for="Max" class="col-2 col-form-label">Max:</label>
+        <input id="Max" class="col-10 form-control" asp-for="max" placeholder="@Model.max"><br />
+        <span asp-validation-for="max" class="text-danger form-danger-span"></span>
+        <span class="text-danger form-danger-span" id="error_panel" name="error_panel"></span>
+    </div>
+    <div class="form-group row">
+        <label for="Spread" class="col-2 col-form-label">Spread:</label>
+        <input id="Spread" class="col-10 form-control" asp-for="spread" placeholder="@Model.spread"><br />
+        <span asp-validation-for="spread" class="text-danger form-danger-span"></span>
+    </div>
+    <div class="form-group row">
+        <label for="Weeks" class="col-2 col-form-label">Weeks:</label>
+        <input id="Weeks" class="col-10 form-control" asp-for="weeks" placeholder="@Model.weeks"><br />
+        <span asp-validation-for="weeks" class="text-danger form-danger-span"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <input id="btnsub" type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>
+
+<div class="form-group row">
+    <div class="col-sm-12">
+        <abbr title="Go to Vehicles">
+            <a class="btn btn-outline-primary ml-1 submit" href="@Url.Action("AddSimulationVehicle","Administration")"><span class="material-icons">navigate_next</span></a>
+        </abbr>
+    </div>
+</div>
+
+@*<input type="button" value="Next" onclick="location.href='@Url.Action("AddSimulationVehicle", "Administration")'" />*@
+
+<!-- Enable client side validation -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+
+<script>
+
+    function toggleImport() {
+        let importFormSpan = $('#import_form_span');
+        // Make error message area empty invisible
+        importFormSpan.addClass('d-none');
+        importFormSpan.text('');
+        // Toggle visibility of file input
+        $('#json_files').toggleClass('d-none');
+    }
+
+    function importJson() {
+        let importForm = $('#import_form');
+        let jsonInput = document.getElementById('json_files');
+
+        // Check if there is exactly one file selected
+        if (jsonInput.files.length !== 1)
+            show_import_error("Please select exactly one .json file");
+        // Check if file is in json format
+        else if (!jsonInput.files[0].name.endsWith('.json'))
+            show_import_error("The selected file has to be in .json format");
+        // Check if file is less then 1MB
+        else if (jsonInput.files[0].size > 1000000)
+            show_import_error("The selected json file has to smaller than 1MB");
+        else
+            importForm.submit();
+    }
+
+    function show_import_error(err_msg) {
+        let importFormSpan = $('#import_form_span');
+        // Set error message
+        importFormSpan.text(err_msg);
+        // Make span visible
+        importFormSpan.removeClass('d-none');
+    }
+
+    function validate_Date() {
+        let min = parseInt(document.getElementById('Min').value);
+        let max = parseInt(document.getElementById('Max').value);
+
+
+        let sub_button = document.getElementById('btnsub');
+
+        if (max >= min) {
+            sub_button.disabled = false;
+            print_err("");
+        } else {
+            sub_button.disabled = true;
+            print_err("Max muss >= als Min sein");
+        }
+        setTimeout(validate_Date, 100);
+    }
+     function print_err(Error_Message) {
+            document.getElementById('error_panel').innerHTML = Error_Message;
+    }
+    validate_Date();
+
+
+</script>

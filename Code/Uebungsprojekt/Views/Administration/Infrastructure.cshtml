@@ -1,0 +1,115 @@
+﻿@model Uebungsprojekt.ViewModel.Administration.InfrastructureViewModel
+
+@{
+    ViewData["Title"] = "Infrastructure";
+    Layout = "_PlanerLayout";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<table id="booking-table" style="width:100%" class="table">
+    <thead class="thead-light">
+        <tr>
+            <th><h4>Locations</h4></th>
+            <th>
+                @if (Model.charging_zones.Any())
+                {
+                    <abbr title="Add Charging Column">
+                        <a asp-controller="Administration" asp-action="AddChargingColumn" class="submit" style="margin-left:5%"><span class="material-icons">ev_station</span></a>
+                    </abbr>
+                }
+                @if (Model.locations.Any())
+                {
+                    <abbr title="Add Charging Zone">
+                        <a asp-controller="Administration" asp-action="CreateChargingZone" class="submit" style="margin-left:5%"><span class="material-icons">electrical_services</span></a>
+                    </abbr>
+                }
+                <abbr title="Add Location">
+                    <a asp-controller="Administration" asp-action="CreateLocation" class="submit" style="margin-left:5%"><span class="material-icons">location_city</span></a>
+                </abbr>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Location location in Model.locations)
+        {
+        <tr>
+            @*<td>Location A</td>*@
+            @if (!Model.charging_zones.Any(i => i.location == location))
+            {
+                <td><h4>@location.city <a href="@Url.Action("DeleteLocation","Administration", new{id=location.id})"><span class="material-icons">cancel</span></a></h4></td>
+            }
+            else
+            {
+                <td><h4>@location.city</h4></td>
+            }
+            <td>
+                <table id="booking-table" style="width:100%" class="table">
+                    <tr>
+                        <th class="table-hr">Charging Zones</th>
+                        <th></th>
+                    </tr>
+                    @foreach (ChargingZone chargingZone in Model.charging_zones)
+                    {
+                        @if (chargingZone.location.id == location.id)
+                        {
+                            <tr>
+                                @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
+                                {
+                                    <td>@chargingZone.name <a href="@Url.Action("DeleteChargingZone","Administration", new{id=chargingZone.id})"><span class="material-icons">cancel</span></a></td>
+                                }
+                                else
+                                {
+                                    <td>@chargingZone.name</td>
+                                }
+                                <td>
+                                    <table id="booking-table" style="width:100%" class="table">
+                                        <tr>
+                                            <th class="table-hr">Charging Columns</th>
+                                            <th></th>
+                                        </tr>
+                                        @foreach (ChargingColumn chargingColumn in Model.charging_columns)
+                                        {
+                                            @if (chargingColumn.charging_zone.id == chargingZone.id)
+                                            {
+                                                <tr>
+                                                    <td>@chargingColumn.charging_column_type_id.model_name</td>
+                                                    <td><a href="@Url.Action("DeleteChargingColumn","Administration", new{id=chargingColumn.id})"><span class="material-icons">cancel</span></a>@*@Html.ActionLink("Delete", "DeleteChargingColumn", new { id = chargingColumn.id })*@</td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (!Model.charging_columns.Any(i => i.charging_zone == chargingZone))
+                                        {
+                                            <tr>
+                                                <td class="table-hr">No Charging Columns to display</td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+
+                            </tr>
+
+                        }
+                    }
+                    @if (!Model.charging_zones.Any(i => i.location == location))
+                    {
+                        <tr>
+                            <td class="table-hr"></td>
+                            <td></td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+        }
+        @if (!Model.locations.Any())
+        {
+            <tr>
+                <td class="table-hr">No Locations to display</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
